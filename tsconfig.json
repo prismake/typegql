@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": ["es2017"],
+    "target": "es5",
+    "noImplicitAny": true,
+    "noImplicitUseStrict": true,
+    "pretty": true,
+    "baseUrl": "./src",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noUnusedLocals": true
+  },
+  "exclude": ["node_modules"]
+}

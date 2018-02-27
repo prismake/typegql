@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for domains/field/compiler/resolver.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">domains/field/compiler</a> resolver.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">60.47% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>52/86</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">51.52% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>34/66</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.89% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>16/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">82.98% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>39/47</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { GraphQLFieldResolver, ArgumentNode } from 'graphql';
+import { getRegisteredField } from '../index';
+&nbsp;
+import { getParameterNames } from 'services/utils';<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span></span>
+interface ArgsMap {
+  [argName: string]: any;
+}
+&nbsp;
+function mergeArgsWithFunctionParams(func: Function, args: ArgsMap) {
+  const paramNames = getParameterNames(func<span class="missing-if-branch" title="if path not taken" >I</span>);<span class="cstat-no" title="statement not covered" ></span>
+  return paramNames.map(paramName =&gt; args[paramName]);<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+}
+&nbsp;
+export f<span class="missing-if-branch" title="if path not taken" >I</span>unction<span class="cstat-no" title="statement not covered" > compileFieldResolver(</span>
+  target: Function,
+  fieldName:<span class="missing-if-branch" title="if path not taken" >I</span> string,<span class="cstat-no" title="statement not covered" ><span class="branch-2 cbranch-no" title="branch not covered" ><span class="branch-1 cbranch-no" title="branch not covered" ></span></span></span>
+): GraphQLFi<span class="missing-if-branch" title="if path not taken" >I</span>eldResolver&lt;an<span class="cstat-no" title="statement not covered" >y, any&gt; {</span>
+  const config = getRegisteredField(target, fieldName);
+  const propertyName = config.property;
+&nbsp;
+  return async (<span class="branch-3 cbranch-no" title="branch not covered" >root: an<span class="cstat-no" title="statement not covered" >y, args, co<span class="cstat-no" title="statement not covered" ></span>ntext, info<span class="cstat-no" title="statement not covered" ></span>) =&gt; {<span class="cstat-no" title="statement not covered" ></span></span></span>
+    const instan<span class="branch-4 cbranch-no" title="branch not covered" >ceField <span class="cstat-no" title="statement not covered" >= root[propertyNam<span class="cstat-no" title="statement not covered" ></span>e];<span class="cstat-no" title="statement not covered" ></span></span></span>
+&nbsp;
+    if (typeof insta<span class="missing-if-branch" title="else path not taken" >E</span>nceField !== 'function') {<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+      return instanc<span class="cstat-no" title="statement not covered" >eField;<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span></span>
+    }<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span></span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span></span></span>
+    const instanceFi<span class="cstat-no" title="statement not covered" >eldFunc = <span class="cstat-no" title="statement not covered" >instanceField</span></span> as Function;
+    const params = m<span class="cstat-no" title="statement not covered" >ergeArgsWithFu<span class="cstat-no" title="statement not covered" ></span>nctionPara</span>ms(instanceFieldFunc, args);
+&nbsp;
+    return await instanceFieldFunc.apply(root, params);
+  };<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span>
+}<span class="cstat-no" title="statement not covered" ><span class="branch-1 cbranch-no" title="branch not covered" ><span class="missing-if-branch" title="if path not taken" >I</span></span></span>
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Feb 27 2018 11:35:57 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Arguments Throws if is not able to infer arguemtn type without @Arg decorator 1`] = `"@Type Foo.bar(baz <-------): Could not infer type of argument"`;
