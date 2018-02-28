@@ -1,21 +1,21 @@
 import { GraphQLString, GraphQLFloat, GraphQLBoolean } from 'graphql';
-import { Type, Field, compileType } from 'domains';
+import { ObjectType, Field, compileObjectType } from 'domains';
 
 import 'reflect-metadata';
 
 describe('Field', () => {
   it('Resolves fields with default value', async () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field() bar: string = 'baz';
     }
-    const compiled = compileType(Foo);
+    const compiled = compileObjectType(Foo);
     const barField = compiled.getFields().bar;
     expect(await barField.resolve(new Foo(), {}, null, null)).toEqual('baz');
   });
 
   it('Resolves fields with function resolver', async () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field()
       bar(): string {
@@ -23,28 +23,28 @@ describe('Field', () => {
       }
     }
 
-    const compiled = compileType(Foo);
+    const compiled = compileObjectType(Foo);
     const barField = compiled.getFields().bar;
 
     expect(await barField.resolve(new Foo(), {}, null, null as any)).toEqual('baz');
   });
 
   it('Handles description', () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field({ description: 'test' })
       bar: string = 'baz';
     }
-    expect(compileType(Foo).getFields().bar.description).toEqual('test');
+    expect(compileObjectType(Foo).getFields().bar.description).toEqual('test');
   });
 
   it('Handles custom name', async () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field({ name: 'baz', description: 'test' })
       bar: string = 'test';
     }
-    const compiled = compileType(Foo);
+    const compiled = compileObjectType(Foo);
     const bazField = compiled.getFields().baz;
     expect(compiled.getFields().bar).toBeFalsy();
     expect(bazField).toBeTruthy();
@@ -53,7 +53,7 @@ describe('Field', () => {
   });
 
   it('Properly infers basic scalar types', () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field() bar: string;
       @Field() baz: number;
@@ -65,7 +65,7 @@ describe('Field', () => {
       }
     }
 
-    const { bar, baz, foo, boo, coo } = compileType(Foo).getFields();
+    const { bar, baz, foo, boo, coo } = compileObjectType(Foo).getFields();
 
     expect(bar.type).toEqual(GraphQLString);
     expect(baz.type).toEqual(GraphQLFloat);
@@ -75,50 +75,50 @@ describe('Field', () => {
   });
 
   it('Properly sets forced field type', () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field({ type: () => GraphQLFloat })
       bar: string;
     }
 
-    const { bar } = compileType(Foo).getFields();
+    const { bar } = compileObjectType(Foo).getFields();
     expect(bar.type).toEqual(GraphQLFloat);
   });
 
   it('Supports references to other types', () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field() foo: string;
     }
 
-    @Type()
+    @ObjectType()
     class Bar {
       @Field() foo: Foo;
     }
 
-    const { foo } = compileType(Bar).getFields();
-    const compiledFoo = compileType(Foo);
+    const { foo } = compileObjectType(Bar).getFields();
+    const compiledFoo = compileObjectType(Foo);
     expect(foo.type).toBe(compiledFoo);
   });
 
   it('Supports references to itself', () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field() fooNested: Foo;
     }
 
-    const { fooNested } = compileType(Foo).getFields();
-    expect(fooNested.type).toBe(compileType(Foo));
+    const { fooNested } = compileObjectType(Foo).getFields();
+    expect(fooNested.type).toBe(compileObjectType(Foo));
   });
 
   it('Supports circular references', () => {
-    @Type()
+    @ObjectType()
     class Car {
       @Field({ type: () => Owner })
       owner: Owner;
     }
 
-    @Type()
+    @ObjectType()
     class Owner {
       @Field({ type: () => Car })
       car: Car;
@@ -126,23 +126,37 @@ describe('Field', () => {
 
     // console.log({ Car, Owner });
 
-    const { owner } = compileType(Car).getFields();
-    const { car } = compileType(Owner).getFields();
+    const { owner } = compileObjectType(Car).getFields();
+    const { car } = compileObjectType(Owner).getFields();
 
     // console.log({ owner, car });
-    expect(owner.type).toBe(compileType(Owner));
-    expect(car.type).toBe(compileType(Car));
+    expect(owner.type).toBe(compileObjectType(Owner));
+    expect(car.type).toBe(compileObjectType(Car));
   });
 
   it('Throws if pointing to unregistered type', () => {
     class Foo {}
 
-    @Type()
+    @ObjectType()
     class Bar {
       @Field({ type: () => Foo })
       foo: Foo;
     }
 
-    expect(() => compileType(Bar).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() => compileObjectType(Bar).getFields()).toThrowErrorMatchingSnapshot();
+  });
+
+  it('Properly resolves native scalar types', () => {
+    @ObjectType()
+    class Foo {
+      @Field({ type: () => String })
+      bar: any;
+      @Field({ type: () => Number })
+      baz: any;
+    }
+
+    const { bar, baz } = compileObjectType(Foo).getFields();
+    expect(bar.type).toBe(GraphQLString);
+    expect(baz.type).toBe(GraphQLFloat);
   });
 });

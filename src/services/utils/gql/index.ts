@@ -1,6 +1,8 @@
 export {
-  parseTypeToGraphql,
-  parseTypeToGraphqlByTarget,
+  parseNativeTypeToGraphQL,
+  inferTypeByTarget,
   resolveType,
-  ResolvableType,
+  resolveTypes,
 } from './types';
+
+export { isObjectType } from './validators';

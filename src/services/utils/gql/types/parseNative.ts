@@ -1,14 +1,11 @@
 import { GraphQLString, GraphQLFloat, GraphQLBoolean } from 'graphql';
+export type ParsableScalar = String | Number | Boolean;
 
-import { compileType, typeConfigRegistry } from 'domains/type';
-
-export type BasicScalar = String | Number | Boolean;
-
-export function isBasicScalar(input: any): input is BasicScalar {
+export function isParsableScalar(input: any): input is ParsableScalar {
   return [String, Number, Boolean].includes(input);
 }
 
-function parseNativeTypeToGraphQL(input: any) {
+export function parseNativeTypeToGraphQL(input: any) {
   if (input === String) {
     return GraphQLString;
   }
@@ -20,35 +17,22 @@ function parseNativeTypeToGraphQL(input: any) {
   }
 }
 
-export function parseTypeToGraphql(input: any) {
-  const nativeTypeParsed = parseNativeTypeToGraphQL(input);
+// type MetadataType = 'design:returntype' | 'design:type' | 'design:paramtypes';
 
-  if (nativeTypeParsed) {
-    return nativeTypeParsed;
-  }
-
-  if (input && typeConfigRegistry.has(input)) {
-    return compileType(input);
-  }
-}
-
-type MetadataType = 'design:returntype' | 'design:type' | 'design:paramtypes';
-
-export function parseTypeToGraphqlByTarget(target: Function, key?: string) {
+export function inferTypeByTarget(target: Function, key?: string) {
   if (!key) {
-    const rawType = Reflect.getMetadata('design:type', target);
-    return parseTypeToGraphql(rawType);
+    return Reflect.getMetadata('design:type', target);
   }
 
   const returnType = Reflect.getMetadata('design:returntype', target, key);
   if (returnType) {
-    return parseTypeToGraphql(returnType);
+    return returnType;
   }
 
-  if ((target as any)[key] && typeof (target as any)[key] === 'function') {
-    const rawType = Reflect.getMetadata('design:returntype', target, key);
-    return parseTypeToGraphql(rawType);
+  const targetField = (target as any)[key];
+
+  if (targetField && typeof targetField === 'function') {
+    return Reflect.getMetadata('design:returntype', target, key);
   }
-  const rawType = Reflect.getMetadata('design:type', target, key);
-  return parseTypeToGraphql(rawType);
+  return Reflect.getMetadata('design:type', target, key);
 }

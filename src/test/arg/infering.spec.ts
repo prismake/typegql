@@ -1,16 +1,16 @@
 import { GraphQLString, GraphQLFloat } from 'graphql';
-import { Field, Type, compileType } from 'domains';
+import { Field, ObjectType, compileObjectType } from 'domains';
 
 describe('Arguments', () => {
   it('Infers basic arguments without @Arg decorator', () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field()
       bar(baz: string): string {
         return baz;
       }
     }
-    const { bar } = compileType(Foo).getFields();
+    const { bar } = compileObjectType(Foo).getFields();
 
     expect(bar.args.length).toBeGreaterThan(0);
     const [bazArg] = bar.args;
@@ -19,25 +19,25 @@ describe('Arguments', () => {
   });
 
   it('Throws if is not able to infer arguemtn type without @Arg decorator', () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field()
       bar(baz: any): string {
         return baz;
       }
     }
-    expect(() => compileType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
   });
 
   it('Infers multiple basic arguments without @Arg decorator', () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field()
       bar(baz: string, boo: number): string {
         return baz;
       }
     }
-    const { bar } = compileType(Foo).getFields();
+    const { bar } = compileObjectType(Foo).getFields();
 
     expect(bar.args.length).toEqual(2);
     const [bazArg, booArg] = bar.args;

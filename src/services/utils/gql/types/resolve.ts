@@ -1,35 +1,44 @@
-import { isType, GraphQLOutputType } from 'graphql';
+import { isType, GraphQLType } from 'graphql';
 import { Thunk, AnyClass } from 'services/types';
-import { typeConfigRegistry, compileType } from 'domains/type';
-import { enumsRegistry } from 'domains/enum';
-import { parseTypeToGraphql, BasicScalar, isBasicScalar } from './parseNative';
+import { objectTypeRegistry, compileObjectType } from 'domains';
+import { enumsRegistry, unionRegistry } from 'domains';
+import { parseNativeTypeToGraphQL, isParsableScalar } from './parseNative';
 
-export type ResolvableType = Thunk<GraphQLOutputType | AnyClass | BasicScalar | Object>;
-
-export function resolveType(type: ResolvableType, allowThunk = true): GraphQLOutputType {
-  if (isType(type)) {
-    return type;
+export function resolveType(input: any, allowThunk = true): GraphQLType {
+  if (isType(input)) {
+    return input;
   }
 
-  if (isBasicScalar(type)) {
-    return parseTypeToGraphql(type);
+  if (isParsableScalar(input)) {
+    return parseNativeTypeToGraphQL(input);
   }
 
-  if (enumsRegistry.has(type)) {
-    return enumsRegistry.get(type);
+  if (enumsRegistry.has(input)) {
+    return enumsRegistry.get(input);
   }
 
-  if (typeof type === 'object') {
+  if (unionRegistry.has(input)) {
+    return unionRegistry.get(input)();
+  }
+
+  if (objectTypeRegistry.has(input)) {
+    return compileObjectType(input);
+  }
+
+  if (!allowThunk || typeof input !== 'function') {
     return;
   }
 
-  if (typeConfigRegistry.has(type)) {
-    return compileType(type);
-  }
+  return resolveType(input(), false);
+}
 
-  if (!allowThunk || typeof type !== 'function') {
-    return;
+export function resolveTypes(types: Thunk<any[]>): GraphQLType[] {
+  if (Array.isArray(types)) {
+    return types.map(type => {
+      return resolveType(type);
+    });
   }
-
-  return resolveType(type(), false);
+  return types().map(type => {
+    return resolveType(type);
+  });
 }

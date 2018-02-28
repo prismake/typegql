@@ -1,10 +1,19 @@
-import { Inject, Type, Field, compileType, Arg, Context, Source, Info } from 'domains';
+import {
+  Inject,
+  ObjectType,
+  Field,
+  compileObjectType,
+  Arg,
+  Context,
+  Source,
+  Info,
+} from 'domains';
 
 import { wait } from 'test/utils';
 
 describe('@Inject', () => {
   it('Properly injects any value', async () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field()
       bar(
@@ -15,14 +24,14 @@ describe('@Inject', () => {
       }
     }
 
-    const { bar } = compileType(Foo).getFields();
+    const { bar } = compileObjectType(Foo).getFields();
     const result = await bar.resolve(new Foo(), null, null, null);
 
     expect(result).toEqual('baz');
   });
 
   it('Makes injected argument not visible in arguments list', async () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field()
       bar(
@@ -33,12 +42,12 @@ describe('@Inject', () => {
       }
     }
 
-    const { bar } = compileType(Foo).getFields();
+    const { bar } = compileObjectType(Foo).getFields();
     expect(bar.args.length).toEqual(0);
   });
 
   it('Will throw if trying to mark argument both with @Inject and @Arg', async () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field()
       bar(
@@ -49,11 +58,11 @@ describe('@Inject', () => {
         return test;
       }
     }
-    expect(() => compileType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
   });
 
   it('Will properly inject Context, Source and Info', async () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field()
       bar(@Context context: string, @Source source: Foo, @Info info: any): number {
@@ -62,12 +71,12 @@ describe('@Inject', () => {
         }
       }
     }
-    const { bar } = compileType(Foo).getFields();
+    const { bar } = compileObjectType(Foo).getFields();
     expect(await bar.resolve(new Foo(), null, 'context', null)).toEqual(42);
   });
 
   it('Will properly mix Injected and normal Arguments', async () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field()
       bar(
@@ -79,7 +88,7 @@ describe('@Inject', () => {
         return `${zzz}.${context}.${answer}`;
       }
     }
-    const { bar } = compileType(Foo).getFields();
+    const { bar } = compileObjectType(Foo).getFields();
     expect(bar.args.length).toEqual(1);
     expect(await bar.resolve(new Foo(), { zzz: 'zzz' }, 'context', null)).toEqual(
       'zzz.context.42',
@@ -87,7 +96,7 @@ describe('@Inject', () => {
   });
 
   it('Will allow `this` inside injectors', async () => {
-    @Type()
+    @ObjectType()
     class Foo {
       test = 'test';
       @Field()
@@ -100,12 +109,12 @@ describe('@Inject', () => {
         return baz;
       }
     }
-    const { bar } = compileType(Foo).getFields();
+    const { bar } = compileObjectType(Foo).getFields();
     expect(await bar.resolve(new Foo(), null, null, null)).toEqual('test');
   });
 
   it('Will allow injecting async values', async () => {
-    @Type()
+    @ObjectType()
     class Foo {
       test = 'test';
       @Field()
@@ -119,7 +128,7 @@ describe('@Inject', () => {
         return baz;
       }
     }
-    const { bar } = compileType(Foo).getFields();
+    const { bar } = compileObjectType(Foo).getFields();
     expect(await bar.resolve(new Foo(), null, null, null)).toEqual('async');
   });
 });

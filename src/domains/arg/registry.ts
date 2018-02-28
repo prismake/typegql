@@ -1,8 +1,6 @@
-import { ResolvableType } from 'services/utils';
-
 export interface ArgConfig {
   description?: string;
-  type?: ResolvableType;
+  type?: any;
 }
 
 const argRegistry = new WeakMap<

@@ -1,5 +1,5 @@
-import { GraphQLFieldConfig, GraphQLFieldConfigMap } from 'graphql';
-import { getRegisteredField, getAllRegisteredFields } from '../index';
+import { GraphQLFieldConfig, GraphQLFieldConfigMap, isOutputType } from 'graphql';
+import { getRegisteredField, getAllRegisteredFields, FieldError } from '../index';
 
 import { compileFieldResolver } from './resolver';
 import { compileFieldType } from './fieldType';
@@ -12,9 +12,15 @@ export function compileFieldConfig(
   const config = getRegisteredField(target, fieldName);
   const args = compileFieldArgs(target, fieldName);
 
+  const type = compileFieldType(target, fieldName);
+
+  if (!isOutputType(type)) {
+    throw new FieldError(target, fieldName, `Output type required`);
+  }
+
   return {
     description: config.description,
-    type: compileFieldType(target, fieldName),
+    type,
     resolve: compileFieldResolver(target, fieldName),
     args,
   };

@@ -1,4 +1,3 @@
-import { ResolvableType } from 'services/utils';
 import { registerField } from './registry';
 
 export {
@@ -12,7 +11,7 @@ export { FieldError } from './error';
 
 interface FieldConfig {
   description?: string;
-  type?: ResolvableType;
+  type?: any;
   name?: string;
 }
 

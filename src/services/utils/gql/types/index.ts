@@ -1,2 +1,2 @@
-export { parseTypeToGraphql, parseTypeToGraphqlByTarget } from './parseNative';
-export { resolveType, ResolvableType } from './resolve';
+export { parseNativeTypeToGraphQL, inferTypeByTarget } from './parseNative';
+export { resolveType, resolveTypes } from './resolve';

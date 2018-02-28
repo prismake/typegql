@@ -2,8 +2,9 @@ export { mapObject } from './mapObject';
 export { createCachedThunk } from './cachedThunk';
 export { getParameterNames } from './getParameterNames';
 export {
-  parseTypeToGraphql,
-  parseTypeToGraphqlByTarget,
+  parseNativeTypeToGraphQL,
+  inferTypeByTarget,
   resolveType,
-  ResolvableType,
+  resolveTypes,
+  isObjectType,
 } from './gql';

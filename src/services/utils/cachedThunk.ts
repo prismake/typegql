@@ -1,18 +1,14 @@
-const cacheSymbol = Symbol('thunk.cache');
-
-declare global {
-  interface Function {
-    [cacheSymbol]?: any;
-  }
-}
+const cache = new WeakMap<() => any, any>();
 
 export function createCachedThunk<ThunkResult>(
   thunk: () => ThunkResult,
 ): () => ThunkResult {
   return () => {
-    if (thunk[cacheSymbol]) {
-      return thunk[cacheSymbol];
+    if (cache.has(thunk)) {
+      return cache.get(thunk);
     }
-    return (thunk[cacheSymbol] = thunk());
+    const result = thunk();
+    cache.set(thunk, result);
+    return result;
   };
 }

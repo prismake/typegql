@@ -1,13 +1,11 @@
-import { ResolvableType } from 'services/utils';
 import { registerArg } from './registry';
-export {} from './registry';
 export { compileFieldArgs } from './compiler';
 
 // import { getParameterNames } from './services';
 
 interface FieldConfig {
   description?: string;
-  type?: ResolvableType;
+  type?: any;
 }
 
 export function Arg(options: FieldConfig = {}): ParameterDecorator {

@@ -1,31 +1,31 @@
 import { GraphQLObjectType } from 'graphql';
-import { Type, compileType } from 'domains/type';
+import { ObjectType, compileObjectType } from 'domains';
 import { Field } from 'domains/field';
 
 describe('Type', () => {
   it('Throws when trying to compile type without @Type decorator', () => {
-    expect(() => compileType(class Bar {})).toThrowErrorMatchingSnapshot();
+    expect(() => compileObjectType(class Bar {})).toThrowErrorMatchingSnapshot();
   });
 
   it('Throws when @Type has no fields', () => {
-    @Type()
+    @ObjectType()
     class NoFields {}
 
-    @Type()
+    @ObjectType()
     class NoDeclaredFields {
       foo: string;
     }
-    expect(() => compileType(NoFields)).toThrowErrorMatchingSnapshot();
-    expect(() => compileType(NoDeclaredFields)).toThrowErrorMatchingSnapshot();
+    expect(() => compileObjectType(NoFields)).toThrowErrorMatchingSnapshot();
+    expect(() => compileObjectType(NoDeclaredFields)).toThrowErrorMatchingSnapshot();
   });
 
   it('Compiles basic type with field', () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field() bar: string;
     }
 
-    const compiled = compileType(Foo);
+    const compiled = compileObjectType(Foo);
 
     const fields = compiled.getFields();
     const barField = fields.bar;
@@ -37,34 +37,34 @@ describe('Type', () => {
   });
 
   it('Sets proper options', () => {
-    @Type({ description: 'Baz' })
+    @ObjectType({ description: 'Baz' })
     class Foo {
       @Field() bar: string;
     }
 
-    const compiled = compileType(Foo);
+    const compiled = compileObjectType(Foo);
 
     expect(compiled.description).toEqual('Baz');
     expect(compiled.name).toEqual('Foo');
 
-    @Type({ name: 'Baz' })
+    @ObjectType({ name: 'Baz' })
     class FooCustomName {
       @Field() bar: string;
     }
 
-    const compiledCustomName = compileType(FooCustomName);
+    const compiledCustomName = compileObjectType(FooCustomName);
 
     expect(compiledCustomName.name).toEqual('Baz');
   });
 
   it('Final type is compiled only once per class', () => {
-    @Type()
+    @ObjectType()
     class Foo {
       @Field() bar: string;
     }
 
-    const compiledA = compileType(Foo);
-    const compiledB = compileType(Foo);
+    const compiledA = compileObjectType(Foo);
+    const compiledB = compileObjectType(Foo);
 
     expect(compiledA).toBe(compiledB);
   });

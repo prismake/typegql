@@ -1,4 +1,3 @@
-import { ResolvableType } from 'services/utils';
 import { FieldError } from './error';
 
 export const fieldRegistry = new WeakMap<
@@ -12,7 +11,7 @@ export interface FieldConfig {
   name: string;
   property: string;
   description?: string;
-  type?: ResolvableType;
+  type?: any;
 }
 
 export function registerField(target: Function, fieldName: string, options: FieldConfig) {
