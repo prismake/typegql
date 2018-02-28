@@ -1,7 +1,12 @@
-import { GraphQLFieldConfigArgumentMap, GraphQLOutputType } from 'graphql';
+import {
+  GraphQLFieldConfigArgumentMap,
+  GraphQLType,
+  GraphQLInputType,
+  isInputType,
+} from 'graphql';
 import { resolveType } from 'services/utils';
-import { hasInjectorRegistered } from 'domains/inject';
-import { getAllArgs, ArgsIndex, hasArgRegistered } from './registry';
+import { injectorRegistry } from 'domains/inject';
+import { ArgsIndex, argRegistry } from './registry';
 import { ArgError } from './error';
 import { getParameterNames } from 'services/utils';
 
@@ -19,16 +24,28 @@ function compileInferedAndRegisterdArgs(infered: any[], registeredArgs: ArgsInde
   });
 }
 
-function validateArgs(target: Function, fieldName: string, types: GraphQLOutputType[]) {
+function validateArgs(
+  target: Function,
+  fieldName: string,
+  types: GraphQLType[],
+): types is GraphQLInputType[] {
   types.forEach((argType, argIndex) => {
-    if (!hasInjectorRegistered(target, fieldName, argIndex) && !argType) {
+    const isInjectedArg = injectorRegistry.has(target, fieldName, argIndex);
+
+    if (!isInjectedArg && !argType) {
       throw new ArgError(target, fieldName, argIndex, `Could not infer type of argument`);
     }
 
-    if (
-      hasArgRegistered(target, fieldName, argIndex) &&
-      hasInjectorRegistered(target, fieldName, argIndex)
-    ) {
+    if (!isInjectedArg && !isInputType(argType)) {
+      throw new ArgError(
+        target,
+        fieldName,
+        argIndex,
+        `Argument must be of type GraphQLInputType`,
+      );
+    }
+
+    if (isInjectedArg && argRegistry.has(target, fieldName, argIndex)) {
       throw new ArgError(
         target,
         fieldName,
@@ -37,12 +54,13 @@ function validateArgs(target: Function, fieldName: string, types: GraphQLOutputT
       );
     }
   });
+  return true;
 }
 
 function convertArgsArrayToArgsMap(
   target: Function,
   fieldName: string,
-  argsTypes: GraphQLOutputType[],
+  argsTypes: GraphQLInputType[],
   registeredArgs: ArgsIndex = {},
 ): GraphQLFieldConfigArgumentMap {
   const functionDefinition = target.prototype[fieldName];
@@ -58,7 +76,7 @@ function convertArgsArrayToArgsMap(
     const argType = argsTypes[index];
 
     // don't publish args marked as auto Injected
-    if (hasInjectorRegistered(target, fieldName, index)) {
+    if (injectorRegistry.has(target, fieldName, index)) {
       return;
     }
 
@@ -74,7 +92,7 @@ export function compileFieldArgs(
   target: Function,
   fieldName: string,
 ): GraphQLFieldConfigArgumentMap {
-  const registeredArgs = getAllArgs(target, fieldName);
+  const registeredArgs = argRegistry.getAll(target)[fieldName];
   const inferedRawArgs = Reflect.getMetadata(
     'design:paramtypes',
     target.prototype,
@@ -88,7 +106,9 @@ export function compileFieldArgs(
 
   const argTypes = compileInferedAndRegisterdArgs(inferedRawArgs, registeredArgs);
 
-  validateArgs(target, fieldName, argTypes);
+  if (!validateArgs(target, fieldName, argTypes)) {
+    return;
+  }
 
   return convertArgsArrayToArgsMap(target, fieldName, argTypes, registeredArgs);
 }

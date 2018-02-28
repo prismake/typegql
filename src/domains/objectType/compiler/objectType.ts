@@ -1,7 +1,7 @@
 import { GraphQLObjectType } from 'graphql';
 import { ObjectTypeError, objectTypeRegistry } from '../index';
 
-import { getAllRegisteredFields, compileAllFields } from 'domains/field';
+import { compileAllFields, fieldsRegistry } from 'domains/field';
 import { createCachedThunk } from 'services/utils';
 
 const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>();
@@ -12,9 +12,7 @@ export interface TypeOptions {
 }
 
 function createTypeFieldsGetter(target: Function) {
-  const fields = getAllRegisteredFields(target);
-
-  if (!fields) {
+  if (fieldsRegistry.isEmpty(target)) {
     throw new ObjectTypeError(target, `There are no fields inside this type.`);
   }
 

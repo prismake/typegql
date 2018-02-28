@@ -1,26 +1,34 @@
-import { registerField } from './registry';
+import { fieldsRegistry, FieldInnerConfig } from './registry';
 
-export {
-  registerField,
-  hasFieldRegistered,
-  getRegisteredField,
-  getAllRegisteredFields,
-} from './registry';
-export { compileAllFields } from './compiler';
+export { FieldInnerConfig, fieldsRegistry } from './registry';
+export { compileAllFields, compileFieldConfig } from './compiler';
+import { compileFieldConfig } from './compiler';
 export { FieldError } from './error';
 
-interface FieldConfig {
+interface FieldOptions {
   description?: string;
   type?: any;
   name?: string;
 }
 
-export function Field(options?: FieldConfig): PropertyDecorator {
+export function Field(options?: FieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
-    registerField(targetInstance.constructor, fieldName, {
+    const finalConfig: FieldInnerConfig = {
+      property: fieldName,
+      name: fieldName,
+      ...options,
+    };
+
+    fieldsRegistry.set(targetInstance.constructor, fieldName, {
       property: fieldName,
       name: fieldName,
       ...options,
     });
+
+    // registerField(targetInstance.constructor, fieldName, {
+    //   property: fieldName,
+    //   name: fieldName,
+    //   ...options,
+    // });
   };
 }

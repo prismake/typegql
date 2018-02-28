@@ -1,15 +1,9 @@
-import { registerInjector, InjectorResolver } from './registry';
-export {
-  getAllInjectors,
-  getInjectorResolver,
-  hasInjectorRegistered,
-  InjectorsIndex,
-  InjectorResolver,
-} from './registry';
+import { InjectorResolver, injectorRegistry } from './registry';
+export { injectorRegistry, InjectorsIndex, InjectorResolver } from './registry';
 
 export function Inject(resolver: InjectorResolver): ParameterDecorator {
   return (target: Object, fieldName: string, argIndex: number) => {
-    registerInjector(target.constructor, fieldName, argIndex, resolver);
+    injectorRegistry.set(target.constructor, [fieldName, argIndex], resolver);
   };
 }
 

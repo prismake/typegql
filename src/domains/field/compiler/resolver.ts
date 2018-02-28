@@ -1,7 +1,7 @@
 import { GraphQLFieldResolver } from 'graphql';
-import { getRegisteredField } from '../index';
+import { fieldsRegistry } from '../index';
 
-import { getAllInjectors, InjectorsIndex, InjectorResolver } from 'domains/inject';
+import { InjectorsIndex, InjectorResolver, injectorRegistry } from 'domains/inject';
 
 import { getParameterNames } from 'services/utils';
 
@@ -39,12 +39,12 @@ export function compileFieldResolver(
   target: Function,
   fieldName: string,
 ): GraphQLFieldResolver<any, any> {
-  const config = getRegisteredField(target, fieldName);
-  const injectors = getAllInjectors(target, fieldName);
-  const propertyName = config.property;
+  // const config = fieldsRegistry.get(target, fieldName);
+  const injectors = injectorRegistry.getAll(target)[fieldName];
+  // const propertyName = config.property;
 
   return async (source: any, args = null, context = null, info = null) => {
-    const instanceField = source[propertyName];
+    const instanceField = source[fieldName];
 
     if (typeof instanceField !== 'function') {
       return instanceField;

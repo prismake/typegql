@@ -1,5 +1,4 @@
-import { GraphQLOutputType, GraphQLInputType, GraphQLObjectType } from 'graphql';
-import { ObjectTypeError } from './error';
+import { GraphQLInputType, GraphQLObjectType } from 'graphql';
 
 type Getter<Result> = () => Result;
 
