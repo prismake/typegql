@@ -44,7 +44,7 @@ export function compileFieldResolver(
   // const propertyName = config.property;
 
   return async (source: any, args = null, context = null, info = null) => {
-    const instanceField = source[fieldName];
+    const instanceField = (source && source[fieldName]) || target.prototype[fieldName];
 
     if (typeof instanceField !== 'function') {
       return instanceField;

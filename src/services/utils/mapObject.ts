@@ -13,3 +13,7 @@ export function mapObject<SourceItem, ResultItem>(
   });
   return result;
 }
+
+export function convertObjectToArray<Type>(input: Map<Type>): Type[] {
+  return Object.keys(input).map(key => input[key]);
+}

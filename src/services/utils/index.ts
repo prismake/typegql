@@ -1,4 +1,4 @@
-export { mapObject } from './mapObject';
+export { mapObject, convertObjectToArray } from './mapObject';
 export { createCachedThunk } from './cachedThunk';
 export { getParameterNames } from './getParameterNames';
 export { DeepWeakMap } from './deepWeakMap';

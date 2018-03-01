@@ -11,6 +11,7 @@ describe('Field', () => {
     }
     const compiled = compileObjectType(Foo);
     const barField = compiled.getFields().bar;
+
     expect(await barField.resolve(new Foo(), {}, null, null)).toEqual('baz');
   });
 

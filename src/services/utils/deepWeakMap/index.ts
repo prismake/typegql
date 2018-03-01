@@ -13,7 +13,11 @@ function flattenPaths(paths: Path[]): string[] {
   }, []) as string[];
 }
 
-export class DeepWeakMap<Key extends Object, Value, Structure = any> {
+export class DeepWeakMap<
+  Key extends Object,
+  Value,
+  Structure = { [key: string]: Value }
+> {
   private map: WeakMap<Key, Structure>;
   constructor() {
     this.map = new WeakMap();

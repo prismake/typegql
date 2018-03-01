@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@Schema should not allow @Schema without any @Query field 1`] = `"@Schema Foo: Schema must have at least one field registered with @Query"`;
+
+exports[`@Schema should not allow compiling schema not decorated with @Schema 1`] = `"@Schema Foo: Schema target must be registered with @Schema"`;
