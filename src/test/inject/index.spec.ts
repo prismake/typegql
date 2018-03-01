@@ -9,7 +9,7 @@ import {
   Info,
 } from 'domains';
 
-import { wait } from 'test/utils';
+import { wait } from '../utils';
 
 describe('@Inject', () => {
   it('Properly injects any value', async () => {

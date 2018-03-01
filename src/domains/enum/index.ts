@@ -5,7 +5,7 @@ import { enumsRegistry } from './registry';
 export { enumsRegistry } from './registry';
 import { convertNativeEnumToGraphQLEnumValues } from './services';
 
-interface EnumOptions {
+export interface EnumOptions {
   name: string;
   description?: string;
 }

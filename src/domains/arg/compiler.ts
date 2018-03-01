@@ -3,7 +3,6 @@ import {
   GraphQLType,
   GraphQLInputType,
   isInputType,
-  GraphQLNonNull,
 } from 'graphql';
 import { resolveType } from 'services/utils';
 import { injectorRegistry } from 'domains/inject';

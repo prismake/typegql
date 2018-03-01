@@ -1,5 +1,5 @@
 import { isType, GraphQLType } from 'graphql';
-import { Thunk, AnyClass } from 'services/types';
+import { Thunk } from 'services/types';
 import { objectTypeRegistry, compileObjectType } from 'domains';
 import { enumsRegistry, unionRegistry } from 'domains';
 import { parseNativeTypeToGraphQL, isParsableScalar } from './parseNative';

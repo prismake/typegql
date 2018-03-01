@@ -1,12 +1,5 @@
-import {
-  Query,
-  Schema,
-  compileSchema,
-  ObjectType,
-  Field,
-  compileObjectType,
-} from 'domains';
-import { graphql, GraphQLObjectType } from 'graphql';
+import { Query, Schema, compileSchema, ObjectType, Field } from 'domains';
+import { graphql } from 'graphql';
 
 describe('@Schema', () => {
   it('should not allow compiling schema not decorated with @Schema', () => {

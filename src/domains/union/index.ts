@@ -4,12 +4,12 @@ export { unionRegistry } from './registry';
 
 import { compileUnionType } from './compiler';
 
-interface UnionConfig {
+export interface UnionOptions {
   name?: string;
   types: Thunk<any[]>;
 }
 
-export function Union(config: UnionConfig): ClassDecorator {
+export function Union(config: UnionOptions): ClassDecorator {
   return target => {
     unionRegistry.set(target, () => {
       return compileUnionType(target, { name: target.name, ...config });

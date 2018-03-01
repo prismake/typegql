@@ -1,10 +1,6 @@
-import { GraphQLFieldConfig, GraphQLObjectType } from 'graphql';
 import { DeepWeakMap } from 'services/utils';
-import { FieldError } from './error';
 
-type Getter = () => GraphQLFieldConfig<any, any>;
-
-interface AllRegisteredFields {
+export interface AllRegisteredFields {
   [fieldName: string]: FieldInnerConfig;
 }
 
@@ -21,7 +17,7 @@ export interface FieldInnerConfig {
   type?: any;
 }
 
-interface AllQueryFields {
+export interface AllQueryFields {
   [fieldName: string]: FieldInnerConfig;
 }
 

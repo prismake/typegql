@@ -3,11 +3,10 @@ import {
   GraphQLObjectType,
   GraphQLFieldConfig,
   GraphQLOutputType,
-  isCompositeType,
 } from 'graphql';
 import { queryFieldsRegistry, schemaRegistry } from './registry';
 import { SchemaError } from './error';
-import { mapObject, convertObjectToArray, isObjectType } from 'services/utils';
+import { mapObject, isObjectType } from 'services/utils';
 
 function validateSchemaTarget(target: Function) {
   if (!schemaRegistry.has(target)) {

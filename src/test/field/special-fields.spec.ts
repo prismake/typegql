@@ -6,5 +6,7 @@ describe('Special fields - @Query, @Mutation @Subscribe', () => {
     class Foo {
       @Query() bar: string;
     }
+
+    Foo;
   });
 });

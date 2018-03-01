@@ -1,4 +1,4 @@
-import { GraphQLEnumType, GraphQLEnumValueConfigMap } from 'graphql';
+import { GraphQLEnumValueConfigMap } from 'graphql';
 
 export function convertNativeEnumToGraphQLEnumValues(
   enumDef: any,

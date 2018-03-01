@@ -1,4 +1,3 @@
-import { FieldInnerConfig, compileFieldConfig } from 'domains/field';
 import { GraphQLSchema, GraphQLObjectType, GraphQLFieldConfig } from 'graphql';
 import { DeepWeakMap } from 'services/utils';
 

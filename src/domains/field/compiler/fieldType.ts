@@ -1,9 +1,14 @@
+import { GraphQLType } from 'graphql';
 import { inferTypeByTarget } from 'services/utils';
-import { FieldError, fieldsRegistry } from '../index';
+import { FieldError } from '../index';
 
 import { resolveType } from 'services/utils';
 
-export function resolveTypeOrThrow(type: any, target: Function, fieldName: string) {
+export function resolveTypeOrThrow(
+  type: any,
+  target: Function,
+  fieldName: string,
+): GraphQLType {
   const resolvedType = resolveType(type);
 
   if (!resolvedType) {
@@ -17,7 +22,7 @@ export function resolveTypeOrThrow(type: any, target: Function, fieldName: strin
   return resolvedType;
 }
 
-export function inferTypeOrThrow(target: Function, fieldName: string) {
+export function inferTypeOrThrow(target: Function, fieldName: string): GraphQLType {
   const inferedType = inferTypeByTarget(target.prototype, fieldName);
   if (!inferedType) {
     throw new FieldError(

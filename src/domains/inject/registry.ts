@@ -8,7 +8,7 @@ export interface InjectorsIndex {
   [injectorIndex: number]: InjectorResolver;
 }
 
-interface AllInjectors {
+export interface AllInjectors {
   [fieldName: string]: InjectorsIndex;
 }
 

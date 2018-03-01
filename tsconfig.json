@@ -7,9 +7,12 @@
     "noImplicitUseStrict": true,
     "pretty": true,
     "baseUrl": "./src",
+    "outDir": "./lib",
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noUnusedLocals": true
-  },
-  "exclude": ["node_modules"]
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "stripInternal": true
+  }
 }

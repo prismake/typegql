@@ -3,12 +3,12 @@ export { compileFieldArgs } from './compiler';
 
 // import { getParameterNames } from './services';
 
-interface FieldConfig {
+export interface ArgOptions {
   description?: string;
   type?: any;
 }
 
-export function Arg(options: FieldConfig = {}): ParameterDecorator {
+export function Arg(options: ArgOptions = {}): ParameterDecorator {
   return (target: Object, fieldName: string, argIndex: number) => {
     // const allArgNames = getParameterNames(target);
     // const inferedArgName = allArgNames[argIndex];

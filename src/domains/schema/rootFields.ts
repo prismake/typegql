@@ -1,15 +1,5 @@
-import { Field, fieldsRegistry, compileFieldConfig } from 'domains/field';
-import { SchemaError, SchemaFieldError } from './error';
-
-import { schemaRegistry, queryFieldsRegistry } from './registry';
-import { GraphQLOutputType } from 'graphql';
-import { isObjectType } from 'services/utils';
-
-interface FieldOptions {
-  description?: string;
-  type?: any;
-  name?: string;
-}
+import { Field, FieldOptions, compileFieldConfig } from 'domains/field';
+import { queryFieldsRegistry } from './registry';
 
 // special fields
 export function Query(options?: FieldOptions): PropertyDecorator {

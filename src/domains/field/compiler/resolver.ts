@@ -1,8 +1,5 @@
 import { GraphQLFieldResolver } from 'graphql';
-import { fieldsRegistry } from '../index';
-
 import { InjectorsIndex, InjectorResolver, injectorRegistry } from 'domains/inject';
-
 import { getParameterNames } from 'services/utils';
 
 interface ArgsMap {

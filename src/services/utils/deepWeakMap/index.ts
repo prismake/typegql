@@ -1,10 +1,8 @@
 import * as objectPath from 'object-path';
 
-type PathPart = string | number;
+export type DeepWeakMapPath = (string | number) | (string | number)[];
 
-type Path = PathPart | PathPart[];
-
-function flattenPaths(paths: Path[]): string[] {
+function flattenPaths(paths: DeepWeakMapPath[]): string[] {
   return paths.reduce((accumulatedPath: string[], nextPath) => {
     if (Array.isArray(nextPath)) {
       return [...accumulatedPath, ...nextPath.map(pathPart => `${pathPart}`)];
@@ -35,17 +33,17 @@ export class DeepWeakMap<
     return map.get(target);
   }
 
-  set(target: Key, path: Path, value: Value) {
+  set(target: Key, path: DeepWeakMapPath, value: Value) {
     objectPath.set(this.getAll(target), path, value);
   }
 
-  get(target: Key, ...paths: Path[]): Value {
+  get(target: Key, ...paths: DeepWeakMapPath[]): Value {
     const path = flattenPaths(paths);
     return objectPath.get(this.getAll(target), path);
   }
 
-  has(target: Key, ...paths: Path[]): boolean {
+  has(target: Key, ...paths: DeepWeakMapPath[]): boolean {
     const path = flattenPaths(paths);
-    return !!this.get(target, ...paths);
+    return !!this.get(target, path);
   }
 }
