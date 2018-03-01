@@ -3,6 +3,7 @@ import {
   GraphQLType,
   GraphQLInputType,
   isInputType,
+  GraphQLNonNull,
 } from 'graphql';
 import { resolveType } from 'services/utils';
 import { injectorRegistry } from 'domains/inject';
@@ -19,9 +20,11 @@ function compileInferedAndRegisterdArgs(infered: any[], registeredArgs: ArgsInde
     return inferedType;
   });
 
-  return argsMerged.map((rawType, index) => {
+  const resolvedArgs = argsMerged.map((rawType, index) => {
     return resolveType(rawType);
   });
+
+  return resolvedArgs;
 }
 
 function validateArgs(

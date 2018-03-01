@@ -21,7 +21,7 @@ function computeFinalArgs(
 ) {
   const paramNames = getParameterNames(func);
   return paramNames.map((paramName, index) => {
-    if (args[paramName]) {
+    if (args && args[paramName]) {
       return args[paramName];
     }
 
@@ -41,7 +41,6 @@ export function compileFieldResolver(
 ): GraphQLFieldResolver<any, any> {
   // const config = fieldsRegistry.get(target, fieldName);
   const injectors = injectorRegistry.getAll(target)[fieldName];
-  // const propertyName = config.property;
 
   return async (source: any, args = null, context = null, info = null) => {
     const instanceField = (source && source[fieldName]) || target.prototype[fieldName];
@@ -53,7 +52,7 @@ export function compileFieldResolver(
     const instanceFieldFunc = instanceField as Function;
     const params = computeFinalArgs(instanceFieldFunc, {
       args: args || {},
-      injectors,
+      injectors: injectors || {},
       injectorToValueMapper: injector =>
         injector.apply(source, [source, args, context, info]),
     });

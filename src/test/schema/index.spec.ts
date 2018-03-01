@@ -1,4 +1,11 @@
-import { Query, Schema, compileSchema, ObjectType, Field } from 'domains';
+import {
+  Query,
+  Schema,
+  compileSchema,
+  ObjectType,
+  Field,
+  compileObjectType,
+} from 'domains';
 import { graphql, GraphQLObjectType } from 'graphql';
 
 describe('@Schema', () => {
@@ -21,20 +28,23 @@ describe('@Schema', () => {
       @Query() bar: string;
     }
 
-    expect(() => compileSchema(Foo)).toThrow();
+    expect(() => compileSchema(Foo)).toThrowErrorMatchingSnapshot();
   });
 
   it('should properly register and resolve schema with query field of type GraphQLObjectType', async () => {
     @ObjectType()
-    class PlainType {
-      @Field() field: string = 'test';
+    class Hello {
+      @Field()
+      world(name: string): string {
+        return `Hello, ${name}`;
+      }
     }
 
     @Schema()
     class FooSchema {
       @Query()
-      bar(): PlainType {
-        return new PlainType();
+      hello(): Hello {
+        return new Hello();
       }
     }
 
@@ -43,13 +53,13 @@ describe('@Schema', () => {
       schema,
       `
         {
-          bar {
-            field
+          hello {
+            world(name: "Bob")
           }
         }
       `,
     );
 
-    expect(result).toEqual({ data: { bar: { field: 'test' } } });
+    expect(result).toEqual({ data: { hello: { world: 'Hello, Bob' } } });
   });
 });
