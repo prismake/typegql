@@ -3,11 +3,13 @@ import {
   GraphQLType,
   GraphQLInputType,
   isInputType,
+  GraphQLNonNull,
 } from 'graphql';
 import { resolveType } from 'services/utils';
 import { injectorRegistry } from 'domains/inject';
 import { ArgsIndex, argRegistry } from './registry';
 import { ArgError } from './error';
+import { defaultArgOptions } from './options';
 import { getParameterNames } from 'services/utils';
 
 function compileInferedAndRegisterdArgs(infered: any[], registeredArgs: ArgsIndex = {}) {
@@ -35,7 +37,12 @@ function validateArgs(
     const isInjectedArg = injectorRegistry.has(target, fieldName, argIndex);
 
     if (!isInjectedArg && !argType) {
-      throw new ArgError(target, fieldName, argIndex, `Could not infer type of argument`);
+      throw new ArgError(
+        target,
+        fieldName,
+        argIndex,
+        `Could not infer type of argument. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType`,
+      );
     }
 
     if (!isInjectedArg && !isInputType(argType)) {
@@ -43,7 +50,7 @@ function validateArgs(
         target,
         fieldName,
         argIndex,
-        `Argument must be of type GraphQLInputType`,
+        `Argument has incorrect type. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType`,
       );
     }
 
@@ -74,7 +81,7 @@ function convertArgsArrayToArgsMap(
 
   const argsMap: GraphQLFieldConfigArgumentMap = {};
   argNames.forEach((argName, index) => {
-    const argConfig = registeredArgs[index];
+    const argConfig = registeredArgs[index] || { ...defaultArgOptions };
     const argType = argsTypes[index];
 
     // don't publish args marked as auto Injected
@@ -82,9 +89,13 @@ function convertArgsArrayToArgsMap(
       return;
     }
 
+    const typeWithNullability = argConfig.nullable
+      ? argType
+      : new GraphQLNonNull(argType);
+
     argsMap[argName] = {
-      type: argType,
-      description: argConfig && argConfig.description,
+      type: typeWithNullability,
+      description: argConfig.description,
     };
   });
   return argsMap;

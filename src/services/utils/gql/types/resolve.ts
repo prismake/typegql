@@ -1,6 +1,11 @@
 import { isType, GraphQLType } from 'graphql';
 import { Thunk } from 'services/types';
-import { objectTypeRegistry, compileObjectType } from 'domains';
+import {
+  objectTypeRegistry,
+  compileObjectType,
+  inputObjectTypeRegistry,
+  compileInputObjectType,
+} from 'domains';
 import { enumsRegistry, unionRegistry } from 'domains';
 import { parseNativeTypeToGraphQL, isParsableScalar } from './parseNative';
 
@@ -23,6 +28,10 @@ export function resolveType(input: any, allowThunk = true): GraphQLType {
 
   if (objectTypeRegistry.has(input)) {
     return compileObjectType(input);
+  }
+
+  if (inputObjectTypeRegistry.has(input)) {
+    return compileInputObjectType(input);
   }
 
   if (!allowThunk || typeof input !== 'function') {

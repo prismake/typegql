@@ -1,7 +1,13 @@
 export { ObjectType, compileObjectType, objectTypeRegistry } from './objectType';
+export {
+  InputObjectType,
+  compileInputObjectType,
+  inputObjectTypeRegistry,
+} from './inputObjectType';
 export { Field } from './field';
+export { InputField } from './inputField';
 export { Arg } from './arg';
 export { Inject, Context, Source, Info } from './inject';
 export { registerEnum, enumsRegistry } from './enum';
 export { Union, unionRegistry } from './union';
-export { Schema, schemaRegistry, compileSchema, Query } from './schema';
+export { Schema, schemaRegistry, compileSchema, Query, Mutation } from './schema';

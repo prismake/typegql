@@ -1,4 +1,4 @@
-import { GraphQLString, GraphQLFloat } from 'graphql';
+import { GraphQLString, GraphQLFloat, GraphQLNonNull } from 'graphql';
 import { Field, ObjectType, compileObjectType } from 'domains';
 
 describe('Arguments', () => {
@@ -14,7 +14,7 @@ describe('Arguments', () => {
 
     expect(bar.args.length).toBeGreaterThan(0);
     const [bazArg] = bar.args;
-    expect(bazArg.type).toBe(GraphQLString);
+    expect(bazArg.type).toEqual(new GraphQLNonNull(GraphQLString));
     expect(bazArg.name).toBe('baz');
   });
 
@@ -41,9 +41,9 @@ describe('Arguments', () => {
 
     expect(bar.args.length).toEqual(2);
     const [bazArg, booArg] = bar.args;
-    expect(bazArg.type).toBe(GraphQLString);
-    expect(bazArg.name).toBe('baz');
-    expect(booArg.name).toBe('boo');
-    expect(booArg.type).toBe(GraphQLFloat);
+    expect(bazArg.type).toEqual(new GraphQLNonNull(GraphQLString));
+    expect(bazArg.name).toEqual('baz');
+    expect(booArg.name).toEqual('boo');
+    expect(booArg.type).toEqual(new GraphQLNonNull(GraphQLFloat));
   });
 });

@@ -1,5 +1,12 @@
-import { GraphQLString } from 'graphql';
-import { Field, ObjectType, compileObjectType, Arg } from 'domains';
+import { GraphQLString, GraphQLNonNull } from 'graphql';
+import {
+  Field,
+  ObjectType,
+  compileObjectType,
+  Arg,
+  InputField,
+  InputObjectType,
+} from 'domains';
 
 describe('Arguments with @Arg', () => {
   it('Allows setting argument with @Arg decorator', () => {
@@ -14,7 +21,7 @@ describe('Arguments with @Arg', () => {
 
     expect(bar.args.length).toEqual(1);
     const [bazArg] = bar.args;
-    expect(bazArg.type).toBe(GraphQLString);
+    expect(bazArg.type).toEqual(new GraphQLNonNull(GraphQLString));
     expect(bazArg.name).toBe('baz');
   });
 

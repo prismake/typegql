@@ -1,5 +1,5 @@
 import { Query, Schema, compileSchema, ObjectType, Field } from 'domains';
-import { graphql } from 'graphql';
+import { graphql, introspectionQuery } from 'graphql';
 
 describe('@Schema', () => {
   it('should not allow compiling schema not decorated with @Schema', () => {
@@ -24,7 +24,7 @@ describe('@Schema', () => {
     expect(() => compileSchema(Foo)).toThrowErrorMatchingSnapshot();
   });
 
-  it('should properly register and resolve schema with query field of type GraphQLObjectType', async () => {
+  it('should generate all schema fields properly for valid schema', async () => {
     @ObjectType()
     class Hello {
       @Field()
@@ -42,17 +42,6 @@ describe('@Schema', () => {
     }
 
     const schema = compileSchema(FooSchema);
-    const result = await graphql(
-      schema,
-      `
-        {
-          hello {
-            world(name: "Bob")
-          }
-        }
-      `,
-    );
-
-    expect(result).toEqual({ data: { hello: { world: 'Hello, Bob' } } });
+    expect(await graphql(schema, introspectionQuery)).toMatchSnapshot();
   });
 });

@@ -3,11 +3,11 @@ import { ObjectType, compileObjectType } from 'domains';
 import { Field } from 'domains/field';
 
 describe('Type', () => {
-  it('Throws when trying to compile type without @Type decorator', () => {
+  it('Throws when trying to compile type without @ObjectType decorator', () => {
     expect(() => compileObjectType(class Bar {})).toThrowErrorMatchingSnapshot();
   });
 
-  it('Throws when @Type has no fields', () => {
+  it('Throws when @ObjectType has no fields', () => {
     @ObjectType()
     class NoFields {}
 

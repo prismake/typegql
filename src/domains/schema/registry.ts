@@ -9,4 +9,8 @@ export const queryFieldsRegistry = new DeepWeakMap<
   Function,
   Getter<GraphQLFieldConfig<any, any>>
 >();
-export const mutationRegistry = new DeepWeakMap<Function, Getter<GraphQLObjectType>>();
+
+export const mutationFieldsRegistry = new DeepWeakMap<
+  Function,
+  Getter<GraphQLFieldConfig<any, any>>
+>();

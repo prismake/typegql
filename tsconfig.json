@@ -9,6 +9,7 @@
     "baseUrl": "./src",
     "outDir": "./lib",
     "declaration": true,
+    "outFile": "./lib/index.js",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noUnusedLocals": true,

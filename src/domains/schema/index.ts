@@ -2,7 +2,7 @@ export { schemaRegistry } from './registry';
 import { schemaRegistry } from './registry';
 import { compileSchema } from './compiler';
 export { compileSchema } from './compiler';
-export { Query } from './rootFields';
+export { Query, Mutation } from './rootFields';
 
 export function Schema(): ClassDecorator {
   return target => {

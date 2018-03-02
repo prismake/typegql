@@ -43,7 +43,7 @@ export function compileObjectType(target: Function) {
   if (!objectTypeRegistry.has(target)) {
     throw new ObjectTypeError(
       target,
-      `Class is not registered. Make sure it's decorated with @Type decorator`,
+      `Class is not registered. Make sure it's decorated with @ObjectType decorator`,
     );
   }
 

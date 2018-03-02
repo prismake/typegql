@@ -1,8 +1,8 @@
 import { BaseError } from 'services/error';
 
-export class ObjectTypeError extends BaseError {
+export class InputObjectTypeError extends BaseError {
   constructor(target: Function, msg: string) {
-    const fullMsg = `@ObjectType '${target.name}': ${msg}`;
+    const fullMsg = `@InputObjectType '${target.name}': ${msg}`;
     super(fullMsg);
     this.message = fullMsg;
   }
