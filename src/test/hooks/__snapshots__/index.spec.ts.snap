@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Hooks Will not allow resolver to execute if @Guard returns false with error message 1`] = `"Not allowed"`;

@@ -1,5 +1,10 @@
 import { GraphQLFieldResolver } from 'graphql';
 import { InjectorsIndex, InjectorResolver, injectorRegistry } from 'domains/inject';
+import {
+  fieldAfterHooksRegistry,
+  fieldBeforeHooksRegistry,
+  HookExecutor,
+} from 'domains/hooks';
 import { getParameterNames } from 'services/utils';
 
 interface ArgsMap {
@@ -10,6 +15,24 @@ interface ComputeArgsOptions {
   args: ArgsMap;
   injectors: InjectorsIndex;
   injectorToValueMapper: (injector: InjectorResolver) => any;
+}
+
+async function performHooksExecution(
+  hooks: HookExecutor[],
+  source: any,
+  args: any,
+  context: any,
+  info: any,
+) {
+  if (!hooks) {
+    return;
+  }
+  // all hooks are executed in parrell instead of sequence. We wait for them all to be resolved before we continue
+  return await Promise.all(
+    hooks.map(hook => {
+      return hook(source, args, context, info);
+    }),
+  );
 }
 
 function computeFinalArgs(
@@ -38,11 +61,15 @@ export function compileFieldResolver(
 ): GraphQLFieldResolver<any, any> {
   // const config = fieldsRegistry.get(target, fieldName);
   const injectors = injectorRegistry.getAll(target)[fieldName];
+  const beforeHooks = fieldBeforeHooksRegistry.get(target, fieldName);
+  const afterHooks = fieldAfterHooksRegistry.get(target, fieldName);
 
   return async (source: any, args = null, context = null, info = null) => {
+    await performHooksExecution(beforeHooks, source, args, context, info);
     const instanceField = (source && source[fieldName]) || target.prototype[fieldName];
 
     if (typeof instanceField !== 'function') {
+      await performHooksExecution(afterHooks, source, args, context, info);
       return instanceField;
     }
 
@@ -54,6 +81,9 @@ export function compileFieldResolver(
         injector.apply(source, [source, args, context, info]),
     });
 
-    return await instanceFieldFunc.apply(source, params);
+    const result = await instanceFieldFunc.apply(source, params);
+
+    await performHooksExecution(afterHooks, source, args, context, info); // TODO: Consider adding resolve return to hook callback
+    return result;
   };
 }

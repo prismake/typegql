@@ -1,0 +1,56 @@
+import {
+  Query,
+  Schema,
+  compileSchema,
+  ObjectType,
+  Arg,
+  Field,
+  registerEnum,
+} from 'domains';
+import { graphql } from 'graphql';
+
+enum TestEnum {
+  Foo = 'Foo',
+  Bar = 'Bar',
+  Baz = 'Baz',
+}
+
+registerEnum(TestEnum, { name: 'TestEnum' });
+
+@ObjectType()
+class Hello {
+  @Field()
+  world(
+    @Arg({ type: TestEnum })
+    name: TestEnum,
+  ): string {
+    return `Hello, ${name}`;
+  }
+}
+
+@Schema()
+class FooSchema {
+  @Query()
+  hello(): Hello {
+    return new Hello();
+  }
+}
+
+const schema = compileSchema(FooSchema);
+
+describe('Query with enums', () => {
+  it('Will guard proper enum values', async () => {
+    const result = await graphql(
+      schema,
+      `
+        {
+          hello {
+            world(name: Foo)
+          }
+        }
+      `,
+    );
+    console.log(result);
+    throw new Error('finish me');
+  });
+});
