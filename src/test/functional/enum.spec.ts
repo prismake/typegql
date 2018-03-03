@@ -45,12 +45,13 @@ describe('Query with enums', () => {
       `
         {
           hello {
-            world(name: Foo)
+            world(name: Foob)
           }
         }
       `,
     );
-    console.log(result);
-    throw new Error('finish me');
+
+    expect(result.errors).toBeDefined();
+    expect(result.errors).toMatchSnapshot();
   });
 });
