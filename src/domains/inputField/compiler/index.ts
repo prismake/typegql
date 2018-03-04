@@ -4,6 +4,8 @@ import {
   GraphQLInputType,
   GraphQLInputFieldConfig,
   GraphQLInputFieldConfigMap,
+  GraphQLNonNull,
+  GraphQLList,
 } from 'graphql';
 import { getClassWithAllParentClasses } from 'services/utils';
 import { InputFieldError, inputFieldsRegistry } from '../index';
@@ -32,11 +34,29 @@ function validateResolvedType(
   return true;
 }
 
+function enhanceType(
+  originalType: GraphQLInputType,
+  isNullable: boolean,
+  isList: boolean,
+) {
+  let finalType = originalType;
+  if (!isNullable) {
+    finalType = new GraphQLNonNull(finalType);
+  }
+  if (isList) {
+    finalType = new GraphQLList(finalType);
+  }
+  return finalType;
+}
+
 export function compileInputFieldConfig(
   target: Function,
   fieldName: string,
 ): GraphQLInputFieldConfig {
-  const { type, description, defaultValue } = inputFieldsRegistry.get(target, fieldName);
+  const { type, description, defaultValue, isList, isNullable } = inputFieldsRegistry.get(
+    target,
+    fieldName,
+  );
 
   const resolvedType = getFinalInputFieldType(target, fieldName, type);
 
@@ -44,10 +64,13 @@ export function compileInputFieldConfig(
     return;
   }
 
+  resolvedType;
+  const finalType = enhanceType(resolvedType, isNullable, isList);
+
   return {
     description,
     defaultValue,
-    type: resolvedType,
+    type: finalType,
   };
 }
 

@@ -9,6 +9,8 @@ export interface InputFieldOptions {
   defaultValue?: any;
   type?: any;
   name?: string;
+  isList?: boolean;
+  isNullable?: boolean;
 }
 
 export function InputField(options?: InputFieldOptions): PropertyDecorator {
