@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": ["es2017"],
+    "target": "es5",
+    "noImplicitAny": true,
+    "noImplicitUseStrict": true,
+    "pretty": true,
+    "baseUrl": "./src",
+    "outDir": "./lib",
+    "declarationDir": "./types",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "stripInternal": true
+  }
+}
