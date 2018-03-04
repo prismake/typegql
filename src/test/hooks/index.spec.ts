@@ -1,12 +1,4 @@
-import {
-  ObjectType,
-  Field,
-  Before,
-  After,
-  Guard,
-  createGuard,
-  compileObjectType,
-} from 'domains';
+import { ObjectType, Field, Before, After, Guard, compileObjectType } from 'domains';
 
 describe('Hooks', () => {
   it('Will call @Before hook on field resolve', async () => {

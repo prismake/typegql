@@ -1,12 +1,5 @@
 import { GraphQLString, GraphQLNonNull } from 'graphql';
-import {
-  Field,
-  ObjectType,
-  compileObjectType,
-  Arg,
-  InputField,
-  InputObjectType,
-} from 'domains';
+import { Field, ObjectType, compileObjectType, Arg } from 'domains';
 
 describe('Arguments with @Arg', () => {
   it('Allows setting argument with @Arg decorator', () => {

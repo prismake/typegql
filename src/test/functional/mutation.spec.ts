@@ -8,7 +8,7 @@ import {
   InputField,
   InputObjectType,
 } from 'domains';
-import { graphql, introspectionQuery } from 'graphql';
+import { graphql } from 'graphql';
 
 @InputObjectType()
 class Input {

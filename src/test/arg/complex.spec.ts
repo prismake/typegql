@@ -1,10 +1,9 @@
-import { GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLNonNull } from 'graphql';
 import {
   Field,
   ObjectType,
   compileObjectType,
   compileInputObjectType,
-  Arg,
   InputField,
   InputObjectType,
 } from 'domains';
