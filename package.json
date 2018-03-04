@@ -13,6 +13,10 @@
     "docs": "gitbook serve",
     "docs:build": "gitbook build ./docs"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prismake/typegql"
+  },
   "devDependencies": {
     "@types/graphql": "^0.12.4",
     "@types/jest": "^22.1.3",
