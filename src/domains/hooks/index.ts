@@ -23,7 +23,7 @@ export function After(hook: HookExecutor): PropertyDecorator {
   };
 }
 
-interface GuardOptions {
+export interface GuardOptions {
   msg: string;
 }
 

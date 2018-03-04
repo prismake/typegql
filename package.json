@@ -2,11 +2,13 @@
   "name": "typegql",
   "version": "0.1.1",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "types": "types/index.d.ts",
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "rimraf types lib && tsc",
+    "build:rollup": "rollup src/index.ts -c",
+    "build:types": "tsc --declaration --emitDeclarationOnly",
+    "build": "rimraf types lib && yarn run build:rollup && yarn run build:types",
     "prepublish": "rimraf types lib && tsc"
   },
   "devDependencies": {
@@ -16,6 +18,9 @@
     "@types/object-path": "^0.9.29",
     "jest": "^22.4.2",
     "rimraf": "^2.6.2",
+    "rollup": "^0.56.3",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-plugin-typescript2": "^0.11.1",
     "typescript": "^2.7.2"
   },
   "dependencies": {
