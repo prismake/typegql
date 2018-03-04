@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Mutation should not allow wrong argument types 1`] = `
-Array [
-  [GraphQLError: Expected type String!, found 2.],
-]
-`;

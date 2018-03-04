@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Enums Throw when registering the same enum twice 1`] = `"Enum Foo2: Enum is already registered"`;

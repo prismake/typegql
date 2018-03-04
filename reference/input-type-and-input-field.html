@@ -1,0 +1,515 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>@InputType and @InputField · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="enum/" />
+    
+    
+    <link rel="prev" href="arg.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Getting started
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1" data-path="../getting-started/what-is-typegql.html">
+            
+                <a href="../getting-started/what-is-typegql.html">
+            
+                    
+                    What is typegql
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.2" data-path="../getting-started/setup.html">
+            
+                <a href="../getting-started/setup.html">
+            
+                    
+                    Installation and setup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.3" data-path="../getting-started/minimal-demo.html">
+            
+                <a href="../getting-started/minimal-demo.html">
+            
+                    
+                    Minimal demo
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Reference
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="object-type-and-field.html">
+            
+                <a href="object-type-and-field.html">
+            
+                    
+                    @ObjectType and @Field
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="arg.html">
+            
+                <a href="arg.html">
+            
+                    
+                    @Arg and field arguments
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.3" data-path="input-type-and-input-field.html">
+            
+                <a href="input-type-and-input-field.html">
+            
+                    
+                    @InputType and @InputField
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="enum/">
+            
+                <a href="enum/">
+            
+                    
+                    Enums
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="hooks/">
+            
+                <a href="hooks/">
+            
+                    
+                    Hooks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1" data-path="hooks/before-and-after.html">
+            
+                <a href="hooks/before-and-after.html">
+            
+                    
+                    @Before and @After
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.2" data-path="hooks/guard.html">
+            
+                <a href="hooks/guard.html">
+            
+                    
+                    @Guard and createGuard
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="inject/">
+            
+                <a href="inject/">
+            
+                    
+                    Injecting values to resolver - @Inject
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1" data-path="inject/context-source-info.html">
+            
+                <a href="inject/context-source-info.html">
+            
+                    
+                    @Context, @Source, @Info
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="union.html">
+            
+                <a href="union.html">
+            
+                    
+                    @Union
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="schema/">
+            
+                <a href="schema/">
+            
+                    
+                    @Schema
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.8.1" data-path="schema/query-and-mutation.html">
+            
+                <a href="schema/query-and-mutation.html">
+            
+                    
+                    @Query and @Mutation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8.2" data-path="schema/compile-schema.html">
+            
+                <a href="schema/compile-schema.html">
+            
+                    
+                    compileSchema
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >@InputType and @InputField</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="complex-input-types-with-inputtype-and-inputfield">Complex input types with <code>@InputType</code> and <code>@InputField</code></h1>
+<p>Sometimes we need arguments to have complex structure (eg. user have some todos and want to delete few of them using filter) like</p>
+<pre><code class="lang-graphql">query {
+  currentUser {
+    deleteManyTodos(where: { isDone: true, nameContains: &quot;call my friend&quot; }) {
+      deletedCount
+    }
+  }
+}
+</code></pre>
+<p>Let&apos;s create such <code>User</code> type that allows complex <code>where</code> argument for <code>deleteManyTodos</code> field.</p>
+<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ObjectType, Field, Arg } from <span class="hljs-string">&apos;typegql&apos;</span>;
+
+@InputType()
+<span class="hljs-keyword">class</span> WhereFilter {
+  @InputField({ defaultValue: <span class="hljs-literal">true</span> })
+  isDone: <span class="hljs-built_in">boolean</span>;
+  @InputField() nameContains: <span class="hljs-built_in">string</span>;
+}
+
+@ObjectType()
+<span class="hljs-keyword">class</span> DeleteTodosResult {
+  <span class="hljs-keyword">constructor</span>(public deletedCount: number) {}
+  @Field() deletedCount: <span class="hljs-built_in">number</span>;
+}
+
+@ObjectType()
+<span class="hljs-keyword">class</span> User {
+  @Field()
+  deleteManyTodos(where: WhereFilter): DeleteTodosResult {
+    <span class="hljs-keyword">const</span> deletedCount = todosService.remove(where);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DeleteTodosResult(deletedCount);
+  }
+}
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="arg.html" class="navigation navigation-prev " aria-label="Previous page: @Arg and field arguments">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="enum/" class="navigation navigation-next " aria-label="Next page: Enums">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"@InputType and @InputField","level":"1.2.3","depth":2,"next":{"title":"Enums","level":"1.2.4","depth":2,"path":"reference/enum/index.md","ref":"reference/enum/index.md","articles":[]},"previous":{"title":"@Arg and field arguments","level":"1.2.2","depth":2,"path":"reference/arg.md","ref":"reference/arg.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"reference/input-type-and-input-field.md","mtime":"2018-03-04T17:53:08.196Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-04T18:24:50.026Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
