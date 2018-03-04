@@ -6,6 +6,7 @@ export {
   Context,
   ObjectType,
   Query,
+  Mutation,
   Union,
   Inject,
   Source,
