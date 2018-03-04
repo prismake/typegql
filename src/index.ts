@@ -7,6 +7,8 @@ export {
   ObjectType,
   Query,
   Mutation,
+  InputField,
+  InputObjectType,
   Union,
   Inject,
   Source,
