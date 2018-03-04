@@ -13,5 +13,3 @@ export {
   compileObjectType,
   compileInputObjectType,
 } from './domains';
-
-import { GraphQLInterfaceType } from 'graphql';
