@@ -5,6 +5,7 @@ import {
   GraphQLInputFieldConfig,
   GraphQLInputFieldConfigMap,
 } from 'graphql';
+import { getClassWithAllParentClasses } from 'services/utils';
 import { InputFieldError, inputFieldsRegistry } from '../index';
 
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
@@ -50,12 +51,22 @@ export function compileInputFieldConfig(
   };
 }
 
-export function compileAllInputFields(target: Function) {
+export function compileAllInputFieldsForSingleTarget(target: Function) {
   const fields = inputFieldsRegistry.getAll(target);
   const finalFieldsMap: GraphQLInputFieldConfigMap = {};
   Object.keys(fields).forEach(fieldName => {
     const config = inputFieldsRegistry.get(target, fieldName);
     finalFieldsMap[config.name] = compileInputFieldConfig(target, fieldName);
+  });
+  return finalFieldsMap;
+}
+
+export function compileAllInputFields(target: Function) {
+  const targetWithParents = getClassWithAllParentClasses(target);
+  const finalFieldsMap: GraphQLInputFieldConfigMap = {};
+
+  targetWithParents.forEach(targetLevel => {
+    Object.assign(finalFieldsMap, compileAllInputFieldsForSingleTarget(targetLevel));
   });
   return finalFieldsMap;
 }

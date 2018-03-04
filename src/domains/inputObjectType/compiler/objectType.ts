@@ -2,7 +2,7 @@ import { GraphQLInputObjectType, GraphQLInputFieldConfigMap } from 'graphql';
 import { InputObjectTypeError, inputObjectTypeRegistry } from '../index';
 
 import { compileAllInputFields, inputFieldsRegistry } from 'domains/inputField';
-import { createCachedThunk } from 'services/utils';
+import { createCachedThunk, getClassWithAllParentClasses } from 'services/utils';
 
 const compileOutputTypeCache = new WeakMap<Function, GraphQLInputObjectType>();
 
@@ -12,7 +12,12 @@ export interface TypeOptions {
 }
 
 function createTypeInputFieldsGetter(target: Function): () => GraphQLInputFieldConfigMap {
-  if (inputFieldsRegistry.isEmpty(target)) {
+  const targetWithParents = getClassWithAllParentClasses(target);
+  const hasFields = targetWithParents.some(ancestor => {
+    return !inputFieldsRegistry.isEmpty(ancestor);
+  });
+
+  if (!hasFields) {
     throw new InputObjectTypeError(target, `There are no fields inside this type.`);
   }
 
