@@ -1,3 +1,4 @@
 {
-  "gitbook": "3.2.3"
+  "gitbook": "3.2.3",
+  "root": "./docs"
 }
