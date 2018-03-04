@@ -1,9 +1,11 @@
 export interface ArgOptions {
   description?: string;
   type?: any;
-  nullable?: boolean;
+  isNullable?: boolean;
+  isList?: boolean;
 }
 
 export const defaultArgOptions: ArgOptions = {
-  nullable: false,
+  isNullable: false,
+  isList: false,
 };

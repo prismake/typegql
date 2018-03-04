@@ -4,6 +4,7 @@ import {
   GraphQLInputType,
   isInputType,
   GraphQLNonNull,
+  GraphQLList,
 } from 'graphql';
 import { resolveType } from 'services/utils';
 import { injectorRegistry } from 'domains/inject';
@@ -66,6 +67,21 @@ function validateArgs(
   return true;
 }
 
+function enhanceType(
+  originalType: GraphQLInputType,
+  isNullable: boolean,
+  isList: boolean,
+) {
+  let finalType = originalType;
+  if (!isNullable) {
+    finalType = new GraphQLNonNull(finalType);
+  }
+  if (isList) {
+    finalType = new GraphQLList(finalType);
+  }
+  return finalType;
+}
+
 function convertArgsArrayToArgsMap(
   target: Function,
   fieldName: string,
@@ -89,12 +105,10 @@ function convertArgsArrayToArgsMap(
       return;
     }
 
-    const typeWithNullability = argConfig.nullable
-      ? argType
-      : new GraphQLNonNull(argType);
+    let finalType = enhanceType(argType, argConfig.isNullable, argConfig.isList);
 
     argsMap[argName] = {
-      type: typeWithNullability,
+      type: finalType,
       description: argConfig.description,
     };
   });

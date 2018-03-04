@@ -2,7 +2,8 @@ import { DeepWeakMap } from 'services/utils';
 
 export interface ArgInnerConfig {
   description?: string;
-  nullable?: boolean;
+  isNullable?: boolean;
+  isList?: boolean;
   type?: any;
 }
 

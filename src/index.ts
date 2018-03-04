@@ -8,6 +8,10 @@ export {
   Query,
   Union,
   Inject,
-  compileSchema,
   Source,
+  compileSchema,
+  compileObjectType,
+  compileInputObjectType,
 } from './domains';
+
+import { GraphQLInterfaceType } from 'graphql';

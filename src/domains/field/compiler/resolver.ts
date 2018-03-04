@@ -30,7 +30,7 @@ async function performHooksExecution(
   // all hooks are executed in parrell instead of sequence. We wait for them all to be resolved before we continue
   return await Promise.all(
     hooks.map(hook => {
-      return hook(source, args, context, info);
+      return hook({ source, args, context, info });
     }),
   );
 }

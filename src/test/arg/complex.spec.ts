@@ -1,4 +1,4 @@
-import { GraphQLNonNull } from 'graphql';
+import { GraphQLNonNull, GraphQLList, getNamedType, GraphQLString } from 'graphql';
 import {
   Field,
   ObjectType,
@@ -6,6 +6,7 @@ import {
   compileInputObjectType,
   InputField,
   InputObjectType,
+  Arg,
 } from 'domains';
 
 describe('Complex arguments', () => {
@@ -55,5 +56,44 @@ describe('Complex arguments', () => {
     }
     const { bar } = compileObjectType(Foo).getFields();
     expect(bar.args[0].type).toEqual(new GraphQLNonNull(compileInputObjectType(Input)));
+  });
+
+  it('Supports scalar list argument type', () => {
+    @ObjectType()
+    class Foo {
+      @Field()
+      bar(
+        @Arg({ isList: true, type: String })
+        input: string[],
+      ): string {
+        return 'ok';
+      }
+    }
+    const { bar } = compileObjectType(Foo).getFields();
+    const argType = bar.args[0].type;
+    expect(argType).toBeInstanceOf(GraphQLList);
+    expect(getNamedType(argType)).toEqual(GraphQLString);
+  });
+
+  it('Supports nested list argument type', () => {
+    @InputObjectType()
+    class Input {
+      @InputField() bar: string;
+    }
+
+    @ObjectType()
+    class Foo {
+      @Field()
+      bar(
+        @Arg({ isList: true, type: Input })
+        input: Input[],
+      ): string {
+        return 'ok';
+      }
+    }
+    const { bar } = compileObjectType(Foo).getFields();
+    const argType = bar.args[0].type;
+    expect(argType).toBeInstanceOf(GraphQLList);
+    expect(getNamedType(argType)).toEqual(compileInputObjectType(Input));
   });
 });

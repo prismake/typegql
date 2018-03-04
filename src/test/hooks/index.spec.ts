@@ -1,4 +1,12 @@
-import { ObjectType, Field, Before, After, Guard, compileObjectType } from 'domains';
+import {
+  ObjectType,
+  Field,
+  Before,
+  After,
+  Guard,
+  compileObjectType,
+  createGuard,
+} from 'domains';
 
 describe('Hooks', () => {
   it('Will call @Before hook on field resolve', async () => {
@@ -71,11 +79,38 @@ describe('Hooks', () => {
     @ObjectType()
     class Foo {
       @Guard(
-        (source, args) => {
+        ({ args }) => {
           return args.isAllowed;
         },
         { msg: 'Not allowed' },
       )
+      @Field()
+      bar(isAllowed: boolean): string {
+        callback();
+        return 'done';
+      }
+    }
+
+    const { bar } = compileObjectType(Foo).getFields();
+
+    await expect(
+      bar.resolve(null, { isAllowed: false }, null, null),
+    ).rejects.toThrowErrorMatchingSnapshot();
+    expect(callback).not.toBeCalled();
+    await expect(bar.resolve(null, { isAllowed: true }, null, null)).resolves.toEqual(
+      'done',
+    );
+    expect(callback).toBeCalled();
+  });
+
+  it('Will work with createGuard @Guards', async () => {
+    const CustomGuard = createGuard(data => data.args.isAllowed, {
+      msg: 'Not allowed here',
+    });
+    const callback = jest.fn();
+    @ObjectType()
+    class Foo {
+      @CustomGuard()
       @Field()
       bar(isAllowed: boolean): string {
         callback();

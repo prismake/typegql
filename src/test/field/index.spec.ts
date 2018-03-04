@@ -1,4 +1,10 @@
-import { GraphQLString, GraphQLFloat, GraphQLBoolean } from 'graphql';
+import {
+  GraphQLString,
+  GraphQLFloat,
+  GraphQLBoolean,
+  isNamedType,
+  getNamedType,
+} from 'graphql';
 import { ObjectType, Field, compileObjectType } from 'domains';
 
 import 'reflect-metadata';
@@ -159,5 +165,28 @@ describe('Field', () => {
     const { bar, baz } = compileObjectType(Foo).getFields();
     expect(bar.type).toBe(GraphQLString);
     expect(baz.type).toBe(GraphQLFloat);
+  });
+
+  it('Properly supports list type of field', () => {
+    @ObjectType()
+    class Foo {
+      @Field({ type: String, isList: true })
+      bar: string[];
+    }
+
+    const { bar } = compileObjectType(Foo).getFields();
+    expect(isNamedType(bar.type)).toBe(false);
+    expect(getNamedType(bar.type)).toBe(GraphQLString);
+  });
+
+  it('Is properly passing `this` default values', async () => {
+    @ObjectType()
+    class Foo {
+      private instanceVar = 'instance';
+      @Field() bar: string = this.instanceVar;
+    }
+    const { bar } = compileObjectType(Foo).getFields();
+    const resolvedValue = await bar.resolve(new Foo(), null, null, null);
+    expect(resolvedValue).toEqual('instance');
   });
 });

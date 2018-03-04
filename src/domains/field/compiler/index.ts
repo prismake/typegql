@@ -4,6 +4,8 @@ import {
   isOutputType,
   GraphQLType,
   GraphQLOutputType,
+  GraphQLNonNull,
+  GraphQLList,
 } from 'graphql';
 import { FieldError, fieldsRegistry } from '../index';
 
@@ -11,7 +13,11 @@ import { compileFieldResolver } from './resolver';
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
 import { compileFieldArgs } from 'domains/arg';
 
-function getFinalFieldType(target: Function, fieldName: string, forcedType?: any) {
+function resolveRegisteredOrInferedType(
+  target: Function,
+  fieldName: string,
+  forcedType?: any,
+) {
   if (forcedType) {
     return resolveTypeOrThrow(forcedType, target, fieldName);
   }
@@ -33,22 +39,39 @@ function validateResolvedType(
   return true;
 }
 
+function enhanceType(
+  originalType: GraphQLOutputType,
+  isNullable: boolean,
+  isList: boolean,
+) {
+  let finalType = originalType;
+  if (!isNullable) {
+    finalType = new GraphQLNonNull(finalType);
+  }
+  if (isList) {
+    finalType = new GraphQLList(finalType);
+  }
+  return finalType;
+}
+
 export function compileFieldConfig(
   target: Function,
   fieldName: string,
 ): GraphQLFieldConfig<any, any, any> {
-  const { type, description } = fieldsRegistry.get(target, fieldName);
+  const { type, description, isList, isNullable } = fieldsRegistry.get(target, fieldName);
   const args = compileFieldArgs(target, fieldName);
 
-  const resolvedType = getFinalFieldType(target, fieldName, type);
+  const resolvedType = resolveRegisteredOrInferedType(target, fieldName, type);
 
   if (!validateResolvedType(target, fieldName, resolvedType)) {
     return;
   }
 
+  const finalType = enhanceType(resolvedType, isNullable, isList);
+
   return {
     description,
-    type: resolvedType,
+    type: finalType,
     resolve: compileFieldResolver(target, fieldName),
     args,
   };

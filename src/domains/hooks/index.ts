@@ -32,8 +32,8 @@ export function Guard(
   options: GuardOptions,
 ): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
-    const hook: HookExecutor = async (source, args, context, info) => {
-      const isAllowed = await guardFunction(source, args, context, info);
+    const hook: HookExecutor = async data => {
+      const isAllowed = await guardFunction(data);
       if (isAllowed !== true) {
         throw new Error(options.msg);
       }
@@ -42,11 +42,8 @@ export function Guard(
   };
 }
 
-export function createGuard(
-  guardFunction: HookExecutor<boolean>,
-  options: GuardOptions,
-): PropertyDecorator {
-  return (guardOptions: GuardOptions = options) => {
+export function createGuard(guardFunction: HookExecutor<boolean>, options: GuardOptions) {
+  return (guardOptions: GuardOptions = options): PropertyDecorator => {
     return Guard(guardFunction, guardOptions);
   };
 }

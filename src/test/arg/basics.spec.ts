@@ -65,14 +65,21 @@ describe('Arguments with @Arg', () => {
     expect(resolvedValue).toEqual('instance.param');
   });
 
-  it('Is properly passing `this` default values', async () => {
+  it('Respects isNullable @Arg option', () => {
     @ObjectType()
     class Foo {
-      private instanceVar = 'instance';
-      @Field() bar: string = this.instanceVar;
+      @Field()
+      bar(
+        @Arg({ isNullable: true })
+        baz: string,
+        @Arg({ isNullable: false })
+        bazRequired: string,
+      ): string {
+        return baz;
+      }
     }
-    const { bar } = compileObjectType(Foo).getFields();
-    const resolvedValue = await bar.resolve(new Foo(), null, null, null);
-    expect(resolvedValue).toEqual('instance');
+    const [bazArg, bazRequiredArg] = compileObjectType(Foo).getFields().bar.args;
+    expect(bazArg.type).toBe(GraphQLString);
+    expect(bazRequiredArg.type).toEqual(new GraphQLNonNull(GraphQLString));
   });
 });
