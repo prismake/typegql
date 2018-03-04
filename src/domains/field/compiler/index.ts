@@ -8,7 +8,7 @@ import {
   GraphQLList,
 } from 'graphql';
 import { getClassWithAllParentClasses } from 'services/utils/inheritance';
-import { FieldError, fieldsRegistry, Field } from '../index';
+import { FieldError, fieldsRegistry } from '../index';
 
 import { compileFieldResolver } from './resolver';
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';

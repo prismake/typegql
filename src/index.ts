@@ -15,4 +15,5 @@ export {
   compileSchema,
   compileObjectType,
   compileInputObjectType,
+  registerEnum,
 } from './domains';
