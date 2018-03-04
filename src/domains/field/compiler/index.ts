@@ -7,7 +7,8 @@ import {
   GraphQLNonNull,
   GraphQLList,
 } from 'graphql';
-import { FieldError, fieldsRegistry } from '../index';
+import { getClassWithAllParentClasses } from 'services/utils/inheritance';
+import { FieldError, fieldsRegistry, Field } from '../index';
 
 import { compileFieldResolver } from './resolver';
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
@@ -77,12 +78,23 @@ export function compileFieldConfig(
   };
 }
 
-export function compileAllFields(target: Function) {
+function getAllFields(target: Function) {
   const fields = fieldsRegistry.getAll(target);
   const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {};
   Object.keys(fields).forEach(fieldName => {
     const config = fieldsRegistry.get(target, fieldName);
     finalFieldsMap[config.name] = compileFieldConfig(target, fieldName);
+  });
+  return finalFieldsMap;
+}
+
+export function compileAllFields(target: Function) {
+  const targetWithParents = getClassWithAllParentClasses(target);
+
+  const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {};
+
+  targetWithParents.forEach(targetLevel => {
+    Object.assign(finalFieldsMap, getAllFields(targetLevel));
   });
   return finalFieldsMap;
 }
