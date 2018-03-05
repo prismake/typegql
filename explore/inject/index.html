@@ -1,0 +1,696 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Injecting values to resolver · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../union.html" />
+    
+    
+    <link rel="prev" href="../hooks/guard.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Get started</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Getting started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../getting-started/setup.html">
+            
+                <a href="../../getting-started/setup.html">
+            
+                    
+                    Installation and setup
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Explore in details</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../object-type-and-field.html">
+            
+                <a href="../object-type-and-field.html">
+            
+                    
+                    @ObjectType and @Field
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../arg.html">
+            
+                <a href="../arg.html">
+            
+                    
+                    @Arg and field arguments
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../input-type-and-input-field.html">
+            
+                <a href="../input-type-and-input-field.html">
+            
+                    
+                    @InputType and @InputField
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../enum/">
+            
+                <a href="../enum/">
+            
+                    
+                    Enums
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../hooks/">
+            
+                <a href="../hooks/">
+            
+                    
+                    Hooks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.5.1" data-path="../hooks/before-and-after.html">
+            
+                <a href="../hooks/before-and-after.html">
+            
+                    
+                    @Before and @After
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.2" data-path="../hooks/guard.html">
+            
+                <a href="../hooks/guard.html">
+            
+                    
+                    @Guard and createGuard
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.6" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Injecting values to resolver
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../union.html">
+            
+                <a href="../union.html">
+            
+                    
+                    @Union
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Reference</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../../reference/">
+            
+                <a href="../../reference/">
+            
+                    
+                    Api Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../../reference/">
+            
+                <a href="../../reference/#objecttype">
+            
+                    
+                    @ObjectType
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../../reference/">
+            
+                <a href="../../reference/#field">
+            
+                    
+                    @Field
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../../reference/">
+            
+                <a href="../../reference/#inputobjecttype">
+            
+                    
+                    @InputObjectType
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../../reference/">
+            
+                <a href="../../reference/#inputfield">
+            
+                    
+                    @InputField
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../../reference/">
+            
+                <a href="../../reference/#arg">
+            
+                    
+                    @Arg
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../../reference/">
+            
+                <a href="../../reference/#inject">
+            
+                    
+                    @Inject
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="../../reference/">
+            
+                <a href="../../reference/#context">
+            
+                    
+                    @Context
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.9" data-path="../../reference/">
+            
+                <a href="../../reference/#source">
+            
+                    
+                    @Source
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.10" data-path="../../reference/">
+            
+                <a href="../../reference/#info">
+            
+                    
+                    @Info
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.11" data-path="../../reference/">
+            
+                <a href="../../reference/#before">
+            
+                    
+                    @Before
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.12" data-path="../../reference/">
+            
+                <a href="../../reference/#after">
+            
+                    
+                    @After
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.13" data-path="../../reference/">
+            
+                <a href="../../reference/#guard">
+            
+                    
+                    @Guard
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.14" data-path="../../reference/">
+            
+                <a href="../../reference/#schema">
+            
+                    
+                    @Schema
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.15" data-path="../../reference/">
+            
+                <a href="../../reference/#query">
+            
+                    
+                    @Query
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.16" data-path="../../reference/">
+            
+                <a href="../../reference/#mutation">
+            
+                    
+                    @Mutation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.17" data-path="../../reference/">
+            
+                <a href="../../reference/#union">
+            
+                    
+                    @Union
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.18" data-path="../../reference/">
+            
+                <a href="../../reference/#registerenum">
+            
+                    
+                    registerEnum
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.19" data-path="../../reference/">
+            
+                <a href="../../reference/#compileschema">
+            
+                    
+                    compileSchema
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.20" data-path="../../reference/">
+            
+                <a href="../../reference/#compileobjecttype">
+            
+                    
+                    compileObjectType
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.21" data-path="../../reference/">
+            
+                <a href="../../reference/#compileinputobjecttype">
+            
+                    
+                    compileInputObjectType
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Injecting values to resolver</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="injecting-value-to-resolver">Injecting value to resolver</h1>
+<p>Quite often we need to have access to graphql context inside resolver. Common example could be field like <code>viewer</code></p>
+<pre><code class="lang-graphql">{
+  viewer {
+    me {
+      username
+    }
+  }
+}
+</code></pre>
+<h2 id="built-in-injectors-context-source-info">Built-in injectors <code>@Context</code>, <code>@Source</code>, <code>@Info</code></h2>
+<p>There are 3 argument decorators in <code>typegql</code> that allow passing values to resolvers - <code>@Context</code>, <code>@Source</code>, <code>@Info</code></p>
+<p>Implementation of <code>Viewer</code> type would use <code>@Context</code> decorator to get user id from graphql context and could look like:</p>
+<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ObjectType, Field, Context } from <span class="hljs-string">&apos;typegql&apos;</span>;
+
+@ObjectType()
+<span class="hljs-keyword">class</span> Viewer {
+  @Field({ <span class="hljs-keyword">type</span>: () =&gt; Person })
+  me(@Context context) {
+    <span class="hljs-keyword">return</span> db.findUserById(context.currentUser.id);
+  }
+  @Field() id: <span class="hljs-built_in">number</span>;
+}
+</code></pre>
+<h2 id="custom-injector-with-inject">Custom injector with <code>@Inject</code></h2>
+<p>Beside built-in injectors you can use <code>@Inject</code> decorator to pass any value to given argument.</p>
+<p><code>@Inject</code> decorator requires getter function that converts resolve info to any arbitral value. <strong>Note you can return promise of any value, too</strong>.</p>
+<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ObjectType, Field, Inject } from <span class="hljs-string">&apos;typegql&apos;</span>;
+
+@ObjectType()
+<span class="hljs-keyword">class</span> Viewer {
+  @Field({ <span class="hljs-keyword">type</span>: () =&gt; Person })
+  me(@Inject({source, args, context, info} =&gt; <span class="hljs-number">42</span>) someNumber: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">number</span> {
+    <span class="hljs-keyword">return</span> someNumber; <span class="hljs-comment">// it will be 42;</span>
+  }
+  @Field() id: <span class="hljs-built_in">number</span>;
+}
+</code></pre>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Decorated arguments are not present in <code>args</code> list of field schema definition.</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../hooks/guard.html" class="navigation navigation-prev " aria-label="Previous page: @Guard and createGuard">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../union.html" class="navigation navigation-next " aria-label="Next page: @Union">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Injecting values to resolver","level":"2.6","depth":1,"next":{"title":"@Union","level":"2.7","depth":1,"path":"explore/union.md","ref":"explore/union.md","articles":[]},"previous":{"title":"@Guard and createGuard","level":"2.5.2","depth":2,"path":"explore/hooks/guard.md","ref":"explore/hooks/guard.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"explore/inject/index.md","mtime":"2018-03-05T11:47:10.760Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-05T16:17:06.290Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

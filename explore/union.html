@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Installation and setup · GitBook</title>
+        <title>@Union · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../explore/object-type-and-field.html" />
+    <link rel="next" href="../reference/" />
     
     
-    <link rel="prev" href="../" />
+    <link rel="prev" href="inject/" />
     
 
     </head>
@@ -104,9 +104,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.2" data-path="setup.html">
+        <li class="chapter " data-level="1.2" data-path="../getting-started/setup.html">
             
-                <a href="setup.html">
+                <a href="../getting-started/setup.html">
             
                     
                     Installation and setup
@@ -124,9 +124,9 @@
         
         
     
-        <li class="chapter " data-level="2.1" data-path="../explore/object-type-and-field.html">
+        <li class="chapter " data-level="2.1" data-path="object-type-and-field.html">
             
-                <a href="../explore/object-type-and-field.html">
+                <a href="object-type-and-field.html">
             
                     
                     @ObjectType and @Field
@@ -137,9 +137,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.2" data-path="../explore/arg.html">
+        <li class="chapter " data-level="2.2" data-path="arg.html">
             
-                <a href="../explore/arg.html">
+                <a href="arg.html">
             
                     
                     @Arg and field arguments
@@ -150,9 +150,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.3" data-path="../explore/input-type-and-input-field.html">
+        <li class="chapter " data-level="2.3" data-path="input-type-and-input-field.html">
             
-                <a href="../explore/input-type-and-input-field.html">
+                <a href="input-type-and-input-field.html">
             
                     
                     @InputType and @InputField
@@ -163,9 +163,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4" data-path="../explore/enum/">
+        <li class="chapter " data-level="2.4" data-path="enum/">
             
-                <a href="../explore/enum/">
+                <a href="enum/">
             
                     
                     Enums
@@ -176,9 +176,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.5" data-path="../explore/hooks/">
+        <li class="chapter " data-level="2.5" data-path="hooks/">
             
-                <a href="../explore/hooks/">
+                <a href="hooks/">
             
                     
                     Hooks
@@ -190,9 +190,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.5.1" data-path="../explore/hooks/before-and-after.html">
+        <li class="chapter " data-level="2.5.1" data-path="hooks/before-and-after.html">
             
-                <a href="../explore/hooks/before-and-after.html">
+                <a href="hooks/before-and-after.html">
             
                     
                     @Before and @After
@@ -203,9 +203,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.5.2" data-path="../explore/hooks/guard.html">
+        <li class="chapter " data-level="2.5.2" data-path="hooks/guard.html">
             
-                <a href="../explore/hooks/guard.html">
+                <a href="hooks/guard.html">
             
                     
                     @Guard and createGuard
@@ -221,9 +221,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.6" data-path="../explore/inject/">
+        <li class="chapter " data-level="2.6" data-path="inject/">
             
-                <a href="../explore/inject/">
+                <a href="inject/">
             
                     
                     Injecting values to resolver
@@ -234,9 +234,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.7" data-path="../explore/union.html">
+        <li class="chapter active" data-level="2.7" data-path="union.html">
             
-                <a href="../explore/union.html">
+                <a href="union.html">
             
                     
                     @Union
@@ -557,7 +557,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Installation and setup</a>
+        <a href=".." >@Union</a>
     </h1>
 </div>
 
@@ -572,17 +572,41 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="installation-and-setup">Installation and setup</h1>
-<p>Firstly, add <code>typegql</code> to your project</p>
-<p><code>yarn add typegql</code></p>
-<p><strong>Important!</strong> To work with <code>typescript</code>, you&apos;ll need <code>reflect-medatada</code> so <code>typegql</code> can infer types from your code.</p>
-<p>Add <code>import &quot;reflect-metadata&quot;;</code> somewhere in bootstrap (before any <code>typegql</code> decorator is used) of your app eg <code>app/index.ts</code>.</p>
-<h2 id="modify-tsconfigjson">Modify <code>tsconfig.json</code></h2>
-<p><code>typegql</code> will try to infer types of your fields, when possible. To allow this, you&apos;ll have to add following to your <code>tsconfig.json</code> <code>compilerOptions</code> section:</p>
-<pre><code>&quot;emitDecoratorMetadata&quot;: true,
-&quot;experimentalDecorators&quot;: true,
-</code></pre><h2 id="does-typegql-work-without-typescript">Does <code>typegql</code> work without typescript?</h2>
-<p>It absolutely does. Keep in mind, however - without typescript all types will have to be defined explicitly.</p>
+                                <h1 id="union-types">Union types</h1>
+<p>Considering such query:</p>
+<pre><code class="lang-graphql">{
+  search(keyword: &quot;car&quot;) {
+    ... on Product {
+      name
+      price
+    }
+    ... on Category {
+      name
+      itemsCount
+      avgProductPrice
+    }
+  }
+}
+</code></pre>
+<p>Search field return union of <code>Product</code> and <code>Category</code>. To define such union we need to use <code>@Union</code> decorator</p>
+<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ObjectType, Field, Union } from <span class="hljs-string">&apos;typegql&apos;</span>;
+
+@ObjectType()
+<span class="hljs-keyword">class</span> Product {
+  @Field() name: <span class="hljs-built_in">string</span>;
+  @Field() price: <span class="hljs-built_in">number</span>;
+}
+
+@ObjectType()
+<span class="hljs-keyword">class</span> Category {
+  @Field() name: <span class="hljs-built_in">string</span>;
+  @Field() itemsCount: <span class="hljs-built_in">number</span>;
+  @Field() avgProductPrice: <span class="hljs-built_in">number</span>;
+}
+
+@Union({ types: [Product, Category] })
+<span class="hljs-keyword">class</span> SearchResult {}
+</code></pre>
 
                                 
                                 </section>
@@ -610,12 +634,12 @@
 
             
                 
-                <a href="../" class="navigation navigation-prev " aria-label="Previous page: Getting started">
+                <a href="inject/" class="navigation navigation-prev " aria-label="Previous page: Injecting values to resolver">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../explore/object-type-and-field.html" class="navigation navigation-next " aria-label="Next page: @ObjectType and @Field">
+                <a href="../reference/" class="navigation navigation-next " aria-label="Next page: Api Reference">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -626,7 +650,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Installation and setup","level":"1.2","depth":1,"next":{"title":"@ObjectType and @Field","level":"2.1","depth":1,"path":"explore/object-type-and-field.md","ref":"explore/object-type-and-field.md","articles":[]},"previous":{"title":"Getting started","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"getting-started/setup.md","mtime":"2018-03-05T15:41:35.263Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-05T16:17:06.290Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"@Union","level":"2.7","depth":1,"next":{"title":"Api Reference","level":"3.1","depth":1,"path":"reference/index.md","ref":"reference/index.md","articles":[]},"previous":{"title":"Injecting values to resolver","level":"2.6","depth":1,"path":"explore/inject/index.md","ref":"explore/inject/index.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"explore/union.md","mtime":"2018-03-05T11:52:59.498Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-05T16:17:06.290Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
