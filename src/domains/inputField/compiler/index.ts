@@ -34,17 +34,10 @@ function validateResolvedType(
   return true;
 }
 
-function enhanceType(
-  originalType: GraphQLInputType,
-  isNullable: boolean,
-  isList: boolean,
-) {
+function enhanceType(originalType: GraphQLInputType, isNullable: boolean) {
   let finalType = originalType;
   if (!isNullable) {
     finalType = new GraphQLNonNull(finalType);
-  }
-  if (isList) {
-    finalType = new GraphQLList(finalType);
   }
   return finalType;
 }
@@ -53,7 +46,7 @@ export function compileInputFieldConfig(
   target: Function,
   fieldName: string,
 ): GraphQLInputFieldConfig {
-  const { type, description, defaultValue, isList, isNullable } = inputFieldsRegistry.get(
+  const { type, description, defaultValue, isNullable } = inputFieldsRegistry.get(
     target,
     fieldName,
   );
@@ -65,7 +58,7 @@ export function compileInputFieldConfig(
   }
 
   resolvedType;
-  const finalType = enhanceType(resolvedType, isNullable, isList);
+  const finalType = enhanceType(resolvedType, isNullable);
 
   return {
     description,

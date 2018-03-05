@@ -1,4 +1,4 @@
-import { isType, GraphQLType } from 'graphql';
+import { isType, GraphQLType, GraphQLList, GraphQLNonNull } from 'graphql';
 import { Thunk } from 'services/types';
 import {
   objectTypeRegistry,
@@ -16,6 +16,10 @@ export function resolveType(input: any, allowThunk = true): GraphQLType {
 
   if (isParsableScalar(input)) {
     return parseNativeTypeToGraphQL(input);
+  }
+
+  if (Array.isArray(input)) {
+    return resolveListType(input);
   }
 
   if (enumsRegistry.has(input)) {
@@ -39,6 +43,20 @@ export function resolveType(input: any, allowThunk = true): GraphQLType {
   }
 
   return resolveType(input(), false);
+}
+
+function resolveListType(input: any[]): GraphQLType {
+  if (input.length !== 1) {
+    return;
+  }
+  const [itemType] = input;
+
+  const resolvedItemType = resolveType(itemType);
+
+  if (!resolvedItemType) {
+    return;
+  }
+  return new GraphQLList(new GraphQLNonNull(resolvedItemType));
 }
 
 export function resolveTypesList(types: Thunk<any[]>): GraphQLType[] {

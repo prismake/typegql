@@ -10,7 +10,6 @@ export interface FieldOptions {
   type?: any;
   name?: string;
   isNullable?: boolean;
-  isList?: boolean;
 }
 
 export function Field(options?: FieldOptions): PropertyDecorator {
@@ -18,7 +17,6 @@ export function Field(options?: FieldOptions): PropertyDecorator {
     const finalConfig: FieldInnerConfig = {
       property: fieldName,
       name: fieldName,
-      isList: false,
       isNullable: true,
       ...options,
     };

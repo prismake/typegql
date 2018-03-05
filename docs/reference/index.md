@@ -19,7 +19,6 @@ interface ObjectTypeOptions {
   description?: string;
   type?: any | () => any;
   isNullable?: boolean;
-  isList?: boolean;
 }
 
 @Field(options?: FieldOptions)
@@ -44,7 +43,6 @@ interface InputObjectTypeOptions {
   defaultValue?: any;
   type?: any | () => any;
   name?: string;
-  isList?: boolean;
   isNullable?: boolean;
 }
 
@@ -58,7 +56,6 @@ interface InputObjectTypeOptions {
   description?: string;
   type?: any;
   isNullable?: boolean;
-  isList?: boolean;
 }
 @Arg(options?: ArgOptions)
 ```

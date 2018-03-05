@@ -16,6 +16,5 @@ export interface FieldInputInnerConfig {
   property: string;
   description?: string;
   type?: any;
-  isList?: boolean;
   isNullable?: boolean;
 }

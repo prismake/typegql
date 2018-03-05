@@ -1,4 +1,10 @@
-import { GraphQLNonNull, GraphQLList, getNamedType, GraphQLString } from 'graphql';
+import {
+  GraphQLNonNull,
+  GraphQLList,
+  getNamedType,
+  GraphQLString,
+  isNamedType,
+} from 'graphql';
 import {
   Field,
   ObjectType,
@@ -63,7 +69,7 @@ describe('Complex arguments', () => {
     class Foo {
       @Field()
       bar(
-        @Arg({ isList: true, type: String })
+        @Arg({ type: [String] })
         input: string[],
       ): string {
         return 'ok';
@@ -71,7 +77,7 @@ describe('Complex arguments', () => {
     }
     const { bar } = compileObjectType(Foo).getFields();
     const argType = bar.args[0].type;
-    expect(argType).toBeInstanceOf(GraphQLList);
+    expect(argType.toString()).toEqual('[String!]!');
     expect(getNamedType(argType)).toEqual(GraphQLString);
   });
 
@@ -85,7 +91,7 @@ describe('Complex arguments', () => {
     class Foo {
       @Field()
       bar(
-        @Arg({ isList: true, type: Input })
+        @Arg({ type: [Input] })
         input: Input[],
       ): string {
         return 'ok';
@@ -93,7 +99,7 @@ describe('Complex arguments', () => {
     }
     const { bar } = compileObjectType(Foo).getFields();
     const argType = bar.args[0].type;
-    expect(argType).toBeInstanceOf(GraphQLList);
+    expect(argType.toString()).toEqual('[Input!]!');
     expect(getNamedType(argType)).toEqual(compileInputObjectType(Input));
   });
 });

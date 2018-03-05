@@ -9,5 +9,4 @@ export interface TypeConfig {
   name: string;
   description: string;
   isNonNull?: boolean;
-  isList?: boolean;
 }

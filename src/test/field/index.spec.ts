@@ -167,7 +167,7 @@ describe('Field', () => {
   it('Properly supports list type of field', () => {
     @ObjectType()
     class Foo {
-      @Field({ type: String, isList: true })
+      @Field({ type: [String] })
       bar: string[];
     }
 
