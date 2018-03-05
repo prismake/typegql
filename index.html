@@ -676,23 +676,24 @@ const compiledSchema = compileSchema(SuperSchema);
 <p>Let&apos;s modify our <code>Product</code> so it has additional <code>categories</code> field that will return array of strings. For sake of readibility, I&apos;ll ommit all fields we&apos;ve defined previously.</p>
 <pre><code class="lang-typescript">@ObjectType()
 <span class="hljs-keyword">class</span> Product {
-  @Field({ <span class="hljs-keyword">type</span>: <span class="hljs-built_in">String</span>, isList: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// note we can use any native type like GraphQLString!</span>
+  @Field({ <span class="hljs-keyword">type</span>: [<span class="hljs-built_in">String</span>] }) <span class="hljs-comment">// note we can use any native type like GraphQLString!</span>
   categories(): <span class="hljs-built_in">string</span>[] {
     <span class="hljs-keyword">return</span> [<span class="hljs-string">&apos;Tables&apos;</span>, <span class="hljs-string">&apos;Furniture&apos;</span>];
   }
 }
 </code></pre>
-<p>We&apos;ve added <code>{ type: String, isList: true }</code> as <code>@Field</code> options. Type can be anything that is resolvable to <code>GraphQL</code> type</p>
+<p>We&apos;ve added <code>{ type: [String] }</code> as <code>@Field</code> options. Type can be anything that is resolvable to <code>GraphQL</code> type</p>
 <ul>
 <li>Native JS scalars: <code>String</code>, <code>Number</code>, <code>Boolean</code>.</li>
 <li>Any type that is already compiled to <code>graphql</code> eg. <code>GraphQLFloat</code> or any type from external graphql library etc</li>
 <li>Every class decorated with <code>@ObjectType</code></li>
+<li>One element array of any of above for list types eg. <code>[String]</code> or <code>[GraphQLFloat]</code></li>
 </ul>
 <h2 id="writing-asynchroniously">Writing Asynchroniously</h2>
 <p>Every field function we write can be <code>async</code> and return <code>Promise</code>. Let&apos;s say, instead of hard-coding our categories, we want to fetch it from some external API:</p>
 <pre><code class="lang-typescript">@ObjectType()
 <span class="hljs-keyword">class</span> Product {
-  @Field({ <span class="hljs-keyword">type</span>: <span class="hljs-built_in">String</span>, isList: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// note we can use any native type like GraphQLString!</span>
+  @Field({ <span class="hljs-keyword">type</span>: [<span class="hljs-built_in">String</span>] }) <span class="hljs-comment">// note we can use any native type like GraphQLString!</span>
   async categories(): Promise&lt;<span class="hljs-built_in">string</span>[]&gt; {
     <span class="hljs-keyword">const</span> categories = await api.fetchCategories();
     <span class="hljs-keyword">return</span> categories.map(cat =&gt; cat.name);
@@ -741,7 +742,7 @@ const compiledSchema = compileSchema(SuperSchema);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Getting started","level":"1.1","depth":1,"next":{"title":"Installation and setup","level":"1.2","depth":1,"path":"getting-started/setup.md","ref":"getting-started/setup.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-03-05T15:39:10.665Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-05T16:17:06.290Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Getting started","level":"1.1","depth":1,"next":{"title":"Installation and setup","level":"1.2","depth":1,"path":"getting-started/setup.md","ref":"getting-started/setup.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-03-05T21:34:17.113Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-05T21:34:53.983Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
