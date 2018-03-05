@@ -5,7 +5,6 @@ import {
   GraphQLType,
   GraphQLOutputType,
   GraphQLNonNull,
-  GraphQLList,
 } from 'graphql';
 import { getClassWithAllParentClasses } from 'services/utils/inheritance';
 import { FieldError, fieldsRegistry } from '../index';
@@ -45,17 +44,10 @@ function validateResolvedType(
   return true;
 }
 
-function enhanceType(
-  originalType: GraphQLOutputType,
-  isNullable: boolean,
-  isList: boolean,
-) {
+function enhanceType(originalType: GraphQLOutputType, isNullable: boolean) {
   let finalType = originalType;
   if (!isNullable) {
     finalType = new GraphQLNonNull(finalType);
-  }
-  if (isList) {
-    finalType = new GraphQLList(finalType);
   }
   return finalType;
 }
@@ -64,7 +56,7 @@ export function compileFieldConfig(
   target: Function,
   fieldName: string,
 ): GraphQLFieldConfig<any, any, any> {
-  const { type, description, isList, isNullable } = fieldsRegistry.get(target, fieldName);
+  const { type, description, isNullable } = fieldsRegistry.get(target, fieldName);
   const args = compileFieldArgs(target, fieldName);
 
   const resolvedType = resolveRegisteredOrInferedType(target, fieldName, type);
@@ -73,7 +65,7 @@ export function compileFieldConfig(
     return;
   }
 
-  const finalType = enhanceType(resolvedType, isNullable, isList);
+  const finalType = enhanceType(resolvedType, isNullable);
 
   return {
     description,

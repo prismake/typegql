@@ -13,7 +13,7 @@ export interface UnionTypeResolver {
   (value: any, context: any, info: GraphQLResolveInfo): any;
 }
 
-interface UnionOptions {
+export interface UnionOptions {
   types: Thunk<any[]>;
   name: string;
   resolveTypes?: UnionTypeResolver;

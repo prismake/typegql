@@ -156,7 +156,7 @@ Every field function we write can be `async` and return `Promise`. Let's say, in
 ```typescript
 @ObjectType()
 class Product {
-  @Field({ type: String }) // note we can use any native type like GraphQLString!
+  @Field({ type: [String] }) // note we can use any native type like GraphQLString!
   async categories(): Promise<string[]> {
     const categories = await api.fetchCategories();
     return categories.map(cat => cat.name);

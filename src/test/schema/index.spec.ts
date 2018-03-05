@@ -1,12 +1,4 @@
-import {
-  Query,
-  Schema,
-  compileSchema,
-  ObjectType,
-  Field,
-  InputField,
-  InputObjectType,
-} from 'domains';
+import { Query, Schema, compileSchema, ObjectType, Field } from 'domains';
 import { graphql, introspectionQuery } from 'graphql';
 
 describe('@Schema', () => {

@@ -1,10 +1,4 @@
-import {
-  GraphQLNonNull,
-  GraphQLList,
-  getNamedType,
-  GraphQLString,
-  isNamedType,
-} from 'graphql';
+import { GraphQLNonNull, getNamedType, GraphQLString } from 'graphql';
 import {
   Field,
   ObjectType,

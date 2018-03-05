@@ -7,7 +7,7 @@ import {
 } from 'graphql';
 import { queryFieldsRegistry, mutationFieldsRegistry, schemaRegistry } from './registry';
 import { SchemaError } from './error';
-import { mapObject, isObjectType } from 'services/utils';
+import { mapObject } from 'services/utils';
 
 function validateSchemaTarget(target: Function) {
   if (!schemaRegistry.has(target)) {
