@@ -41,7 +41,7 @@ export function resolveType(input: any, allowThunk = true): GraphQLType {
   return resolveType(input(), false);
 }
 
-export function resolveTypes(types: Thunk<any[]>): GraphQLType[] {
+export function resolveTypesList(types: Thunk<any[]>): GraphQLType[] {
   if (Array.isArray(types)) {
     return types.map(type => {
       return resolveType(type);

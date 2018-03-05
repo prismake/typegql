@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Special fields - @Query, @Mutation @Subscribe Will not allow registering special type on type that is not @Schema 1`] = `"@ObjectType Foo.bar: Given field is root field (@Query or @Mutation) not registered inside @Schema type. "`;

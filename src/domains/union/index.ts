@@ -2,10 +2,11 @@ import { Thunk } from 'services/types';
 import { unionRegistry } from './registry';
 export { unionRegistry } from './registry';
 
-import { compileUnionType } from './compiler';
+import { compileUnionType, UnionTypeResolver } from './compiler';
 
 export interface UnionOptions {
   name?: string;
+  resolveTypes?: UnionTypeResolver;
   types: Thunk<any[]>;
 }
 

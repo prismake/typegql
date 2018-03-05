@@ -1,4 +1,12 @@
-import { Query, Schema, compileSchema, ObjectType, Field } from 'domains';
+import {
+  Query,
+  Schema,
+  compileSchema,
+  ObjectType,
+  Field,
+  InputField,
+  InputObjectType,
+} from 'domains';
 import { graphql, introspectionQuery } from 'graphql';
 
 describe('@Schema', () => {
@@ -11,15 +19,6 @@ describe('@Schema', () => {
   it('should not allow @Schema without any @Query field', () => {
     @Schema()
     class Foo {}
-
-    expect(() => compileSchema(Foo)).toThrowErrorMatchingSnapshot();
-  });
-
-  it('should not allow registering query filed that is not compilable to GraphQLObjectType', () => {
-    @Schema()
-    class Foo {
-      @Query() bar: string;
-    }
 
     expect(() => compileSchema(Foo)).toThrowErrorMatchingSnapshot();
   });

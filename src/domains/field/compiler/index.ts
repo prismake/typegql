@@ -13,6 +13,11 @@ import { FieldError, fieldsRegistry } from '../index';
 import { compileFieldResolver } from './resolver';
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
 import { compileFieldArgs } from 'domains/arg';
+import {
+  schemaRegistry,
+  mutationFieldsRegistry,
+  queryFieldsRegistry,
+} from 'domains/schema';
 
 function resolveRegisteredOrInferedType(
   target: Function,
@@ -78,10 +83,32 @@ export function compileFieldConfig(
   };
 }
 
+function isRootFieldOnNonRootBase(base: Function, fieldName: string) {
+  const isRoot = schemaRegistry.has(base);
+  if (isRoot) {
+    return false;
+  }
+  if (mutationFieldsRegistry.has(base, fieldName)) {
+    return true;
+  }
+  if (queryFieldsRegistry.has(base, fieldName)) {
+    return true;
+  }
+  return false;
+}
+
 function getAllFields(target: Function) {
   const fields = fieldsRegistry.getAll(target);
   const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {};
   Object.keys(fields).forEach(fieldName => {
+    if (isRootFieldOnNonRootBase(target, fieldName)) {
+      throw new FieldError(
+        target,
+        fieldName,
+        `Given field is root field (@Query or @Mutation) not registered inside @Schema type. `,
+      );
+    }
+
     const config = fieldsRegistry.get(target, fieldName);
     finalFieldsMap[config.name] = compileFieldConfig(target, fieldName);
   });

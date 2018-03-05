@@ -2,7 +2,7 @@ export {
   parseNativeTypeToGraphQL,
   inferTypeByTarget,
   resolveType,
-  resolveTypes,
+  resolveTypesList,
 } from './types';
 
 export { isObjectType } from './validators';

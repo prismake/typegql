@@ -15,6 +15,11 @@ class FooSchema {
   hello(): Hello {
     return new Hello();
   }
+
+  @Query()
+  foo(): string {
+    return 'bar';
+  }
 }
 
 const schema = compileSchema(FooSchema);
@@ -48,5 +53,17 @@ describe('Query', () => {
     );
     expect(result.errors).toBeDefined();
     expect(result.errors).toMatchSnapshot();
+  });
+
+  it('will support flat root fields', async () => {
+    const result = await graphql(
+      schema,
+      `
+        {
+          foo
+        }
+      `,
+    );
+    expect(result).toEqual({ data: { foo: 'bar' } });
   });
 });

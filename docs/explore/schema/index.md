@@ -1,4 +1,4 @@
-# Getting started
+# Schema
 
 ### What is `typegql`?
 
@@ -166,9 +166,3 @@ class Product {
   }
 }
 ```
-
-## Adding to your project
-
-[Installation and setup](getting-started/setup.md)
-
-**Important!** setup steps are simple, but required. Make sure to check [setup](getting-started/setup.md) section.

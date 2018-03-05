@@ -7,6 +7,6 @@ export {
   parseNativeTypeToGraphQL,
   inferTypeByTarget,
   resolveType,
-  resolveTypes,
+  resolveTypesList,
   isObjectType,
 } from './gql';

@@ -3,6 +3,7 @@ import {
   GraphQLObjectType,
   GraphQLFieldConfig,
   GraphQLOutputType,
+  isOutputType,
 } from 'graphql';
 import { queryFieldsRegistry, mutationFieldsRegistry, schemaRegistry } from './registry';
 import { SchemaError } from './error';
@@ -27,10 +28,11 @@ function validateRootFieldType(
   type: GraphQLOutputType,
   rootFieldType: string,
 ) {
-  if (!isObjectType(type)) {
+  // return true;
+  if (!isOutputType(type)) {
     throw new SchemaError(
       target,
-      `Root field ${rootFieldType}.${fieldName} is not compiled to GraphQLObjectType. Compiled type is '${type}'.`,
+      `Root field ${rootFieldType}.${fieldName} is not compiled to GraphQLOutputType. Compiled type is '${type}'.`,
     );
   }
 }

@@ -1,4 +1,4 @@
-export { schemaRegistry } from './registry';
+export { schemaRegistry, mutationFieldsRegistry, queryFieldsRegistry } from './registry';
 import { schemaRegistry } from './registry';
 import { compileSchema } from './compiler';
 export { compileSchema } from './compiler';
