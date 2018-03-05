@@ -131,12 +131,9 @@ describe('Field', () => {
       car: Car;
     }
 
-    // console.log({ Car, Owner });
-
     const { owner } = compileObjectType(Car).getFields();
     const { car } = compileObjectType(Owner).getFields();
 
-    // console.log({ owner, car });
     expect(owner.type).toBe(compileObjectType(Owner));
     expect(car.type).toBe(compileObjectType(Car));
   });

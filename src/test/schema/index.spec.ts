@@ -42,6 +42,7 @@ describe('@Schema', () => {
     }
 
     const schema = compileSchema(FooSchema);
+
     expect(await graphql(schema, introspectionQuery)).toMatchSnapshot();
   });
 });
