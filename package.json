@@ -1,6 +1,6 @@
 {
   "name": "typegql",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
