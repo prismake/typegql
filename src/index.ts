@@ -1,3 +1,5 @@
+export { GraphQLFloat as Float, GraphQLInt as Int, GraphQLID as ID } from 'graphql';
+
 export {
   Arg,
   Field,
