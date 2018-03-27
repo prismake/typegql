@@ -13,6 +13,7 @@
     "experimentalDecorators": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "sourceMap": true
   }
 }

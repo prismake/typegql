@@ -6,3 +6,5 @@ types
 _book
 docs/_book
 _book
+
+.DS_Store
