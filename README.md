@@ -2,64 +2,15 @@
 
 typegql is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
 
-## Creating very simple schema
+## Example
 
-Schema is main building block of any `graphql` schema. It'll join all parts of our api together.
-
-In `typegql` to create schema, we need to pass class decorated with `@Schema` to `compileSchema` function
-
-```ts
-import { Schema, compileSchema } from 'typegql';
-
-@Schema()
-class SuperSchema {
-  // fields implementation
-}
-
-const compiledSchema = compileSchema(SuperSchema);
-```
-
-`compiledSchema` from example above is standard, regular `graphql` schema.
-
-## Adding Query and Mutation fields
-
-Any working schema requires at least one Query field. There are special decorators - `@Query` and `@Mutation` used to register root fields of schema.
-
-Very simple fully working schema like
+Example below is able to resolve such query
 
 ```graphql
-{
-  hello # will resolve to 'world'
-}
-```
-
-Could be implemented as:
-
-```typescript
-import { Schema, Query, compileSchema } from 'typegql';
-
-@Schema()
-class SuperSchema {
-  @Query()
-  hello(): string {
-    return 'world';
-  }
-}
-
-const compiledSchema = compileSchema(SuperSchema);
-```
-
-## Adding parameters
-
-Let's add some customization to our schema:
-
-```graphql
-{
+query {
   hello(name: "Bob") # will resolve to 'Hello, Bob!'
 }
 ```
-
-With tiny change in our code:
 
 ```typescript
 import { Schema, Query, compileSchema } from 'typegql';
@@ -73,6 +24,26 @@ class SuperSchema {
 }
 
 const compiledSchema = compileSchema(SuperSchema);
+```
+
+`compiledSchema` is regular executable schema compatible with `graphql-js` library.
+
+To use it with `express`, you'd have to simply:
+
+```typescript
+import * as express from 'express';
+import * as graphqlHTTP from 'express-graphql';
+
+const app = express();
+
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: compiledSchema,
+    graphiql: true,
+  }),
+);
+app.listen(3000, () => console.log('Graphql API ready on http://localhost:3000/graphql'));
 ```
 
 ## Adding nested types
@@ -163,3 +134,8 @@ class Product {
   }
 }
 ```
+
+## Read more
+
+[Documentation](https://prismake.github.io/typegql/)
+[Examples](examples)
