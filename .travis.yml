@@ -1,7 +1,9 @@
 language: node_js
 node_js:
   - 8
+before_install:
+  - npm i -g codecov
 scripts:
-  - npm install codecov -g
+  - npm run test --ci
 after_success:
   - codecov

@@ -5,7 +5,7 @@
   "types": "types/index.d.ts",
   "license": "MIT",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "build:rollup": "rollup src/index.ts -c",
     "build:types": "tsc --declaration --emitDeclarationOnly",
     "build": "rimraf types lib && yarn run build:rollup && yarn run build:types",
