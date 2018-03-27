@@ -1,3 +1,6 @@
+[![codecov](https://codecov.io/gh/prismake/typegql/branch/master/graph/badge.svg)](https://codecov.io/gh/prismake/typegql)
+[![Build Status](https://api.travis-ci.org/prismake/typegql.svg?branch=master)](https://travis-ci.org/prismake/typegql)
+
 ### What is `typegql`?
 
 typegql is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
