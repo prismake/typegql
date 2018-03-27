@@ -2,6 +2,11 @@
 
 typegql is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
 
+* [Documentation](https://prismake.github.io/typegql/)
+
+* [Basic Express example](examples/basic-express-server)
+* [Typeorm integration example](examples/typeorm-basic-integration)
+
 ## Example
 
 Example below is able to resolve such query
@@ -134,8 +139,3 @@ class Product {
   }
 }
 ```
-
-## Read more
-
-[Documentation](https://prismake.github.io/typegql/)
-[Examples](examples)
