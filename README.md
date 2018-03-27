@@ -120,7 +120,7 @@ We've added `{ type: [String] }` as `@Field` options. Type can be anything that 
 * Every class decorated with `@ObjectType`
 * One element array of any of above for list types eg. `[String]` or `[GraphQLFloat]`
 
-## Writing Asynchroniously
+## Writing Asynchronously
 
 Every field function we write can be `async` and return `Promise`. Let's say, instead of hard-coding our categories, we want to fetch it from some external API:
 
