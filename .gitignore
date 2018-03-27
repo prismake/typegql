@@ -8,3 +8,5 @@ docs/_book
 _book
 
 .DS_Store
+
+coverage
