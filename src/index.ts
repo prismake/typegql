@@ -18,4 +18,5 @@ export {
   compileObjectType,
   compileInputObjectType,
   registerEnum,
+  createGuard,
 } from './domains';

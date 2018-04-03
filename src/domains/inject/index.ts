@@ -1,5 +1,10 @@
-import { InjectorResolver, injectorRegistry } from './registry';
-export { injectorRegistry, InjectorsIndex, InjectorResolver } from './registry';
+import { injectorRegistry, InjectorResolver } from './registry';
+export {
+  injectorRegistry,
+  InjectorsIndex,
+  InjectorResolver,
+  InjectorResolverData,
+} from './registry';
 
 export function Inject(resolver: InjectorResolver): ParameterDecorator {
   return (target: Object, fieldName: string, argIndex: number) => {
@@ -7,14 +12,14 @@ export function Inject(resolver: InjectorResolver): ParameterDecorator {
   };
 }
 
-export const Context = Inject((source, args, context, info) => {
+export const Context = Inject(({ context }) => {
   return context;
 });
 
-export const Info = Inject((source, args, context, info) => {
+export const Info = Inject(({ info }) => {
   return info;
 });
 
-export const Source = Inject((source, args, context, info) => {
+export const Source = Inject(({ source }) => {
   return source;
 });

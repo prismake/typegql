@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --coverage",
+    "test:watch": "jest --watch",
     "build:rollup": "rollup src/index.ts -c",
     "build:types": "tsc --declaration --emitDeclarationOnly",
     "build": "rimraf types lib && yarn run build:rollup && yarn run build:types",

@@ -66,6 +66,7 @@ describe('@Inject', () => {
     class Foo {
       @Field()
       bar(@Context context: string, @Source source: Foo, @Info info: any): number {
+        console.log(context, source, info);
         if (context === 'context' && source === this && info === null) {
           return 42;
         }

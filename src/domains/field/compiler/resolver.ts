@@ -78,7 +78,7 @@ export function compileFieldResolver(
       args: args || {},
       injectors: injectors || {},
       injectorToValueMapper: injector =>
-        injector.apply(source, [source, args, context, info]),
+        injector.apply(source, [{ source, args, context, info }]),
     });
 
     const result = await instanceFieldFunc.apply(source, params);
