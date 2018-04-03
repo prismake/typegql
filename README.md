@@ -3,6 +3,8 @@
 
 ### What is `typegql`?
 
+![demo](assets/demo.gif)
+
 typegql is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
 
 * [Documentation](https://prismake.github.io/typegql/)

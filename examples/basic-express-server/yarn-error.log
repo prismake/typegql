@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/Cellar/node/9.4.0/bin/node /Users/adam/.yarn/bin/yarn.js ts-node index.ts
+  /usr/local/Cellar/node/9.4.0/bin/node /Users/adam/.yarn/bin/yarn.js start
 
 PATH: 
-  /Users/adam/.yarn/bin:/Users/adam/.config/yarn/global/node_modules/.bin:/Users/adam/.pyenv/shims:/usr/local/opt/python/libexec/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/adam/go/bin:/usr/local/opt/fzf/bin
+  /Users/adam/.yarn/bin:/Users/adam/.config/yarn/global/node_modules/.bin:/Users/adam/.pyenv/shims:/usr/local/opt/python/libexec/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/adam/go/bin:/Users/adam/Library/Android/sdk/tools:/Users/adam/Library/Android/sdk/platform-tools:/usr/local/opt/fzf/bin
 
 Yarn version: 
   1.5.1
@@ -25,6 +25,9 @@ npm manifest:
       "ts-node": "^5.0.1",
       "typegql": "^0.2.5",
       "typescript": "^2.7.2"
+    },
+    "scripts": {
+      "start": "ts-node index.ts"
     }
   }
 
@@ -470,7 +473,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c /Users/adam/dev/prismake/typegql/examples/basic-express-server/node_modules/.bin/ts-node index.ts
+  Arguments: -c ts-node index.ts
   Directory: /Users/adam/dev/prismake/typegql/examples/basic-express-server
   Output:
   

@@ -2,23 +2,17 @@ import * as express from 'express';
 import { Schema, Query, compileSchema } from 'typegql';
 import * as graphqlHTTP from 'express-graphql';
 
-@Schema()
-class SuperSchema {
-  @Query()
-  hello(name: string): string {
-    return `Hello, ${name}!`;
-  }
-}
-
-const compiledSchema = compileSchema(SuperSchema);
+import { schema } from './schema';
 
 const app = express();
 
 app.use(
   '/graphql',
   graphqlHTTP({
-    schema: compiledSchema,
+    schema,
     graphiql: true,
   }),
 );
-app.listen(3000);
+app.listen(3000, () => {
+  console.log('Api ready on port 3000');
+});
