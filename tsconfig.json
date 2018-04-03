@@ -7,6 +7,7 @@
     "noImplicitUseStrict": true,
     "pretty": true,
     "baseUrl": "./src",
+    "rootDir": "./src",
     "outDir": "./lib",
     "declarationDir": "./types",
     "emitDecoratorMetadata": true,
@@ -15,5 +16,6 @@
     "skipLibCheck": true,
     "stripInternal": true,
     "sourceMap": true
-  }
+  },
+  "exclude": ["./examples"]
 }

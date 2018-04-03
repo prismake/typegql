@@ -1,4 +1,4 @@
-import { GraphQLFieldResolver, GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo } from 'graphql';
 
 import { DeepWeakMap } from 'services/utils';
 
