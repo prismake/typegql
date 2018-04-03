@@ -9,11 +9,14 @@ typegql is set of decorators allowing creating GraphQL APIs quickly and in type-
 
 * [Documentation](https://prismake.github.io/typegql/)
 
+### Examples:
+
 * [Basic Express example](examples/basic-express-server)
 * [Typeorm integration example](examples/typeorm-basic-integration)
 * [Forward resolution - eg. query only needed db fields](examples/forward-resolution)
+* [Serverless eg. AWS Lambda](examples/serverless)
 
-## Example
+## Basic example
 
 Example below is able to resolve such query
 
