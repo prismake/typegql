@@ -142,3 +142,7 @@ class Product {
   }
 }
 ```
+
+## Before `1.0.0`
+
+Before version `1.0.0` consider APIs of `typegql` to be subject to change. We encourage you to try this library out and provide us feedback so we can polish it to be as usable and efficent as possible.
