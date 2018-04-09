@@ -1,4 +1,4 @@
-# Complex input types with `@InputType` and `@InputField`
+# Complex input types with `@InputObjectType` and `@InputField`
 
 Sometimes we need arguments to have complex structure (eg. user have some todos and want to delete few of them using filter) like
 
@@ -15,9 +15,9 @@ query {
 Let's create such `User` type that allows complex `where` argument for `deleteManyTodos` field.
 
 ```ts
-import { ObjectType, Field, Arg } from 'typegql';
+import { ObjectType, Field, Arg, InputObjectType } from 'typegql';
 
-@InputType()
+@InputObjectType()
 class WhereFilter {
   @InputField({ defaultValue: true })
   isDone: boolean;
