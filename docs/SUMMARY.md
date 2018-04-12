@@ -9,7 +9,7 @@
 
 * [@ObjectType and @Field](explore/object-type-and-field.md)
 * [@Arg and field arguments](explore/arg.md)
-* [@InputType and @InputField](explore/input-type-and-input-field.md)
+* [@InputObjectType and @InputField](explore/input-type-and-input-field.md)
 * [Enums](explore/enum/index.md)
 * [Hooks](explore/hooks/index.md)
   * [@Before and @After](explore/hooks/before-and-after.md)
