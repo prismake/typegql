@@ -11,7 +11,7 @@ import { ObjectType, Field, Guard } from 'typegql';
 class User {
   @Field() name: string;
 
-  @Guard((source, args, context) => context.currentUser.isAdmin, { msg: 'Not allowed' })
+  @Guard(({source, args, context}) => context.currentUser.isAdmin, { msg: 'Not allowed' })
   @Field()
   isBanned: boolean;
 }
@@ -31,7 +31,7 @@ Let's say we have more `User` fields we want to show only to admins. We could re
 ```ts
 import { ObjectType, Field, createGuard } from 'typegql';
 
-const OnlyAdmin = createGuard((source, args, context) => context.currentUser.isAdmin, {
+const OnlyAdmin = createGuard(({source, args, context}) => context.currentUser.isAdmin, {
   msg: 'Not allowed',
 });
 
