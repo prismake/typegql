@@ -1,12 +1,4 @@
-import {
-  ObjectType,
-  Field,
-  Before,
-  After,
-  Guard,
-  compileObjectType,
-  createGuard,
-} from 'domains';
+import { ObjectType, Field, Before, After, compileObjectType } from 'domains';
 
 describe('Hooks', () => {
   it('Will call @Before hook on field resolve', async () => {
@@ -23,6 +15,73 @@ describe('Hooks', () => {
     await bar.resolve(null, null, null, null);
 
     expect(callback).toBeCalled();
+  });
+
+  it('Will properly pass data to @Before and @After hooks', async () => {
+    const beforeCb = jest.fn();
+    const afterInnerCb = jest.fn();
+    const afterCb = jest.fn(({ context }) => {
+      afterInnerCb(context);
+    });
+    @ObjectType()
+    class Foo {
+      @Field()
+      @Before(beforeCb)
+      @Before(afterCb)
+      bar: string = 'done';
+    }
+
+    const { bar } = compileObjectType(Foo).getFields();
+
+    await bar.resolve('foo', { bar: 42 }, 'baz', null);
+
+    expect(beforeCb).toBeCalledWith({
+      args: { bar: 42 },
+      context: 'baz',
+      info: null,
+      source: 'foo',
+    });
+
+    expect(beforeCb).toBeCalledWith({
+      args: { bar: 42 },
+      context: 'baz',
+      info: null,
+      source: 'foo',
+    });
+
+    expect(afterInnerCb).toBeCalledWith('baz');
+  });
+
+  it('Will stop resolution when @Before hook throws an error', async () => {
+    const beforeCb = jest.fn(() => {
+      throw new Error('Foo Error');
+    });
+
+    const afterCb = jest.fn();
+    const innerCb = jest.fn();
+
+    @ObjectType()
+    class Foo {
+      @Field()
+      @Before(beforeCb)
+      @After(afterCb)
+      bar(): string {
+        innerCb();
+        return 'foo';
+      }
+    }
+
+    const { bar } = compileObjectType(Foo).getFields();
+
+    async function exec() {
+      await bar.resolve(null, null, null, null);
+    }
+
+    expect(exec()).rejects.toMatchSnapshot();
+
+    expect(beforeCb).toBeCalled();
+    expect(afterCb).not.toBeCalled();
+    expect(innerCb).not.toBeCalled();
   });
 
   it('Will call @After hook on field resolve', async () => {
@@ -72,61 +131,5 @@ describe('Hooks', () => {
     expect(resolverCb).toBeCalledWith(2);
     expect(afterCb).toBeCalledWith(3);
     expect(result).toEqual('done');
-  });
-
-  it('Will not allow resolver to execute if @Guard returns false with error message', async () => {
-    const callback = jest.fn();
-    @ObjectType()
-    class Foo {
-      @Guard(
-        ({ args }) => {
-          return args.isAllowed;
-        },
-        { msg: 'Not allowed' },
-      )
-      @Field()
-      bar(isAllowed: boolean): string {
-        callback();
-        return 'done';
-      }
-    }
-
-    const { bar } = compileObjectType(Foo).getFields();
-
-    await expect(
-      bar.resolve(null, { isAllowed: false }, null, null),
-    ).rejects.toThrowErrorMatchingSnapshot();
-    expect(callback).not.toBeCalled();
-    await expect(bar.resolve(null, { isAllowed: true }, null, null)).resolves.toEqual(
-      'done',
-    );
-    expect(callback).toBeCalled();
-  });
-
-  it('Will work with createGuard @Guards', async () => {
-    const CustomGuard = createGuard(data => data.args.isAllowed, {
-      msg: 'Not allowed here',
-    });
-    const callback = jest.fn();
-    @ObjectType()
-    class Foo {
-      @CustomGuard()
-      @Field()
-      bar(isAllowed: boolean): string {
-        callback();
-        return 'done';
-      }
-    }
-
-    const { bar } = compileObjectType(Foo).getFields();
-
-    await expect(
-      bar.resolve(null, { isAllowed: false }, null, null),
-    ).rejects.toThrowErrorMatchingSnapshot();
-    expect(callback).not.toBeCalled();
-    await expect(bar.resolve(null, { isAllowed: true }, null, null)).resolves.toEqual(
-      'done',
-    );
-    expect(callback).toBeCalled();
   });
 });

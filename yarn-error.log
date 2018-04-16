@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node/9.4.0/bin/node /Users/adam/.yarn/bin/yarn.js start
+  /usr/local/Cellar/node/9.4.0/bin/node /Users/adam/.yarn/bin/yarn.js gp
 
 PATH: 
   /Users/adam/.yarn/bin:/Users/adam/.config/yarn/global/node_modules/.bin:/Users/adam/.pyenv/shims:/usr/local/opt/python/libexec/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/adam/go/bin:/Users/adam/Library/Android/sdk/tools:/Users/adam/Library/Android/sdk/platform-tools:/usr/local/opt/fzf/bin
@@ -6104,7 +6104,7 @@ Lockfile:
       window-size "0.1.0"
 
 Trace: 
-  Error: Command "start" not found.
+  Error: Command "gp" not found.
       at new MessageError (/Users/adam/.yarn/lib/cli.js:186:110)
       at /Users/adam/.yarn/lib/cli.js:87307:17
       at Generator.next (<anonymous>)

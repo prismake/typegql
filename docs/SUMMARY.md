@@ -13,7 +13,7 @@
 * [Enums](explore/enum/index.md)
 * [Hooks](explore/hooks/index.md)
   * [@Before and @After](explore/hooks/before-and-after.md)
-  * [@Guard and createGuard](explore/hooks/guard.md)
+  * [Authorization example](explore/hooks/authorization-example.md)
 * [Injecting values to resolver](explore/inject/index.md)
 * [@Union](explore/union.md)
 
@@ -31,7 +31,6 @@
 * [@Info](reference/index.md#info)
 * [@Before](reference/index.md#before)
 * [@After](reference/index.md#after)
-* [@Guard](reference/index.md#guard)
 * [@Schema](reference/index.md#schema)
 * [@Query](reference/index.md#query)
 * [@Mutation](reference/index.md#mutation)

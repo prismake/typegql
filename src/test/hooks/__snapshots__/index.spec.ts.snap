@@ -1,5 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Hooks Will not allow resolver to execute if @Guard returns false with error message 1`] = `"Not allowed"`;
-
-exports[`Hooks Will work with createGuard @Guards 1`] = `"Not allowed here"`;
+exports[`Hooks Will stop resolution when @Before hook throws an error 1`] = `[Error: Foo Error]`;

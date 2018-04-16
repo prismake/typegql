@@ -127,25 +127,6 @@ type HookExecutor = (data: HookExecutorResolverArgs) => any | Promise<any>;
 @After(hook: HookExecutor);
 ```
 
-### @Guard
-
-```typescript
-interface HookExecutorResolverArgs {
-  source: any;
-  args: { [argName: string]: any };
-  context: any;
-  info: GraphQLResolveInfo;
-}
-
-type HookExecutor = (data: HookExecutorResolverArgs) => boolean | Promise<boolean>;
-
-export interface GuardOptions {
-  msg: string;
-}
-
-@Guard(hook: HookExecutor, options: GuardOptions);
-```
-
 ### @Schema
 
 ```typescript
