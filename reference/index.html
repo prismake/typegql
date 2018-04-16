@@ -155,7 +155,7 @@
                 <a href="../explore/input-type-and-input-field.html">
             
                     
-                    @InputType and @InputField
+                    @InputObjectType and @InputField
             
                 </a>
             
@@ -203,12 +203,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.5.2" data-path="../explore/hooks/guard.html">
+        <li class="chapter " data-level="2.5.2" data-path="../explore/hooks/authorization-example.html">
             
-                <a href="../explore/hooks/guard.html">
+                <a href="../explore/hooks/authorization-example.html">
             
                     
-                    @Guard and createGuard
+                    Authorization example
             
                 </a>
             
@@ -412,19 +412,6 @@
     
         <li class="chapter " data-level="3.13" data-path="./">
             
-                <a href="./#guard">
-            
-                    
-                    @Guard
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="3.14" data-path="./">
-            
                 <a href="./#schema">
             
                     
@@ -436,7 +423,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.15" data-path="./">
+        <li class="chapter " data-level="3.14" data-path="./">
             
                 <a href="./#query">
             
@@ -449,7 +436,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.16" data-path="./">
+        <li class="chapter " data-level="3.15" data-path="./">
             
                 <a href="./#mutation">
             
@@ -462,7 +449,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.17" data-path="./">
+        <li class="chapter " data-level="3.16" data-path="./">
             
                 <a href="./#union">
             
@@ -475,7 +462,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.18" data-path="./">
+        <li class="chapter " data-level="3.17" data-path="./">
             
                 <a href="./#registerenum">
             
@@ -488,7 +475,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.19" data-path="./">
+        <li class="chapter " data-level="3.18" data-path="./">
             
                 <a href="./#compileschema">
             
@@ -501,7 +488,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.20" data-path="./">
+        <li class="chapter " data-level="3.19" data-path="./">
             
                 <a href="./#compileobjecttype">
             
@@ -514,7 +501,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.21" data-path="./">
+        <li class="chapter " data-level="3.20" data-path="./">
             
                 <a href="./#compileinputobjecttype">
             
@@ -664,22 +651,6 @@
 
 @After(hook: HookExecutor);
 </code></pre>
-<h3 id="guard">@Guard</h3>
-<pre><code class="lang-typescript"><span class="hljs-keyword">interface</span> HookExecutorResolverArgs {
-  source: <span class="hljs-built_in">any</span>;
-  args: { [argName: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">any</span> };
-  context: <span class="hljs-built_in">any</span>;
-  info: GraphQLResolveInfo;
-}
-
-<span class="hljs-keyword">type</span> HookExecutor = (data: HookExecutorResolverArgs) =&gt; <span class="hljs-built_in">boolean</span> | Promise&lt;<span class="hljs-built_in">boolean</span>&gt;;
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> GuardOptions {
-  msg: <span class="hljs-built_in">string</span>;
-}
-
-@Guard(hook: HookExecutor, options: GuardOptions);
-</code></pre>
 <h3 id="schema">@Schema</h3>
 <pre><code class="lang-typescript">@Schema(): ClassDecorator;
 </code></pre>
@@ -760,7 +731,7 @@ registerEnum(enumDef: <span class="hljs-built_in">Object</span>, options: EnumOp
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Api Reference","level":"3.1","depth":1,"next":{"title":"@ObjectType","level":"3.2","depth":1,"anchor":"#objecttype","path":"reference/index.md","ref":"reference/index.md#objecttype","articles":[]},"previous":{"title":"@Union","level":"2.7","depth":1,"path":"explore/union.md","ref":"explore/union.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"reference/index.md","mtime":"2018-03-05T21:32:43.558Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-09T10:09:04.771Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Api Reference","level":"3.1","depth":1,"next":{"title":"@ObjectType","level":"3.2","depth":1,"anchor":"#objecttype","path":"reference/index.md","ref":"reference/index.md#objecttype","articles":[]},"previous":{"title":"@Union","level":"2.7","depth":1,"path":"explore/union.md","ref":"explore/union.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"reference/index.md","mtime":"2018-04-16T13:09:07.622Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-16T13:45:51.083Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

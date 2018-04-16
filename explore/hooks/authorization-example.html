@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>@Guard and createGuard · GitBook</title>
+        <title>Authorization example · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -155,7 +155,7 @@
                 <a href="../input-type-and-input-field.html">
             
                     
-                    @InputType and @InputField
+                    @InputObjectType and @InputField
             
                 </a>
             
@@ -203,12 +203,12 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.5.2" data-path="guard.html">
+        <li class="chapter active" data-level="2.5.2" data-path="authorization-example.html">
             
-                <a href="guard.html">
+                <a href="authorization-example.html">
             
                     
-                    @Guard and createGuard
+                    Authorization example
             
                 </a>
             
@@ -412,19 +412,6 @@
     
         <li class="chapter " data-level="3.13" data-path="../../reference/">
             
-                <a href="../../reference/#guard">
-            
-                    
-                    @Guard
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="3.14" data-path="../../reference/">
-            
                 <a href="../../reference/#schema">
             
                     
@@ -436,7 +423,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.15" data-path="../../reference/">
+        <li class="chapter " data-level="3.14" data-path="../../reference/">
             
                 <a href="../../reference/#query">
             
@@ -449,7 +436,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.16" data-path="../../reference/">
+        <li class="chapter " data-level="3.15" data-path="../../reference/">
             
                 <a href="../../reference/#mutation">
             
@@ -462,7 +449,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.17" data-path="../../reference/">
+        <li class="chapter " data-level="3.16" data-path="../../reference/">
             
                 <a href="../../reference/#union">
             
@@ -475,7 +462,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.18" data-path="../../reference/">
+        <li class="chapter " data-level="3.17" data-path="../../reference/">
             
                 <a href="../../reference/#registerenum">
             
@@ -488,7 +475,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.19" data-path="../../reference/">
+        <li class="chapter " data-level="3.18" data-path="../../reference/">
             
                 <a href="../../reference/#compileschema">
             
@@ -501,7 +488,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.20" data-path="../../reference/">
+        <li class="chapter " data-level="3.19" data-path="../../reference/">
             
                 <a href="../../reference/#compileobjecttype">
             
@@ -514,7 +501,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.21" data-path="../../reference/">
+        <li class="chapter " data-level="3.20" data-path="../../reference/">
             
                 <a href="../../reference/#compileinputobjecttype">
             
@@ -557,7 +544,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >@Guard and createGuard</a>
+        <a href="../.." >Authorization example</a>
     </h1>
 </div>
 
@@ -572,45 +559,82 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="guard-hooks">Guard hooks</h1>
-<p>Guard hooks are special kind of <code>@Before</code> hook designed to easy control access to some field</p>
-<p>Let&apos;s say we have <code>User</code> type and we don&apos;t want to show <code>isBanned</code> field to anyone. We want only admins to be able to see that.</p>
-<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ObjectType, Field, Guard } from <span class="hljs-string">&apos;typegql&apos;</span>;
+                                <h1 id="authorization-example-with-before-hook">Authorization example with @Before hook</h1>
+<p><code>@Before</code> hook is great for use-cases like authorization because:</p>
+<ul>
+<li>it is executed before field resolver itself</li>
+<li>if any of <code>@Before</code> hooks will return promise - it will be resolved before field itself is resolved</li>
+<li>if any of <code>@Before</code> will throw error, resolving will be instantly stopped</li>
+</ul>
+<p>Very basic authorization model could look like:</p>
+<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ObjectType, Field, Before } from <span class="hljs-string">&apos;typegql&apos;</span>;
 
 @ObjectType()
 <span class="hljs-keyword">class</span> User {
   @Field() name: <span class="hljs-built_in">string</span>;
 
-  @Guard((source, args, context) =&gt; context.currentUser.isAdmin, { msg: <span class="hljs-string">&apos;Not allowed&apos;</span> })
+  @Before(({ context }) =&gt; {
+    <span class="hljs-keyword">if</span> (!context.isUserAuthorized()) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&apos;Unauthorized to know this&apos;</span>);
+    }
+  })
   @Field()
   isBanned: <span class="hljs-built_in">boolean</span>;
 }
 </code></pre>
-<p><code>@Guard</code> decorator takes 2 parameters.</p>
-<ul>
-<li>First is hook fuction that returns <code>boolean</code>. If hook function returns <code>true</code> - field access is allowed.</li>
-<li>2nd argument is options object with error message in case field access is not allowed</li>
-</ul>
-<h2 id="createguard-function"><code>createGuard</code> function</h2>
-<p>In many cases, we need to guard multiple fields with exactly the same rule. <code>createGuard</code> function helps avoiding code repetition in such case.</p>
-<p>Let&apos;s say we have more <code>User</code> fields we want to show only to admins. We could rewrite above code with:</p>
-<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ObjectType, Field, createGuard } from <span class="hljs-string">&apos;typegql&apos;</span>;
+<p>In such case, we&apos;re checking graphql context before we&apos;ll allow access to field itself.</p>
+<h2 id="creating-reusable-hooks">Creating reusable hooks</h2>
+<p>Authorization like in example above is very likely to be required in many places in any graphql schema.</p>
+<p>We could simply create custom hook that can be easily re-used:</p>
+<pre><code class="lang-ts">import { ObjectType, Field, Before } from &apos;typegql&apos;;
 
-<span class="hljs-keyword">const</span> OnlyAdmin = createGuard((source, args, context) =&gt; context.currentUser.isAdmin, {
-  msg: <span class="hljs-string">&apos;Not allowed&apos;</span>,
-});
+function AdminOnly(errorMessage: string = &apos;Unauthorized&apos;) {
+  return Before(({ context }) =&gt; {
+    if (!context.isAdmin()) {
+      throw new Error(errorMessage);
+    }
+  });
+}
 
 @ObjectType()
-<span class="hljs-keyword">class</span> User {
-  @Field() name: <span class="hljs-built_in">string</span>;
+class User {
+  @Field() name: string;
 
-  @OnlyAdmin()
+  @AdminOnly()
   @Field()
-  isBanned: <span class="hljs-built_in">boolean</span>;
+  isBanned: boolean;
 
-  @OnlyAdmin({ msg: <span class="hljs-string">&apos;Not allowed to see this field&apos;</span> }) <span class="hljs-comment">// we can overwrite guard options defined in `createGuard`</span>
+  @AdminOnly(&apos;Only admin can see this information&apos;)
   @Field()
-  hasEmailConfirmed: <span class="hljs-built_in">boolean</span>;
+  isEmailConfirmed: boolean;
+}
+</code></pre>
+<h2 id="object-aware-authorization-eg-only-i-can-see-my-email-address">Object aware authorization (eg. only I can see my email address)</h2>
+<p>Quite often access level for every given object depends on who is seeing it. Let&apos;s say we want only admin or owner of account to be able to see email address of <code>User</code>:</p>
+<pre><code class="lang-ts">import { ObjectType, Field, Before } from &apos;typegql&apos;;
+
+function AdminOrAccountOwner(errorMessage: string = &apos;Unauthorized&apos;) {
+  return Before(async ({ context, source }) =&gt; {
+    if (context.isCurrentUserAdmin()) {
+      return; // allow for admin
+    }
+
+    // note that we can use async functions inside hooks
+    if (source.id === (await context.getCurrentUserId())) {
+      return; // allow if accessing user id is the same as accessed user id
+    }
+
+    throw new Error(errorMessage);
+  });
+}
+
+@ObjectType()
+class User {
+  @Field() id: string;
+
+  @AdminOrAccountOwner()
+  @Field()
+  email: string;
 }
 </code></pre>
 
@@ -656,7 +680,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"@Guard and createGuard","level":"2.5.2","depth":2,"next":{"title":"Injecting values to resolver","level":"2.6","depth":1,"path":"explore/inject/index.md","ref":"explore/inject/index.md","articles":[]},"previous":{"title":"@Before and @After","level":"2.5.1","depth":2,"path":"explore/hooks/before-and-after.md","ref":"explore/hooks/before-and-after.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"explore/hooks/guard.md","mtime":"2018-03-04T17:53:08.195Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-09T10:09:04.771Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Authorization example","level":"2.5.2","depth":2,"next":{"title":"Injecting values to resolver","level":"2.6","depth":1,"path":"explore/inject/index.md","ref":"explore/inject/index.md","articles":[]},"previous":{"title":"@Before and @After","level":"2.5.1","depth":2,"path":"explore/hooks/before-and-after.md","ref":"explore/hooks/before-and-after.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"explore/hooks/authorization-example.md","mtime":"2018-04-16T13:44:16.846Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-16T13:45:51.083Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

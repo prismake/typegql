@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>@InputType and @InputField · GitBook</title>
+        <title>@InputObjectType and @InputField · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -155,7 +155,7 @@
                 <a href="input-type-and-input-field.html">
             
                     
-                    @InputType and @InputField
+                    @InputObjectType and @InputField
             
                 </a>
             
@@ -203,12 +203,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.5.2" data-path="hooks/guard.html">
+        <li class="chapter " data-level="2.5.2" data-path="hooks/authorization-example.html">
             
-                <a href="hooks/guard.html">
+                <a href="hooks/authorization-example.html">
             
                     
-                    @Guard and createGuard
+                    Authorization example
             
                 </a>
             
@@ -412,19 +412,6 @@
     
         <li class="chapter " data-level="3.13" data-path="../reference/">
             
-                <a href="../reference/#guard">
-            
-                    
-                    @Guard
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="3.14" data-path="../reference/">
-            
                 <a href="../reference/#schema">
             
                     
@@ -436,7 +423,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.15" data-path="../reference/">
+        <li class="chapter " data-level="3.14" data-path="../reference/">
             
                 <a href="../reference/#query">
             
@@ -449,7 +436,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.16" data-path="../reference/">
+        <li class="chapter " data-level="3.15" data-path="../reference/">
             
                 <a href="../reference/#mutation">
             
@@ -462,7 +449,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.17" data-path="../reference/">
+        <li class="chapter " data-level="3.16" data-path="../reference/">
             
                 <a href="../reference/#union">
             
@@ -475,7 +462,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.18" data-path="../reference/">
+        <li class="chapter " data-level="3.17" data-path="../reference/">
             
                 <a href="../reference/#registerenum">
             
@@ -488,7 +475,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.19" data-path="../reference/">
+        <li class="chapter " data-level="3.18" data-path="../reference/">
             
                 <a href="../reference/#compileschema">
             
@@ -501,7 +488,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.20" data-path="../reference/">
+        <li class="chapter " data-level="3.19" data-path="../reference/">
             
                 <a href="../reference/#compileobjecttype">
             
@@ -514,7 +501,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.21" data-path="../reference/">
+        <li class="chapter " data-level="3.20" data-path="../reference/">
             
                 <a href="../reference/#compileinputobjecttype">
             
@@ -557,7 +544,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >@InputType and @InputField</a>
+        <a href=".." >@InputObjectType and @InputField</a>
     </h1>
 </div>
 
@@ -572,7 +559,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="complex-input-types-with-inputtype-and-inputfield">Complex input types with <code>@InputType</code> and <code>@InputField</code></h1>
+                                <h1 id="complex-input-types-with-inputobjecttype-and-inputfield">Complex input types with <code>@InputObjectType</code> and <code>@InputField</code></h1>
 <p>Sometimes we need arguments to have complex structure (eg. user have some todos and want to delete few of them using filter) like</p>
 <pre><code class="lang-graphql">query {
   currentUser {
@@ -583,9 +570,9 @@
 }
 </code></pre>
 <p>Let&apos;s create such <code>User</code> type that allows complex <code>where</code> argument for <code>deleteManyTodos</code> field.</p>
-<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ObjectType, Field, Arg } from <span class="hljs-string">&apos;typegql&apos;</span>;
+<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ObjectType, Field, Arg, InputObjectType } from <span class="hljs-string">&apos;typegql&apos;</span>;
 
-@InputType()
+@InputObjectType()
 <span class="hljs-keyword">class</span> WhereFilter {
   @InputField({ defaultValue: <span class="hljs-literal">true</span> })
   isDone: <span class="hljs-built_in">boolean</span>;
@@ -650,7 +637,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"@InputType and @InputField","level":"2.3","depth":1,"next":{"title":"Enums","level":"2.4","depth":1,"path":"explore/enum/index.md","ref":"explore/enum/index.md","articles":[]},"previous":{"title":"@Arg and field arguments","level":"2.2","depth":1,"path":"explore/arg.md","ref":"explore/arg.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"explore/input-type-and-input-field.md","mtime":"2018-03-04T17:53:08.196Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-09T10:09:04.771Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"@InputObjectType and @InputField","level":"2.3","depth":1,"next":{"title":"Enums","level":"2.4","depth":1,"path":"explore/enum/index.md","ref":"explore/enum/index.md","articles":[]},"previous":{"title":"@Arg and field arguments","level":"2.2","depth":1,"path":"explore/arg.md","ref":"explore/arg.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"explore/input-type-and-input-field.md","mtime":"2018-04-12T12:20:37.093Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-16T13:45:51.083Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
