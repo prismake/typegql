@@ -7,10 +7,10 @@
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
     "pg": "^7.4.1",
-    "ts-node": "^5.0.1",
-    "typegql": "^0.2.5",
-    "typeorm": "^0.1.18",
-    "typescript": "^2.7.2"
+    "ts-node": "^6.0.0",
+    "typegql": "^0.4.0",
+    "typeorm": "^0.1.21",
+    "typescript": "^2.8.1"
   },
   "scripts": {
     "start": "ts-node index.ts"
