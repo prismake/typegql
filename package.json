@@ -19,24 +19,24 @@
     "url": "https://github.com/prismake/typegql"
   },
   "devDependencies": {
-    "@types/graphql": "^0.12.4",
-    "@types/jest": "^22.1.3",
-    "@types/node": "^9.4.6",
+    "@types/graphql": "^0.13.0",
+    "@types/jest": "^22.2.3",
+    "@types/node": "^9.6.5",
     "@types/object-path": "^0.9.29",
     "gh-pages": "^1.1.0",
     "gitbook": "^3.2.3",
     "gitbook-cli": "^2.3.2",
-    "jest": "^22.4.2",
+    "jest": "^22.4.3",
     "rimraf": "^2.6.2",
-    "rollup": "^0.56.3",
+    "rollup": "^0.58.0",
     "rollup-plugin-typescript": "^0.8.1",
-    "rollup-plugin-typescript2": "^0.11.1",
-    "typescript": "^2.7.2"
+    "rollup-plugin-typescript2": "^0.13.0",
+    "typescript": "^2.8.1"
   },
   "dependencies": {
-    "graphql": "^0.13.1",
+    "graphql": "^0.13.2",
     "object-path": "^0.11.4",
     "reflect-metadata": "^0.1.12",
-    "typegql": "^0.1.1"
+    "typegql": "^0.4.0"
   }
 }
