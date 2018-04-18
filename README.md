@@ -114,6 +114,7 @@ Since now, `typegql` was able to guess type of every field from typescript type 
 There are, however, some cases where we'd have to define them explicitly.
 
 * We want to strictly tell if field is nullable or not
+* We want to be explicit about if some `number` type is `Float` or `Int` (`GraphQLFloat` or `GraphQLInt`) etc
 * Function we use returns type of `Promise<SomeType>` while field itself is typed as `SomeType`
 * List (Array) type is used. (For now, typescript `Reflect` api is not able to guess type of single array item. This might change in the future)
 
