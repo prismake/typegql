@@ -1,4 +1,4 @@
-## Basic express example
+## Nested mutations
 
 Sometimes, nested mutations and queries are very handy and can help to keep code more encapsulated
 
