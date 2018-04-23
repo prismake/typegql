@@ -17,6 +17,7 @@ typegql is set of decorators allowing creating GraphQL APIs quickly and in type-
 * [Typeorm integration example](examples/typeorm-basic-integration)
 * [Forward resolution - eg. query only needed db fields](examples/forward-resolution)
 * [Nested mutations or queries](examples/nested-mutation-or-query)
+* [Custom decorators / Higher order decorators](examples/custom-decorators)
 * [Serverless eg. AWS Lambda](examples/serverless)
 
 ## Basic example
