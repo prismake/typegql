@@ -1,40 +1,34 @@
-## Basic express example
+## Custom Decorators
 
-Example of basic graphql api able to resolve such query
+Sometimes you might want to re-use some field or type decorator settings. Creating custom decorator might be suitable solution then.
 
-```graphql
-query {
-  hello(name: "Bob") # will resolve to 'Hello, Bob!'
-}
-```
+Doing it is quite simple. You'd need to define custom function that returns call to original decorator.
 
-Here is all the server code required:
+Let's say we want to define custom field decorator that always has `String` type and requires field description (that originally would be optional)
 
 ```typescript
-import * as express from 'express';
-import { Schema, Query, compileSchema } from 'typegql';
-import * as graphqlHTTP from 'express-graphql';
+import { Schema, Query, Field, ObjectType, compileSchema } from 'typegql';
 
-@Schema()
-class SuperSchema {
-  @Query()
-  hello(name: string): string {
-    return `Hello, ${name}!`;
+function StringWithDescription(fieldDescription: string) {
+  if (!fieldDescription) {
+    throw new Error(
+      `Field description is required when decorated with @StringWithDescription`,
+    );
   }
+  return Field({
+    type: String,
+    description: fieldDescription,
+  });
 }
-
-const compiledSchema = compileSchema(SuperSchema);
-
-const app = express();
-
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema: compiledSchema,
-    graphiql: true,
-  }),
-);
-app.listen(3000);
 ```
 
-To start this example, in this folder run `yarn install` and `yarn start`. Server will be running under `http://localhost:3000/graphql`
+Later on, to use such `@StringWithDescription` field decorator you could simply:
+
+```typescript
+import { ObjectType } from 'typegql';
+
+@ObjectType()
+class CustomObject {
+  @StringWithDescription('This is custom field') stringValue: string;
+}
+```
