@@ -18,6 +18,7 @@ interface ComputeArgsOptions {
 }
 
 async function performHooksExecution(
+  instance: any,
   hooks: HookExecutor[],
   source: any,
   args: any,
@@ -30,7 +31,7 @@ async function performHooksExecution(
   // all hooks are executed in parrell instead of sequence. We wait for them all to be resolved before we continue
   return await Promise.all(
     hooks.map(hook => {
-      return hook({ source, args, context, info });
+      return hook.call(instance, { source, args, context, info });
     }),
   );
 }
@@ -65,11 +66,20 @@ export function compileFieldResolver(
   const afterHooks = fieldAfterHooksRegistry.get(target, fieldName);
 
   return async (source: any, args = null, context = null, info = null) => {
-    await performHooksExecution(beforeHooks, source, args, context, info);
-    const instanceField = (source && source[fieldName]) || target.prototype[fieldName];
+    
+    let instance, instanceField;
+    if (source && source[fieldName]) {
+      instance = source;
+      instanceField = source[fieldName];
+    } else if (target.prototype[fieldName]) {
+      instance = new (target as any);
+      instanceField = target.prototype[fieldName];
+    }
+
+    await performHooksExecution(instance, beforeHooks, source, args, context, info);
 
     if (typeof instanceField !== 'function') {
-      await performHooksExecution(afterHooks, source, args, context, info);
+      await performHooksExecution(instance, afterHooks, source, args, context, info);
       return instanceField;
     }
 
@@ -81,9 +91,9 @@ export function compileFieldResolver(
         injector.apply(source, [{ source, args, context, info }]),
     });
 
-    const result = await instanceFieldFunc.apply(source, params);
+    const result = await instanceFieldFunc.apply(instance, params);
 
-    await performHooksExecution(afterHooks, source, args, context, info); // TODO: Consider adding resolve return to hook callback
+    await performHooksExecution(instance, afterHooks, source, args, context, info); // TODO: Consider adding resolve return to hook callback
     return result;
   };
 }
