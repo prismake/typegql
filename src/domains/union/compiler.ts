@@ -24,7 +24,7 @@ const compileUnionCache = new WeakMap<Function, GraphQLUnionType>();
 function getDefaultResolver(types: GraphQLObjectType[]): UnionTypeResolver {
   return (value: any, context: any, info: any) => {
     for (let type of types) {
-      if (type.isTypeOf(value, context, info)) {
+      if (type.isTypeOf && type.isTypeOf(value, context, info)) {
         return type;
       }
     }
