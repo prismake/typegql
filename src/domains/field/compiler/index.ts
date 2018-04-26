@@ -1,56 +1,17 @@
-import {
-  GraphQLFieldConfig,
-  GraphQLFieldConfigMap,
-  isOutputType,
-  GraphQLType,
-  GraphQLOutputType,
-  GraphQLNonNull,
-} from 'graphql';
+import { GraphQLFieldConfig, GraphQLFieldConfigMap } from 'graphql';
 import { getClassWithAllParentClasses } from 'services/utils/inheritance';
 import { FieldError, fieldsRegistry } from '../index';
 
 import { compileFieldResolver } from './resolver';
-import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
 import { compileFieldArgs } from 'domains/arg';
 import {
-  schemaRegistry,
-  mutationFieldsRegistry,
-  queryFieldsRegistry,
-} from 'domains/schema';
+  enhanceType,
+  isRootFieldOnNonRootBase,
+  resolveRegisteredOrInferedType,
+  validateResolvedType,
+} from './services';
 
-function resolveRegisteredOrInferedType(
-  target: Function,
-  fieldName: string,
-  forcedType?: any,
-) {
-  if (forcedType) {
-    return resolveTypeOrThrow(forcedType, target, fieldName);
-  }
-  return inferTypeOrThrow(target, fieldName);
-}
-
-function validateResolvedType(
-  target: Function,
-  fieldName: string,
-  type: GraphQLType,
-): type is GraphQLOutputType {
-  if (!isOutputType(type)) {
-    throw new FieldError(
-      target,
-      fieldName,
-      `Validation of type failed. Resolved type for @Field must be GraphQLOutputType.`,
-    );
-  }
-  return true;
-}
-
-function enhanceType(originalType: GraphQLOutputType, isNullable: boolean) {
-  let finalType = originalType;
-  if (!isNullable) {
-    finalType = new GraphQLNonNull(finalType);
-  }
-  return finalType;
-}
+import { validateNotInferableField } from './fieldType';
 
 export function compileFieldConfig(
   target: Function,
@@ -61,7 +22,14 @@ export function compileFieldConfig(
 
   const resolvedType = resolveRegisteredOrInferedType(target, fieldName, type);
 
+  // if was not able to resolve type, try to show some helpful information about it
+  if (!resolvedType && !validateNotInferableField(target, fieldName)) {
+    return;
+  }
+
+  // show error about being not able to resolve field type
   if (!validateResolvedType(target, fieldName, resolvedType)) {
+    validateNotInferableField(target, fieldName);
     return;
   }
 
@@ -73,20 +41,6 @@ export function compileFieldConfig(
     resolve: compileFieldResolver(target, fieldName),
     args,
   };
-}
-
-function isRootFieldOnNonRootBase(base: Function, fieldName: string) {
-  const isRoot = schemaRegistry.has(base);
-  if (isRoot) {
-    return false;
-  }
-  if (mutationFieldsRegistry.has(base, fieldName)) {
-    return true;
-  }
-  if (queryFieldsRegistry.has(base, fieldName)) {
-    return true;
-  }
-  return false;
 }
 
 function getAllFields(target: Function) {

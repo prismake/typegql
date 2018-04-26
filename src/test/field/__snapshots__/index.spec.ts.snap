@@ -1,3 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Field Shows proper error message when trying to use list type without being explicit about item type 1`] = `"@ObjectType Foo.bar: Field returns list so it's required to explicitly set list item type. You can set list type like: @Field({ type: [ItemType] })"`;
+
+exports[`Field Shows proper error message when trying to use promise type without being explicit about item type 1`] = `"@ObjectType Foo.bar: Field returns Promise so it's required to explicitly set resolved type as it's not possible to guess it. You can set resolved type like: @Field({ type: ItemType })"`;
+
 exports[`Field Throws if pointing to unregistered type 1`] = `"@ObjectType Bar.foo: Forced type is incorrect. Make sure to use either native graphql type or class that is registered with @Type decorator"`;

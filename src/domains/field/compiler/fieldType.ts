@@ -33,3 +33,23 @@ export function inferTypeOrThrow(target: Function, fieldName: string): GraphQLTy
   }
   return resolveType(inferedType);
 }
+
+export function validateNotInferableField(target: Function, fieldName: string) {
+  const inferedType = inferTypeByTarget(target.prototype, fieldName);
+  if (inferedType === Array) {
+    throw new FieldError(
+      target,
+      fieldName,
+      `Field returns list so it's required to explicitly set list item type. You can set list type like: @Field({ type: [ItemType] })`,
+    );
+  }
+
+  if (inferedType === Promise) {
+    throw new FieldError(
+      target,
+      fieldName,
+      `Field returns Promise so it's required to explicitly set resolved type as it's not possible to guess it. You can set resolved type like: @Field({ type: ItemType })`,
+    );
+  }
+  return true;
+}

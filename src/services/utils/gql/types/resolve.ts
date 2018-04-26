@@ -38,6 +38,10 @@ export function resolveType(input: any, allowThunk = true): GraphQLType {
     return compileInputObjectType(input);
   }
 
+  if (input === Promise) {
+    return;
+  }
+
   if (!allowThunk || typeof input !== 'function') {
     return;
   }

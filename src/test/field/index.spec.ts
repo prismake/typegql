@@ -164,6 +164,27 @@ describe('Field', () => {
     expect(baz.type).toBe(GraphQLFloat);
   });
 
+  it('Shows proper error message when trying to use list type without being explicit about item type', () => {
+    @ObjectType()
+    class Foo {
+      @Field() bar: string[];
+    }
+
+    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+  });
+
+  it('Shows proper error message when trying to use promise type without being explicit about item type', () => {
+    @ObjectType()
+    class Foo {
+      @Field()
+      async bar() {
+        return 'baz';
+      }
+    }
+
+    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+  });
+
   it('Properly supports list type of field', () => {
     @ObjectType()
     class Foo {
