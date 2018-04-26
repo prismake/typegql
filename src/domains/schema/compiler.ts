@@ -5,9 +5,10 @@ import {
   GraphQLOutputType,
   isOutputType,
 } from 'graphql';
-import { queryFieldsRegistry, mutationFieldsRegistry, schemaRegistry } from './registry';
+import { queryFieldsRegistry, mutationFieldsRegistry, schemaRegistry, FieldRegistry } from './registry';
 import { SchemaError } from './error';
 import { mapObject } from 'services/utils';
+import { Map } from 'services/utils/mapObject';
 
 function validateSchemaTarget(target: Function) {
   if (!schemaRegistry.has(target)) {
@@ -37,22 +38,25 @@ function validateRootFieldType(
   }
 }
 
-interface FieldsData {
-  [fieldName: string]: () => GraphQLFieldConfig<any, any>;
-}
 
 function compileSchemaRootFieldIfNotEmpty(
-  target: Function,
+  targets: Function[],
   name: string,
-  fields: FieldsData,
+  registry: FieldRegistry
 ) {
-  const compiledFields = mapObject(fields, (compiler, fieldName) => {
-    const compiledField = compiler();
-    validateRootFieldType(target, fieldName, compiledField.type, name);
-    return compiledField;
-  });
 
-  const isEmpty = Object.keys(compiledFields).length <= 0;
+  const compiledFields: Map<any> = {};
+
+  targets.forEach((target) => {
+    const fields = registry.getAll(target);
+    Object.assign(compiledFields, mapObject(fields, (compiler, fieldName) => {
+      const compiledField = compiler();
+      validateRootFieldType(target, fieldName, compiledField.type, name);
+      return compiledField;
+    }))
+  })
+
+  const isEmpty = Object.keys(compiledFields).length === 0;
 
   if (isEmpty) {
     return null;
@@ -64,20 +68,24 @@ function compileSchemaRootFieldIfNotEmpty(
   });
 }
 
-export function compileSchema(target: Function) {
+export function compileSchema(targets: Function | Function[]) {
+  if (typeof targets === "function") {
+    targets = [targets];
+  }
+
   const query = compileSchemaRootFieldIfNotEmpty(
-    target,
+    targets,
     'Query',
-    queryFieldsRegistry.getAll(target),
+    queryFieldsRegistry
   );
 
   const mutation = compileSchemaRootFieldIfNotEmpty(
-    target,
+    targets,
     'Mutation',
-    mutationFieldsRegistry.getAll(target),
+    mutationFieldsRegistry
   );
 
-  validateSchemaTarget(target);
+  targets.forEach(validateSchemaTarget);
 
   return new GraphQLSchema({
     query: query || undefined,
