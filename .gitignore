@@ -9,3 +9,4 @@ _book
 .DS_Store
 
 coverage
+yarn-error.log
