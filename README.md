@@ -19,6 +19,7 @@ typegql is set of decorators allowing creating GraphQL APIs quickly and in type-
 * [Nested mutations or queries](examples/nested-mutation-or-query)
 * [Custom decorators / Higher order decorators](examples/custom-decorators)
 * [Serverless eg. AWS Lambda](examples/serverless)
+* [Merge schemas](examples/merge-schemas)
 
 ## Basic example
 
