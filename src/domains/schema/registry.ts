@@ -1,4 +1,4 @@
-import { GraphQLSchema, GraphQLFieldConfig } from 'graphql';
+import { GraphQLFieldConfig } from 'graphql';
 import { DeepWeakMap } from 'services/utils';
 
 type Getter<Result> = () => Result;

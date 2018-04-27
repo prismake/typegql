@@ -1011,8 +1011,10 @@ In some cases, you need to provide options to alter GraphQL's execution behavior
 }
 `;
 
-exports[`@SchemaRoot should not allow @Schema without any @Query field 1`] = `"At least one of schema roots must have at least one @Query field."`;
+exports[`@SchemaRoot should not allow @Schema without any @Query field 1`] = `"At least one of schema roots must have @Query root field."`;
 
 exports[`@SchemaRoot should not allow compiling schema not decorated with @Schema 1`] = `"@Schema Foo: Schema root must be registered with @SchemaRoot"`;
 
-exports[`@SchemaRoot should not allow schema that has only mutation fields 1`] = `"At least one of schema roots must have at least one @Query field."`;
+exports[`@SchemaRoot should not allow schema that has only mutation fields 1`] = `"At least one of schema roots must have @Query root field."`;
+
+exports[`@SchemaRoot will not allow multiple schema roots to have conflicting root field names 1`] = `"@Schema BarSchema: Duplicate of root field name: 'foo'. Seems this name is also used inside other schema root."`;

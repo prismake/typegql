@@ -126,4 +126,26 @@ describe('@SchemaRoot', () => {
       compileSchema({ roots: [FooSchema, BarSchema] }),
     ).toThrowErrorMatchingSnapshot();
   });
+
+  it('will not allow multiple schema roots to have conflicting root field names', async () => {
+    @SchemaRoot()
+    class FooSchema {
+      @Query()
+      foo(): string {
+        return 'foo';
+      }
+    }
+
+    @SchemaRoot()
+    class BarSchema {
+      @Query()
+      foo(): number {
+        return 42;
+      }
+    }
+
+    expect(() =>
+      compileSchema({ roots: [FooSchema, BarSchema] }),
+    ).toThrowErrorMatchingSnapshot();
+  });
 });
