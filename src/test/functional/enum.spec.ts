@@ -1,6 +1,6 @@
 import {
   Query,
-  Schema,
+  SchemaRoot,
   compileSchema,
   ObjectType,
   Arg,
@@ -28,7 +28,7 @@ class Hello {
   }
 }
 
-@Schema()
+@SchemaRoot()
 class FooSchema {
   @Query()
   hello(): Hello {
@@ -36,7 +36,7 @@ class FooSchema {
   }
 }
 
-const schema = compileSchema(FooSchema);
+const schema = compileSchema({ roots: [FooSchema] });
 
 describe('Query with enums', () => {
   it('Will guard proper enum values', async () => {

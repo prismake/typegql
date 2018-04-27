@@ -1,4 +1,4 @@
-import { Query, Schema, compileSchema, ObjectType, Field } from 'domains';
+import { Query, SchemaRoot, compileSchema, ObjectType, Field } from 'domains';
 import { graphql } from 'graphql';
 
 @ObjectType()
@@ -9,7 +9,7 @@ class Hello {
   }
 }
 
-@Schema()
+@SchemaRoot()
 class FooSchema {
   @Query()
   hello(): Hello {
@@ -22,7 +22,7 @@ class FooSchema {
   }
 }
 
-const schema = compileSchema(FooSchema);
+const schema = compileSchema({ roots: [FooSchema] });
 
 describe('Query', () => {
   it('should support queries with simple arguments', async () => {

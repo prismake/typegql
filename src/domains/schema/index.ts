@@ -1,12 +1,15 @@
-export { schemaRegistry, mutationFieldsRegistry, queryFieldsRegistry } from './registry';
-import { schemaRegistry } from './registry';
-import { compileSchema } from './compiler';
+export {
+  schemaRootsRegistry,
+  mutationFieldsRegistry,
+  queryFieldsRegistry,
+} from './registry';
+import { schemaRootsRegistry, SchemaRootConfig } from './registry';
+// import { compileSchema } from './compiler';
 export { compileSchema } from './compiler';
 export { Query, Mutation } from './rootFields';
 
-export function Schema(): ClassDecorator {
+export function SchemaRoot(config: SchemaRootConfig = {}): ClassDecorator {
   return target => {
-    const compiler = () => compileSchema(target);
-    schemaRegistry.set(target, compiler);
+    schemaRootsRegistry.set(target, config);
   };
 }

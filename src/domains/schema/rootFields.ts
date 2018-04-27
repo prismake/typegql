@@ -1,5 +1,9 @@
 import { Field, FieldOptions, compileFieldConfig } from 'domains/field';
-import { queryFieldsRegistry, mutationFieldsRegistry, schemaRegistry } from './registry';
+import {
+  queryFieldsRegistry,
+  mutationFieldsRegistry,
+  schemaRootsRegistry,
+} from './registry';
 import { SchemaFieldError } from './error';
 
 function validateRootSchemaField(targetInstance: Object, fieldName: string) {
@@ -16,7 +20,7 @@ function validateRootSchemaField(targetInstance: Object, fieldName: string) {
 }
 
 function requireSchemaRoot(target: Function, fieldName: string) {
-  if (schemaRegistry.has(target)) {
+  if (schemaRootsRegistry.has(target)) {
     return;
   }
   throw new SchemaFieldError(

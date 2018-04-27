@@ -4,7 +4,7 @@ export {
   Arg,
   Field,
   Info,
-  Schema,
+  SchemaRoot,
   Context,
   ObjectType,
   Query,
