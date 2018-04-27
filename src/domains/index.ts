@@ -13,6 +13,7 @@ export { Union, unionRegistry } from './union';
 export { Before, After } from './hooks';
 export {
   SchemaRoot,
+  Schema,
   schemaRootsRegistry,
   compileSchema,
   Query,
