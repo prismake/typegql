@@ -1,6 +1,6 @@
 import { BaseError } from 'services/error';
 
-export class SchemaError extends BaseError {
+export class SchemaRootError extends BaseError {
   constructor(target: Function, msg: string) {
     const fullMsg = `@Schema ${target.name}: ${msg}`;
     super(fullMsg);

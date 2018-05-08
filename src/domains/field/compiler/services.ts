@@ -3,7 +3,7 @@ import { FieldError } from '../index';
 
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
 import {
-  schemaRegistry,
+  schemaRootsRegistry,
   mutationFieldsRegistry,
   queryFieldsRegistry,
 } from 'domains/schema';
@@ -43,7 +43,7 @@ export function enhanceType(originalType: GraphQLOutputType, isNullable: boolean
 }
 
 export function isRootFieldOnNonRootBase(base: Function, fieldName: string) {
-  const isRoot = schemaRegistry.has(base);
+  const isRoot = schemaRootsRegistry.has(base);
   if (isRoot) {
     return false;
   }

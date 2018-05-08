@@ -1,6 +1,6 @@
 import {
   Query,
-  Schema,
+  SchemaRoot,
   compileSchema,
   ObjectType,
   Field,
@@ -24,7 +24,7 @@ class Hello {
   }
 }
 
-@Schema()
+@SchemaRoot()
 class FooSchema {
   @Mutation()
   hello(): Hello {
@@ -37,7 +37,7 @@ class FooSchema {
   }
 }
 
-const schema = compileSchema(FooSchema);
+const schema = compileSchema({ roots: [FooSchema] });
 
 describe('Mutation', () => {
   it('should not allow wrong argument types', async () => {

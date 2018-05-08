@@ -11,4 +11,11 @@ export { Inject, Context, Source, Info } from './inject';
 export { registerEnum, enumsRegistry } from './enum';
 export { Union, unionRegistry } from './union';
 export { Before, After } from './hooks';
-export { Schema, schemaRegistry, compileSchema, Query, Mutation } from './schema';
+export {
+  SchemaRoot,
+  Schema,
+  schemaRootsRegistry,
+  compileSchema,
+  Query,
+  Mutation,
+} from './schema';

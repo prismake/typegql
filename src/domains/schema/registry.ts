@@ -1,9 +1,16 @@
-import { GraphQLSchema, GraphQLFieldConfig } from 'graphql';
+import { GraphQLFieldConfig } from 'graphql';
 import { DeepWeakMap } from 'services/utils';
 
 type Getter<Result> = () => Result;
 
-export const schemaRegistry = new WeakMap<Function, Getter<GraphQLSchema>>();
+export interface SchemaRootConfig {}
+
+export const schemaRootsRegistry = new WeakMap<Function, SchemaRootConfig>();
+
+export type RootFieldsRegistry = DeepWeakMap<
+  Function,
+  Getter<GraphQLFieldConfig<any, any>>
+>;
 
 export const queryFieldsRegistry = new DeepWeakMap<
   Function,

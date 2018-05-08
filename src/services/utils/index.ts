@@ -10,3 +10,5 @@ export {
   resolveTypesList,
   isObjectType,
 } from './gql';
+
+export { showDeprecationWarning } from './deprecation';
