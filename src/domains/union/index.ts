@@ -1,4 +1,4 @@
-import { Thunk } from 'services/types';
+import { Thunk } from '~/services/types';
 import { unionRegistry } from './registry';
 export { unionRegistry } from './registry';
 

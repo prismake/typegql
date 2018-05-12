@@ -1,4 +1,4 @@
-import { Query, SchemaRoot, compileSchema, ObjectType, Field, Mutation } from 'domains';
+import { Query, SchemaRoot, compileSchema, ObjectType, Field, Mutation } from '~/domains';
 import {
   graphql,
   introspectionQuery,

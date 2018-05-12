@@ -1,4 +1,4 @@
-import { DeepWeakMap } from 'services/utils';
+import { DeepWeakMap } from '~/services/utils';
 
 export interface AllRegisteredFields {
   [fieldName: string]: FieldInnerConfig;

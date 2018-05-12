@@ -6,7 +6,7 @@ import {
   GraphQLInputFieldConfigMap,
   GraphQLNonNull,
 } from 'graphql';
-import { getClassWithAllParentClasses } from 'services/utils';
+import { getClassWithAllParentClasses } from '~/services/utils';
 import { InputFieldError, inputFieldsRegistry } from '../index';
 
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';

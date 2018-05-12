@@ -1,4 +1,4 @@
-import { ObjectType, Field, Before, After, compileObjectType } from 'domains';
+import { ObjectType, Field, Before, After, compileObjectType } from '~/domains';
 
 describe('Hooks', () => {
   it('Will call @Before hook on field resolve', async () => {

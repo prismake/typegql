@@ -1,7 +1,7 @@
 import { GraphQLFieldConfig } from 'graphql';
-import { DeepWeakMap } from 'services/utils';
+import { DeepWeakMap } from '~/services/utils';
 
-type Getter<Result> = () => Result;
+export type Getter<Result> = () => Result;
 
 export interface SchemaRootConfig {}
 

@@ -1,11 +1,11 @@
 import { GraphQLFieldResolver } from 'graphql';
-import { InjectorsIndex, InjectorResolver, injectorRegistry } from 'domains/inject';
+import { InjectorsIndex, InjectorResolver, injectorRegistry } from '~/domains/inject';
 import {
   fieldAfterHooksRegistry,
   fieldBeforeHooksRegistry,
   HookExecutor,
-} from 'domains/hooks';
-import { getParameterNames } from 'services/utils';
+} from '~/domains/hooks';
+import { getParameterNames } from '~/services/utils';
 
 interface ArgsMap {
   [argName: string]: any;

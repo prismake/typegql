@@ -6,7 +6,7 @@ import {
   schemaRootsRegistry,
   mutationFieldsRegistry,
   queryFieldsRegistry,
-} from 'domains/schema';
+} from '~/domains/schema';
 
 export function resolveRegisteredOrInferedType(
   target: Function,
