@@ -1,8 +1,8 @@
 module.exports = {
   modulePaths: ['<rootDir>/src/'],
-  moduleNameMapper:{
-	  '~/(.*)':'<rootDir>/src/$1'
-  },  
+  moduleNameMapper: {
+    '~/(.*)': '<rootDir>/src/$1'
+  },
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   transform: {
     '^.+\\.(ts|tsx)$': '<rootDir>/preprocessor.js',
