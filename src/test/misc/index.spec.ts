@@ -1,4 +1,4 @@
-import { showDeprecationWarning } from 'services/utils';
+import { showDeprecationWarning } from '~/services/utils';
 
 describe('showDeprecationWarning', () => {
   it('Will not show deprecation warning twice for the same object', async () => {

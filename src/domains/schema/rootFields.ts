@@ -1,4 +1,4 @@
-import { Field, FieldOptions, compileFieldConfig } from 'domains/field';
+import { Field, FieldOptions, compileFieldConfig } from '~/domains/field';
 import {
   queryFieldsRegistry,
   mutationFieldsRegistry,

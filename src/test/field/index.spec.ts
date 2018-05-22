@@ -5,7 +5,7 @@ import {
   isNamedType,
   getNamedType,
 } from 'graphql';
-import { ObjectType, Field, compileObjectType } from 'domains';
+import { ObjectType, Field, compileObjectType } from '~/domains';
 
 import 'reflect-metadata';
 

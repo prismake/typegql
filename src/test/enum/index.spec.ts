@@ -1,5 +1,5 @@
-import { registerEnum } from 'domains';
-import { resolveType } from 'services/utils';
+import { registerEnum } from '~/domains';
+import { resolveType } from '~/services/utils';
 
 describe('Enums', () => {
   it('Registers returns proper enum type', () => {

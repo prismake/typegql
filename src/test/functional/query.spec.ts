@@ -1,4 +1,4 @@
-import { Query, SchemaRoot, compileSchema, ObjectType, Field } from 'domains';
+import { Query, SchemaRoot, compileSchema, ObjectType, Field } from '~/domains';
 import { graphql } from 'graphql';
 
 @ObjectType()

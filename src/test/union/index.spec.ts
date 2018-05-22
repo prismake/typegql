@@ -1,6 +1,6 @@
 import { GraphQLUnionType } from 'graphql';
-import { ObjectType, Union, Field, compileObjectType } from 'domains';
-import { resolveType } from 'services/utils';
+import { ObjectType, Union, Field, compileObjectType } from '~/domains';
+import { resolveType } from '~/services/utils';
 
 @ObjectType()
 class Sub1 {
