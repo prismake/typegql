@@ -5,8 +5,8 @@ import {
   GraphQLType,
 } from 'graphql';
 
-import { resolveTypesList, isObjectType, resolveType } from 'services/utils';
-import { Thunk } from 'services/types';
+import { resolveTypesList, isObjectType, resolveType } from '~/services/utils';
+import { Thunk } from '~/services/types';
 import { UnionError } from './error';
 
 export interface UnionTypeResolver {

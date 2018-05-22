@@ -1,8 +1,8 @@
 import { GraphQLObjectType } from 'graphql';
 import { ObjectTypeError, objectTypeRegistry } from '../index';
 
-import { compileAllFields, fieldsRegistry } from 'domains/field';
-import { createCachedThunk, getClassWithAllParentClasses } from 'services/utils';
+import { compileAllFields, fieldsRegistry } from '~/domains/field';
+import { createCachedThunk, getClassWithAllParentClasses } from '~/services/utils';
 
 const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>();
 

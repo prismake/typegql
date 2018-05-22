@@ -6,7 +6,7 @@ import {
   Arg,
   Field,
   registerEnum,
-} from 'domains';
+} from '~/domains';
 import { graphql } from 'graphql';
 
 enum TestEnum {

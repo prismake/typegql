@@ -1,9 +1,9 @@
 import { GraphQLFieldConfig, GraphQLFieldConfigMap } from 'graphql';
-import { getClassWithAllParentClasses } from 'services/utils/inheritance';
+import { getClassWithAllParentClasses } from '~/services/utils/inheritance';
 import { FieldError, fieldsRegistry } from '../index';
 
 import { compileFieldResolver } from './resolver';
-import { compileFieldArgs } from 'domains/arg';
+import { compileFieldArgs } from '~/domains/arg';
 import {
   enhanceType,
   isRootFieldOnNonRootBase,

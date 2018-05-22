@@ -6,7 +6,7 @@ import {
   RootFieldsRegistry,
 } from './registry';
 import { SchemaRootError } from './error';
-import { showDeprecationWarning } from 'services/utils';
+import { showDeprecationWarning } from '~/services/utils';
 
 function validateSchemaRoots(roots: Function[]) {
   for (let root of roots) {
@@ -16,7 +16,7 @@ function validateSchemaRoots(roots: Function[]) {
   }
 }
 
-interface CompileSchemaOptions {
+export interface CompileSchemaOptions {
   roots: Function[];
 }
 

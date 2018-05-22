@@ -7,7 +7,7 @@ import {
   Context,
   Source,
   Info,
-} from 'domains';
+} from '~/domains';
 
 import { wait } from '../utils';
 

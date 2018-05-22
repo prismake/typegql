@@ -1,8 +1,8 @@
 import { GraphQLType } from 'graphql';
-import { inferTypeByTarget } from 'services/utils';
+import { inferTypeByTarget } from '~/services/utils';
 import { InputFieldError } from '../index';
 
-import { resolveType } from 'services/utils';
+import { resolveType } from '~/services/utils';
 
 export function resolveTypeOrThrow(
   type: any,

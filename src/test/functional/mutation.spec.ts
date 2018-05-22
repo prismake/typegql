@@ -7,7 +7,7 @@ import {
   Mutation,
   InputField,
   InputObjectType,
-} from 'domains';
+} from '~/domains';
 import { graphql } from 'graphql';
 
 @InputObjectType()

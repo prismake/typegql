@@ -8,7 +8,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "build:rollup": "rollup src/index.ts -c",
-    "build:types": "tsc --declaration --emitDeclarationOnly",
+    "build:types": "ttsc --project ttsconfig.json",
     "build": "rimraf types lib && yarn run build:rollup && yarn run build:types",
     "prepublishOnly": "rimraf types lib && yarn build",
     "docs": "gitbook serve",
@@ -23,6 +23,7 @@
     "@types/jest": "^22.2.3",
     "@types/node": "^9.6.5",
     "@types/object-path": "^0.9.29",
+    "@zerollup/ts-transform-paths": "^1.1.2",
     "gh-pages": "^1.1.0",
     "gitbook": "^3.2.3",
     "gitbook-cli": "^2.3.2",
@@ -31,6 +32,7 @@
     "rollup": "^0.58.0",
     "rollup-plugin-typescript": "^0.8.1",
     "rollup-plugin-typescript2": "^0.11.1",
+    "ttypescript": "^1.2.0",
     "typescript": "^2.8.1"
   },
   "dependencies": {

@@ -7,7 +7,7 @@ import {
   InputField,
   InputObjectType,
   Arg,
-} from 'domains';
+} from '~/domains';
 
 describe('Complex arguments', () => {
   it('should not allow complex argument type not decorated with @InputObjectType', async () => {

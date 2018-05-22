@@ -1,14 +1,21 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "lib": ["es2017"],
+    "lib": [
+      "es2017"
+    ],
     "target": "es5",
     "noImplicitAny": true,
     "noImplicitUseStrict": true,
     "pretty": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "rootDir": "./src",
     "outDir": "./lib",
+    "paths": {
+      "~/*": [
+        "src/*"
+      ]
+    },
     "declarationDir": "./types",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -17,5 +24,7 @@
     "stripInternal": true,
     "sourceMap": true
   },
-  "exclude": ["./examples"]
+  "exclude": [
+    "./examples"
+  ]
 }

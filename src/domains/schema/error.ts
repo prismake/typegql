@@ -1,4 +1,4 @@
-import { BaseError } from 'services/error';
+import { BaseError } from '~/services/error';
 
 export class SchemaRootError extends BaseError {
   constructor(target: Function, msg: string) {

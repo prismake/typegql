@@ -5,12 +5,11 @@ import {
   isInputType,
   GraphQLNonNull,
 } from 'graphql';
-import { resolveType } from 'services/utils';
-import { injectorRegistry } from 'domains/inject';
+import { resolveType, getParameterNames } from '~/services/utils';
+import { injectorRegistry } from '~/domains/inject';
 import { ArgsIndex, argRegistry } from './registry';
 import { ArgError } from './error';
 import { defaultArgOptions } from './options';
-import { getParameterNames } from 'services/utils';
 
 function compileInferedAndRegisterdArgs(infered: any[], registeredArgs: ArgsIndex = {}) {
   const argsMerged = infered.map((inferedType, index) => {

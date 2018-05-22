@@ -1,5 +1,5 @@
 import { GraphQLString, GraphQLNonNull } from 'graphql';
-import { InputObjectType, InputField, compileInputObjectType } from 'domains';
+import { InputObjectType, InputField, compileInputObjectType } from '~/domains';
 
 describe('Type inheritance', () => {
   it('Will pass input fields from parent class', () => {

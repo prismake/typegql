@@ -1,6 +1,6 @@
 import { GraphQLObjectType } from 'graphql';
-import { ObjectType, compileObjectType } from 'domains';
-import { Field } from 'domains/field';
+import { ObjectType, compileObjectType } from '~/domains';
+import { Field } from '~/domains/field';
 
 describe('Type', () => {
   it('Throws when trying to compile type without @ObjectType decorator', () => {
