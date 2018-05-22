@@ -148,4 +148,24 @@ describe('@SchemaRoot', () => {
       compileSchema({ roots: [FooSchema, BarSchema] }),
     ).toThrowErrorMatchingSnapshot();
   });
+
+  it('will not allow schema with incorrect object types', async () => {
+    @ObjectType()
+    class Hello {
+      @Field()
+      async world(name: string): Promise<string> {
+        return `Hello, ${name}`;
+      }
+    }
+
+    @SchemaRoot()
+    class FooSchema {
+      @Query()
+      hello(): Hello {
+        return new Hello();
+      }
+    }
+
+    expect(() => compileSchema({ roots: [FooSchema] })).toThrowErrorMatchingSnapshot();
+  });
 });

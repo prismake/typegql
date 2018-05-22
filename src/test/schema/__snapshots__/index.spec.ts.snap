@@ -1018,3 +1018,5 @@ exports[`@SchemaRoot should not allow compiling schema not decorated with @Schem
 exports[`@SchemaRoot should not allow schema that has only mutation fields 1`] = `"At least one of schema roots must have @Query root field."`;
 
 exports[`@SchemaRoot will not allow multiple schema roots to have conflicting root field names 1`] = `"@Schema BarSchema: Duplicate of root field name: 'foo'. Seems this name is also used inside other schema root."`;
+
+exports[`@SchemaRoot will not allow schema with incorrect object types 1`] = `"@ObjectType Hello.world: It was not possible to guess type of this field. It might be because it returns Promise, Array etc. In such case it's needed to explicitly declare type of field like: @Field({ type: ItemType })"`;

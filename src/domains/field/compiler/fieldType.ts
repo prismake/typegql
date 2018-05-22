@@ -49,5 +49,13 @@ export function validateNotInferableField(target: Function, fieldName: string) {
       `Field returns Promise so it's required to explicitly set resolved type as it's not possible to guess it. You can set resolved type like: @Field({ type: ItemType })`,
     );
   }
+
+  if (inferedType === Object) {
+    throw new FieldError(
+      target,
+      fieldName,
+      `It was not possible to guess type of this field. It might be because it returns Promise, Array etc. In such case it's needed to explicitly declare type of field like: @Field({ type: ItemType })`,
+    );
+  }
   return true;
 }

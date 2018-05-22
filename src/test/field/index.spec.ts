@@ -207,4 +207,16 @@ describe('Field', () => {
     const resolvedValue = await bar.resolve(new Foo(), null, null, null);
     expect(resolvedValue).toEqual('instance');
   });
+
+  it('Will not allow promise field without type addnotation', async () => {
+    @ObjectType()
+    class Foo {
+      @Field()
+      async bar(): Promise<number> {
+        return 10;
+      }
+    }
+
+    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+  });
 });

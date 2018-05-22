@@ -5,3 +5,5 @@ exports[`Field Shows proper error message when trying to use list type without b
 exports[`Field Shows proper error message when trying to use promise type without being explicit about item type 1`] = `"@ObjectType Foo.bar: Field returns Promise so it's required to explicitly set resolved type as it's not possible to guess it. You can set resolved type like: @Field({ type: ItemType })"`;
 
 exports[`Field Throws if pointing to unregistered type 1`] = `"@ObjectType Bar.foo: Forced type is incorrect. Make sure to use either native graphql type or class that is registered with @Type decorator"`;
+
+exports[`Field Will not allow promise field without type addnotation 1`] = `"@ObjectType Foo.bar: It was not possible to guess type of this field. It might be because it returns Promise, Array etc. In such case it's needed to explicitly declare type of field like: @Field({ type: ItemType })"`;
