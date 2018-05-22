@@ -79,6 +79,13 @@ function convertArgsArrayToArgsMap(
   argsTypes: GraphQLInputType[],
   registeredArgs: ArgsIndex = {},
 ): GraphQLFieldConfigArgumentMap {
+  const fieldDescriptor = Object.getOwnPropertyDescriptor(target.prototype, fieldName);
+
+  // in case of getters, field arguments are not relevant
+  if (fieldDescriptor.get) {
+    return {};
+  }
+
   const functionDefinition = target.prototype[fieldName];
   const argNames = getParameterNames(functionDefinition);
 
