@@ -70,8 +70,13 @@ export function compileFieldResolver(
 
   return async (source: any, args = null, context = null, info = null) => {
     await performHooksExecution(beforeHooks, source, args, context, info);
-    const instanceField =
-      (source && source[fieldName]) || target.prototype[fieldName];
+
+    let instanceField;
+    if (source && source.hasOwnProperty(fieldName)) {
+      instanceField = source[fieldName];
+    } else {
+      instanceField = target.prototype[fieldName];
+    }
 
     if (typeof instanceField !== 'function') {
       await performHooksExecution(afterHooks, source, args, context, info);
