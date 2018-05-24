@@ -33,7 +33,9 @@ describe('Field', () => {
     const compiled = compileObjectType(Foo);
     const barField = compiled.getFields().bar;
 
-    expect(await barField.resolve(new Foo(), {}, null, null as any)).toEqual('baz');
+    expect(await barField.resolve(new Foo(), {}, null, null as any)).toEqual(
+      'baz',
+    );
   });
 
   it('Handles description', () => {
@@ -56,7 +58,9 @@ describe('Field', () => {
     expect(compiled.getFields().bar).toBeFalsy();
     expect(bazField).toBeTruthy();
     expect(bazField.description).toEqual('test');
-    expect(await bazField.resolve(new Foo(), {}, null, null as any)).toBe('test');
+    expect(await bazField.resolve(new Foo(), {}, null, null as any)).toBe(
+      'test',
+    );
   });
 
   it('Properly infers basic scalar types', () => {
@@ -147,7 +151,9 @@ describe('Field', () => {
       foo: Foo;
     }
 
-    expect(() => compileObjectType(Bar).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileObjectType(Bar).getFields(),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   it('Properly resolves native scalar types', () => {
@@ -170,7 +176,9 @@ describe('Field', () => {
       @Field() bar: string[];
     }
 
-    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileObjectType(Foo).getFields(),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   it('Shows proper error message when trying to use promise type without being explicit about item type', () => {
@@ -182,7 +190,9 @@ describe('Field', () => {
       }
     }
 
-    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileObjectType(Foo).getFields(),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   it('Properly supports list type of field', () => {
@@ -217,6 +227,8 @@ describe('Field', () => {
       }
     }
 
-    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileObjectType(Foo).getFields(),
+    ).toThrowErrorMatchingSnapshot();
   });
 });

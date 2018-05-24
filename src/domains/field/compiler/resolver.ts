@@ -1,5 +1,9 @@
 import { GraphQLFieldResolver } from 'graphql';
-import { InjectorsIndex, InjectorResolver, injectorRegistry } from '~/domains/inject';
+import {
+  InjectorsIndex,
+  InjectorResolver,
+  injectorRegistry,
+} from '~/domains/inject';
 import {
   fieldAfterHooksRegistry,
   fieldBeforeHooksRegistry,
@@ -66,7 +70,8 @@ export function compileFieldResolver(
 
   return async (source: any, args = null, context = null, info = null) => {
     await performHooksExecution(beforeHooks, source, args, context, info);
-    const instanceField = (source && source[fieldName]) || target.prototype[fieldName];
+    const instanceField =
+      (source && source[fieldName]) || target.prototype[fieldName];
 
     if (typeof instanceField !== 'function') {
       await performHooksExecution(afterHooks, source, args, context, info);

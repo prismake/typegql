@@ -1,6 +1,13 @@
 import * as express from 'express';
 import { Entity, BaseEntity, ManyToOne, OneToMany } from 'typeorm';
-import { Schema, Query, Mutation, ObjectType, Field, compileSchema } from 'typegql';
+import {
+  Schema,
+  Query,
+  Mutation,
+  ObjectType,
+  Field,
+  compileSchema,
+} from 'typegql';
 import * as graphqlHTTP from 'express-graphql';
 
 import { PrimaryGeneratedColumn, Column, createConnection } from 'typeorm';
@@ -77,8 +84,16 @@ class ApiSchema {
   }
 
   @Mutation({ type: Book })
-  async createBook(title: string, pagesCount: number, authorId: number): Promise<Book> {
-    const newBook = Book.create({ title, pagesCount, author: { id: authorId } });
+  async createBook(
+    title: string,
+    pagesCount: number,
+    authorId: number,
+  ): Promise<Book> {
+    const newBook = Book.create({
+      title,
+      pagesCount,
+      author: { id: authorId },
+    });
     return await newBook.save();
   }
 }

@@ -22,7 +22,9 @@ describe('Complex arguments', () => {
         return 'ok';
       }
     }
-    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileObjectType(Foo).getFields(),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   it('should not allow complex argument type decorated with @ObjectType', async () => {
@@ -39,7 +41,9 @@ describe('Complex arguments', () => {
       }
     }
 
-    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileObjectType(Foo).getFields(),
+    ).toThrowErrorMatchingSnapshot();
   });
   it('Supports complex input types', async () => {
     @InputObjectType()
@@ -55,7 +59,9 @@ describe('Complex arguments', () => {
       }
     }
     const { bar } = compileObjectType(Foo).getFields();
-    expect(bar.args[0].type).toEqual(new GraphQLNonNull(compileInputObjectType(Input)));
+    expect(bar.args[0].type).toEqual(
+      new GraphQLNonNull(compileInputObjectType(Input)),
+    );
   });
 
   it('Supports scalar list argument type', () => {

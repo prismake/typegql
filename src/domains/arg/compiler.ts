@@ -11,7 +11,10 @@ import { ArgsIndex, argRegistry } from './registry';
 import { ArgError } from './error';
 import { defaultArgOptions } from './options';
 
-function compileInferedAndRegisterdArgs(infered: any[], registeredArgs: ArgsIndex = {}) {
+function compileInferedAndRegisterdArgs(
+  infered: any[],
+  registeredArgs: ArgsIndex = {},
+) {
   const argsMerged = infered.map((inferedType, index) => {
     const registered = registeredArgs[index];
     if (registered && registered.type) {
@@ -79,7 +82,10 @@ function convertArgsArrayToArgsMap(
   argsTypes: GraphQLInputType[],
   registeredArgs: ArgsIndex = {},
 ): GraphQLFieldConfigArgumentMap {
-  const fieldDescriptor = Object.getOwnPropertyDescriptor(target.prototype, fieldName);
+  const fieldDescriptor = Object.getOwnPropertyDescriptor(
+    target.prototype,
+    fieldName,
+  );
 
   // in case of getters, field arguments are not relevant
   if (fieldDescriptor.get) {
@@ -129,7 +135,10 @@ export function compileFieldArgs(
     return {};
   }
 
-  const argTypes = compileInferedAndRegisterdArgs(inferedRawArgs, registeredArgs);
+  const argTypes = compileInferedAndRegisterdArgs(
+    inferedRawArgs,
+    registeredArgs,
+  );
 
   if (!validateArgs(target, fieldName, argTypes)) {
     return;

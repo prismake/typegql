@@ -17,7 +17,10 @@ export function compileFieldConfig(
   target: Function,
   fieldName: string,
 ): GraphQLFieldConfig<any, any, any> {
-  const { type, description, isNullable } = fieldsRegistry.get(target, fieldName);
+  const { type, description, isNullable } = fieldsRegistry.get(
+    target,
+    fieldName,
+  );
   const args = compileFieldArgs(target, fieldName);
 
   const resolvedType = resolveRegisteredOrInferedType(target, fieldName, type);
