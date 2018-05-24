@@ -15,6 +15,7 @@ export interface FieldInnerConfig {
   property: string;
   description?: string;
   isNullable?: boolean;
+  isGetter?: boolean;
   type?: any;
 }
 

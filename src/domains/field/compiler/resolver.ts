@@ -62,6 +62,7 @@ function computeFinalArgs(
 export function compileFieldResolver(
   target: Function,
   fieldName: string,
+  isGetter: boolean,
 ): GraphQLFieldResolver<any, any> {
   // const config = fieldsRegistry.get(target, fieldName);
   const injectors = injectorRegistry.getAll(target)[fieldName];
@@ -71,6 +72,11 @@ export function compileFieldResolver(
   return async (source: any, args = null, context = null, info = null) => {
     await performHooksExecution(beforeHooks, source, args, context, info);
 
+    if (isGetter) {
+      const valueFromGetter = source[fieldName];
+      await performHooksExecution(afterHooks, source, args, context, info);
+      return valueFromGetter;
+    }
     let instanceField;
     if (source && source.hasOwnProperty(fieldName)) {
       instanceField = source[fieldName];
