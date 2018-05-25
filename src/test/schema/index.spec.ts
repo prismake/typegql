@@ -181,4 +181,59 @@ describe('@SchemaRoot', () => {
       compileSchema({ roots: [FooSchema] }),
     ).toThrowErrorMatchingSnapshot();
   });
+
+  it('should support schema root instance properties', async () => {
+    @SchemaRoot()
+    class FooSchema {
+      private bar: number = 42;
+
+      @Query()
+      foo(): number {
+        return this.bar;
+      }
+    }
+
+    const schema = compileSchema({ roots: [FooSchema] });
+
+    const result = await graphql(
+      schema,
+      `
+        {
+          foo
+        }
+      `,
+    );
+
+    expect(result.data.foo).toEqual(42);
+  });
+  it('should call schema root constructor', async () => {
+    const constructorCall = jest.fn();
+    @SchemaRoot()
+    class FooSchema {
+      private bar: number;
+      constructor() {
+        constructorCall();
+        this.bar = 42;
+      }
+
+      @Query()
+      foo(): number {
+        return this.bar;
+      }
+    }
+
+    const schema = compileSchema({ roots: [FooSchema] });
+
+    const result = await graphql(
+      schema,
+      `
+        {
+          foo
+        }
+      `,
+    );
+
+    expect(constructorCall).toBeCalled();
+    expect(result.data.foo).toEqual(42);
+  });
 });

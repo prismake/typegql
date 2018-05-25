@@ -83,6 +83,7 @@ export function compileFieldResolver(
   const afterHooks = fieldAfterHooksRegistry.get(target, fieldName);
 
   return async (source: any, args = null, context = null, info = null) => {
+    console.log(source, target);
     await performHooksExecution(beforeHooks, source, args, context, info);
     const instanceField = getFieldOfTarget(source, target.prototype, fieldName);
 
