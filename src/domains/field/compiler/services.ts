@@ -1,4 +1,9 @@
-import { isOutputType, GraphQLType, GraphQLOutputType, GraphQLNonNull } from 'graphql';
+import {
+  isOutputType,
+  GraphQLType,
+  GraphQLOutputType,
+  GraphQLNonNull,
+} from 'graphql';
 import { FieldError } from '../index';
 
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
@@ -34,7 +39,10 @@ export function validateResolvedType(
   return true;
 }
 
-export function enhanceType(originalType: GraphQLOutputType, isNullable: boolean) {
+export function enhanceType(
+  originalType: GraphQLOutputType,
+  isNullable: boolean,
+) {
   let finalType = originalType;
   if (!isNullable) {
     finalType = new GraphQLNonNull(finalType);

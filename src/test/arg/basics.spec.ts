@@ -61,7 +61,12 @@ describe('Arguments with @Arg', () => {
       }
     }
     const { bar } = compileObjectType(Foo).getFields();
-    const resolvedValue = await bar.resolve(new Foo(), { param: 'param' }, null, null);
+    const resolvedValue = await bar.resolve(
+      new Foo(),
+      { param: 'param' },
+      null,
+      null,
+    );
     expect(resolvedValue).toEqual('instance.param');
   });
 
@@ -78,7 +83,9 @@ describe('Arguments with @Arg', () => {
         return baz;
       }
     }
-    const [bazArg, bazRequiredArg] = compileObjectType(Foo).getFields().bar.args;
+    const [bazArg, bazRequiredArg] = compileObjectType(
+      Foo,
+    ).getFields().bar.args;
     expect(bazArg.type).toBe(GraphQLString);
     expect(bazRequiredArg.type).toEqual(new GraphQLNonNull(GraphQLString));
   });

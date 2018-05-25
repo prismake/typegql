@@ -1,4 +1,11 @@
-import { Schema, Query, Mutation, Field, ObjectType, compileSchema } from 'typegql';
+import {
+  Schema,
+  Query,
+  Mutation,
+  Field,
+  ObjectType,
+  compileSchema,
+} from 'typegql';
 
 @ObjectType()
 class Book {

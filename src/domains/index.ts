@@ -1,4 +1,8 @@
-export { ObjectType, compileObjectType, objectTypeRegistry } from './objectType';
+export {
+  ObjectType,
+  compileObjectType,
+  objectTypeRegistry,
+} from './objectType';
 export {
   InputObjectType,
   compileInputObjectType,

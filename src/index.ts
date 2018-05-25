@@ -1,4 +1,8 @@
-export { GraphQLFloat as Float, GraphQLInt as Int, GraphQLID as ID } from 'graphql';
+export {
+  GraphQLFloat as Float,
+  GraphQLInt as Int,
+  GraphQLID as ID,
+} from 'graphql';
 
 export {
   Arg,
@@ -20,5 +24,5 @@ export {
   registerEnum,
   Schema,
   After,
-  Before  
+  Before,
 } from './domains';

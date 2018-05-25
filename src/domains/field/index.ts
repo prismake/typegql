@@ -1,6 +1,10 @@
 import { fieldsRegistry, FieldInnerConfig } from './registry';
 
-export { FieldInnerConfig, fieldsRegistry, queryFieldsRegistry } from './registry';
+export {
+  FieldInnerConfig,
+  fieldsRegistry,
+  queryFieldsRegistry,
+} from './registry';
 export { compileAllFields, compileFieldConfig } from './compiler';
 export { isQueryField } from './services';
 export { FieldError } from './error';

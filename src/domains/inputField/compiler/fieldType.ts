@@ -22,7 +22,10 @@ export function resolveTypeOrThrow(
   return resolvedType;
 }
 
-export function inferTypeOrThrow(target: Function, fieldName: string): GraphQLType {
+export function inferTypeOrThrow(
+  target: Function,
+  fieldName: string,
+): GraphQLType {
   const inferedType = inferTypeByTarget(target.prototype, fieldName);
   if (!inferedType) {
     throw new InputFieldError(

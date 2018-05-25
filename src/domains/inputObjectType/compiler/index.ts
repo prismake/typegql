@@ -1,1 +1,4 @@
-export { compileInputObjectType, compileInputObjectTypeWithConfig } from './objectType';
+export {
+  compileInputObjectType,
+  compileInputObjectTypeWithConfig,
+} from './objectType';

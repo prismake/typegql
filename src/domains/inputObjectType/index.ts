@@ -10,10 +10,13 @@ export interface InputObjectTypeOptions {
   description?: string;
 }
 
-export function InputObjectType(options?: InputObjectTypeOptions): ClassDecorator {
+export function InputObjectType(
+  options?: InputObjectTypeOptions,
+): ClassDecorator {
   return (target: Function) => {
     const config = { name: target.name, ...options };
-    const inputTypeCompiler = () => compileInputObjectTypeWithConfig(target, config);
+    const inputTypeCompiler = () =>
+      compileInputObjectTypeWithConfig(target, config);
     inputObjectTypeRegistry.set(target, inputTypeCompiler);
   };
 }

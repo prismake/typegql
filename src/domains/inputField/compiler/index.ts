@@ -11,7 +11,11 @@ import { InputFieldError, inputFieldsRegistry } from '../index';
 
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
 
-function getFinalInputFieldType(target: Function, fieldName: string, forcedType?: any) {
+function getFinalInputFieldType(
+  target: Function,
+  fieldName: string,
+  forcedType?: any,
+) {
   if (forcedType) {
     return resolveTypeOrThrow(forcedType, target, fieldName);
   }
@@ -45,10 +49,12 @@ export function compileInputFieldConfig(
   target: Function,
   fieldName: string,
 ): GraphQLInputFieldConfig {
-  const { type, description, defaultValue, isNullable } = inputFieldsRegistry.get(
-    target,
-    fieldName,
-  );
+  const {
+    type,
+    description,
+    defaultValue,
+    isNullable,
+  } = inputFieldsRegistry.get(target, fieldName);
 
   const resolvedType = getFinalInputFieldType(target, fieldName, type);
 
@@ -81,7 +87,10 @@ export function compileAllInputFields(target: Function) {
   const finalFieldsMap: GraphQLInputFieldConfigMap = {};
 
   targetWithParents.forEach(targetLevel => {
-    Object.assign(finalFieldsMap, compileAllInputFieldsForSingleTarget(targetLevel));
+    Object.assign(
+      finalFieldsMap,
+      compileAllInputFieldsForSingleTarget(targetLevel),
+    );
   });
   return finalFieldsMap;
 }

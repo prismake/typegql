@@ -10,6 +10,8 @@ describe('Special fields - @Query, @Mutation @Subscribe', () => {
       }
     }
 
-    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileObjectType(Foo).getFields(),
+    ).toThrowErrorMatchingSnapshot();
   });
 });
