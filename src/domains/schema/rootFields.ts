@@ -30,20 +30,25 @@ function requireSchemaRoot(target: Function, fieldName: string) {
   );
 }
 
+function getFieldCompiler(target: Function, fieldName: string) {
+  const fieldCompiler = () => {
+    requireSchemaRoot(target, fieldName);
+    const compiledField = compileFieldConfig(
+      target,
+      fieldName,
+    );
+    return compiledField;
+  };
+
+  return fieldCompiler;
+}
+
 // special fields
 export function Query(options?: FieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     validateRootSchemaField(targetInstance, fieldName);
     Field(options)(targetInstance, fieldName);
-    const fieldCompiler = () => {
-      requireSchemaRoot(targetInstance.constructor, fieldName);
-      const compiledField = compileFieldConfig(
-        targetInstance.constructor,
-        fieldName,
-      );
-      compiledField.type;
-      return compiledField;
-    };
+    const fieldCompiler = getFieldCompiler(targetInstance.constructor, fieldName);
     queryFieldsRegistry.set(
       targetInstance.constructor,
       fieldName,
@@ -54,15 +59,9 @@ export function Query(options?: FieldOptions): PropertyDecorator {
 
 export function Mutation(options?: FieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
+    validateRootSchemaField(targetInstance, fieldName);
     Field(options)(targetInstance, fieldName);
-    const fieldCompiler = () => {
-      const compiledField = compileFieldConfig(
-        targetInstance.constructor,
-        fieldName,
-      );
-      compiledField.type;
-      return compiledField;
-    };
+    const fieldCompiler = getFieldCompiler(targetInstance.constructor, fieldName);
     mutationFieldsRegistry.set(
       targetInstance.constructor,
       fieldName,

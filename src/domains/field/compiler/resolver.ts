@@ -11,6 +11,8 @@ import {
 } from '~/domains/hooks';
 import { getParameterNames } from '~/services/utils';
 
+import { isSchemaRoot, getSchemaRootInstance } from "~/domains/schema";
+
 interface ArgsMap {
   [argName: string]: any;
 }
@@ -83,6 +85,10 @@ export function compileFieldResolver(
   const afterHooks = fieldAfterHooksRegistry.get(target, fieldName);
 
   return async (source: any, args = null, context = null, info = null) => {
+    if (isSchemaRoot(target)) {
+      source = getSchemaRootInstance(target);
+    }
+
     await performHooksExecution(beforeHooks, source, args, context, info);
     const instanceField = getFieldOfTarget(source, target.prototype, fieldName);
 

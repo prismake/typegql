@@ -15,3 +15,10 @@ export class SchemaFieldError extends BaseError {
     this.message = fullMsg;
   }
 }
+export class SchemaCompilationError extends BaseError {
+  constructor(msg: string) {
+    const fullMsg = `SchemaCompilationError: ${msg}`;
+    super(fullMsg);
+    this.message = fullMsg;
+  }
+}

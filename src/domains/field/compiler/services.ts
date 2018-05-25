@@ -11,6 +11,8 @@ import {
   schemaRootsRegistry,
   mutationFieldsRegistry,
   queryFieldsRegistry,
+  isSchemaRoot,
+  getSchemaRootInstance
 } from '~/domains/schema';
 
 export function resolveRegisteredOrInferedType(
@@ -50,8 +52,9 @@ export function enhanceType(
   return finalType;
 }
 
+
 export function isRootFieldOnNonRootBase(base: Function, fieldName: string) {
-  const isRoot = schemaRootsRegistry.has(base);
+  const isRoot = isSchemaRoot(base);
   if (isRoot) {
     return false;
   }

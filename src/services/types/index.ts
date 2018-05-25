@@ -1,3 +1,3 @@
 export type Thunk<Result> = Result | (() => Result);
 
-export type AnyClass = { new (): any };
+export type Constructable = { new (): any };
