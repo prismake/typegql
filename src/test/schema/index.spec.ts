@@ -206,25 +206,24 @@ describe('@SchemaRoot', () => {
 
     expect(result.data.foo).toEqual(42);
   });
+
   it('should call schema root constructor', async () => {
     const constructorCall = jest.fn();
     @SchemaRoot()
     class FooSchema {
-      private bar: number;
       constructor() {
         constructorCall();
-        this.bar = 42;
       }
 
       @Query()
       foo(): number {
-        return this.bar;
+        return 42;
       }
     }
 
     const schema = compileSchema({ roots: [FooSchema] });
 
-    const result = await graphql(
+    await graphql(
       schema,
       `
         {
@@ -234,6 +233,5 @@ describe('@SchemaRoot', () => {
     );
 
     expect(constructorCall).toBeCalled();
-    expect(result.data.foo).toEqual(42);
   });
 });

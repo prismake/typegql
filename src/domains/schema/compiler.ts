@@ -2,22 +2,12 @@ import { GraphQLSchema, GraphQLObjectType, GraphQLFieldConfig } from 'graphql';
 import {
   queryFieldsRegistry,
   mutationFieldsRegistry,
-  schemaRootsRegistry,
   RootFieldsRegistry,
 } from './registry';
 import { SchemaRootError } from './error';
 import { showDeprecationWarning } from '~/services/utils';
 
-function validateSchemaRoots(roots: Function[]) {
-  for (let root of roots) {
-    if (!schemaRootsRegistry.has(root)) {
-      throw new SchemaRootError(
-        root,
-        `Schema root must be registered with @SchemaRoot`,
-      );
-    }
-  }
-}
+import { validateSchemaRoots } from "./services";
 
 export interface CompileSchemaOptions {
   roots: Function[];
