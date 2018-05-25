@@ -23,8 +23,6 @@ export function parseNativeTypeToGraphQL(input: any): GraphQLScalarType {
   }
 }
 
-// type MetadataType = 'design:returntype' | 'design:type' | 'design:paramtypes';
-
 export function inferTypeByTarget(target: Function, key?: string) {
   if (!key) {
     return Reflect.getMetadata('design:type', target);
@@ -35,10 +33,6 @@ export function inferTypeByTarget(target: Function, key?: string) {
     return returnType;
   }
 
-  const targetField = (target as any)[key];
-
-  if (targetField && typeof targetField === 'function') {
-    return Reflect.getMetadata('design:returntype', target, key);
-  }
-  return Reflect.getMetadata('design:type', target, key);
+  const type = Reflect.getMetadata('design:type', target, key);
+  return type;
 }
