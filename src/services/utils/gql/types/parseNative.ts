@@ -31,10 +31,15 @@ export function inferTypeByTarget(target: Function, key?: string) {
   }
 
   const returnType = Reflect.getMetadata('design:returntype', target, key);
+
   if (returnType) {
     return returnType;
   }
 
+  const descriptor = Object.getOwnPropertyDescriptor(target, key);
+  if (descriptor && descriptor.get) {
+    return Reflect.getMetadata('design:type', target, key);
+  }
   const targetField = (target as any)[key];
 
   if (targetField && typeof targetField === 'function') {

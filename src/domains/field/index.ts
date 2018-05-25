@@ -25,7 +25,13 @@ export function Field(options?: FieldOptions): PropertyDecorator {
       ...options,
     };
 
+    const descriptor = Object.getOwnPropertyDescriptor(
+      targetInstance,
+      fieldName,
+    );
+
     fieldsRegistry.set(targetInstance.constructor, fieldName, {
+      isGetter: descriptor && !!descriptor.get,
       ...finalConfig,
     });
   };

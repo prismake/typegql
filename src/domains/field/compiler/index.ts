@@ -17,12 +17,12 @@ export function compileFieldConfig(
   target: Function,
   fieldName: string,
 ): GraphQLFieldConfig<any, any, any> {
-  const { type, description, isNullable } = fieldsRegistry.get(
+  const { type, description, isNullable, isGetter } = fieldsRegistry.get(
     target,
     fieldName,
   );
-  const args = compileFieldArgs(target, fieldName);
 
+  const args = compileFieldArgs(target, fieldName);
   const resolvedType = resolveRegisteredOrInferedType(target, fieldName, type);
 
   // if was not able to resolve type, try to show some helpful information about it
@@ -41,7 +41,7 @@ export function compileFieldConfig(
   return {
     description,
     type: finalType,
-    resolve: compileFieldResolver(target, fieldName),
+    resolve: compileFieldResolver(target, fieldName, isGetter),
     args,
   };
 }
