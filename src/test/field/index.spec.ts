@@ -14,11 +14,31 @@ describe('Field', () => {
     @ObjectType()
     class Foo {
       @Field() bar: string = 'baz';
+      @Field() undef: boolean = undefined;
+      @Field() b1: boolean = false;
+      @Field() b2: boolean = true;
+      @Field() n0: number = 0;
+      @Field() nMax: number = Number.MAX_SAFE_INTEGER;
     }
     const compiled = compileObjectType(Foo);
-    const barField = compiled.getFields().bar;
 
-    expect(await barField.resolve(new Foo(), {}, null, null)).toEqual('baz');
+    const barField = compiled.getFields().bar;
+    const undefField = compiled.getFields().undef;
+    const b1Field = compiled.getFields().b1;
+    const b2Field = compiled.getFields().b2;
+    const n0Field = compiled.getFields().n0;
+    const nMaxField = compiled.getFields().nMax;
+
+    const foo = new Foo();
+
+    expect(await barField.resolve(foo, {}, null, null)).toEqual('baz');
+    expect(await undefField.resolve(foo, {}, null, null)).toEqual(undefined);
+    expect(await b1Field.resolve(foo, {}, null, null)).toEqual(false);
+    expect(await b2Field.resolve(foo, {}, null, null)).toEqual(true);
+    expect(await n0Field.resolve(foo, {}, null, null)).toEqual(0);
+    expect(await nMaxField.resolve(foo, {}, null, null)).toEqual(
+      9007199254740991
+    );
   });
 
   it('Resolves fields with function resolver', async () => {
