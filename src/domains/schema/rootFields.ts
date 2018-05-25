@@ -37,11 +37,18 @@ export function Query(options?: FieldOptions): PropertyDecorator {
     Field(options)(targetInstance, fieldName);
     const fieldCompiler = () => {
       requireSchemaRoot(targetInstance.constructor, fieldName);
-      const compiledField = compileFieldConfig(targetInstance.constructor, fieldName);
+      const compiledField = compileFieldConfig(
+        targetInstance.constructor,
+        fieldName,
+      );
       compiledField.type;
       return compiledField;
     };
-    queryFieldsRegistry.set(targetInstance.constructor, fieldName, fieldCompiler);
+    queryFieldsRegistry.set(
+      targetInstance.constructor,
+      fieldName,
+      fieldCompiler,
+    );
   };
 }
 
@@ -49,10 +56,17 @@ export function Mutation(options?: FieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     Field(options)(targetInstance, fieldName);
     const fieldCompiler = () => {
-      const compiledField = compileFieldConfig(targetInstance.constructor, fieldName);
+      const compiledField = compileFieldConfig(
+        targetInstance.constructor,
+        fieldName,
+      );
       compiledField.type;
       return compiledField;
     };
-    mutationFieldsRegistry.set(targetInstance.constructor, fieldName, fieldCompiler);
+    mutationFieldsRegistry.set(
+      targetInstance.constructor,
+      fieldName,
+      fieldCompiler,
+    );
   };
 }

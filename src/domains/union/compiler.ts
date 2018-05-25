@@ -34,7 +34,9 @@ function getDefaultResolver(types: GraphQLObjectType[]): UnionTypeResolver {
 /**
  * Resolves type, and if needed, tries to resolve it using typegql-aware types
  */
-function enhanceTypeResolver(originalResolver: UnionTypeResolver): UnionTypeResolver {
+function enhanceTypeResolver(
+  originalResolver: UnionTypeResolver,
+): UnionTypeResolver {
   return (value, context, info) => {
     const rawResolvedType = originalResolver(value, context, info);
     return resolveType(rawResolvedType);

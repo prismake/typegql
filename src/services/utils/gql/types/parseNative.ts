@@ -1,4 +1,9 @@
-import { GraphQLString, GraphQLFloat, GraphQLBoolean, GraphQLScalarType } from 'graphql';
+import {
+  GraphQLString,
+  GraphQLFloat,
+  GraphQLBoolean,
+  GraphQLScalarType,
+} from 'graphql';
 import 'reflect-metadata';
 export type ParsableScalar = String | Number | Boolean;
 

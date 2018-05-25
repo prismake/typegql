@@ -26,7 +26,9 @@ describe('Arguments', () => {
         return baz;
       }
     }
-    expect(() => compileObjectType(Foo).getFields()).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileObjectType(Foo).getFields(),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   it('Infers multiple basic arguments without @Arg decorator', () => {

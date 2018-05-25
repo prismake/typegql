@@ -9,7 +9,9 @@ export function getParameterNames(fn: Function): string[] {
     .replace(FAT_ARROWS, '')
     .replace(DEFAULT_PARAMS, '');
 
-  var result = code.slice(code.indexOf('(') + 1, code.indexOf(')')).match(/([^\s,]+)/g);
+  var result = code
+    .slice(code.indexOf('(') + 1, code.indexOf(')'))
+    .match(/([^\s,]+)/g);
 
   return result === null ? [] : result;
 }

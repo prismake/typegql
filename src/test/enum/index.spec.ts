@@ -35,7 +35,9 @@ describe('Enums', () => {
     }
 
     registerEnum(Foo, { name: 'Foo' });
-    expect(() => registerEnum(Foo, { name: 'Foo2' })).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      registerEnum(Foo, { name: 'Foo2' }),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   it('Will properly resolve registered enum', () => {

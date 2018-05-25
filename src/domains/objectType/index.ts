@@ -13,7 +13,8 @@ export interface ObjectTypeOptions {
 export function ObjectType(options?: ObjectTypeOptions): ClassDecorator {
   return (target: Function) => {
     const config = { name: target.name, ...options };
-    const outputTypeCompiler = () => compileObjectTypeWithConfig(target, config);
+    const outputTypeCompiler = () =>
+      compileObjectTypeWithConfig(target, config);
     objectTypeRegistry.set(target, outputTypeCompiler);
   };
 }

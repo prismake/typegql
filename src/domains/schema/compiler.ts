@@ -11,7 +11,10 @@ import { showDeprecationWarning } from '~/services/utils';
 function validateSchemaRoots(roots: Function[]) {
   for (let root of roots) {
     if (!schemaRootsRegistry.has(root)) {
-      throw new SchemaRootError(root, `Schema root must be registered with @SchemaRoot`);
+      throw new SchemaRootError(
+        root,
+        `Schema root must be registered with @SchemaRoot`,
+      );
     }
   }
 }
@@ -67,7 +70,11 @@ export function compileSchema(config: CompileSchemaOptions | Function) {
 
   validateSchemaRoots(roots);
 
-  const query = getAllRootFieldsFromRegistry(roots, queryFieldsRegistry, 'Query');
+  const query = getAllRootFieldsFromRegistry(
+    roots,
+    queryFieldsRegistry,
+    'Query',
+  );
   const mutation = getAllRootFieldsFromRegistry(
     roots,
     mutationFieldsRegistry,
@@ -75,7 +82,9 @@ export function compileSchema(config: CompileSchemaOptions | Function) {
   );
 
   if (!query) {
-    throw new Error('At least one of schema roots must have @Query root field.');
+    throw new Error(
+      'At least one of schema roots must have @Query root field.',
+    );
   }
 
   return new GraphQLSchema({

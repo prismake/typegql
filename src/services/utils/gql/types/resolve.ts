@@ -6,7 +6,7 @@ import {
   inputObjectTypeRegistry,
   compileInputObjectType,
   enumsRegistry,
-  unionRegistry
+  unionRegistry,
 } from '~/domains';
 import { parseNativeTypeToGraphQL, isParsableScalar } from './parseNative';
 

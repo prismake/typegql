@@ -4,7 +4,9 @@ import { Field } from '~/domains/field';
 
 describe('Type', () => {
   it('Throws when trying to compile type without @ObjectType decorator', () => {
-    expect(() => compileObjectType(class Bar {})).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileObjectType(class Bar {}),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   it('Throws when @ObjectType has no fields', () => {
@@ -16,7 +18,9 @@ describe('Type', () => {
       foo: string;
     }
     expect(() => compileObjectType(NoFields)).toThrowErrorMatchingSnapshot();
-    expect(() => compileObjectType(NoDeclaredFields)).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileObjectType(NoDeclaredFields),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   it('Compiles basic type with field', () => {

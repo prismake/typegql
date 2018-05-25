@@ -1,4 +1,11 @@
-import { Query, SchemaRoot, compileSchema, ObjectType, Field, Mutation } from '~/domains';
+import {
+  Query,
+  SchemaRoot,
+  compileSchema,
+  ObjectType,
+  Field,
+  Mutation,
+} from '~/domains';
 import {
   graphql,
   introspectionQuery,
@@ -11,14 +18,18 @@ describe('@SchemaRoot', () => {
   it('should not allow compiling schema not decorated with @Schema', () => {
     class Foo {}
 
-    expect(() => compileSchema({ roots: [Foo] })).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileSchema({ roots: [Foo] }),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   it('should not allow @Schema without any @Query field', () => {
     @SchemaRoot()
     class Foo {}
 
-    expect(() => compileSchema({ roots: [Foo] })).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileSchema({ roots: [Foo] }),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   it('should generate all schema fields properly for valid schema', async () => {
@@ -166,6 +177,8 @@ describe('@SchemaRoot', () => {
       }
     }
 
-    expect(() => compileSchema({ roots: [FooSchema] })).toThrowErrorMatchingSnapshot();
+    expect(() =>
+      compileSchema({ roots: [FooSchema] }),
+    ).toThrowErrorMatchingSnapshot();
   });
 });
