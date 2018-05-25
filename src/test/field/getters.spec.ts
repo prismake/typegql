@@ -37,16 +37,18 @@ describe('Fields based on getters', () => {
   it('Will run getter with proper context', async () => {
     @ObjectType({ description: 'Simple product object type' })
     class Foo {
+      constructor(public number: number) {}
+
       baz: number = 42;
       @Field()
       get bar(): number {
-        return this.baz;
+        return this.number + this.baz;
       }
     }
 
     const { bar } = compileObjectType(Foo).getFields();
-    const result = await bar.resolve(new Foo(), null, null, null);
+    const result = await bar.resolve(new Foo(100), null, null, null);
 
-    expect(result).toEqual(42);
+    expect(result).toEqual(142);
   });
 });
