@@ -6,7 +6,6 @@ export {
   queryFieldsRegistry,
 } from './registry';
 export { compileAllFields, compileFieldConfig } from './compiler';
-export { isQueryField } from './services';
 export { FieldError } from './error';
 
 export interface FieldOptions {

@@ -1,4 +1,3 @@
-export { mapObject, convertObjectToArray } from './mapObject';
 export { createCachedThunk } from './cachedThunk';
 export { getParameterNames } from './getParameterNames';
 export { getClassWithAllParentClasses } from './inheritance';
@@ -12,3 +11,4 @@ export {
 } from './gql';
 
 export { showDeprecationWarning } from './deprecation';
+
