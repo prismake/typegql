@@ -231,4 +231,32 @@ describe('Field', () => {
       compileObjectType(Foo).getFields(),
     ).toThrowErrorMatchingSnapshot();
   });
+
+  it('Properly resolves edge cases default values of fields', async () => {
+    @ObjectType()
+    class Foo {
+      @Field() undef: boolean = undefined;
+      @Field() falsy: boolean = false;
+      @Field() truthy: boolean = true;
+      @Field() nully: boolean = null;
+      @Field() zero: number = 0;
+      @Field() maxInt: number = Number.MAX_SAFE_INTEGER;
+    }
+    const compiled = compileObjectType(Foo);
+
+    const {undef, falsy, truthy, nully, zero, maxInt} = compiled.getFields();
+    
+
+    const foo = new Foo();
+
+    expect(await undef.resolve(foo, {}, null, null)).toEqual(undefined);
+    expect(await falsy.resolve(foo, {}, null, null)).toEqual(false);
+    expect(await truthy.resolve(foo, {}, null, null)).toEqual(true);
+    expect(await nully.resolve(foo, {}, null, null)).toEqual(null);
+    expect(await zero.resolve(foo, {}, null, null)).toEqual(0);
+    expect(await maxInt.resolve(foo, {}, null, null)).toEqual(
+      9007199254740991
+    );
+  });
+
 });

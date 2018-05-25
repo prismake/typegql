@@ -59,6 +59,20 @@ function computeFinalArgs(
   });
 }
 
+function getFieldOfTarget(instance: any, prototype: any, fieldName: string) {
+  if (!instance) {
+    return prototype[fieldName];
+  }
+
+  const instanceField = instance[fieldName];
+
+  if (instanceField !== undefined) {
+    return instanceField
+  }
+
+  return prototype[fieldName];
+}
+
 export function compileFieldResolver(
   target: Function,
   fieldName: string,
@@ -70,8 +84,7 @@ export function compileFieldResolver(
 
   return async (source: any, args = null, context = null, info = null) => {
     await performHooksExecution(beforeHooks, source, args, context, info);
-    const instanceField =
-      (source && source[fieldName]) || target.prototype[fieldName];
+    const instanceField = getFieldOfTarget(source, target.prototype, fieldName);
 
     if (typeof instanceField !== 'function') {
       await performHooksExecution(afterHooks, source, args, context, info);
