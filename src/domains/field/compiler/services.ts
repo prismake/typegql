@@ -8,11 +8,9 @@ import { FieldError } from '../index';
 
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
 import {
-  schemaRootsRegistry,
   mutationFieldsRegistry,
   queryFieldsRegistry,
   isSchemaRoot,
-  getSchemaRootInstance
 } from '~/domains/schema';
 
 export function resolveRegisteredOrInferedType(
@@ -51,7 +49,6 @@ export function enhanceType(
   }
   return finalType;
 }
-
 
 export function isRootFieldOnNonRootBase(base: Function, fieldName: string) {
   const isRoot = isSchemaRoot(base);
