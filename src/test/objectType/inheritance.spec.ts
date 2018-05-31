@@ -1,5 +1,6 @@
 import { GraphQLString, GraphQLNonNull } from 'graphql';
 import { ObjectType, compileObjectType, Field } from '~/domains';
+import { getClassWithAllParentClasses } from '~/services/utils';
 
 describe('Type inheritance', () => {
   it('Will pass fields from parent class', () => {
@@ -31,5 +32,30 @@ describe('Type inheritance', () => {
 
     expect(bar.type).toEqual(GraphQLString);
     expect(foo.type).toEqual(new GraphQLNonNull(GraphQLString));
+  });
+
+  it('picks up all the properties even for long chain of extended classes', async () => {
+    @ObjectType()
+    class Vehicle {
+      @Field() passengers: string;
+    }
+
+    @ObjectType()
+    class Car extends Vehicle {
+      @Field() doorCount: number;
+    }
+
+    @ObjectType()
+    class Lamborghini extends Car {
+      @Field() speed: string;
+    }
+    const compiled = compileObjectType(Lamborghini);
+
+    const fields = compiled.getFields();
+
+    expect(fields).toHaveProperty('passengers');
+    expect(fields).toHaveProperty('doorCount');
+    expect(fields).toHaveProperty('speed');
+    expect(getClassWithAllParentClasses(Lamborghini).length).toBe(3);
   });
 });
