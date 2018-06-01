@@ -1,6 +1,6 @@
 {
   "name": "typegql",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
@@ -9,8 +9,7 @@
     "test:watch": "jest --watch",
     "build:rollup": "rollup src/index.ts -c",
     "build:types": "ttsc --project ttsconfig.json",
-    "build":
-      "rimraf types lib && yarn run build:rollup && yarn run build:types",
+    "build": "rimraf types lib && yarn run build:rollup && yarn run build:types",
     "prepublishOnly": "rimraf types lib && yarn build",
     "docs": "gitbook serve",
     "docs:build": "gitbook build ./docs",
