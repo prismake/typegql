@@ -44,7 +44,6 @@ export function compileInputObjectTypeWithConfig(
   if (compileOutputTypeCache.has(target)) {
     return compileOutputTypeCache.get(target);
   }
-
   const compiled = new GraphQLInputObjectType({
     ...config,
     fields: createTypeInputFieldsGetter(target),
