@@ -10,7 +10,11 @@ import {
 } from '~/domains';
 import { parseNativeTypeToGraphQL, isParsableScalar } from './parseNative';
 
-export function resolveType(input: any, allowThunk = true): GraphQLType {
+export function resolveType(
+  input: any,
+  allowThunk = true,
+  isArgument?: boolean,
+): GraphQLType {
   if (isType(input)) {
     return input;
   }
@@ -20,7 +24,7 @@ export function resolveType(input: any, allowThunk = true): GraphQLType {
   }
 
   if (Array.isArray(input)) {
-    return resolveListType(input);
+    return resolveListType(input, isArgument);
   }
 
   if (enumsRegistry.has(input)) {
@@ -31,12 +35,12 @@ export function resolveType(input: any, allowThunk = true): GraphQLType {
     return unionRegistry.get(input)();
   }
 
-  if (objectTypeRegistry.has(input)) {
-    return compileObjectType(input);
+  if (isArgument && inputObjectTypeRegistry.has(input)) {
+    return compileInputObjectType(input);
   }
 
-  if (inputObjectTypeRegistry.has(input)) {
-    return compileInputObjectType(input);
+  if (objectTypeRegistry.has(input)) {
+    return compileObjectType(input);
   }
 
   if (input === Promise) {
@@ -50,13 +54,13 @@ export function resolveType(input: any, allowThunk = true): GraphQLType {
   return resolveType(input(), false);
 }
 
-function resolveListType(input: any[]): GraphQLType {
+function resolveListType(input: any[], isArgument: boolean): GraphQLType {
   if (input.length !== 1) {
     return;
   }
   const [itemType] = input;
 
-  const resolvedItemType = resolveType(itemType);
+  const resolvedItemType = resolveType(itemType, true, isArgument);
 
   if (!resolvedItemType) {
     return;

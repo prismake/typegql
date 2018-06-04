@@ -72,5 +72,6 @@ export function compileAllFields(target: Function) {
   targetWithParents.forEach(targetLevel => {
     Object.assign(finalFieldsMap, getAllFields(targetLevel));
   });
+
   return finalFieldsMap;
 }

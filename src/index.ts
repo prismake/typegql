@@ -11,6 +11,8 @@ export {
   SchemaRoot,
   Context,
   ObjectType,
+  DuplexObjectType,
+  DuplexField,
   Query,
   Mutation,
   InputField,

@@ -33,7 +33,7 @@ export function validateResolvedType(
     throw new FieldError(
       target,
       fieldName,
-      `Validation of type failed. Resolved type for @Field must be GraphQLOutputType.`,
+      `Validation of type failed. Resolved type must be a GraphQLOutputType.`,
     );
   }
   return true;

@@ -8,8 +8,10 @@ export {
   compileInputObjectType,
   inputObjectTypeRegistry,
 } from './inputObjectType';
+export { DuplexObjectType } from './duplexObjectType';
 export { Field } from './field';
 export { InputField } from './inputField';
+export { DuplexField } from './duplexField';
 export { Arg } from './arg';
 export { Inject, Context, Source, Info } from './inject';
 export { registerEnum, enumsRegistry } from './enum';

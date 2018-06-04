@@ -24,7 +24,7 @@ function compileInferedAndRegisterdArgs(
   });
 
   const resolvedArgs = argsMerged.map((rawType, index) => {
-    return resolveType(rawType);
+    return resolveType(rawType, true, true);
   });
 
   return resolvedArgs;
@@ -129,12 +129,10 @@ export function compileFieldArgs(
     target.prototype,
     fieldName,
   );
-
   // There are no arguments
   if (!inferedRawArgs) {
     return {};
   }
-
   const argTypes = compileInferedAndRegisterdArgs(
     inferedRawArgs,
     registeredArgs,

@@ -31,7 +31,7 @@ function validateResolvedType(
     throw new InputFieldError(
       target,
       fieldName,
-      `Validation of type failed. Resolved type for @Field must be GraphQLInputType.`,
+      `Validation of type failed. Resolved type must be a GraphQLInputType.`,
     );
   }
   return true;

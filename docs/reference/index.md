@@ -49,6 +49,32 @@ interface InputObjectTypeOptions {
 @InputField(options?: InputFieldOptions)
 ```
 
+### @DuplexObjectType
+
+```typescript
+interface DuplexObjectTypeOptions {
+  name?: string;
+  description?: string;
+}
+
+@DuplexObjectType(options?: DuplexObjectTypeOptions)
+```
+
+### @DuplexField
+
+```typescript
+ interface DuplexFieldOptions {
+  description?: string;
+  defaultValue?: any;
+  type?: any | () => any;
+  name?: string;
+  isNullable?: boolean;
+  inputNullable?: boolean;
+}
+
+@InputField(options?: InputFieldOptions)
+```
+
 ### @Arg
 
 ```typescript
