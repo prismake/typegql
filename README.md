@@ -32,9 +32,9 @@ query {
 ```
 
 ```typescript
-import { Schema, Query, compileSchema } from 'typegql';
+import { compileSchema, SchemaRoot, Query } from 'typegql';
 
-@Schema()
+@SchemaRoot()
 class SuperSchema {
   @Query()
   hello(name: string): string {
@@ -42,7 +42,7 @@ class SuperSchema {
   }
 }
 
-const compiledSchema = compileSchema(SuperSchema);
+const compiledSchema = compileSchema({ roots: [SuperSchema] });
 ```
 
 `compiledSchema` is regular executable schema compatible with `graphql-js` library.
