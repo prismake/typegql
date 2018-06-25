@@ -112,7 +112,7 @@ const compiledSchema = compileSchema(SuperSchema);
 
 ## Forcing field type.
 
-Since now, `typegql` was able to guess type of every field from typescript type definitions.
+Until now, `typegql` was able to guess type of every field from typescript type definitions.
 
 There are, however, some cases where we'd have to define them explicitly.
 
