@@ -6,6 +6,7 @@ export const objectTypeRegistry = new WeakMap<
   Function,
   Getter<GraphQLObjectType>
 >();
+
 export const inputTypeRegistry = new WeakMap<
   Function,
   Getter<GraphQLInputType>

@@ -1,5 +1,5 @@
-import { compileObjectTypeWithConfig } from './compiler';
-import { objectTypeRegistry } from './registry';
+import { compileObjectTypeWithConfig, compileObjectTypeAsInputWithConfig } from './compiler';
+import { objectTypeRegistry, inputTypeRegistry } from './registry';
 
 export { compileObjectType } from './compiler';
 export { ObjectTypeError } from './error';
@@ -16,5 +16,9 @@ export function ObjectType(options?: ObjectTypeOptions): ClassDecorator {
     const outputTypeCompiler = () =>
       compileObjectTypeWithConfig(target, config);
     objectTypeRegistry.set(target, outputTypeCompiler);
+    
+    const inputTypeCompiler = () =>
+    compileObjectTypeAsInputWithConfig(target, config);
+    inputTypeRegistry.set(target, inputTypeCompiler);
   };
 }
