@@ -1,6 +1,6 @@
 {
   "name": "@capaj/typegql",
-  "version": "0.5.9",
+  "version": "0.5.11",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
@@ -9,8 +9,7 @@
     "test:watch": "jest --watch",
     "build:rollup": "rollup src/index.ts -c",
     "build:types": "ttsc --project ttsconfig.json",
-    "build":
-      "rimraf types lib && yarn run build:rollup && yarn run build:types",
+    "build": "rimraf types lib && yarn run build:rollup && yarn run build:types",
     "prepublishOnly": "rimraf types lib && yarn build",
     "docs": "gitbook serve",
     "docs:build": "gitbook build ./docs",
@@ -21,7 +20,7 @@
     "url": "https://github.com/prismake/typegql"
   },
   "devDependencies": {
-    "@types/graphql": "^0.13.0",
+    "@types/graphql": "^0.13.1",
     "@types/jest": "^23.0.0",
     "@types/node": "^10.1.2",
     "@types/object-path": "^0.9.29",
@@ -30,18 +29,18 @@
     "gitbook": "^3.2.3",
     "gitbook-cli": "^2.3.2",
     "husky": "^0.14.3",
-    "jest": "^23.1.0",
-    "prettier": "^1.12.1",
+    "jest": "^23.2.0",
+    "prettier": "^1.13.6",
     "pretty-quick": "^1.6.0",
     "rimraf": "^2.6.2",
     "rollup": "^0.59.3",
     "rollup-plugin-typescript": "^0.8.1",
     "rollup-plugin-typescript2": "^0.11.1",
     "ttypescript": "^1.4.6",
-    "typescript": "^2.9.1"
+    "typescript": "^2.9.2"
   },
   "dependencies": {
-    "graphql": "^0.13.2",
+    "graphql": "git://github.com/graphql/graphql-js.git#npm",
     "object-path": "^0.11.4",
     "reflect-metadata": "^0.1.12"
   }

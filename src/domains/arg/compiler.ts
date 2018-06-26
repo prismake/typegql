@@ -88,7 +88,7 @@ function convertArgsArrayToArgsMap(
   );
 
   // in case of getters, field arguments are not relevant
-  if (fieldDescriptor.get) {
+  if (!fieldDescriptor || fieldDescriptor.get) {
     return {};
   }
 
@@ -124,14 +124,19 @@ export function compileFieldArgs(
   fieldName: string,
 ): GraphQLFieldConfigArgumentMap {
   const registeredArgs = argRegistry.getAll(target)[fieldName];
-  const inferedRawArgs = Reflect.getMetadata(
+  let inferedRawArgs = Reflect.getMetadata(
     'design:paramtypes',
     target.prototype,
     fieldName,
   );
   // There are no arguments
   if (!inferedRawArgs) {
-    return {};
+    if (!registeredArgs) {
+      return {};
+    } else {
+      // we didn't infer anything, but there were some registered at runtime
+      inferedRawArgs = registeredArgs;
+    }
   }
   const argTypes = compileInferedAndRegisterdArgs(
     inferedRawArgs,
