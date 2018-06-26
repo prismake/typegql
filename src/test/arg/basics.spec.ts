@@ -89,4 +89,27 @@ describe('Arguments with @Arg', () => {
     expect(bazArg.type).toBe(GraphQLString);
     expect(bazRequiredArg.type).toEqual(new GraphQLNonNull(GraphQLString));
   });
+
+  it('Will allow registering argument at runtime', () => {
+    @ObjectType()
+    class Foo {
+      @Field()
+      bar(
+        baz: string,
+        bazRequired: string,
+      ): string {
+        return baz;
+      }
+    }
+
+    Arg({type: String, isNullable: true})(Foo.prototype, 'bar', 0);
+    Arg({type: String, isNullable: false})(Foo.prototype, 'bar', 1);
+
+    const [bazArg, bazRequiredArg] = compileObjectType(
+      Foo,
+    ).getFields().bar.args;
+
+    expect(bazArg.type).toBe(GraphQLString);
+    expect(bazRequiredArg.type).toEqual(new GraphQLNonNull(GraphQLString));
+  });
 });
