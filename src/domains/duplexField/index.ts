@@ -6,12 +6,13 @@ import {
 
 export { FieldError } from './error';
 
-export function DuplexField(
-  options?: FieldInnerConfig &
-    FieldInputInnerConfig & {
-      inputNullable?: boolean;
-    },
-): PropertyDecorator {
+export function DuplexField(options?: {
+  name?: string;
+  description?: string;
+  isNullable?: boolean;
+  inputNullable?: boolean;
+  type?: any;
+}): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     let isNullable = true;
     let inputNullable = true;
