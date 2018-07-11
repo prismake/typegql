@@ -114,6 +114,7 @@ function convertArgsArrayToArgsMap(
     argsMap[argName] = {
       type: finalType,
       description: argConfig.description,
+      defaultValue: argConfig.defaultValue,
     };
   });
   return argsMap;

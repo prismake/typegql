@@ -4,6 +4,7 @@ export interface ArgInnerConfig {
   description?: string;
   isNullable?: boolean;
   type?: any;
+  defaultValue?: any;
 }
 
 export const argRegistry = new DeepWeakMap<
