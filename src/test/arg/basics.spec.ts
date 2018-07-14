@@ -1,5 +1,13 @@
-import { GraphQLString, GraphQLNonNull } from 'graphql';
-import { Field, ObjectType, compileObjectType, Arg } from '~/domains';
+import { graphql, GraphQLString, GraphQLNonNull } from 'graphql';
+import {
+  Field,
+  ObjectType,
+  compileObjectType,
+  Arg,
+  SchemaRoot,
+  Query,
+  compileSchema,
+} from '~/domains';
 
 describe('Arguments with @Arg', () => {
   it('Allows setting argument with @Arg decorator', () => {
@@ -131,7 +139,7 @@ describe('Arguments with @Arg', () => {
     expect(bazRequiredArg.type).toEqual(new GraphQLNonNull(GraphQLString));
   });
 
-  it('Respects defaultValue @Arg option', () => {
+  it('Respects defaultValue @Arg option', async () => {
     @ObjectType()
     class Foo {
       @Field()
@@ -142,9 +150,22 @@ describe('Arguments with @Arg', () => {
         return baz;
       }
     }
+    @SchemaRoot()
+    class FooSchema {
+      @Query()
+      foo(): Foo {
+        return new Foo();
+      }
+    }
+
     const compiledObject = compileObjectType(Foo);
     const [bazArg] = compiledObject.getFields().bar.args;
     expect(bazArg.type).toBe(GraphQLString);
     expect(bazArg.defaultValue).toBe('default');
+
+    const compiledSchema = compileSchema({ roots: [FooSchema] });
+    expect(await graphql(compiledSchema, '{ foo { bar } }')).toEqual({
+      data: { foo: { bar: 'default' } },
+    });
   });
 });
