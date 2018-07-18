@@ -42,7 +42,6 @@ export function compileInterfaceTypeWithConfig(
 
   const compiled = new GraphQLInterfaceType({
     ...config,
-    // isTypeOf: value => value instanceof target,
     fields: createTypeFieldsGetter(target),
   });
 
