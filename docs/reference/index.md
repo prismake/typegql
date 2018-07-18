@@ -11,6 +11,17 @@ interface ObjectTypeOptions {
 @ObjectType(options?: ObjectTypeOptions)
 ```
 
+### @InterfaceType
+
+```typescript
+interface InterfaceTypeOptions {
+  name?: string; // infered from class name
+  description?: string;
+}
+
+@InterfaceType(options?: InterfaceTypeOptions)
+```
+
 ### @Field
 
 ```typescript
@@ -178,6 +189,12 @@ compileSchema(schemaTarget: Function): GraphQLSchema
 
 ```typescript
 compileObjectType(schemaTarget: Function): GraphQLObjectType
+```
+
+### compileInterfaceType,
+
+```typescript
+compileInterfaceType(schemaTarget: Function): GraphQLInterfaceType
 ```
 
 ### compileInputObjectType,
