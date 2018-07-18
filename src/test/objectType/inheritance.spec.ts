@@ -1,5 +1,5 @@
-import { GraphQLString, GraphQLNonNull } from 'graphql';
-import { ObjectType, compileObjectType, Field } from '~/domains';
+import { GraphQLString, GraphQLNonNull, printType } from 'graphql';
+import { InterfaceType, ObjectType, compileObjectType, Field } from '~/domains';
 import { getClassWithAllParentClasses } from '~/services/utils';
 
 describe('Type inheritance', () => {
@@ -56,6 +56,57 @@ describe('Type inheritance', () => {
     expect(fields).toHaveProperty('passengers');
     expect(fields).toHaveProperty('doorCount');
     expect(fields).toHaveProperty('speed');
-    expect(getClassWithAllParentClasses(Lamborghini).length).toBe(3);
+    expect(getClassWithAllParentClasses(Lamborghini)).toHaveLength(3);
+  });
+
+  it('implements an interface when extending by an InterfaceType', async () => {
+    @InterfaceType()
+    class Vehicle {
+      @Field() passengers: string;
+    }
+
+    @ObjectType()
+    class Car extends Vehicle {
+      @Field() doorCount: number;
+    }
+
+    const compiled = compileObjectType(Car);
+
+    const fields = compiled.getFields();
+
+    expect(fields).toHaveProperty('passengers');
+    expect(fields).toHaveProperty('doorCount');
+    expect(getClassWithAllParentClasses(Car)).toHaveLength(2);
+
+    expect(compiled.getInterfaces()).toHaveLength(1);
+    expect(printType(compiled)).toMatchSnapshot();
+  });
+
+  it('can use multiple interfaces from InterfaceType ancestors', async () => {
+    @InterfaceType()
+    class Entity {
+      @Field() name: string;
+    }
+
+    @InterfaceType()
+    class Vehicle extends Entity {
+      @Field() passengers: string;
+    }
+
+    @ObjectType()
+    class Car extends Vehicle {
+      @Field() doorCount: number;
+    }
+
+    const compiled = compileObjectType(Car);
+
+    const fields = compiled.getFields();
+    expect(fields).toHaveProperty('name');
+    expect(fields).toHaveProperty('passengers');
+    expect(fields).toHaveProperty('doorCount');
+    expect(getClassWithAllParentClasses(Car)).toHaveLength(3);
+
+    expect(compiled.getInterfaces()).toHaveLength(2);
+    expect(printType(compiled)).toMatchSnapshot();
   });
 });

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Type inheritance implements an interface when extending by an InterfaceType 1`] = `
+"type Car implements Vehicle {
+  passengers: String
+  doorCount: Float
+}"
+`;
+
+exports[`Type inheritance implements multiple interfaces from InterfaceType ancestors 1`] = `
+"type Car implements Entity & Vehicle {
+  name: String
+  passengers: String
+  doorCount: Float
+}"
+`;

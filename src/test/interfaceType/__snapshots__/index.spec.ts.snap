@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Type Throws when @InterfaceType has no fields 1`] = `"@InterfaceType 'NoFields': There are no fields inside this type."`;
+
+exports[`Type Throws when @InterfaceType has no fields 2`] = `"@InterfaceType 'NoDeclaredFields': There are no fields inside this type."`;
+
+exports[`Type Throws when trying to compile type without @InterfaceType decorator 1`] = `"@InterfaceType 'Bar': Class is not registered. Make sure it's decorated with @ObjectType decorator"`;

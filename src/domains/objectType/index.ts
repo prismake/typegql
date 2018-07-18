@@ -3,7 +3,7 @@ import { objectTypeRegistry } from './registry';
 
 export { compileObjectType } from './compiler';
 export { ObjectTypeError } from './error';
-export { objectTypeRegistry, inputTypeRegistry } from './registry';
+export { objectTypeRegistry } from './registry';
 
 export interface ObjectTypeOptions {
   name?: string;
