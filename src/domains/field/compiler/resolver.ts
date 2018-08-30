@@ -11,7 +11,7 @@ import {
 } from '~/domains/hooks';
 import { getParameterNames } from '~/services/utils';
 
-import { isSchemaRoot, getSchemaRootInstance } from "~/domains/schema";
+import { isSchemaRoot, getSchemaRootInstance } from '~/domains/schema';
 
 interface ArgsMap {
   [argName: string]: any;
@@ -47,7 +47,7 @@ function computeFinalArgs(
 ) {
   const paramNames = getParameterNames(func);
   return paramNames.map((paramName, index) => {
-    if (args && args[paramName]) {
+    if (args && args.hasOwnProperty(paramName)) {
       return args[paramName];
     }
 
@@ -69,7 +69,7 @@ function getFieldOfTarget(instance: any, prototype: any, fieldName: string) {
   const instanceField = instance[fieldName];
 
   if (instanceField !== undefined) {
-    return instanceField
+    return instanceField;
   }
 
   return prototype[fieldName];
@@ -98,6 +98,7 @@ export function compileFieldResolver(
     }
 
     const instanceFieldFunc = instanceField as Function;
+
     const params = computeFinalArgs(instanceFieldFunc, {
       args: args || {},
       injectors: injectors || {},
