@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Query args will have correct values even for "false" 1`] = `
+Object {
+  "boolTest": false,
+  "boolTest2": false,
+  "boolTest3": true,
+}
+`;
