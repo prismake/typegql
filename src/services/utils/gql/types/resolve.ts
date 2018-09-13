@@ -1,14 +1,14 @@
 import { isType, GraphQLType, GraphQLList, GraphQLNonNull } from 'graphql';
-import { Thunk } from '~/services/types';
+
+import { parseNativeTypeToGraphQL, isParsableScalar } from './parseNative';
 import {
-  objectTypeRegistry,
-  compileObjectType,
-  inputObjectTypeRegistry,
-  compileInputObjectType,
   enumsRegistry,
   unionRegistry,
-} from '~/domains';
-import { parseNativeTypeToGraphQL, isParsableScalar } from './parseNative';
+  inputObjectTypeRegistry,
+  objectTypeRegistry,
+} from '../../../../domains';
+import { compileInputObjectType, compileObjectType } from '../../../..';
+import { Thunk } from '../../../types';
 
 export function resolveType(
   input: any,
@@ -70,11 +70,11 @@ function resolveListType(input: any[], isArgument: boolean): GraphQLType {
 
 export function resolveTypesList(types: Thunk<any[]>): GraphQLType[] {
   if (Array.isArray(types)) {
-    return types.map(type => {
+    return types.map((type) => {
       return resolveType(type);
     });
   }
-  return types().map(type => {
+  return types().map((type) => {
     return resolveType(type);
   });
 }

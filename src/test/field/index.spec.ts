@@ -5,15 +5,16 @@ import {
   isNamedType,
   getNamedType,
 } from 'graphql';
-import { ObjectType, Field, compileObjectType } from '~/domains';
 
 import 'reflect-metadata';
+import { ObjectType, Field, compileObjectType } from '../..';
 
 describe('Field', () => {
   it('Resolves fields with default value', async () => {
     @ObjectType()
     class Foo {
-      @Field() bar: string = 'baz';
+      @Field()
+      bar: string = 'baz';
     }
     const compiled = compileObjectType(Foo);
     const barField = compiled.getFields().bar;
@@ -66,10 +67,14 @@ describe('Field', () => {
   it('Properly infers basic scalar types', () => {
     @ObjectType()
     class Foo {
-      @Field() bar: string;
-      @Field() baz: number;
-      @Field() foo: boolean;
-      @Field() coo: boolean = false;
+      @Field()
+      bar: string;
+      @Field()
+      baz: number;
+      @Field()
+      foo: boolean;
+      @Field()
+      coo: boolean = false;
       @Field()
       boo(): boolean {
         return true;
@@ -99,12 +104,14 @@ describe('Field', () => {
   it('Supports references to other types', () => {
     @ObjectType()
     class Foo {
-      @Field() foo: string;
+      @Field()
+      foo: string;
     }
 
     @ObjectType()
     class Bar {
-      @Field() foo: Foo;
+      @Field()
+      foo: Foo;
     }
 
     const { foo } = compileObjectType(Bar).getFields();
@@ -115,7 +122,8 @@ describe('Field', () => {
   it('Supports references to itself', () => {
     @ObjectType()
     class Foo {
-      @Field() fooNested: Foo;
+      @Field()
+      fooNested: Foo;
     }
 
     const { fooNested } = compileObjectType(Foo).getFields();
@@ -173,7 +181,8 @@ describe('Field', () => {
   it('Shows proper error message when trying to use list type without being explicit about item type', () => {
     @ObjectType()
     class Foo {
-      @Field() bar: string[];
+      @Field()
+      bar: string[];
     }
 
     expect(() =>
@@ -211,7 +220,8 @@ describe('Field', () => {
     @ObjectType()
     class Foo {
       private instanceVar = 'instance';
-      @Field() bar: string = this.instanceVar;
+      @Field()
+      bar: string = this.instanceVar;
     }
     const { bar } = compileObjectType(Foo).getFields();
     const resolvedValue = await bar.resolve(new Foo(), null, null, null);
@@ -235,17 +245,22 @@ describe('Field', () => {
   it('Properly resolves edge cases default values of fields', async () => {
     @ObjectType()
     class Foo {
-      @Field() undef: boolean = undefined;
-      @Field() falsy: boolean = false;
-      @Field() truthy: boolean = true;
-      @Field() nully: boolean = null;
-      @Field() zero: number = 0;
-      @Field() maxInt: number = Number.MAX_SAFE_INTEGER;
+      @Field()
+      undef: boolean = undefined;
+      @Field()
+      falsy: boolean = false;
+      @Field()
+      truthy: boolean = true;
+      @Field()
+      nully: boolean = null;
+      @Field()
+      zero: number = 0;
+      @Field()
+      maxInt: number = Number.MAX_SAFE_INTEGER;
     }
     const compiled = compileObjectType(Foo);
 
-    const {undef, falsy, truthy, nully, zero, maxInt} = compiled.getFields();
-    
+    const { undef, falsy, truthy, nully, zero, maxInt } = compiled.getFields();
 
     const foo = new Foo();
 
@@ -254,9 +269,6 @@ describe('Field', () => {
     expect(await truthy.resolve(foo, {}, null, null)).toEqual(true);
     expect(await nully.resolve(foo, {}, null, null)).toEqual(null);
     expect(await zero.resolve(foo, {}, null, null)).toEqual(0);
-    expect(await maxInt.resolve(foo, {}, null, null)).toEqual(
-      9007199254740991
-    );
+    expect(await maxInt.resolve(foo, {}, null, null)).toEqual(9007199254740991);
   });
-
 });

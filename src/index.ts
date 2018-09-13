@@ -27,4 +27,4 @@ export {
   Schema,
   After,
   Before,
-} from './domains';
+} from './domains/index';

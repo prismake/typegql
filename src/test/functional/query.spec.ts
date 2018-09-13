@@ -1,5 +1,5 @@
-import { Query, SchemaRoot, compileSchema, ObjectType, Field } from '~/domains';
 import { graphql } from 'graphql';
+import { compileSchema, ObjectType, Field, SchemaRoot, Query } from '../..';
 
 @ObjectType()
 class Hello {

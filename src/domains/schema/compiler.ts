@@ -5,9 +5,9 @@ import {
   RootFieldsRegistry,
 } from './registry';
 import { SchemaRootError } from './error';
-import { showDeprecationWarning } from '~/services/utils';
 
-import { validateSchemaRoots } from "./services";
+import { validateSchemaRoots } from './services';
+import { showDeprecationWarning } from '../../services/utils';
 
 export interface CompileSchemaOptions {
   roots: Function[];
@@ -21,7 +21,7 @@ function getAllRootFieldsFromRegistry(
   const allRootFields: { [key: string]: GraphQLFieldConfig<any, any> } = {};
   for (let root of roots) {
     const rootFields = registry.getAll(root);
-    Object.keys(rootFields).forEach(fieldName => {
+    Object.keys(rootFields).forEach((fieldName) => {
       const fieldConfigGetter = rootFields[fieldName];
       const fieldConfig = fieldConfigGetter();
 

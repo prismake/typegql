@@ -1,7 +1,10 @@
 import { inputFieldsRegistry, FieldInputInnerConfig } from './registry';
 
 export { FieldInputInnerConfig, inputFieldsRegistry } from './registry';
-export { compileAllInputFields, compileInputFieldConfig } from './compiler';
+export {
+  compileAllInputFields,
+  compileInputFieldConfig,
+} from './compiler/index';
 export { InputFieldError } from './error';
 
 export interface InputFieldOptions {

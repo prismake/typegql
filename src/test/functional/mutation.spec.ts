@@ -1,18 +1,19 @@
+import { graphql } from 'graphql';
 import {
-  Query,
-  SchemaRoot,
-  compileSchema,
+  InputObjectType,
+  InputField,
   ObjectType,
   Field,
+  SchemaRoot,
   Mutation,
-  InputField,
-  InputObjectType,
-} from '~/domains';
-import { graphql } from 'graphql';
+  compileSchema,
+  Query,
+} from '../..';
 
 @InputObjectType()
 class Input {
-  @InputField() value: string;
+  @InputField()
+  value: string;
 }
 
 @ObjectType()

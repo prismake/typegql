@@ -1,13 +1,13 @@
-import {
-  Query,
-  SchemaRoot,
-  compileSchema,
-  ObjectType,
-  Arg,
-  Field,
-  registerEnum,
-} from '~/domains';
 import { graphql } from 'graphql';
+import {
+  registerEnum,
+  ObjectType,
+  Field,
+  Arg,
+  SchemaRoot,
+  Query,
+  compileSchema,
+} from '../..';
 
 enum TestEnum {
   Foo = 'Foo',
@@ -20,10 +20,7 @@ registerEnum(TestEnum, { name: 'TestEnum' });
 @ObjectType()
 class Hello {
   @Field()
-  world(
-    @Arg({ type: TestEnum })
-    name: TestEnum,
-  ): string {
+  world(@Arg({ type: TestEnum }) name: TestEnum): string {
     return `Hello, ${name}`;
   }
 }

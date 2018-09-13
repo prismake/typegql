@@ -2,7 +2,7 @@
 
 Firstly, add `typegql` to your project
 
-`yarn add typegql`
+`yarn add typegql graphql reflect-medatada`
 
 **Important!** To work with `typescript`, you'll need `reflect-medatada` so `typegql` can infer types from your code.
 

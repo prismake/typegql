@@ -1,11 +1,11 @@
 import { GraphQLObjectType } from 'graphql';
 import { ObjectTypeError, objectTypeRegistry } from '../index';
 
-import { compileAllFields, fieldsRegistry } from '~/domains/field';
+import { fieldsRegistry, compileAllFields } from '../../field';
 import {
-  createCachedThunk,
   getClassWithAllParentClasses,
-} from '~/services/utils';
+  createCachedThunk,
+} from '../../../services/utils';
 
 const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>();
 
@@ -16,7 +16,7 @@ export interface TypeOptions {
 
 function createTypeFieldsGetter(target: Function) {
   const targetWithParents = getClassWithAllParentClasses(target);
-  const hasFields = targetWithParents.some(ancestor => {
+  const hasFields = targetWithParents.some((ancestor) => {
     return !fieldsRegistry.isEmpty(ancestor);
   });
 
@@ -39,7 +39,7 @@ export function compileObjectTypeWithConfig(
 
   const compiled = new GraphQLObjectType({
     ...config,
-    isTypeOf: value => value instanceof target,
+    isTypeOf: (value: any) => value instanceof target,
     fields: createTypeFieldsGetter(target),
   });
 

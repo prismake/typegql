@@ -1,9 +1,7 @@
 import { GraphQLFieldConfig, GraphQLFieldConfigMap } from 'graphql';
-import { getClassWithAllParentClasses } from '~/services/utils/inheritance';
 import { FieldError, fieldsRegistry } from '../index';
 
 import { compileFieldResolver } from './resolver';
-import { compileFieldArgs } from '~/domains/arg';
 import {
   enhanceType,
   isRootFieldOnNonRootBase,
@@ -12,6 +10,8 @@ import {
 } from './services';
 
 import { validateNotInferableField } from './fieldType';
+import { compileFieldArgs } from '../../arg';
+import { getClassWithAllParentClasses } from '../../../services/utils';
 
 export function compileFieldConfig(
   target: Function,
@@ -37,6 +37,7 @@ export function compileFieldConfig(
   }
 
   const finalType = enhanceType(resolvedType, isNullable);
+  // console.log('finalType: ', finalType);
 
   return {
     description,
@@ -49,7 +50,7 @@ export function compileFieldConfig(
 function getAllFields(target: Function) {
   const fields = fieldsRegistry.getAll(target);
   const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {};
-  Object.keys(fields).forEach(fieldName => {
+  Object.keys(fields).forEach((fieldName) => {
     if (isRootFieldOnNonRootBase(target, fieldName)) {
       throw new FieldError(
         target,
@@ -69,7 +70,7 @@ export function compileAllFields(target: Function) {
 
   const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {};
 
-  targetWithParents.forEach(targetLevel => {
+  targetWithParents.forEach((targetLevel) => {
     Object.assign(finalFieldsMap, getAllFields(targetLevel));
   });
 

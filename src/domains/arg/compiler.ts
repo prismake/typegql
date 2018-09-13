@@ -5,11 +5,14 @@ import {
   isInputType,
   GraphQLNonNull,
 } from 'graphql';
-import { resolveType, getParameterNames } from '~/services/utils';
-import { injectorRegistry } from '~/domains/inject';
+
 import { ArgsIndex, argRegistry } from './registry';
 import { ArgError } from './error';
 import { defaultArgOptions } from './options';
+import 'reflect-metadata';
+
+import { resolveType, getParameterNames } from '../../services/utils';
+import { injectorRegistry } from '../inject';
 
 function compileInferedAndRegisterdArgs(
   infered: any[],
@@ -100,9 +103,9 @@ function convertArgsArrayToArgsMap(
   }
 
   const argsMap: GraphQLFieldConfigArgumentMap = {};
-  argNames.forEach((argName, index) => {
+  argNames.forEach((argName: string, index: number) => {
     const argConfig = registeredArgs[index] || { ...defaultArgOptions };
-    const argType = argsTypes[index];
+    const argType: GraphQLInputType = argsTypes[index];
 
     // don't publish args marked as auto Injected
     if (injectorRegistry.has(target, fieldName, index)) {

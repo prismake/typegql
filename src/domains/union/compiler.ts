@@ -3,11 +3,12 @@ import {
   GraphQLObjectType,
   GraphQLResolveInfo,
   GraphQLType,
+  isObjectType,
 } from 'graphql';
 
-import { resolveTypesList, isObjectType, resolveType } from '~/services/utils';
-import { Thunk } from '~/services/types';
 import { UnionError } from './error';
+import { Thunk } from '../../services/types';
+import { resolveTypesList, resolveType } from '../../services/utils';
 
 export interface UnionTypeResolver {
   (value: any, context: any, info: GraphQLResolveInfo): any;

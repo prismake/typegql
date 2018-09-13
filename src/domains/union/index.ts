@@ -1,8 +1,8 @@
-import { Thunk } from '~/services/types';
 import { unionRegistry } from './registry';
 export { unionRegistry } from './registry';
 
 import { compileUnionType, UnionTypeResolver } from './compiler';
+import { Thunk } from '../../services/types';
 
 export interface UnionOptions {
   name?: string;
@@ -11,7 +11,7 @@ export interface UnionOptions {
 }
 
 export function Union(config: UnionOptions): ClassDecorator {
-  return target => {
+  return (target) => {
     unionRegistry.set(target, () => {
       return compileUnionType(target, { name: target.name, ...config });
     });

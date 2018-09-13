@@ -1,10 +1,11 @@
 import { GraphQLString, GraphQLNonNull } from 'graphql';
-import { InputObjectType, InputField, compileInputObjectType } from '~/domains';
+import { InputObjectType, InputField, compileInputObjectType } from '../..';
 
 describe('Type inheritance', () => {
   it('Will pass input fields from parent class', () => {
     class Base {
-      @InputField() baseField: string;
+      @InputField()
+      baseField: string;
     }
 
     @InputObjectType()
@@ -17,8 +18,10 @@ describe('Type inheritance', () => {
 
   it('Will overwrite input fields in child class', () => {
     class Base {
-      @InputField() foo: string;
-      @InputField() bar: string;
+      @InputField()
+      foo: string;
+      @InputField()
+      bar: string;
     }
 
     @InputObjectType()

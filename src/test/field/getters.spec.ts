@@ -1,5 +1,5 @@
 import { GraphQLFloat } from 'graphql';
-import { ObjectType, Field, compileObjectType } from '~/domains';
+import { ObjectType, Field, compileObjectType } from '../..';
 
 describe('Fields based on getters', () => {
   it('Will work with getter field', async () => {

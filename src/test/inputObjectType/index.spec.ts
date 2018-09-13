@@ -1,6 +1,5 @@
 import { GraphQLObjectType } from 'graphql';
-import { ObjectType, compileObjectType } from '~/domains';
-import { Field } from '~/domains/field';
+import { ObjectType, compileObjectType, Field } from '../..';
 
 describe('Type', () => {
   it('Throws when trying to compile type without @ObjectType decorator', () => {
@@ -26,7 +25,8 @@ describe('Type', () => {
   it('Compiles basic type with field', () => {
     @ObjectType()
     class Foo {
-      @Field() bar: string;
+      @Field()
+      bar: string;
     }
 
     const compiled = compileObjectType(Foo);
@@ -43,7 +43,8 @@ describe('Type', () => {
   it('Sets proper options', () => {
     @ObjectType({ description: 'Baz' })
     class Foo {
-      @Field() bar: string;
+      @Field()
+      bar: string;
     }
 
     const compiled = compileObjectType(Foo);
@@ -53,7 +54,8 @@ describe('Type', () => {
 
     @ObjectType({ name: 'Baz' })
     class FooCustomName {
-      @Field() bar: string;
+      @Field()
+      bar: string;
     }
 
     const compiledCustomName = compileObjectType(FooCustomName);
@@ -64,7 +66,8 @@ describe('Type', () => {
   it('Final type is compiled only once per class', () => {
     @ObjectType()
     class Foo {
-      @Field() bar: string;
+      @Field()
+      bar: string;
     }
 
     const compiledA = compileObjectType(Foo);

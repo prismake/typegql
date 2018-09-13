@@ -1,10 +1,10 @@
-import { Field, FieldOptions, compileFieldConfig } from '~/domains/field';
 import {
   queryFieldsRegistry,
   mutationFieldsRegistry,
   schemaRootsRegistry,
 } from './registry';
 import { SchemaFieldError } from './error';
+import { compileFieldConfig, FieldOptions, Field } from '../field';
 
 function validateRootSchemaField(targetInstance: Object, fieldName: string) {
   if (
@@ -33,10 +33,7 @@ function requireSchemaRoot(target: Function, fieldName: string) {
 function getFieldCompiler(target: Function, fieldName: string) {
   const fieldCompiler = () => {
     requireSchemaRoot(target, fieldName);
-    const compiledField = compileFieldConfig(
-      target,
-      fieldName,
-    );
+    const compiledField = compileFieldConfig(target, fieldName);
     return compiledField;
   };
 
@@ -48,7 +45,10 @@ export function Query(options?: FieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     validateRootSchemaField(targetInstance, fieldName);
     Field(options)(targetInstance, fieldName);
-    const fieldCompiler = getFieldCompiler(targetInstance.constructor, fieldName);
+    const fieldCompiler = getFieldCompiler(
+      targetInstance.constructor,
+      fieldName,
+    );
     queryFieldsRegistry.set(
       targetInstance.constructor,
       fieldName,
@@ -61,7 +61,10 @@ export function Mutation(options?: FieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     validateRootSchemaField(targetInstance, fieldName);
     Field(options)(targetInstance, fieldName);
-    const fieldCompiler = getFieldCompiler(targetInstance.constructor, fieldName);
+    const fieldCompiler = getFieldCompiler(
+      targetInstance.constructor,
+      fieldName,
+    );
     mutationFieldsRegistry.set(
       targetInstance.constructor,
       fieldName,

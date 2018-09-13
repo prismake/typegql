@@ -1,6 +1,5 @@
-import { BaseError } from '~/services/error';
-
-import { getParameterNames } from '~/services/utils';
+import { BaseError } from '../../services/error';
+import { getParameterNames } from '../../services/utils';
 
 export class ArgError extends BaseError {
   constructor(

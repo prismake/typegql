@@ -2,21 +2,21 @@ export {
   ObjectType,
   compileObjectType,
   objectTypeRegistry,
-} from './objectType';
+} from './objectType/index';
 export {
   InputObjectType,
   compileInputObjectType,
   inputObjectTypeRegistry,
-} from './inputObjectType';
-export { DuplexObjectType } from './duplexObjectType';
-export { Field } from './field';
-export { InputField } from './inputField';
-export { DuplexField } from './duplexField';
-export { Arg } from './arg';
-export { Inject, Context, Source, Info } from './inject';
-export { registerEnum, enumsRegistry } from './enum';
-export { Union, unionRegistry } from './union';
-export { Before, After } from './hooks';
+} from './inputObjectType/index';
+export { DuplexObjectType } from './duplexObjectType/index';
+export { Field } from './field/index';
+export { InputField } from './inputField/index';
+export { DuplexField } from './duplexField/index';
+export { Arg } from './arg/index';
+export { Inject, Context, Source, Info } from './inject/index';
+export { registerEnum, enumsRegistry } from './enum/index';
+export { Union, unionRegistry } from './union/index';
+export { Before, After } from './hooks/index';
 export {
   SchemaRoot,
   Schema,
@@ -24,4 +24,4 @@ export {
   compileSchema,
   Query,
   Mutation,
-} from './schema';
+} from './schema/index';

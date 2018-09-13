@@ -5,7 +5,7 @@ import {
   ObjectType,
   Field,
   Mutation,
-} from '~/domains';
+} from '../..';
 import {
   graphql,
   introspectionQuery,

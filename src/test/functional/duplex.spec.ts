@@ -1,11 +1,11 @@
+import { graphql } from 'graphql';
 import {
-  Query,
-  SchemaRoot,
-  compileSchema,
   DuplexObjectType,
   DuplexField,
-} from '~/domains';
-import { graphql } from 'graphql';
+  SchemaRoot,
+  Query,
+  compileSchema,
+} from '../..';
 
 describe('duplex object type', () => {
   it('should compile and work', async () => {
@@ -14,7 +14,8 @@ describe('duplex object type', () => {
       constructor(foo: string) {
         this.foo2 = foo;
       }
-      @DuplexField() foo2: string;
+      @DuplexField()
+      foo2: string;
     }
 
     @DuplexObjectType()
@@ -22,8 +23,10 @@ describe('duplex object type', () => {
       constructor(foo: string) {
         this.foo = foo;
       }
-      @DuplexField() foo: string;
-      @DuplexField() fod: SecondDuplex;
+      @DuplexField()
+      foo: string;
+      @DuplexField()
+      fod: SecondDuplex;
     }
 
     @SchemaRoot()

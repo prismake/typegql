@@ -1,10 +1,11 @@
+import 'reflect-metadata';
+
 import {
   GraphQLString,
   GraphQLFloat,
   GraphQLBoolean,
   GraphQLScalarType,
 } from 'graphql';
-import 'reflect-metadata';
 export type ParsableScalar = String | Number | Boolean;
 
 export function isParsableScalar(input: any): input is ParsableScalar {

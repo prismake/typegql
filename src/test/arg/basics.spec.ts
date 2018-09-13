@@ -1,5 +1,5 @@
 import { GraphQLString, GraphQLNonNull } from 'graphql';
-import { Field, ObjectType, compileObjectType, Arg } from '~/domains';
+import { ObjectType, Field, Arg, compileObjectType } from '../..';
 
 describe('Arguments with @Arg', () => {
   it('Allows setting argument with @Arg decorator', () => {
@@ -22,10 +22,7 @@ describe('Arguments with @Arg', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar(
-        @Arg({ description: 'test' })
-        baz: string,
-      ): string {
+      bar(@Arg({ description: 'test' }) baz: string): string {
         return baz;
       }
     }
@@ -75,10 +72,8 @@ describe('Arguments with @Arg', () => {
     class Foo {
       @Field()
       bar(
-        @Arg({ isNullable: true })
-        baz: string,
-        @Arg({ isNullable: false })
-        bazRequired: string,
+        @Arg({ isNullable: true }) baz: string,
+        @Arg({ isNullable: false }) bazRequired: string,
       ): string {
         return baz;
       }

@@ -1,5 +1,5 @@
 import { GraphQLString, GraphQLFloat, GraphQLNonNull } from 'graphql';
-import { Field, ObjectType, compileObjectType } from '~/domains';
+import { ObjectType, Field, compileObjectType } from '../..';
 
 describe('Arguments', () => {
   it('Infers basic arguments without @Arg decorator', () => {

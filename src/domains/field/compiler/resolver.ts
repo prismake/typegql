@@ -1,17 +1,18 @@
 import { GraphQLFieldResolver } from 'graphql';
-import {
-  InjectorsIndex,
-  InjectorResolver,
-  injectorRegistry,
-} from '~/domains/inject';
-import {
-  fieldAfterHooksRegistry,
-  fieldBeforeHooksRegistry,
-  HookExecutor,
-} from '~/domains/hooks';
-import { getParameterNames } from '~/services/utils';
 
-import { isSchemaRoot, getSchemaRootInstance } from '~/domains/schema';
+import {
+  HookExecutor,
+  fieldBeforeHooksRegistry,
+  fieldAfterHooksRegistry,
+} from '../../hooks';
+import { isSchemaRoot, getSchemaRootInstance } from '../../schema';
+
+import { getParameterNames } from '../../../services/utils';
+import {
+  injectorRegistry,
+  InjectorResolver,
+  InjectorsIndex,
+} from '../../inject';
 
 interface ArgsMap {
   [argName: string]: any;
@@ -35,7 +36,7 @@ async function performHooksExecution(
   }
   // all hooks are executed in parrell instead of sequence. We wait for them all to be resolved before we continue
   return await Promise.all(
-    hooks.map(hook => {
+    hooks.map((hook) => {
       return hook({ source, args, context, info });
     }),
   );
@@ -54,7 +55,7 @@ function computeFinalArgs(
     const injector = injectors[index];
 
     if (!injector) {
-      return null;
+      return undefined;
     }
 
     return injectorToValueMapper(injector);
@@ -84,7 +85,12 @@ export function compileFieldResolver(
   const beforeHooks = fieldBeforeHooksRegistry.get(target, fieldName);
   const afterHooks = fieldAfterHooksRegistry.get(target, fieldName);
 
-  return async (source: any, args = null, context = null, info = null) => {
+  return async (
+    source: any,
+    args: object | null = null,
+    context: any = null,
+    info: any = null,
+  ) => {
     if (isSchemaRoot(target)) {
       source = getSchemaRootInstance(target);
     }
@@ -101,8 +107,9 @@ export function compileFieldResolver(
 
     const params = computeFinalArgs(instanceFieldFunc, {
       args: args || {},
+
       injectors: injectors || {},
-      injectorToValueMapper: injector =>
+      injectorToValueMapper: (injector) =>
         injector.apply(source, [{ source, args, context, info }]),
     });
 

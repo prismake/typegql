@@ -1,21 +1,25 @@
 import { GraphQLUnionType } from 'graphql';
-import { ObjectType, Union, Field, compileObjectType } from '~/domains';
-import { resolveType } from '~/services/utils';
+import { ObjectType, Union, Field, compileObjectType } from '../..';
+
+import 'jest';
+import { resolveType } from '../../services/utils/gql';
 
 @ObjectType()
 class Sub1 {
-  @Field() bar: string;
+  @Field()
+  bar: string;
 }
 
 @ObjectType()
 class Sub2 {
-  @Field() bar: number;
+  @Field()
+  bar: number;
 }
 
 @Union({ types: [Sub1, Sub2] })
 class UnionType {}
 
-const customTypeResolver = jest.fn(type => Sub1);
+const customTypeResolver = jest.fn((type) => Sub1);
 
 @Union({
   types: [Sub1, Sub2],

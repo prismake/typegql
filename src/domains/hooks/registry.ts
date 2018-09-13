@@ -1,6 +1,7 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { DeepWeakMap } from '~/services/utils';
+
 import { HookError } from './error';
+import { DeepWeakMap } from '../../services/utils';
 
 export interface HookExecutorResolverArgs {
   source: any;

@@ -1,11 +1,9 @@
-import { Constructable } from "~/services/types";
-import {
-  schemaRootsRegistry,
-} from './registry';
+import { schemaRootsRegistry } from './registry';
 import { SchemaRootError, SchemaCompilationError } from './error';
+import { Constructable } from '../../services/types';
 
 function hasDuplicates(arr: Function[]) {
-  return (new Set(arr)).size !== arr.length;
+  return new Set(arr).size !== arr.length;
 }
 
 export function isSchemaRoot(base: Function) {
@@ -14,7 +12,9 @@ export function isSchemaRoot(base: Function) {
 
 export function validateSchemaRoots(roots: Function[]) {
   if (hasDuplicates(roots)) {
-    throw new SchemaCompilationError(`At least one schema root is provided more than once in schema roots`);
+    throw new SchemaCompilationError(
+      `At least one schema root is provided more than once in schema roots`,
+    );
   }
   for (let root of roots) {
     if (!schemaRootsRegistry.has(root)) {

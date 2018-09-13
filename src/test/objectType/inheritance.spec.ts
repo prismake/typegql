@@ -1,11 +1,12 @@
 import { GraphQLString, GraphQLNonNull } from 'graphql';
-import { ObjectType, compileObjectType, Field } from '~/domains';
-import { getClassWithAllParentClasses } from '~/services/utils';
+import { ObjectType, Field, compileObjectType } from '../..';
+import { getClassWithAllParentClasses } from '../../services/utils';
 
 describe('Type inheritance', () => {
   it('Will pass fields from parent class', () => {
     class Base {
-      @Field() baseField: string;
+      @Field()
+      baseField: string;
     }
 
     @ObjectType()
@@ -18,8 +19,10 @@ describe('Type inheritance', () => {
 
   it('Will overwrite fields in child class', () => {
     class Base {
-      @Field() foo: string;
-      @Field() bar: string;
+      @Field()
+      foo: string;
+      @Field()
+      bar: string;
     }
 
     @ObjectType()
@@ -37,17 +40,20 @@ describe('Type inheritance', () => {
   it('picks up all the properties even for long chain of extended classes', async () => {
     @ObjectType()
     class Vehicle {
-      @Field() passengers: string;
+      @Field()
+      passengers: string;
     }
 
     @ObjectType()
     class Car extends Vehicle {
-      @Field() doorCount: number;
+      @Field()
+      doorCount: number;
     }
 
     @ObjectType()
     class Lamborghini extends Car {
-      @Field() speed: string;
+      @Field()
+      speed: string;
     }
     const compiled = compileObjectType(Lamborghini);
 

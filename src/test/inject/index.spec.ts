@@ -7,19 +7,16 @@ import {
   Context,
   Source,
   Info,
-} from '~/domains';
+} from '../..';
 
-import { wait } from '../utils';
+import { wait } from '../utils/index';
 
 describe('@Inject', () => {
   it('Properly injects any value', async () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar(
-        @Inject(() => 'baz')
-        test: string,
-      ): string {
+      bar(@Inject(() => 'baz') test: string): string {
         return test;
       }
     }
@@ -34,10 +31,7 @@ describe('@Inject', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar(
-        @Inject(() => 'baz')
-        test: string,
-      ): string {
+      bar(@Inject(() => 'baz') test: string): string {
         return test;
       }
     }
@@ -88,8 +82,7 @@ describe('@Inject', () => {
       bar(
         @Arg() zzz: string,
         @Context context: string,
-        @Inject(() => 42)
-        answer: number,
+        @Inject(() => 42) answer: number,
       ): string {
         return `${zzz}.${context}.${answer}`;
       }

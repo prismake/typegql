@@ -1,7 +1,7 @@
-import { compileObjectTypeWithConfig } from './compiler';
+import { compileObjectTypeWithConfig } from './compiler/index';
 import { objectTypeRegistry } from './registry';
 
-export { compileObjectType } from './compiler';
+export { compileObjectType } from './compiler/index';
 export { ObjectTypeError } from './error';
 export { objectTypeRegistry, inputTypeRegistry } from './registry';
 

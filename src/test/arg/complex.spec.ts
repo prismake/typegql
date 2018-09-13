@@ -1,18 +1,19 @@
 import { GraphQLNonNull, getNamedType, GraphQLString } from 'graphql';
 import {
-  Field,
-  ObjectType,
-  compileObjectType,
-  compileInputObjectType,
   InputField,
+  ObjectType,
+  Field,
+  compileObjectType,
   InputObjectType,
+  compileInputObjectType,
   Arg,
-} from '~/domains';
+} from '../..';
 
 describe('Complex arguments', () => {
   it('should not allow complex argument type not decorated with @InputObjectType', async () => {
     class Input {
-      @InputField() bar: string;
+      @InputField()
+      bar: string;
     }
 
     @ObjectType()
@@ -30,7 +31,8 @@ describe('Complex arguments', () => {
   it('should not allow complex argument type decorated with @ObjectType', async () => {
     @ObjectType()
     class Input {
-      @Field() bar: string;
+      @Field()
+      bar: string;
     }
 
     @ObjectType()
@@ -48,7 +50,8 @@ describe('Complex arguments', () => {
   it('Supports complex input types', async () => {
     @InputObjectType()
     class Input {
-      @InputField() bar: string;
+      @InputField()
+      bar: string;
     }
 
     @ObjectType()
@@ -68,10 +71,7 @@ describe('Complex arguments', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar(
-        @Arg({ type: [String] })
-        input: string[],
-      ): string {
+      bar(@Arg({ type: [String] }) input: string[]): string {
         return 'ok';
       }
     }
@@ -84,16 +84,14 @@ describe('Complex arguments', () => {
   it('Supports nested list argument type', () => {
     @InputObjectType()
     class Input {
-      @InputField() bar: string;
+      @InputField()
+      bar: string;
     }
 
     @ObjectType()
     class Foo {
       @Field()
-      bar(
-        @Arg({ type: [Input] })
-        input: Input[],
-      ): string {
+      bar(@Arg({ type: [Input] }) input: Input[]): string {
         return 'ok';
       }
     }

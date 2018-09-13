@@ -1,6 +1,6 @@
 import { objectTypeRegistry } from '../objectType/registry';
-import { compileObjectTypeWithConfig } from '../objectType/compiler';
-import { compileInputObjectTypeWithConfig } from '../inputObjectType/compiler';
+import { compileObjectTypeWithConfig } from '../objectType/compiler/index';
+import { compileInputObjectTypeWithConfig } from '../inputObjectType/compiler/index';
 import { inputObjectTypeRegistry } from '../inputObjectType/registry';
 export { ObjectTypeError } from './error';
 

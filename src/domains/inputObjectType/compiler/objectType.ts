@@ -1,14 +1,10 @@
 import { GraphQLInputObjectType, GraphQLInputFieldConfigMap } from 'graphql';
 import { InputObjectTypeError, inputObjectTypeRegistry } from '../index';
-
 import {
-  compileAllInputFields,
-  inputFieldsRegistry,
-} from '~/domains/inputField';
-import {
-  createCachedThunk,
   getClassWithAllParentClasses,
-} from '~/services/utils';
+  createCachedThunk,
+} from '../../../services/utils';
+import { inputFieldsRegistry, compileAllInputFields } from '../../inputField';
 
 const compileOutputTypeCache = new WeakMap<Function, GraphQLInputObjectType>();
 
@@ -21,7 +17,7 @@ function createTypeInputFieldsGetter(
   target: Function,
 ): () => GraphQLInputFieldConfigMap {
   const targetWithParents = getClassWithAllParentClasses(target);
-  const hasFields = targetWithParents.some(ancestor => {
+  const hasFields = targetWithParents.some((ancestor) => {
     return !inputFieldsRegistry.isEmpty(ancestor);
   });
 
