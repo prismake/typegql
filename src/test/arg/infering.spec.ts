@@ -1,5 +1,6 @@
 import { GraphQLString, GraphQLFloat, GraphQLNonNull } from 'graphql';
 import { ObjectType, Field, compileObjectType } from '../..';
+import { GraphQLDateTime } from 'graphql-iso-date';
 
 describe('Arguments', () => {
   it('Infers basic arguments without @Arg decorator', () => {
@@ -38,8 +39,12 @@ describe('Arguments', () => {
       bar(baz: string, boo: number): string {
         return baz;
       }
+      @Field()
+      dateField(date: Date): Date {
+        return date;
+      }
     }
-    const { bar } = compileObjectType(Foo).getFields();
+    const { bar, dateField } = compileObjectType(Foo).getFields();
 
     expect(bar.args.length).toEqual(2);
     const [bazArg, booArg] = bar.args;
@@ -47,5 +52,11 @@ describe('Arguments', () => {
     expect(bazArg.name).toEqual('baz');
     expect(booArg.name).toEqual('boo');
     expect(booArg.type).toEqual(new GraphQLNonNull(GraphQLFloat));
+
+    expect(dateField.args.length).toEqual(1);
+    const [date] = dateField.args;
+
+    expect(date.type).toEqual(new GraphQLNonNull(GraphQLDateTime));
+    expect(date.name).toEqual('date');
   });
 });

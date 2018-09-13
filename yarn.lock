@@ -20,7 +20,13 @@
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
 
-"@types/graphql@^14.0.0":
+"@types/graphql-iso-date@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@types/graphql-iso-date/-/graphql-iso-date-3.3.0.tgz#31ec2ddcbac146b4fe7e2afe459d589ee3363115"
+  dependencies:
+    "@types/graphql" "*"
+
+"@types/graphql@*", "@types/graphql@^14.0.0":
   version "14.0.0"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-14.0.0.tgz#ecbe4d794c854a285411bea3dce83ab193397ad0"
 
@@ -2300,6 +2306,10 @@ graceful-fs@4.1.4:
 "graceful-readlink@>= 1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
+
+graphql-iso-date@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/graphql-iso-date/-/graphql-iso-date-3.5.0.tgz#55a1be0efa8d28c1453afd2eb5ce1d052189a513"
 
 graphql@^14.0.2:
   version "14.0.2"

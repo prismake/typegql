@@ -12,6 +12,7 @@
     "outDir": "./lib",
     "declarationDir": "./types",
     "declaration": true,
+    // "strictNullChecks": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noUnusedLocals": true,

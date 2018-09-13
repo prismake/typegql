@@ -6,21 +6,24 @@ import {
   GraphQLBoolean,
   GraphQLScalarType,
 } from 'graphql';
-export type ParsableScalar = String | Number | Boolean;
+import { GraphQLDateTime } from 'graphql-iso-date';
+
+export type ParsableScalar = String | Number | Boolean | Date;
 
 export function isParsableScalar(input: any): input is ParsableScalar {
-  return [String, Number, Boolean].includes(input);
+  return [String, Number, Boolean, Date].includes(input);
 }
 
 export function parseNativeTypeToGraphQL(input: any): GraphQLScalarType {
-  if (input === String) {
-    return GraphQLString;
-  }
-  if (input === Number) {
-    return GraphQLFloat;
-  }
-  if (input === Boolean) {
-    return GraphQLBoolean;
+  switch (input) {
+    case String:
+      return GraphQLString;
+    case Number:
+      return GraphQLFloat;
+    case Boolean:
+      return GraphQLBoolean;
+    case Date:
+      return GraphQLDateTime;
   }
 }
 
