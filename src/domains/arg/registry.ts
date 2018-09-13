@@ -16,4 +16,5 @@ export const argRegistry = new DeepWeakMap<
 
 export interface ArgsIndex {
   [argIndex: number]: ArgInnerConfig;
+  length: number;
 }

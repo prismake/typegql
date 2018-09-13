@@ -16,7 +16,7 @@ import { injectorRegistry } from '../inject';
 
 function compileInferedAndRegisterdArgs(
   infered: any[],
-  registeredArgs: ArgsIndex = {},
+  registeredArgs: ArgsIndex = [],
 ) {
   const argsMerged = infered.map((inferedType, index) => {
     const registered = registeredArgs[index];
@@ -83,7 +83,7 @@ function convertArgsArrayToArgsMap(
   target: Function,
   fieldName: string,
   argsTypes: GraphQLInputType[],
-  registeredArgs: ArgsIndex = {},
+  registeredArgs: ArgsIndex = [],
 ): GraphQLFieldConfigArgumentMap {
   const fieldDescriptor = Object.getOwnPropertyDescriptor(
     target.prototype,
@@ -138,6 +138,13 @@ export function compileFieldArgs(
       return {};
     } else {
       // we didn't infer anything, but there were some registered at runtime
+      inferedRawArgs = registeredArgs;
+    }
+  }
+  if (registeredArgs) {
+    if (inferedRawArgs.length < registeredArgs.length) {
+      // we did infer some arguments, but some more were registered at runtime, so we ignore inferred
+      // as we can't be sure which are which
       inferedRawArgs = registeredArgs;
     }
   }
