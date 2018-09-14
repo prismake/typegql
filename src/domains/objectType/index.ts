@@ -8,6 +8,7 @@ export { objectTypeRegistry, inputTypeRegistry } from './registry';
 export interface ObjectTypeOptions {
   name?: string;
   description?: string;
+  mixins?: any[];
 }
 
 export function ObjectType(options?: ObjectTypeOptions): ClassDecorator {

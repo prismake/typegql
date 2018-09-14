@@ -65,9 +65,7 @@ function getAllFields(target: Function) {
   return finalFieldsMap;
 }
 
-export function compileAllFields(target: Function) {
-  const targetWithParents = getClassWithAllParentClasses(target);
-
+export function compileAllFields(targetWithParents: Function[]) {
   const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {};
 
   targetWithParents.forEach((targetLevel) => {

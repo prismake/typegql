@@ -12,10 +12,13 @@ const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>();
 export interface TypeOptions {
   name: string;
   description?: string;
+  mixins?: any[];
 }
 
-function createTypeFieldsGetter(target: Function) {
-  const targetWithParents = getClassWithAllParentClasses(target);
+function createTypeFieldsGetter(target: Function, mixins: any[] = []) {
+  const targetWithParents = getClassWithAllParentClasses(target).concat(mixins);
+  console.log('targetWithParents: ', targetWithParents);
+
   const hasFields = targetWithParents.some((ancestor) => {
     return !fieldsRegistry.isEmpty(ancestor);
   });
@@ -25,7 +28,7 @@ function createTypeFieldsGetter(target: Function) {
   }
 
   return createCachedThunk(() => {
-    return compileAllFields(target);
+    return compileAllFields(targetWithParents);
   });
 }
 
@@ -38,9 +41,10 @@ export function compileObjectTypeWithConfig(
   }
 
   const compiled = new GraphQLObjectType({
-    ...config,
+    name: config.name,
+    description: config.description,
     isTypeOf: (value: any) => value instanceof target,
-    fields: createTypeFieldsGetter(target),
+    fields: createTypeFieldsGetter(target, config.mixins),
   });
 
   compileOutputTypeCache.set(target, compiled);

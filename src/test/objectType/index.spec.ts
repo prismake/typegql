@@ -75,4 +75,22 @@ describe('Type', () => {
 
     expect(compiledA).toBe(compiledB);
   });
+
+  it('Adds mixin methods and fields to the compiled object', async () => {
+    @ObjectType()
+    class Mixin {
+      @Field()
+      mixinMethod(): string {
+        return 'hello';
+      }
+    }
+    @ObjectType({ mixins: [Mixin] })
+    class Foo {
+      @Field()
+      bar: string;
+    }
+
+    const compiled = compileObjectType(Foo);
+    console.log('compiled: ', compiled.getFields());
+  });
 });
