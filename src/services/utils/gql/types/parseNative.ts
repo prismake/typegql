@@ -1,42 +1,42 @@
-import 'reflect-metadata';
+import 'reflect-metadata'
 
 import {
   GraphQLString,
   GraphQLFloat,
   GraphQLBoolean,
   GraphQLScalarType,
-} from 'graphql';
-import { GraphQLDateTime } from 'graphql-iso-date';
+} from 'graphql'
+import { GraphQLDateTime } from 'graphql-iso-date'
 
-export type ParsableScalar = String | Number | Boolean | Date;
+export type ParsableScalar = String | Number | Boolean | Date
 
 export function isParsableScalar(input: any): input is ParsableScalar {
-  return [String, Number, Boolean, Date].includes(input);
+  return [String, Number, Boolean, Date].includes(input)
 }
 
 export function parseNativeTypeToGraphQL(input: any): GraphQLScalarType {
   switch (input) {
     case String:
-      return GraphQLString;
+      return GraphQLString
     case Number:
-      return GraphQLFloat;
+      return GraphQLFloat
     case Boolean:
-      return GraphQLBoolean;
+      return GraphQLBoolean
     case Date:
-      return GraphQLDateTime;
+      return GraphQLDateTime
   }
 }
 
 export function inferTypeByTarget(target: Function, key?: string) {
   if (!key) {
-    return Reflect.getMetadata('design:type', target);
+    return Reflect.getMetadata('design:type', target)
   }
 
-  const returnType = Reflect.getMetadata('design:returntype', target, key);
+  const returnType = Reflect.getMetadata('design:returntype', target, key)
   if (returnType) {
-    return returnType;
+    return returnType
   }
 
-  const type = Reflect.getMetadata('design:type', target, key);
-  return type;
+  const type = Reflect.getMetadata('design:type', target, key)
+  return type
 }

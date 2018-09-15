@@ -15,27 +15,29 @@ query {
 Let's create such `User` type that allows complex `where` argument for `deleteManyTodos` field.
 
 ```ts
-import { ObjectType, Field, Arg, InputObjectType } from 'typegql';
+import { ObjectType, Field, Arg, InputObjectType } from 'typegql'
 
 @InputObjectType()
 class WhereFilter {
   @InputField({ defaultValue: true })
-  isDone: boolean;
-  @InputField() nameContains: string;
+  isDone: boolean
+  @InputField()
+  nameContains: string
 }
 
 @ObjectType()
 class DeleteTodosResult {
   constructor(public deletedCount: number) {}
-  @Field() deletedCount: number;
+  @Field()
+  deletedCount: number
 }
 
 @ObjectType()
 class User {
   @Field()
   deleteManyTodos(where: WhereFilter): DeleteTodosResult {
-    const deletedCount = todosService.remove(where);
-    return new DeleteTodosResult(deletedCount);
+    const deletedCount = todosService.remove(where)
+    return new DeleteTodosResult(deletedCount)
   }
 }
 ```

@@ -1,36 +1,36 @@
-import { GraphQLInputObjectType, GraphQLInputFieldConfigMap } from 'graphql';
-import { InputObjectTypeError, inputObjectTypeRegistry } from '../index';
+import { GraphQLInputObjectType, GraphQLInputFieldConfigMap } from 'graphql'
+import { InputObjectTypeError, inputObjectTypeRegistry } from '../index'
 import {
   getClassWithAllParentClasses,
   createCachedThunk,
-} from '../../../services/utils';
-import { inputFieldsRegistry, compileAllInputFields } from '../../inputField';
+} from '../../../services/utils'
+import { inputFieldsRegistry, compileAllInputFields } from '../../inputField'
 
-const compileOutputTypeCache = new WeakMap<Function, GraphQLInputObjectType>();
+const compileOutputTypeCache = new WeakMap<Function, GraphQLInputObjectType>()
 
 export interface TypeOptions {
-  name: string;
-  description?: string;
+  name: string
+  description?: string
 }
 
 function createTypeInputFieldsGetter(
   target: Function,
 ): () => GraphQLInputFieldConfigMap {
-  const targetWithParents = getClassWithAllParentClasses(target);
+  const targetWithParents = getClassWithAllParentClasses(target)
   const hasFields = targetWithParents.some((ancestor) => {
-    return !inputFieldsRegistry.isEmpty(ancestor);
-  });
+    return !inputFieldsRegistry.isEmpty(ancestor)
+  })
 
   if (!hasFields) {
     throw new InputObjectTypeError(
       target,
       `There are no fields inside this type.`,
-    );
+    )
   }
 
   return createCachedThunk(() => {
-    return compileAllInputFields(target);
-  });
+    return compileAllInputFields(target)
+  })
 }
 
 export function compileInputObjectTypeWithConfig(
@@ -38,15 +38,15 @@ export function compileInputObjectTypeWithConfig(
   config: TypeOptions,
 ): GraphQLInputObjectType {
   if (compileOutputTypeCache.has(target)) {
-    return compileOutputTypeCache.get(target);
+    return compileOutputTypeCache.get(target)
   }
   const compiled = new GraphQLInputObjectType({
     ...config,
     fields: createTypeInputFieldsGetter(target),
-  });
+  })
 
-  compileOutputTypeCache.set(target, compiled);
-  return compiled;
+  compileOutputTypeCache.set(target, compiled)
+  return compiled
 }
 
 export function compileInputObjectType(target: Function) {
@@ -54,10 +54,10 @@ export function compileInputObjectType(target: Function) {
     throw new InputObjectTypeError(
       target,
       `Class is not registered. Make sure it's decorated with @InputObjectType decorator`,
-    );
+    )
   }
 
-  const compiler = inputObjectTypeRegistry.get(target);
+  const compiler = inputObjectTypeRegistry.get(target)
 
-  return compiler();
+  return compiler()
 }

@@ -1,4 +1,4 @@
-import { graphql } from 'graphql';
+import { graphql } from 'graphql'
 import {
   InputObjectType,
   InputField,
@@ -8,12 +8,12 @@ import {
   Mutation,
   compileSchema,
   Query,
-} from '../..';
+} from '../..'
 
 @InputObjectType()
 class Input {
   @InputField()
-  value: string;
+  value: string
 }
 
 @ObjectType()
@@ -21,7 +21,7 @@ class Hello {
   constructor(private helloLabel = 'Hello') {}
   @Field()
   world(name: string): string {
-    return `${this.helloLabel}, ${name}`;
+    return `${this.helloLabel}, ${name}`
   }
 }
 
@@ -29,16 +29,16 @@ class Hello {
 class FooSchema {
   @Mutation()
   hello(): Hello {
-    return new Hello();
+    return new Hello()
   }
 
   @Query()
   deepInput(input: Input): Hello {
-    return new Hello(input.value);
+    return new Hello(input.value)
   }
 }
 
-const schema = compileSchema({ roots: [FooSchema] });
+const schema = compileSchema({ roots: [FooSchema] })
 
 describe('Mutation', () => {
   it('should not allow wrong argument types', async () => {
@@ -51,10 +51,10 @@ describe('Mutation', () => {
           }
         }
       `,
-    );
-    expect(result.errors).toBeDefined();
-    expect(result.errors).toMatchSnapshot();
-  });
+    )
+    expect(result.errors).toBeDefined()
+    expect(result.errors).toMatchSnapshot()
+  })
 
   it('should allow complex input types', async () => {
     const result = await graphql(
@@ -66,8 +66,8 @@ describe('Mutation', () => {
           }
         }
       `,
-    );
+    )
 
-    expect(result).toEqual({ data: { deepInput: { world: 'Hola, Bob' } } });
-  });
-});
+    expect(result).toEqual({ data: { deepInput: { world: 'Hola, Bob' } } })
+  })
+})

@@ -5,12 +5,12 @@ import {
   GraphQLInputFieldConfig,
   GraphQLInputFieldConfigMap,
   GraphQLNonNull,
-} from 'graphql';
+} from 'graphql'
 
-import { InputFieldError, inputFieldsRegistry } from '../index';
+import { InputFieldError, inputFieldsRegistry } from '../index'
 
-import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
-import { getClassWithAllParentClasses } from '../../../services/utils';
+import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType'
+import { getClassWithAllParentClasses } from '../../../services/utils'
 
 function getFinalInputFieldType(
   target: Function,
@@ -18,9 +18,9 @@ function getFinalInputFieldType(
   forcedType?: any,
 ) {
   if (forcedType) {
-    return resolveTypeOrThrow(forcedType, target, fieldName);
+    return resolveTypeOrThrow(forcedType, target, fieldName)
   }
-  return inferTypeOrThrow(target, fieldName);
+  return inferTypeOrThrow(target, fieldName)
 }
 
 function validateResolvedType(
@@ -33,17 +33,17 @@ function validateResolvedType(
       target,
       fieldName,
       `Validation of type failed. Resolved type must be a GraphQLInputType.`,
-    );
+    )
   }
-  return true;
+  return true
 }
 
 function enhanceType(originalType: GraphQLInputType, isNullable: boolean) {
-  let finalType = originalType;
+  let finalType = originalType
   if (!isNullable) {
-    finalType = new GraphQLNonNull(finalType);
+    finalType = new GraphQLNonNull(finalType)
   }
-  return finalType;
+  return finalType
 }
 
 export function compileInputFieldConfig(
@@ -55,43 +55,43 @@ export function compileInputFieldConfig(
     description,
     defaultValue,
     isNullable,
-  } = inputFieldsRegistry.get(target, fieldName);
+  } = inputFieldsRegistry.get(target, fieldName)
 
-  const resolvedType = getFinalInputFieldType(target, fieldName, type);
+  const resolvedType = getFinalInputFieldType(target, fieldName, type)
 
   if (!validateResolvedType(target, fieldName, resolvedType)) {
-    return;
+    return
   }
 
-  resolvedType;
-  const finalType = enhanceType(resolvedType, isNullable);
+  resolvedType
+  const finalType = enhanceType(resolvedType, isNullable)
 
   return {
     description,
     defaultValue,
     type: finalType,
-  };
+  }
 }
 
 export function compileAllInputFieldsForSingleTarget(target: Function) {
-  const fields = inputFieldsRegistry.getAll(target);
-  const finalFieldsMap: GraphQLInputFieldConfigMap = {};
+  const fields = inputFieldsRegistry.getAll(target)
+  const finalFieldsMap: GraphQLInputFieldConfigMap = {}
   Object.keys(fields).forEach((fieldName) => {
-    const config = inputFieldsRegistry.get(target, fieldName);
-    finalFieldsMap[config.name] = compileInputFieldConfig(target, fieldName);
-  });
-  return finalFieldsMap;
+    const config = inputFieldsRegistry.get(target, fieldName)
+    finalFieldsMap[config.name] = compileInputFieldConfig(target, fieldName)
+  })
+  return finalFieldsMap
 }
 
 export function compileAllInputFields(target: Function) {
-  const targetWithParents = getClassWithAllParentClasses(target);
-  const finalFieldsMap: GraphQLInputFieldConfigMap = {};
+  const targetWithParents = getClassWithAllParentClasses(target)
+  const finalFieldsMap: GraphQLInputFieldConfigMap = {}
 
   targetWithParents.forEach((targetLevel) => {
     Object.assign(
       finalFieldsMap,
       compileAllInputFieldsForSingleTarget(targetLevel),
-    );
-  });
-  return finalFieldsMap;
+    )
+  })
+  return finalFieldsMap
 }

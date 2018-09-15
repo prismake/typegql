@@ -9,17 +9,17 @@
 
 typegql is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
 
-* [Documentation](https://prismake.github.io/typegql/)
+- [Documentation](https://prismake.github.io/typegql/)
 
 ### Examples:
 
-* [Basic Express example](examples/basic-express-server)
-* [Typeorm integration example](examples/typeorm-basic-integration)
-* [Forward resolution - eg. query only needed db fields](examples/forward-resolution)
-* [Nested mutations or queries](examples/nested-mutation-or-query)
-* [Custom decorators / Higher order decorators](examples/custom-decorators)
-* [Serverless eg. AWS Lambda](examples/serverless)
-* [Merge schemas](examples/merge-schemas)
+- [Basic Express example](examples/basic-express-server)
+- [Typeorm integration example](examples/typeorm-basic-integration)
+- [Forward resolution - eg. query only needed db fields](examples/forward-resolution)
+- [Nested mutations or queries](examples/nested-mutation-or-query)
+- [Custom decorators / Higher order decorators](examples/custom-decorators)
+- [Serverless eg. AWS Lambda](examples/serverless)
+- [Merge schemas](examples/merge-schemas)
 
 ## Basic example
 
@@ -32,17 +32,17 @@ query {
 ```
 
 ```typescript
-import { Schema, Query, compileSchema } from 'typegql';
+import { Schema, Query, compileSchema } from 'typegql'
 
 @Schema()
 class SuperSchema {
   @Query()
   hello(name: string): string {
-    return `Hello, ${name}!`;
+    return `Hello, ${name}!`
   }
 }
 
-const compiledSchema = compileSchema(SuperSchema);
+const compiledSchema = compileSchema(SuperSchema)
 ```
 
 `compiledSchema` is regular executable schema compatible with `graphql-js` library.
@@ -50,10 +50,10 @@ const compiledSchema = compileSchema(SuperSchema);
 To use it with `express`, you'd have to simply:
 
 ```typescript
-import * as express from 'express';
-import * as graphqlHTTP from 'express-graphql';
+import * as express from 'express'
+import * as graphqlHTTP from 'express-graphql'
 
-const app = express();
+const app = express()
 
 app.use(
   '/graphql',
@@ -61,8 +61,10 @@ app.use(
     schema: compiledSchema,
     graphiql: true,
   }),
-);
-app.listen(3000, () => console.log('Graphql API ready on http://localhost:3000/graphql'));
+)
+app.listen(3000, () =>
+  console.log('Graphql API ready on http://localhost:3000/graphql'),
+)
 ```
 
 ## Adding nested types
@@ -82,17 +84,26 @@ mutation {
 Such query will have a bit more code and here it is:
 
 ```typescript
-import { Schema, Query, ObjectType, Field, Mutation, compileSchema } from 'typegql';
+import {
+  Schema,
+  Query,
+  ObjectType,
+  Field,
+  Mutation,
+  compileSchema,
+} from 'typegql'
 
 @ObjectType({ description: 'Simple product object type' })
 class Product {
-  @Field() name: string;
+  @Field()
+  name: string
 
-  @Field() price: number;
+  @Field()
+  price: number
 
   @Field()
   isExpensive() {
-    return this.price > 50;
+    return this.price > 50
   }
 }
 
@@ -100,14 +111,14 @@ class Product {
 class SuperSchema {
   @Mutation()
   createProduct(name: string, price: number): Product {
-    const product = new Product();
-    product.name = name;
-    product.price = price;
-    return product;
+    const product = new Product()
+    product.name = name
+    product.price = price
+    return product
   }
 }
 
-const compiledSchema = compileSchema(SuperSchema);
+const compiledSchema = compileSchema(SuperSchema)
 ```
 
 ## Forcing field type.
@@ -116,10 +127,10 @@ Since now, `typegql` was able to guess type of every field from typescript type 
 
 There are, however, some cases where we'd have to define them explicitly.
 
-* We want to strictly tell if field is nullable or not
-* We want to be explicit about if some `number` type is `Float` or `Int` (`GraphQLFloat` or `GraphQLInt`) etc
-* Function we use returns type of `Promise<SomeType>` while field itself is typed as `SomeType`
-* List (Array) type is used. (For now, typescript `Reflect` api is not able to guess type of single array item. This might change in the future)
+- We want to strictly tell if field is nullable or not
+- We want to be explicit about if some `number` type is `Float` or `Int` (`GraphQLFloat` or `GraphQLInt`) etc
+- Function we use returns type of `Promise<SomeType>` while field itself is typed as `SomeType`
+- List (Array) type is used. (For now, typescript `Reflect` api is not able to guess type of single array item. This might change in the future)
 
 Let's modify our `Product` so it has additional `categories` field that will return array of strings. For sake of readibility, I'll ommit all fields we've defined previously.
 
@@ -128,17 +139,17 @@ Let's modify our `Product` so it has additional `categories` field that will ret
 class Product {
   @Field({ type: [String] }) // note we can use any native type like GraphQLString!
   categories(): string[] {
-    return ['Tables', 'Furniture'];
+    return ['Tables', 'Furniture']
   }
 }
 ```
 
 We've added `{ type: [String] }` as `@Field` options. Type can be anything that is resolvable to `GraphQL` type
 
-* Native JS scalars: `String`, `Number`, `Boolean`.
-* Any type that is already compiled to `graphql` eg. `GraphQLFloat` or any type from external graphql library etc
-* Every class decorated with `@ObjectType`
-* One element array of any of above for list types eg. `[String]` or `[GraphQLFloat]`
+- Native JS scalars: `String`, `Number`, `Boolean`.
+- Any type that is already compiled to `graphql` eg. `GraphQLFloat` or any type from external graphql library etc
+- Every class decorated with `@ObjectType`
+- One element array of any of above for list types eg. `[String]` or `[GraphQLFloat]`
 
 ## Writing Asynchronously
 
@@ -149,8 +160,8 @@ Every field function we write can be `async` and return `Promise`. Let's say, in
 class Product {
   @Field({ type: [String] }) // note we can use any native type like GraphQLString!
   async categories(): Promise<string[]> {
-    const categories = await api.fetchCategories();
-    return categories.map(cat => cat.name);
+    const categories = await api.fetchCategories()
+    return categories.map((cat) => cat.name)
   }
 }
 ```

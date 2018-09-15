@@ -130,9 +130,9 @@ Since now, `typegql` was able to guess type of every field from typescript type 
 
 There are, however, some cases where we'd have to define them explicitly.
 
-* We want to strictly tell if field is nullable or not
-* Function we use returns type of `Promise<SomeType>` while field itself is typed as `SomeType`
-* List (Array) type is used. (For now, typescript `Reflect` api is not able to guess type of single array item. This might change in the future)
+- We want to strictly tell if field is nullable or not
+- Function we use returns type of `Promise<SomeType>` while field itself is typed as `SomeType`
+- List (Array) type is used. (For now, typescript `Reflect` api is not able to guess type of single array item. This might change in the future)
 
 Let's modify our `Product` so it has additional `categories` field that will return array of strings. For sake of readibility, I'll ommit all fields we've defined previously.
 
@@ -141,17 +141,17 @@ Let's modify our `Product` so it has additional `categories` field that will ret
 class Product {
   @Field({ type: [String] }) // note we can use any native type like GraphQLString!
   categories(): string[] {
-    return ['Tables', 'Furniture'];
+    return ['Tables', 'Furniture']
   }
 }
 ```
 
 We've added `{ type: [String] }` as `@Field` options. Type can be anything that is resolvable to `GraphQL` type
 
-* Native JS scalars: `String`, `Number`, `Boolean`.
-* Any type that is already compiled to `graphql` eg. `GraphQLFloat` or any type from external graphql library etc
-* Every class decorated with `@ObjectType`
-* One element array of any of above for list types eg. `[String]` or `[GraphQLFloat]`
+- Native JS scalars: `String`, `Number`, `Boolean`.
+- Any type that is already compiled to `graphql` eg. `GraphQLFloat` or any type from external graphql library etc
+- Every class decorated with `@ObjectType`
+- One element array of any of above for list types eg. `[String]` or `[GraphQLFloat]`
 
 ## Writing Asynchroniously
 
@@ -162,8 +162,8 @@ Every field function we write can be `async` and return `Promise`. Let's say, in
 class Product {
   @Field({ type: [String] }) // note we can use any native type like GraphQLString!
   async categories(): Promise<string[]> {
-    const categories = await api.fetchCategories();
-    return categories.map(cat => cat.name);
+    const categories = await api.fetchCategories()
+    return categories.map((cat) => cat.name)
   }
 }
 ```

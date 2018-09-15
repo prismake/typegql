@@ -1,11 +1,11 @@
-import { graphql } from 'graphql';
-import { compileSchema, ObjectType, Field, SchemaRoot, Query } from '../..';
+import { graphql } from 'graphql'
+import { compileSchema, ObjectType, Field, SchemaRoot, Query } from '../..'
 
 @ObjectType()
 class Hello {
   @Field()
   world(name: string): string {
-    return `Hello, ${name}`;
+    return `Hello, ${name}`
   }
 }
 
@@ -13,16 +13,16 @@ class Hello {
 class FooSchema {
   @Query()
   hello(): Hello {
-    return new Hello();
+    return new Hello()
   }
 
   @Query()
   foo(): string {
-    return 'bar';
+    return 'bar'
   }
 }
 
-const schema = compileSchema({ roots: [FooSchema] });
+const schema = compileSchema({ roots: [FooSchema] })
 
 describe('Query', () => {
   it('should support queries with simple arguments', async () => {
@@ -35,10 +35,10 @@ describe('Query', () => {
           }
         }
       `,
-    );
+    )
 
-    expect(result).toEqual({ data: { hello: { world: 'Hello, Bob' } } });
-  });
+    expect(result).toEqual({ data: { hello: { world: 'Hello, Bob' } } })
+  })
 
   it('should not allow wrong argument types', async () => {
     const result = await graphql(
@@ -50,10 +50,10 @@ describe('Query', () => {
           }
         }
       `,
-    );
-    expect(result.errors).toBeDefined();
-    expect(result.errors).toMatchSnapshot();
-  });
+    )
+    expect(result.errors).toBeDefined()
+    expect(result.errors).toMatchSnapshot()
+  })
 
   it('will support flat root fields', async () => {
     const result = await graphql(
@@ -63,7 +63,7 @@ describe('Query', () => {
           foo
         }
       `,
-    );
-    expect(result).toEqual({ data: { foo: 'bar' } });
-  });
-});
+    )
+    expect(result).toEqual({ data: { foo: 'bar' } })
+  })
+})

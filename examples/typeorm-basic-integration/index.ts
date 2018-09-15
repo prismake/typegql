@@ -1,5 +1,5 @@
-import * as express from 'express';
-import { Entity, BaseEntity, ManyToOne, OneToMany } from 'typeorm';
+import * as express from 'express'
+import { Entity, BaseEntity, ManyToOne, OneToMany } from 'typeorm'
 import {
   Schema,
   Query,
@@ -7,29 +7,29 @@ import {
   ObjectType,
   Field,
   compileSchema,
-} from 'typegql';
-import * as graphqlHTTP from 'express-graphql';
+} from 'typegql'
+import * as graphqlHTTP from 'express-graphql'
 
-import { PrimaryGeneratedColumn, Column, createConnection } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, createConnection } from 'typeorm'
 
 @Entity()
 @ObjectType()
 export class Book extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field()
-  id: number;
+  id: number
 
   @Column()
   @Field()
-  title: string;
+  title: string
 
   @Column()
   @Field()
-  pagesCount: number;
+  pagesCount: number
 
-  @ManyToOne(type => User, user => user.books, { lazy: true })
+  @ManyToOne((type) => User, (user) => user.books, { lazy: true })
   @Field({ type: () => User })
-  author: User;
+  author: User
 }
 
 @Entity()
@@ -37,23 +37,23 @@ export class Book extends BaseEntity {
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field()
-  id: number;
+  id: number
 
   @Column()
   @Field()
-  name: string;
+  name: string
 
   @Column()
   @Field()
-  age: number;
+  age: number
 
-  @OneToMany(type => Book, book => book.author)
+  @OneToMany((type) => Book, (book) => book.author)
   @Field({ type: () => [Book] })
-  books: Book[];
+  books: Book[]
 
   @Field()
   isAdult(): boolean {
-    return this.age > 21;
+    return this.age > 21
   }
 }
 
@@ -61,26 +61,26 @@ export class User extends BaseEntity {
 class ApiSchema {
   @Query({ type: [User] })
   async getAllUsers(): Promise<User[]> {
-    const allUsers = await User.find();
-    return allUsers;
+    const allUsers = await User.find()
+    return allUsers
   }
 
   @Query({ type: User })
   async getUserByName(name: string): Promise<User> {
-    const user = await User.findOne({ where: { name } });
-    return user;
+    const user = await User.findOne({ where: { name } })
+    return user
   }
 
   @Query({ type: [Book] })
   async getAllBooks(): Promise<Book[]> {
-    const books = await Book.find();
-    return books;
+    const books = await Book.find()
+    return books
   }
 
   @Mutation({ type: User })
   async createUser(name: string, age: number): Promise<User> {
-    const newUser = User.create({ age, name });
-    return await newUser.save();
+    const newUser = User.create({ age, name })
+    return await newUser.save()
   }
 
   @Mutation({ type: Book })
@@ -93,17 +93,17 @@ class ApiSchema {
       title,
       pagesCount,
       author: { id: authorId },
-    });
-    return await newBook.save();
+    })
+    return await newBook.save()
   }
 }
 
-const compiledSchema = compileSchema(ApiSchema);
+const compiledSchema = compileSchema(ApiSchema)
 
-const app = express();
+const app = express()
 
 async function startApp() {
-  console.log('Connecting to database');
+  console.log('Connecting to database')
   const connection = await createConnection({
     type: 'postgres',
     host: 'localhost',
@@ -113,8 +113,8 @@ async function startApp() {
     database: 'test',
     entities: [User, Book],
     synchronize: true,
-  });
-  console.log('Connected');
+  })
+  console.log('Connected')
 
   app.use(
     '/graphql',
@@ -122,8 +122,8 @@ async function startApp() {
       schema: compiledSchema,
       graphiql: true,
     }),
-  );
-  app.listen(3000, () => console.log('API ready on port 3000'));
+  )
+  app.listen(3000, () => console.log('API ready on port 3000'))
 }
 
-startApp();
+startApp()

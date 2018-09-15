@@ -1,4 +1,4 @@
-import { graphql } from 'graphql';
+import { graphql } from 'graphql'
 import {
   registerEnum,
   ObjectType,
@@ -7,7 +7,7 @@ import {
   SchemaRoot,
   Query,
   compileSchema,
-} from '../..';
+} from '../..'
 
 enum TestEnum {
   Foo = 'Foo',
@@ -15,13 +15,13 @@ enum TestEnum {
   Baz = 'Baz',
 }
 
-registerEnum(TestEnum, { name: 'TestEnum' });
+registerEnum(TestEnum, { name: 'TestEnum' })
 
 @ObjectType()
 class Hello {
   @Field()
   world(@Arg({ type: TestEnum }) name: TestEnum): string {
-    return `Hello, ${name}`;
+    return `Hello, ${name}`
   }
 }
 
@@ -29,11 +29,11 @@ class Hello {
 class FooSchema {
   @Query()
   hello(): Hello {
-    return new Hello();
+    return new Hello()
   }
 }
 
-const schema = compileSchema({ roots: [FooSchema] });
+const schema = compileSchema({ roots: [FooSchema] })
 
 describe('Query with enums', () => {
   it('Will guard proper enum values', async () => {
@@ -46,9 +46,9 @@ describe('Query with enums', () => {
           }
         }
       `,
-    );
+    )
 
-    expect(result.errors).toBeDefined();
-    expect(result.errors).toMatchSnapshot();
-  });
-});
+    expect(result.errors).toBeDefined()
+    expect(result.errors).toMatchSnapshot()
+  })
+})

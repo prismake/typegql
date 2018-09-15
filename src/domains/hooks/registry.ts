@@ -1,34 +1,34 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo } from 'graphql'
 
-import { HookError } from './error';
-import { DeepWeakMap } from '../../services/utils';
+import { HookError } from './error'
+import { DeepWeakMap } from '../../services/utils'
 
 export interface HookExecutorResolverArgs {
-  source: any;
-  args: { [argName: string]: any };
-  context: any;
-  info: GraphQLResolveInfo;
+  source: any
+  args: { [argName: string]: any }
+  context: any
+  info: GraphQLResolveInfo
 }
 
 export type HookExecutor<Result = void> = (
   data: HookExecutorResolverArgs,
-) => Result | Promise<Result>;
+) => Result | Promise<Result>
 
 export interface AllRegisteredHooks {
-  [fieldName: string]: HookExecutor;
+  [fieldName: string]: HookExecutor
 }
 
 export const fieldBeforeHooksRegistry = new DeepWeakMap<
   Function,
   HookExecutor[],
   AllRegisteredHooks
->();
+>()
 
 export const fieldAfterHooksRegistry = new DeepWeakMap<
   Function,
   HookExecutor[],
   AllRegisteredHooks
->();
+>()
 
 export function registerFieldBeforeHook(
   target: Function,
@@ -40,10 +40,10 @@ export function registerFieldBeforeHook(
       target,
       fieldName,
       `Field @Before hook function must be supplied.`,
-    );
+    )
   }
-  const currentHooks = fieldBeforeHooksRegistry.get(target, fieldName) || [];
-  fieldBeforeHooksRegistry.set(target, fieldName, [hook, ...currentHooks]);
+  const currentHooks = fieldBeforeHooksRegistry.get(target, fieldName) || []
+  fieldBeforeHooksRegistry.set(target, fieldName, [hook, ...currentHooks])
 }
 
 export function registerFieldAfterHook(
@@ -56,8 +56,8 @@ export function registerFieldAfterHook(
       target,
       fieldName,
       `Field @After hook function must be supplied.`,
-    );
+    )
   }
-  const currentHooks = fieldAfterHooksRegistry.get(target, fieldName) || [];
-  fieldAfterHooksRegistry.set(target, fieldName, [hook, ...currentHooks]);
+  const currentHooks = fieldAfterHooksRegistry.get(target, fieldName) || []
+  fieldAfterHooksRegistry.set(target, fieldName, [hook, ...currentHooks])
 }

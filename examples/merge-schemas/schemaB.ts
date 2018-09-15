@@ -1,11 +1,11 @@
-import { Schema, Query, compileSchema } from 'typegql';
+import { Schema, Query, compileSchema } from 'typegql'
 
 @Schema()
 class SchemaB {
   @Query()
   hello(name: string): string {
-    return `hello, ${name}!`;
+    return `hello, ${name}!`
   }
 }
 
-export const schemaB = compileSchema(SchemaB);
+export const schemaB = compileSchema(SchemaB)

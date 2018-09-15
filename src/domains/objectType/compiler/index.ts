@@ -1,1 +1,1 @@
-export { compileObjectType, compileObjectTypeWithConfig } from './objectType';
+export { compileObjectType, compileObjectTypeWithConfig } from './objectType'

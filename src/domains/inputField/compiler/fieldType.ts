@@ -1,38 +1,38 @@
-import { GraphQLType } from 'graphql';
+import { GraphQLType } from 'graphql'
 
-import { InputFieldError } from '../index';
-import { resolveType, inferTypeByTarget } from '../../../services/utils';
+import { InputFieldError } from '../index'
+import { resolveType, inferTypeByTarget } from '../../../services/utils'
 
 export function resolveTypeOrThrow(
   type: any,
   target: Function,
   fieldName: string,
 ): GraphQLType {
-  const resolvedType = resolveType(type, true, true);
+  const resolvedType = resolveType(type, true, true)
 
   if (!resolvedType) {
     throw new InputFieldError(
       target,
       fieldName,
       `Forced type is incorrect. Make sure to use either native graphql type or class that is registered with @Type decorator`,
-    );
+    )
   }
 
-  return resolvedType;
+  return resolvedType
 }
 
 export function inferTypeOrThrow(
   target: Function,
   fieldName: string,
 ): GraphQLType {
-  const inferedType = inferTypeByTarget(target.prototype, fieldName);
+  const inferedType = inferTypeByTarget(target.prototype, fieldName)
 
   if (!inferedType) {
     throw new InputFieldError(
       target,
       fieldName,
       `Could not infer return type and no type is forced. In case of circular dependencies make sure to force types of instead of infering them.`,
-    );
+    )
   }
-  return resolveType(inferedType, true, true);
+  return resolveType(inferedType, true, true)
 }

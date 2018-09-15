@@ -1,5 +1,5 @@
-import { BaseError } from '../../services/error';
-import { getParameterNames } from '../../services/utils';
+import { BaseError } from '../../services/error'
+import { getParameterNames } from '../../services/utils'
 
 export class ArgError extends BaseError {
   constructor(
@@ -8,12 +8,12 @@ export class ArgError extends BaseError {
     argIndex: number,
     msg: string,
   ) {
-    const paramNames = getParameterNames(target.prototype[fieldName]);
-    const paramName = paramNames[argIndex];
+    const paramNames = getParameterNames(target.prototype[fieldName])
+    const paramName = paramNames[argIndex]
     const fullMsg = `@Type ${
       target.name
-    }.${fieldName}(${paramName} <-------): ${msg}`;
-    super(fullMsg);
-    this.message = fullMsg;
+    }.${fieldName}(${paramName} <-------): ${msg}`
+    super(fullMsg)
+    this.message = fullMsg
   }
 }

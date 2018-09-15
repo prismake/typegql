@@ -2,7 +2,7 @@ export {
   GraphQLFloat as Float,
   GraphQLInt as Int,
   GraphQLID as ID,
-} from 'graphql';
+} from 'graphql'
 
 export {
   Arg,
@@ -27,4 +27,4 @@ export {
   Schema,
   After,
   Before,
-} from './domains/index';
+} from './domains/index'

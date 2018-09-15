@@ -15,13 +15,13 @@ Schema able to handle such query:
 Can be created with:
 
 ```typescript
-import { Schema, Query, ObjectType, Field, compileSchema } from 'typegql';
+import { Schema, Query, ObjectType, Field, compileSchema } from 'typegql'
 
 @ObjectType()
 class Hello {
   @Field()
   world(name: string): string {
-    return `Hello world, ${name}!`;
+    return `Hello world, ${name}!`
   }
 }
 
@@ -29,9 +29,9 @@ class Hello {
 class MyFirstSchema {
   @Query()
   hello(): Hello {
-    return new Hello();
+    return new Hello()
   }
 }
 
-const schema = compileSchema(MyFirstSchema);
+const schema = compileSchema(MyFirstSchema)
 ```

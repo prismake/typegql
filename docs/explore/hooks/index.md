@@ -4,5 +4,5 @@ In many cases, it might be desired to perform some aditional action before or af
 
 Hooks are special kind of functions added to field with `@Before` or `@After` decorator.
 
-* [@Before and @After](before-and-after.md)
-* [Authorization example](authorization-example.md)
+- [@Before and @After](before-and-after.md)
+- [Authorization example](authorization-example.md)

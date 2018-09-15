@@ -49,21 +49,21 @@ export class User extends BaseEntity {
   // define fields as db columns and as graphql fields at the same time
   @PrimaryGeneratedColumn()
   @Field()
-  id: number;
+  id: number
 
   @Column()
   @Field()
-  name: string;
+  name: string
 
   // most of fields will be present both in db and in api.
   // fields like password would use only @Column field so they're saved in db but not avaliable in API
   @Column()
   @Field()
-  age: number;
+  age: number
 
   @Field() // computed field that is not present in database!
   isAdult(): boolean {
-    return this.age > 21;
+    return this.age > 21
   }
 }
 ```
@@ -76,20 +76,20 @@ class ApiSchema {
   @Query({ type: [User] }) // as function return type is Promise of user, we need to set type manually as array of users
   async getAllUsers(): Promise<User[]> {
     // we can easily use async functions inside resolvers
-    const allUsers = await User.find();
-    return allUsers;
+    const allUsers = await User.find()
+    return allUsers
   }
 
   @Query({ type: User })
   async getUserByName(name: string): Promise<User> {
-    const user = await User.findOne({ where: { name } });
-    return user;
+    const user = await User.findOne({ where: { name } })
+    return user
   }
 
   @Mutation({ type: User })
   async createUser(name: string, age: number): Promise<User> {
-    const newUser = User.create({ age, name });
-    return await newUser.save();
+    const newUser = User.create({ age, name })
+    return await newUser.save()
   }
 }
 ```

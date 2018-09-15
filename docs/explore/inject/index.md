@@ -19,15 +19,16 @@ There are 3 argument decorators in `typegql` that allow passing values to resolv
 Implementation of `Viewer` type would use `@Context` decorator to get user id from graphql context and could look like:
 
 ```ts
-import { ObjectType, Field, Context } from 'typegql';
+import { ObjectType, Field, Context } from 'typegql'
 
 @ObjectType()
 class Viewer {
   @Field({ type: () => Person })
   me(@Context context) {
-    return db.findUserById(context.currentUser.id);
+    return db.findUserById(context.currentUser.id)
   }
-  @Field() id: number;
+  @Field()
+  id: number
 }
 ```
 
@@ -52,4 +53,4 @@ class Viewer {
 
 ## Notes
 
-* Decorated arguments are not present in `args` list of field schema definition.
+- Decorated arguments are not present in `args` list of field schema definition.

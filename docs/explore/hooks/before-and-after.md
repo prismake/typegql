@@ -3,19 +3,20 @@
 Let's say we want to send informations about useage of some field of our graphql api to analitycs server. We could achieve that with:
 
 ```ts
-import { ObjectType, Field, After } from 'typegql';
+import { ObjectType, Field, After } from 'typegql'
 
 @ObjectType()
 class Person {
-  @Field() id: number;
+  @Field()
+  id: number
 
   @Field()
   @After(() => {
-    loggingService.sendLog(`User was removed`);
+    loggingService.sendLog(`User was removed`)
   })
   remove(): boolean {
-    const isDeleted = userService.removeById(this.id);
-    return isDeleted;
+    const isDeleted = userService.removeById(this.id)
+    return isDeleted
   }
 }
 ```
@@ -31,22 +32,23 @@ In case, we'd like to add id of removed user to logs, we'd change our code to:
 ```ts
 @ObjectType()
 class Person {
-  @Field() id: number;
+  @Field()
+  id: number
 
   @Field()
-  @After(user => {
-    loggingService.sendLog(`User with id ${user.id} was removed`);
+  @After((user) => {
+    loggingService.sendLog(`User with id ${user.id} was removed`)
     // note we could as well use `this` keyword like:
     // loggingService.sendLog(`User with id ${this.id} was removed`);
   })
   remove(): boolean {
-    const isDeleted = userService.removeById(this.id);
-    return isDeleted;
+    const isDeleted = userService.removeById(this.id)
+    return isDeleted
   }
 }
 ```
 
 ## Notes
 
-* If one field has many hooks of the same type - they're executed in parallel.
-* Field resolver is not called until all @Before hooks are resolved
+- If one field has many hooks of the same type - they're executed in parallel.
+- Field resolver is not called until all @Before hooks are resolved

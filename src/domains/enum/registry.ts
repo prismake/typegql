@@ -1,3 +1,3 @@
-import { GraphQLEnumType } from 'graphql';
+import { GraphQLEnumType } from 'graphql'
 
-export const enumsRegistry = new WeakMap<Object, GraphQLEnumType>();
+export const enumsRegistry = new WeakMap<Object, GraphQLEnumType>()

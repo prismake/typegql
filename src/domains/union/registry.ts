@@ -1,3 +1,3 @@
-import { GraphQLUnionType } from 'graphql';
+import { GraphQLUnionType } from 'graphql'
 
-export const unionRegistry = new WeakMap<Function, () => GraphQLUnionType>();
+export const unionRegistry = new WeakMap<Function, () => GraphQLUnionType>()

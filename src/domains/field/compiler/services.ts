@@ -3,15 +3,15 @@ import {
   GraphQLType,
   GraphQLOutputType,
   GraphQLNonNull,
-} from 'graphql';
-import { FieldError } from '../index';
+} from 'graphql'
+import { FieldError } from '../index'
 
-import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType';
+import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType'
 import {
   mutationFieldsRegistry,
   isSchemaRoot,
   queryFieldsRegistry,
-} from '../../schema';
+} from '../../schema'
 
 export function resolveRegisteredOrInferedType(
   target: Function,
@@ -19,9 +19,9 @@ export function resolveRegisteredOrInferedType(
   forcedType?: any,
 ) {
   if (forcedType) {
-    return resolveTypeOrThrow(forcedType, target, fieldName);
+    return resolveTypeOrThrow(forcedType, target, fieldName)
   }
-  return inferTypeOrThrow(target, fieldName);
+  return inferTypeOrThrow(target, fieldName)
 }
 
 export function validateResolvedType(
@@ -34,33 +34,33 @@ export function validateResolvedType(
       target,
       fieldName,
       `Validation of type failed. Resolved type must be a GraphQLOutputType.`,
-    );
+    )
   }
-  return true;
+  return true
 }
 
 export function enhanceType(
   originalType: GraphQLOutputType,
   isNullable: boolean,
 ) {
-  let finalType = originalType;
+  let finalType = originalType
   if (!isNullable) {
-    finalType = new GraphQLNonNull(finalType);
+    finalType = new GraphQLNonNull(finalType)
   }
-  return finalType;
+  return finalType
 }
 
 export function isRootFieldOnNonRootBase(base: Function, fieldName: string) {
-  const isRoot = isSchemaRoot(base);
+  const isRoot = isSchemaRoot(base)
 
   if (isRoot) {
-    return false;
+    return false
   }
   if (mutationFieldsRegistry.has(base, fieldName)) {
-    return true;
+    return true
   }
   if (queryFieldsRegistry.has(base, fieldName)) {
-    return true;
+    return true
   }
-  return false;
+  return false
 }

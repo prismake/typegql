@@ -1,18 +1,18 @@
-import { fieldsRegistry, FieldInnerConfig } from './registry';
+import { fieldsRegistry, FieldInnerConfig } from './registry'
 
 export {
   FieldInnerConfig,
   fieldsRegistry,
   queryFieldsRegistry,
-} from './registry';
-export { compileAllFields, compileFieldConfig } from './compiler/index';
-export { FieldError } from './error';
+} from './registry'
+export { compileAllFields, compileFieldConfig } from './compiler/index'
+export { FieldError } from './error'
 
 export interface FieldOptions {
-  description?: string;
-  type?: any;
-  name?: string;
-  isNullable?: boolean;
+  description?: string
+  type?: any
+  name?: string
+  isNullable?: boolean
 }
 
 export function Field(options?: FieldOptions): PropertyDecorator {
@@ -22,10 +22,10 @@ export function Field(options?: FieldOptions): PropertyDecorator {
       name: fieldName,
       isNullable: true,
       ...options,
-    };
+    }
 
     fieldsRegistry.set(targetInstance.constructor, fieldName, {
       ...finalConfig,
-    });
-  };
+    })
+  }
 }

@@ -1,6 +1,6 @@
-const shownRegistry = new WeakMap<any, true>();
+const shownRegistry = new WeakMap<any, true>()
 
-export type Logger = (msg: string) => void;
+export type Logger = (msg: string) => void
 
 export function showDeprecationWarning(
   message: string,
@@ -8,10 +8,10 @@ export function showDeprecationWarning(
   logger: Logger = console.log,
 ) {
   if (uniqueIdentifier && shownRegistry.has(uniqueIdentifier)) {
-    return;
+    return
   }
   if (uniqueIdentifier) {
-    shownRegistry.set(uniqueIdentifier, true);
+    shownRegistry.set(uniqueIdentifier, true)
   }
-  logger(`@Deprecation warning: ${message}`);
+  logger(`@Deprecation warning: ${message}`)
 }

@@ -1,17 +1,16 @@
-import { GraphQLFieldConfig, GraphQLFieldConfigMap } from 'graphql';
-import { FieldError, fieldsRegistry } from '../index';
+import { GraphQLFieldConfig, GraphQLFieldConfigMap } from 'graphql'
+import { FieldError, fieldsRegistry } from '../index'
 
-import { compileFieldResolver } from './resolver';
+import { compileFieldResolver } from './resolver'
 import {
   enhanceType,
   isRootFieldOnNonRootBase,
   resolveRegisteredOrInferedType,
   validateResolvedType,
-} from './services';
+} from './services'
 
-import { validateNotInferableField } from './fieldType';
-import { compileFieldArgs } from '../../arg';
-import { getClassWithAllParentClasses } from '../../../services/utils';
+import { validateNotInferableField } from './fieldType'
+import { compileFieldArgs } from '../../arg'
 
 export function compileFieldConfig(
   target: Function,
@@ -20,23 +19,23 @@ export function compileFieldConfig(
   const { type, description, isNullable } = fieldsRegistry.get(
     target,
     fieldName,
-  );
-  const args = compileFieldArgs(target, fieldName);
+  )
+  const args = compileFieldArgs(target, fieldName)
 
-  const resolvedType = resolveRegisteredOrInferedType(target, fieldName, type);
+  const resolvedType = resolveRegisteredOrInferedType(target, fieldName, type)
 
   // if was not able to resolve type, try to show some helpful information about it
   if (!resolvedType && !validateNotInferableField(target, fieldName)) {
-    return;
+    return
   }
 
   // show error about being not able to resolve field type
   if (!validateResolvedType(target, fieldName, resolvedType)) {
-    validateNotInferableField(target, fieldName);
-    return;
+    validateNotInferableField(target, fieldName)
+    return
   }
 
-  const finalType = enhanceType(resolvedType, isNullable);
+  const finalType = enhanceType(resolvedType, isNullable)
   // console.log('finalType: ', finalType);
 
   return {
@@ -44,33 +43,33 @@ export function compileFieldConfig(
     type: finalType,
     resolve: compileFieldResolver(target, fieldName),
     args,
-  };
+  }
 }
 
 function getAllFields(target: Function) {
-  const fields = fieldsRegistry.getAll(target);
-  const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {};
+  const fields = fieldsRegistry.getAll(target)
+  const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {}
   Object.keys(fields).forEach((fieldName) => {
     if (isRootFieldOnNonRootBase(target, fieldName)) {
       throw new FieldError(
         target,
         fieldName,
         `Given field is root field (@Query or @Mutation) not registered inside @Schema type. `,
-      );
+      )
     }
 
-    const config = fieldsRegistry.get(target, fieldName);
-    finalFieldsMap[config.name] = compileFieldConfig(target, fieldName);
-  });
-  return finalFieldsMap;
+    const config = fieldsRegistry.get(target, fieldName)
+    finalFieldsMap[config.name] = compileFieldConfig(target, fieldName)
+  })
+  return finalFieldsMap
 }
 
 export function compileAllFields(targetWithParents: Function[]) {
-  const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {};
+  const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {}
 
   targetWithParents.forEach((targetLevel) => {
-    Object.assign(finalFieldsMap, getAllFields(targetLevel));
-  });
+    Object.assign(finalFieldsMap, getAllFields(targetLevel))
+  })
 
-  return finalFieldsMap;
+  return finalFieldsMap
 }

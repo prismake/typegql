@@ -1,18 +1,11 @@
-import { graphql } from 'graphql';
-import {
-  ObjectType,
-  Field,
-  Arg,
-  SchemaRoot,
-  Query,
-  compileSchema,
-} from '../..';
+import { graphql } from 'graphql'
+import { ObjectType, Field, Arg, SchemaRoot, Query, compileSchema } from '../..'
 
 @ObjectType()
 class Hello {
   @Field()
   boolTest(v1: boolean): boolean {
-    return v1;
+    return v1
   }
   @Field({ type: [Boolean], isNullable: true })
   boolTest2(
@@ -20,11 +13,11 @@ class Hello {
     @Arg({ isNullable: true }) v2a: boolean,
   ): boolean[] {
     // console.log('[v2, v2a]: ', [v2, v2a]);
-    return [v2, v2a];
+    return [v2, v2a]
   }
   @Field()
   boolTest3(v3: boolean): boolean {
-    return v3;
+    return v3
   }
 }
 
@@ -32,11 +25,11 @@ class Hello {
 class FooSchema {
   @Query()
   hello(): Hello {
-    return new Hello();
+    return new Hello()
   }
 }
 
-const schema = compileSchema({ roots: [FooSchema] });
+const schema = compileSchema({ roots: [FooSchema] })
 
 describe('Field args', () => {
   it('will have correct values even for "false"', async () => {
@@ -51,11 +44,11 @@ describe('Field args', () => {
           }
         }
       `,
-    );
+    )
 
-    expect(result.errors).toBeUndefined();
-    expect(result.data.hello).toMatchSnapshot();
-  });
+    expect(result.errors).toBeUndefined()
+    expect(result.data.hello).toMatchSnapshot()
+  })
 
   it.skip('will have undefined for args which were not sent down the wire', async () => {
     const result = await graphql(
@@ -67,7 +60,7 @@ describe('Field args', () => {
           }
         }
       `,
-    );
-    console.log('result: ', result);
-  });
-});
+    )
+    console.log('result: ', result)
+  })
+})

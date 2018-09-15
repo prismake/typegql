@@ -1,4 +1,4 @@
-import { ObjectType, Query, compileObjectType } from '../..';
+import { ObjectType, Query, compileObjectType } from '../..'
 
 describe('Special fields - @Query, @Mutation @Subscribe', () => {
   it('Will not allow registering special type on type that is not @Schema', () => {
@@ -6,12 +6,12 @@ describe('Special fields - @Query, @Mutation @Subscribe', () => {
     class Foo {
       @Query()
       bar(): string {
-        return null;
+        return null
       }
     }
 
     expect(() => {
-      return compileObjectType(Foo).getFields();
-    }).toThrowErrorMatchingSnapshot();
-  });
-});
+      return compileObjectType(Foo).getFields()
+    }).toThrowErrorMatchingSnapshot()
+  })
+})

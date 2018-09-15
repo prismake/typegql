@@ -1,0 +1,34 @@
+# Complex input types with `@DuplexObjectType` and `@DuplexField`
+
+Sometimes we'd like to define a single type as both input and output object type. That's where DuplexObjectType comes in. Of course you only want to take a subset of all fields as input-so just mark those that you don't want in the input as regular `@Field()`.
+
+```ts
+import {
+  DuplexObjectType,
+  Field,
+  DuplexField,
+  Arg,
+  InputObjectType,
+  Mutation,
+} from 'typegql'
+
+@DuplexObjectType()
+class User {
+  @DuplexField()
+  name: string
+  @Field()
+  password_hash: string
+}
+
+@Schema()
+class SuperSchema {
+  @Mutation()
+  createUser(data: User): User {
+    // now we can use a single class as input and output type
+    const u = new User()
+    u.name = data.name
+    u.password_hash = bcrypt.hashSync('bacon')
+    return u
+  }
+}
+```

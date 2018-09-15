@@ -1,17 +1,21 @@
 import { graphql } from 'graphql'
 import { ObjectType, Field, SchemaRoot, Query, compileSchema } from '../..'
 
+interface IHasMyProp {
+  myProp: number
+}
+
 @ObjectType()
 class Mixin {
   @Field()
-  mixinMethod(this: Hello, a: string): string {
+  mixinMethod(this: IHasMyProp, a: string): string {
     expect(this.myProp).toBe(5)
     return `hello from mixin ${a}`
   }
 }
 
 @ObjectType({ mixins: [Mixin] })
-class Hello {
+class Hello implements IHasMyProp {
   myProp = 5
   @Field()
   world(name: string): string {

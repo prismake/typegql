@@ -1,27 +1,27 @@
-import { GraphQLFieldResolver } from 'graphql';
+import { GraphQLFieldResolver } from 'graphql'
 
 import {
   HookExecutor,
   fieldBeforeHooksRegistry,
   fieldAfterHooksRegistry,
-} from '../../hooks';
-import { isSchemaRoot, getSchemaRootInstance } from '../../schema';
+} from '../../hooks'
+import { isSchemaRoot, getSchemaRootInstance } from '../../schema'
 
-import { getParameterNames } from '../../../services/utils';
+import { getParameterNames } from '../../../services/utils'
 import {
   injectorRegistry,
   InjectorResolver,
   InjectorsIndex,
-} from '../../inject';
+} from '../../inject'
 
 interface ArgsMap {
-  [argName: string]: any;
+  [argName: string]: any
 }
 
 interface ComputeArgsOptions {
-  args: ArgsMap;
-  injectors: InjectorsIndex;
-  injectorToValueMapper: (injector: InjectorResolver) => any;
+  args: ArgsMap
+  injectors: InjectorsIndex
+  injectorToValueMapper: (injector: InjectorResolver) => any
 }
 
 async function performHooksExecution(
@@ -32,48 +32,48 @@ async function performHooksExecution(
   info: any,
 ) {
   if (!hooks) {
-    return;
+    return
   }
   // all hooks are executed in parrell instead of sequence. We wait for them all to be resolved before we continue
   return await Promise.all(
     hooks.map((hook) => {
-      return hook({ source, args, context, info });
+      return hook({ source, args, context, info })
     }),
-  );
+  )
 }
 
 function computeFinalArgs(
   func: Function,
   { args, injectors, injectorToValueMapper }: ComputeArgsOptions,
 ) {
-  const paramNames = getParameterNames(func);
+  const paramNames = getParameterNames(func)
   return paramNames.map((paramName, index) => {
     if (args && args.hasOwnProperty(paramName)) {
-      return args[paramName];
+      return args[paramName]
     }
 
-    const injector = injectors[index];
+    const injector = injectors[index]
 
     if (!injector) {
-      return undefined;
+      return undefined
     }
 
-    return injectorToValueMapper(injector);
-  });
+    return injectorToValueMapper(injector)
+  })
 }
 
 function getFieldOfTarget(instance: any, prototype: any, fieldName: string) {
   if (!instance) {
-    return prototype[fieldName];
+    return prototype[fieldName]
   }
 
-  const instanceField = instance[fieldName];
+  const instanceField = instance[fieldName]
 
   if (instanceField !== undefined) {
-    return instanceField;
+    return instanceField
   }
 
-  return prototype[fieldName];
+  return prototype[fieldName]
 }
 
 export function compileFieldResolver(
@@ -81,9 +81,9 @@ export function compileFieldResolver(
   fieldName: string,
 ): GraphQLFieldResolver<any, any> {
   // const config = fieldsRegistry.get(target, fieldName);
-  const injectors = injectorRegistry.getAll(target)[fieldName];
-  const beforeHooks = fieldBeforeHooksRegistry.get(target, fieldName);
-  const afterHooks = fieldAfterHooksRegistry.get(target, fieldName);
+  const injectors = injectorRegistry.getAll(target)[fieldName]
+  const beforeHooks = fieldBeforeHooksRegistry.get(target, fieldName)
+  const afterHooks = fieldAfterHooksRegistry.get(target, fieldName)
 
   return async (
     source: any,
@@ -92,18 +92,18 @@ export function compileFieldResolver(
     info: any = null,
   ) => {
     if (isSchemaRoot(target)) {
-      source = getSchemaRootInstance(target);
+      source = getSchemaRootInstance(target)
     }
 
-    await performHooksExecution(beforeHooks, source, args, context, info);
-    const instanceField = getFieldOfTarget(source, target.prototype, fieldName);
+    await performHooksExecution(beforeHooks, source, args, context, info)
+    const instanceField = getFieldOfTarget(source, target.prototype, fieldName)
 
     if (typeof instanceField !== 'function') {
-      await performHooksExecution(afterHooks, source, args, context, info);
-      return instanceField;
+      await performHooksExecution(afterHooks, source, args, context, info)
+      return instanceField
     }
 
-    const instanceFieldFunc = instanceField as Function;
+    const instanceFieldFunc = instanceField as Function
 
     const params = computeFinalArgs(instanceFieldFunc, {
       args: args || {},
@@ -111,11 +111,11 @@ export function compileFieldResolver(
       injectors: injectors || {},
       injectorToValueMapper: (injector) =>
         injector.apply(source, [{ source, args, context, info }]),
-    });
+    })
 
-    const result = await instanceFieldFunc.apply(source, params);
+    const result = await instanceFieldFunc.apply(source, params)
 
-    await performHooksExecution(afterHooks, source, args, context, info); // TODO: Consider adding resolve return to hook callback
-    return result;
-  };
+    await performHooksExecution(afterHooks, source, args, context, info) // TODO: Consider adding resolve return to hook callback
+    return result
+  }
 }

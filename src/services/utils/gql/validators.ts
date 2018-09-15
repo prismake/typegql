@@ -1,5 +1,5 @@
-import { GraphQLObjectType } from 'graphql';
+import { GraphQLObjectType } from 'graphql'
 
 export function isObjectType(input: any): input is GraphQLObjectType {
-  return typeof input.getFields === 'function'; // TODO: More precise
+  return typeof input.getFields === 'function' // TODO: More precise
 }

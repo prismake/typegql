@@ -3,6 +3,6 @@ export {
   inferTypeByTarget,
   resolveType,
   resolveTypesList,
-} from './types/index';
+} from './types/index'
 
-export { isObjectType } from './validators';
+export { isObjectType } from './validators'

@@ -13,13 +13,13 @@ query {
 Let's create such `Calculator` object type.
 
 ```ts
-import { ObjectType, Field } from 'typegql';
+import { ObjectType, Field } from 'typegql'
 
 @ObjectType()
 class Calculator {
   @Field()
   add(a: number, b: number): number {
-    return a + b;
+    return a + b
   }
 }
 ```
@@ -31,17 +31,16 @@ Note we didn't even have to use `@Arg` decorator yet. In case of simple, scalar 
 Let's say we're building another calculator metod, called `pow` which returns `base` to the `exponent` power (base^exponent). By default, we want `exponent` to be `2`.
 
 ```ts
-import { ObjectType, Field, Arg } from 'typegql';
+import { ObjectType, Field, Arg } from 'typegql'
 
 @ObjectType()
 class Calculator {
   @Field()
   pow(
     base: number,
-    @Arg({ nullable: true, defaultValue: 2 })
-    exponent: number,
+    @Arg({ nullable: true, defaultValue: 2 }) exponent: number,
   ): number {
-    return Math.pow(base, exponent);
+    return Math.pow(base, exponent)
   }
 }
 ```

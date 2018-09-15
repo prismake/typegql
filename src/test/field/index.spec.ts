@@ -4,151 +4,151 @@ import {
   GraphQLBoolean,
   isNamedType,
   getNamedType,
-} from 'graphql';
+} from 'graphql'
 
-import 'reflect-metadata';
-import { ObjectType, Field, compileObjectType } from '../..';
+import 'reflect-metadata'
+import { ObjectType, Field, compileObjectType } from '../..'
 
 describe('Field', () => {
   it('Resolves fields with default value', async () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar: string = 'baz';
+      bar: string = 'baz'
     }
-    const compiled = compileObjectType(Foo);
-    const barField = compiled.getFields().bar;
+    const compiled = compileObjectType(Foo)
+    const barField = compiled.getFields().bar
 
-    expect(await barField.resolve(new Foo(), {}, null, null)).toEqual('baz');
-  });
+    expect(await barField.resolve(new Foo(), {}, null, null)).toEqual('baz')
+  })
 
   it('Resolves fields with function resolver', async () => {
     @ObjectType()
     class Foo {
       @Field()
       bar(): string {
-        return 'baz';
+        return 'baz'
       }
     }
 
-    const compiled = compileObjectType(Foo);
-    const barField = compiled.getFields().bar;
+    const compiled = compileObjectType(Foo)
+    const barField = compiled.getFields().bar
 
     expect(await barField.resolve(new Foo(), {}, null, null as any)).toEqual(
       'baz',
-    );
-  });
+    )
+  })
 
   it('Handles description', () => {
     @ObjectType()
     class Foo {
       @Field({ description: 'test' })
-      bar: string = 'baz';
+      bar: string = 'baz'
     }
-    expect(compileObjectType(Foo).getFields().bar.description).toEqual('test');
-  });
+    expect(compileObjectType(Foo).getFields().bar.description).toEqual('test')
+  })
 
   it('Handles custom name', async () => {
     @ObjectType()
     class Foo {
       @Field({ name: 'baz', description: 'test' })
-      bar: string = 'test';
+      bar: string = 'test'
     }
-    const compiled = compileObjectType(Foo);
-    const bazField = compiled.getFields().baz;
-    expect(compiled.getFields().bar).toBeFalsy();
-    expect(bazField).toBeTruthy();
-    expect(bazField.description).toEqual('test');
+    const compiled = compileObjectType(Foo)
+    const bazField = compiled.getFields().baz
+    expect(compiled.getFields().bar).toBeFalsy()
+    expect(bazField).toBeTruthy()
+    expect(bazField.description).toEqual('test')
     expect(await bazField.resolve(new Foo(), {}, null, null as any)).toBe(
       'test',
-    );
-  });
+    )
+  })
 
   it('Properly infers basic scalar types', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar: string;
+      bar: string
       @Field()
-      baz: number;
+      baz: number
       @Field()
-      foo: boolean;
+      foo: boolean
       @Field()
-      coo: boolean = false;
+      coo: boolean = false
       @Field()
       boo(): boolean {
-        return true;
+        return true
       }
     }
 
-    const { bar, baz, foo, boo, coo } = compileObjectType(Foo).getFields();
+    const { bar, baz, foo, boo, coo } = compileObjectType(Foo).getFields()
 
-    expect(bar.type).toEqual(GraphQLString);
-    expect(baz.type).toEqual(GraphQLFloat);
-    expect(foo.type).toEqual(GraphQLBoolean);
-    expect(boo.type).toEqual(GraphQLBoolean);
-    expect(coo.type).toEqual(GraphQLBoolean);
-  });
+    expect(bar.type).toEqual(GraphQLString)
+    expect(baz.type).toEqual(GraphQLFloat)
+    expect(foo.type).toEqual(GraphQLBoolean)
+    expect(boo.type).toEqual(GraphQLBoolean)
+    expect(coo.type).toEqual(GraphQLBoolean)
+  })
 
   it('Properly sets forced field type', () => {
     @ObjectType()
     class Foo {
       @Field({ type: () => GraphQLFloat })
-      bar: string;
+      bar: string
     }
 
-    const { bar } = compileObjectType(Foo).getFields();
-    expect(bar.type).toEqual(GraphQLFloat);
-  });
+    const { bar } = compileObjectType(Foo).getFields()
+    expect(bar.type).toEqual(GraphQLFloat)
+  })
 
   it('Supports references to other types', () => {
     @ObjectType()
     class Foo {
       @Field()
-      foo: string;
+      foo: string
     }
 
     @ObjectType()
     class Bar {
       @Field()
-      foo: Foo;
+      foo: Foo
     }
 
-    const { foo } = compileObjectType(Bar).getFields();
-    const compiledFoo = compileObjectType(Foo);
-    expect(foo.type).toBe(compiledFoo);
-  });
+    const { foo } = compileObjectType(Bar).getFields()
+    const compiledFoo = compileObjectType(Foo)
+    expect(foo.type).toBe(compiledFoo)
+  })
 
   it('Supports references to itself', () => {
     @ObjectType()
     class Foo {
       @Field()
-      fooNested: Foo;
+      fooNested: Foo
     }
 
-    const { fooNested } = compileObjectType(Foo).getFields();
-    expect(fooNested.type).toBe(compileObjectType(Foo));
-  });
+    const { fooNested } = compileObjectType(Foo).getFields()
+    expect(fooNested.type).toBe(compileObjectType(Foo))
+  })
 
   it('Supports circular references', () => {
     @ObjectType()
     class Car {
       @Field({ type: () => Owner })
-      owner: Owner;
+      owner: Owner
     }
 
     @ObjectType()
     class Owner {
       @Field({ type: () => Car })
-      car: Car;
+      car: Car
     }
 
-    const { owner } = compileObjectType(Car).getFields();
-    const { car } = compileObjectType(Owner).getFields();
+    const { owner } = compileObjectType(Car).getFields()
+    const { car } = compileObjectType(Owner).getFields()
 
-    expect(owner.type).toBe(compileObjectType(Owner));
-    expect(car.type).toBe(compileObjectType(Car));
-  });
+    expect(owner.type).toBe(compileObjectType(Owner))
+    expect(car.type).toBe(compileObjectType(Car))
+  })
 
   it('Throws if pointing to unregistered type', () => {
     class Foo {}
@@ -156,119 +156,119 @@ describe('Field', () => {
     @ObjectType()
     class Bar {
       @Field({ type: () => Foo })
-      foo: Foo;
+      foo: Foo
     }
 
     expect(() =>
       compileObjectType(Bar).getFields(),
-    ).toThrowErrorMatchingSnapshot();
-  });
+    ).toThrowErrorMatchingSnapshot()
+  })
 
   it('Properly resolves native scalar types', () => {
     @ObjectType()
     class Foo {
       @Field({ type: () => String })
-      bar: any;
+      bar: any
       @Field({ type: () => Number })
-      baz: any;
+      baz: any
     }
 
-    const { bar, baz } = compileObjectType(Foo).getFields();
-    expect(bar.type).toBe(GraphQLString);
-    expect(baz.type).toBe(GraphQLFloat);
-  });
+    const { bar, baz } = compileObjectType(Foo).getFields()
+    expect(bar.type).toBe(GraphQLString)
+    expect(baz.type).toBe(GraphQLFloat)
+  })
 
   it('Shows proper error message when trying to use list type without being explicit about item type', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar: string[];
+      bar: string[]
     }
 
     expect(() =>
       compileObjectType(Foo).getFields(),
-    ).toThrowErrorMatchingSnapshot();
-  });
+    ).toThrowErrorMatchingSnapshot()
+  })
 
   it('Shows proper error message when trying to use promise type without being explicit about item type', () => {
     @ObjectType()
     class Foo {
       @Field()
       async bar() {
-        return 'baz';
+        return 'baz'
       }
     }
 
     expect(() =>
       compileObjectType(Foo).getFields(),
-    ).toThrowErrorMatchingSnapshot();
-  });
+    ).toThrowErrorMatchingSnapshot()
+  })
 
   it('Properly supports list type of field', () => {
     @ObjectType()
     class Foo {
       @Field({ type: [String] })
-      bar: string[];
+      bar: string[]
     }
 
-    const { bar } = compileObjectType(Foo).getFields();
-    expect(isNamedType(bar.type)).toBe(false);
-    expect(getNamedType(bar.type)).toBe(GraphQLString);
-  });
+    const { bar } = compileObjectType(Foo).getFields()
+    expect(isNamedType(bar.type)).toBe(false)
+    expect(getNamedType(bar.type)).toBe(GraphQLString)
+  })
 
   it('Is properly passing `this` default values', async () => {
     @ObjectType()
     class Foo {
-      private instanceVar = 'instance';
+      private instanceVar = 'instance'
       @Field()
-      bar: string = this.instanceVar;
+      bar: string = this.instanceVar
     }
-    const { bar } = compileObjectType(Foo).getFields();
-    const resolvedValue = await bar.resolve(new Foo(), null, null, null);
-    expect(resolvedValue).toEqual('instance');
-  });
+    const { bar } = compileObjectType(Foo).getFields()
+    const resolvedValue = await bar.resolve(new Foo(), null, null, null)
+    expect(resolvedValue).toEqual('instance')
+  })
 
   it('Will not allow promise field without type addnotation', async () => {
     @ObjectType()
     class Foo {
       @Field()
       async bar(): Promise<number> {
-        return 10;
+        return 10
       }
     }
 
     expect(() =>
       compileObjectType(Foo).getFields(),
-    ).toThrowErrorMatchingSnapshot();
-  });
+    ).toThrowErrorMatchingSnapshot()
+  })
 
   it('Properly resolves edge cases default values of fields', async () => {
     @ObjectType()
     class Foo {
       @Field()
-      undef: boolean = undefined;
+      undef: boolean = undefined
       @Field()
-      falsy: boolean = false;
+      falsy: boolean = false
       @Field()
-      truthy: boolean = true;
+      truthy: boolean = true
       @Field()
-      nully: boolean = null;
+      nully: boolean = null
       @Field()
-      zero: number = 0;
+      zero: number = 0
       @Field()
-      maxInt: number = Number.MAX_SAFE_INTEGER;
+      maxInt: number = Number.MAX_SAFE_INTEGER
     }
-    const compiled = compileObjectType(Foo);
+    const compiled = compileObjectType(Foo)
 
-    const { undef, falsy, truthy, nully, zero, maxInt } = compiled.getFields();
+    const { undef, falsy, truthy, nully, zero, maxInt } = compiled.getFields()
 
-    const foo = new Foo();
+    const foo = new Foo()
 
-    expect(await undef.resolve(foo, {}, null, null)).toEqual(undefined);
-    expect(await falsy.resolve(foo, {}, null, null)).toEqual(false);
-    expect(await truthy.resolve(foo, {}, null, null)).toEqual(true);
-    expect(await nully.resolve(foo, {}, null, null)).toEqual(null);
-    expect(await zero.resolve(foo, {}, null, null)).toEqual(0);
-    expect(await maxInt.resolve(foo, {}, null, null)).toEqual(9007199254740991);
-  });
-});
+    expect(await undef.resolve(foo, {}, null, null)).toEqual(undefined)
+    expect(await falsy.resolve(foo, {}, null, null)).toEqual(false)
+    expect(await truthy.resolve(foo, {}, null, null)).toEqual(true)
+    expect(await nully.resolve(foo, {}, null, null)).toEqual(null)
+    expect(await zero.resolve(foo, {}, null, null)).toEqual(0)
+    expect(await maxInt.resolve(foo, {}, null, null)).toEqual(9007199254740991)
+  })
+})

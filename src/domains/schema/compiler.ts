@@ -1,16 +1,16 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLFieldConfig } from 'graphql';
+import { GraphQLSchema, GraphQLObjectType, GraphQLFieldConfig } from 'graphql'
 import {
   queryFieldsRegistry,
   mutationFieldsRegistry,
   RootFieldsRegistry,
-} from './registry';
-import { SchemaRootError } from './error';
+} from './registry'
+import { SchemaRootError } from './error'
 
-import { validateSchemaRoots } from './services';
-import { showDeprecationWarning } from '../../services/utils';
+import { validateSchemaRoots } from './services'
+import { showDeprecationWarning } from '../../services/utils'
 
 export interface CompileSchemaOptions {
-  roots: Function[];
+  roots: Function[]
 }
 
 function getAllRootFieldsFromRegistry(
@@ -18,67 +18,65 @@ function getAllRootFieldsFromRegistry(
   registry: RootFieldsRegistry,
   name: 'Query' | 'Mutation',
 ): GraphQLObjectType {
-  const allRootFields: { [key: string]: GraphQLFieldConfig<any, any> } = {};
+  const allRootFields: { [key: string]: GraphQLFieldConfig<any, any> } = {}
   for (let root of roots) {
-    const rootFields = registry.getAll(root);
+    const rootFields = registry.getAll(root)
     Object.keys(rootFields).forEach((fieldName) => {
-      const fieldConfigGetter = rootFields[fieldName];
-      const fieldConfig = fieldConfigGetter();
+      const fieldConfigGetter = rootFields[fieldName]
+      const fieldConfig = fieldConfigGetter()
 
       // throw error if root field with this name is already registered
       if (!!allRootFields[fieldName]) {
         throw new SchemaRootError(
           root,
           `Duplicate of root field name: '${fieldName}'. Seems this name is also used inside other schema root.`,
-        );
+        )
       }
-      allRootFields[fieldName] = fieldConfig;
-    });
+      allRootFields[fieldName] = fieldConfig
+    })
   }
 
-  const isEmpty = Object.keys(allRootFields).length < 1;
+  const isEmpty = Object.keys(allRootFields).length < 1
 
   if (isEmpty) {
-    return null;
+    return null
   }
 
   return new GraphQLObjectType({
     name,
     fields: allRootFields,
-  });
+  })
 }
 
 export function compileSchema(config: CompileSchemaOptions | Function) {
-  const roots = typeof config === 'function' ? [config] : config.roots;
+  const roots = typeof config === 'function' ? [config] : config.roots
 
   if (typeof config === 'function') {
     showDeprecationWarning(
       `Passing schema root to compileSchema is deprecated. Use config object with 'roots' field. compileSchema(SchemaRoot) --> compileSchema({ roots: [SchemaRoot] })`,
       config,
-    );
+    )
   }
 
-  validateSchemaRoots(roots);
+  validateSchemaRoots(roots)
 
   const query = getAllRootFieldsFromRegistry(
     roots,
     queryFieldsRegistry,
     'Query',
-  );
+  )
   const mutation = getAllRootFieldsFromRegistry(
     roots,
     mutationFieldsRegistry,
     'Mutation',
-  );
+  )
 
   if (!query) {
-    throw new Error(
-      'At least one of schema roots must have @Query root field.',
-    );
+    throw new Error('At least one of schema roots must have @Query root field.')
   }
 
   return new GraphQLSchema({
     query: query || undefined,
     mutation: mutation || undefined,
-  });
+  })
 }

@@ -11,21 +11,21 @@ query {
 Here is all the server code required:
 
 ```typescript
-import * as express from 'express';
-import { Schema, Query, compileSchema } from 'typegql';
-import * as graphqlHTTP from 'express-graphql';
+import * as express from 'express'
+import { Schema, Query, compileSchema } from 'typegql'
+import * as graphqlHTTP from 'express-graphql'
 
 @Schema()
 class SuperSchema {
   @Query()
   hello(name: string): string {
-    return `Hello, ${name}!`;
+    return `Hello, ${name}!`
   }
 }
 
-const compiledSchema = compileSchema(SuperSchema);
+const compiledSchema = compileSchema(SuperSchema)
 
-const app = express();
+const app = express()
 
 app.use(
   '/graphql',
@@ -33,8 +33,8 @@ app.use(
     schema: compiledSchema,
     graphiql: true,
   }),
-);
-app.listen(3000);
+)
+app.listen(3000)
 ```
 
 To start this example, in this folder run `yarn install` and `yarn start`. Server will be running under `http://localhost:3000/graphql`
