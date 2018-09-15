@@ -8,7 +8,7 @@ export { objectTypeRegistry, inputTypeRegistry } from './registry'
 export interface ObjectTypeOptions {
   name?: string
   description?: string
-  mixins?: any[]
+  mixins?: Function[]
 }
 
 export function ObjectType(options?: ObjectTypeOptions): ClassDecorator {

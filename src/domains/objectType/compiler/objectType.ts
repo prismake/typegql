@@ -12,10 +12,10 @@ const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>()
 export interface TypeOptions {
   name: string
   description?: string
-  mixins?: any[]
+  mixins?: Function[]
 }
 
-function createTypeFieldsGetter(target: Function, mixins: any[] = []) {
+function createTypeFieldsGetter(target: Function, mixins: Function[] = []) {
   const targetWithParents = getClassWithAllParentClasses(target).concat(mixins)
 
   const hasFields = targetWithParents.some((ancestor) => {
