@@ -1,35 +1,34 @@
-import { GraphQLObjectType } from 'graphql';
-import { ObjectTypeError, objectTypeRegistry } from '../index';
+import { GraphQLObjectType } from 'graphql'
+import { ObjectTypeError, objectTypeRegistry } from '../index'
 
-import { fieldsRegistry, compileAllFields } from '../../field';
+import { fieldsRegistry, compileAllFields } from '../../field'
 import {
   getClassWithAllParentClasses,
   createCachedThunk,
-} from '../../../services/utils';
+} from '../../../services/utils'
 
-const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>();
+const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>()
 
 export interface TypeOptions {
-  name: string;
-  description?: string;
-  mixins?: any[];
+  name: string
+  description?: string
+  mixins?: any[]
 }
 
 function createTypeFieldsGetter(target: Function, mixins: any[] = []) {
-  const targetWithParents = getClassWithAllParentClasses(target).concat(mixins);
-  console.log('targetWithParents: ', targetWithParents);
+  const targetWithParents = getClassWithAllParentClasses(target).concat(mixins)
 
   const hasFields = targetWithParents.some((ancestor) => {
-    return !fieldsRegistry.isEmpty(ancestor);
-  });
+    return !fieldsRegistry.isEmpty(ancestor)
+  })
 
   if (!hasFields) {
-    throw new ObjectTypeError(target, `There are no fields inside this type.`);
+    throw new ObjectTypeError(target, `There are no fields inside this type.`)
   }
 
   return createCachedThunk(() => {
-    return compileAllFields(targetWithParents);
-  });
+    return compileAllFields(targetWithParents)
+  })
 }
 
 export function compileObjectTypeWithConfig(
@@ -37,7 +36,7 @@ export function compileObjectTypeWithConfig(
   config: TypeOptions,
 ): GraphQLObjectType {
   if (compileOutputTypeCache.has(target)) {
-    return compileOutputTypeCache.get(target);
+    return compileOutputTypeCache.get(target)
   }
 
   const compiled = new GraphQLObjectType({
@@ -45,10 +44,10 @@ export function compileObjectTypeWithConfig(
     description: config.description,
     isTypeOf: (value: any) => value instanceof target,
     fields: createTypeFieldsGetter(target, config.mixins),
-  });
+  })
 
-  compileOutputTypeCache.set(target, compiled);
-  return compiled;
+  compileOutputTypeCache.set(target, compiled)
+  return compiled
 }
 
 export function compileObjectType(target: Function) {
@@ -56,9 +55,9 @@ export function compileObjectType(target: Function) {
     throw new ObjectTypeError(
       target,
       `Class is not registered. Make sure it's decorated with @ObjectType decorator`,
-    );
+    )
   }
 
-  const compiler = objectTypeRegistry.get(target);
-  return compiler();
+  const compiler = objectTypeRegistry.get(target)
+  return compiler()
 }
