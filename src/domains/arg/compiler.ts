@@ -105,6 +105,10 @@ function convertArgsArrayToArgsMap(
   const argsMap: GraphQLFieldConfigArgumentMap = {}
   argNames.forEach((argName: string, index: number) => {
     const argConfig = registeredArgs[index] || { ...defaultArgOptions }
+
+    if (argConfig.name) {
+      argName = argConfig.name
+    }
     const argType: GraphQLInputType = argsTypes[index]
 
     // don't publish args marked as auto Injected
@@ -119,6 +123,7 @@ function convertArgsArrayToArgsMap(
       description: argConfig.description,
     }
   })
+
   return argsMap
 }
 

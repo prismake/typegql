@@ -13,6 +13,7 @@ import {
   InjectorResolver,
   InjectorsIndex,
 } from '../../inject'
+import { argRegistry, ArgInnerConfig } from '../../arg/registry'
 
 interface ArgsMap {
   [argName: string]: any
@@ -22,6 +23,7 @@ interface ComputeArgsOptions {
   args: ArgsMap
   injectors: InjectorsIndex
   injectorToValueMapper: (injector: InjectorResolver) => any
+  getArgConfig: (index: number) => ArgInnerConfig
 }
 
 async function performHooksExecution(
@@ -44,12 +46,17 @@ async function performHooksExecution(
 
 function computeFinalArgs(
   func: Function,
-  { args, injectors, injectorToValueMapper }: ComputeArgsOptions,
+  { args, injectors, injectorToValueMapper, getArgConfig }: ComputeArgsOptions,
 ) {
   const paramNames = getParameterNames(func)
   return paramNames.map((paramName, index) => {
     if (args && args.hasOwnProperty(paramName)) {
       return args[paramName]
+    }
+
+    const argConfig = getArgConfig(index)
+    if (argConfig) {
+      return args[argConfig.name]
     }
 
     const injector = injectors[index]
@@ -80,7 +87,6 @@ export function compileFieldResolver(
   target: Function,
   fieldName: string,
 ): GraphQLFieldResolver<any, any> {
-  // const config = fieldsRegistry.get(target, fieldName);
   const injectors = injectorRegistry.getAll(target)[fieldName]
   const beforeHooks = fieldBeforeHooksRegistry.get(target, fieldName)
   const afterHooks = fieldAfterHooksRegistry.get(target, fieldName)
@@ -107,10 +113,12 @@ export function compileFieldResolver(
 
     const params = computeFinalArgs(instanceFieldFunc, {
       args: args || {},
-
       injectors: injectors || {},
       injectorToValueMapper: (injector) =>
         injector.apply(source, [{ source, args, context, info }]),
+      getArgConfig: (index: number) => {
+        return argRegistry.get(target, [fieldName, index])
+      },
     })
 
     const result = await instanceFieldFunc.apply(source, params)

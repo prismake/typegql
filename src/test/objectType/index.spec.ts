@@ -3,7 +3,11 @@ import { ObjectType, Field, compileObjectType } from '../..'
 
 describe('Type', () => {
   it('Throws when trying to compile type without @ObjectType decorator', () => {
-    expect(() => compileObjectType(class Bar {})).toThrowErrorMatchingSnapshot()
+    expect(() =>
+      compileObjectType(class Bar {}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"@ObjectType 'Bar': Class is not registered. Make sure it's decorated with @ObjectType decorator"`,
+    )
   })
 
   it('Throws when @ObjectType has no fields', () => {
@@ -14,10 +18,16 @@ describe('Type', () => {
     class NoDeclaredFields {
       foo: string
     }
-    expect(() => compileObjectType(NoFields)).toThrowErrorMatchingSnapshot()
+    expect(() =>
+      compileObjectType(NoFields),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"@ObjectType 'NoFields': There are no fields inside this type."`,
+    )
     expect(() =>
       compileObjectType(NoDeclaredFields),
-    ).toThrowErrorMatchingSnapshot()
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"@ObjectType 'NoDeclaredFields': There are no fields inside this type."`,
+    )
   })
 
   it('Compiles basic type with field', () => {
@@ -89,6 +99,26 @@ describe('Type', () => {
     }
 
     const compiled = compileObjectType(Foo)
-    console.log('compiled: ', compiled.getFields())
+
+    expect(compiled.getFields()).toMatchInlineSnapshot(`
+Object {
+  "bar": Object {
+    "args": Array [],
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "bar",
+    "resolve": [Function],
+    "type": "String",
+  },
+  "mixinMethod": Object {
+    "args": Array [],
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "mixinMethod",
+    "resolve": [Function],
+    "type": "String",
+  },
+}
+`)
   })
 })

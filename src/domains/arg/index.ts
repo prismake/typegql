@@ -7,6 +7,7 @@ export function Arg(options: ArgOptions = {}): ParameterDecorator {
     argRegistry.set(target.constructor, [fieldName, argIndex], {
       ...defaultArgOptions,
       ...options,
+      argIndex,
     })
   }
 }

@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Type Throws when @ObjectType has no fields 1`] = `"@ObjectType 'NoFields': There are no fields inside this type."`;
-
-exports[`Type Throws when @ObjectType has no fields 2`] = `"@ObjectType 'NoDeclaredFields': There are no fields inside this type."`;
-
-exports[`Type Throws when trying to compile type without @ObjectType decorator 1`] = `"@ObjectType 'Bar': Class is not registered. Make sure it's decorated with @ObjectType decorator"`;
