@@ -40,11 +40,19 @@ function getFieldCompiler(target: Function, fieldName: string) {
   return fieldCompiler
 }
 
+export enum rootFieldTypes {
+  query = 'query',
+  mutation = 'mutation',
+}
+
 // special fields
 export function Query(options?: FieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     validateRootSchemaField(targetInstance, fieldName)
-    Field(options)(targetInstance, fieldName)
+    Field({ rootFieldType: rootFieldTypes.query, ...options })(
+      targetInstance,
+      fieldName,
+    )
     const fieldCompiler = getFieldCompiler(
       targetInstance.constructor,
       fieldName,
@@ -60,7 +68,10 @@ export function Query(options?: FieldOptions): PropertyDecorator {
 export function Mutation(options?: FieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     validateRootSchemaField(targetInstance, fieldName)
-    Field(options)(targetInstance, fieldName)
+    Field({ rootFieldType: rootFieldTypes.mutation, ...options })(
+      targetInstance,
+      fieldName,
+    )
     const fieldCompiler = getFieldCompiler(
       targetInstance.constructor,
       fieldName,

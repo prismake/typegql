@@ -230,4 +230,32 @@ describe('@SchemaRoot', () => {
 
     expect(constructorCall).toBeCalled()
   })
+
+  it('will not allow two @Query on a single class method', async () => {
+    expect(() => {
+      @SchemaRoot()
+      class BarSchema {
+        @Query()
+        @Query()
+        fooa(): number {
+          return 42
+        }
+      }
+      compileSchema({ roots: [BarSchema] })
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Root field \\"fooa\\" on schema class BarSchema cannot be registered as a query-it's already registered"`,
+    )
+  })
+  it('will allow both @Mutation and @Query on a single class method', async () => {
+    @SchemaRoot()
+    class BarSchema {
+      @Query()
+      @Mutation()
+      foo(): number {
+        return 42
+      }
+    }
+
+    expect(() => compileSchema({ roots: [BarSchema] })).not.toThrow()
+  })
 })
