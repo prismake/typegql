@@ -9,7 +9,7 @@
 
 decapi is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
 
-- [Documentation - Getting started](https://capaj.github.io/decapi/getting-started-setup)
+- [Documentation](https://capaj.github.io/decapi/)
 
 ### Examples:
 
