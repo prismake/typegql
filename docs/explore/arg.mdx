@@ -12,8 +12,8 @@ query {
 
 Let's create such `Calculator` object type.
 
-```ts
-import { ObjectType, Field } from 'typegql'
+```js
+import { ObjectType, Field } from 'decapi'
 
 @ObjectType()
 class Calculator {
@@ -30,8 +30,8 @@ Note we didn't even have to use `@Arg` decorator yet. In case of simple, scalar 
 
 Let's say we're building another calculator metod, called `pow` which returns `base` to the `exponent` power (base^exponent). By default, we want `exponent` to be `2`.
 
-```ts
-import { ObjectType, Field, Arg } from 'typegql'
+```js
+import { ObjectType, Field, Arg } from 'decapi'
 
 @ObjectType()
 class Calculator {
@@ -48,11 +48,11 @@ class Calculator {
 Right now `exponent` argument is optional so we can use both:
 
 ```graphql
-framgnet A on Calculator {
+fragment A on Calculator {
   pow(2) # 4
 }
 
-framgnet B on Calculator {
+fragment B on Calculator {
   pow(2, 5) # 32
 }
 ```

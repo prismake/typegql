@@ -2,7 +2,7 @@
 
 For enums we can work with native Typescript enum keyword like
 
-```ts
+```js
 enum TaskType {
   Done,
   InProgress,
@@ -13,8 +13,8 @@ enum TaskType {
 
 The only thing is required is registering such enum with it's name, so schema compiler is aware of it (as under the hood, enum is plain key-value object).
 
-```ts
-import { registerEnum } from 'typegql'
+```js
+import { registerEnum } from 'decapi'
 
 enum TaskType {
   Done,
@@ -38,8 +38,8 @@ query {
 
 `User` type would be defined as:
 
-```ts
-import { ObjectType, Field, registerEnum } from 'typegql'
+```js
+import { ObjectType, Field, registerEnum } from 'decapi'
 
 enum TaskType {
   Done,

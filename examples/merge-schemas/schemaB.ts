@@ -1,4 +1,4 @@
-import { Schema, Query, compileSchema } from 'typegql'
+import { Schema, Query, compileSchema } from 'decapi'
 
 @Schema()
 class SchemaB {

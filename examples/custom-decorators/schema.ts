@@ -1,4 +1,4 @@
-import { Schema, Query, Field, ObjectType, compileSchema } from 'typegql'
+import { Schema, Query, Field, ObjectType, compileSchema } from 'decapi'
 
 function StringWithDescription(additionalDescription: string) {
   return Field({

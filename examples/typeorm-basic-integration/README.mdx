@@ -40,9 +40,9 @@ For sake of simplicity and learning curve, all server code is included in single
 
 Idea behind:
 
-Decorators of `typeorm` and `typegql` works very well together. We've declared single `User` class like:
+Decorators of `typeorm` and `decapi` works very well together. We've declared single `User` class like:
 
-```typescript
+```js
 @Entity() // set this class to be database entity
 @ObjectType() // also, make it graphql api public type
 export class User extends BaseEntity {
@@ -70,7 +70,7 @@ export class User extends BaseEntity {
 
 After model is ready, let's define some api interface with some mutation and queries
 
-```typescript
+```js
 @Schema()
 class ApiSchema {
   @Query({ type: [User] }) // as function return type is Promise of user, we need to set type manually as array of users

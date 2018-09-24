@@ -2,8 +2,8 @@
 
 When a regular class inheritance is not flexible enough, you can create mixins which can be easily "sprinkled" onto any class in your existing hierarchy. At runtime method fields on the mixin run in the context of a class where you apply them, but typescript doesn't know that, so you have to explicitly set `this` parameter, as shown:
 
-```ts
-import { ObjectType, Field, Union } from 'typegql'
+```js
+import { ObjectType, Field, Union } from 'decapi'
 
 interface IHasMyProp {
   myProp: number

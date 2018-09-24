@@ -33,7 +33,7 @@ function getDefaultResolver(types: GraphQLObjectType[]): UnionTypeResolver {
 }
 
 /**
- * Resolves type, and if needed, tries to resolve it using typegql-aware types
+ * Resolves type, and if needed, tries to resolve it using decapi-aware types
  */
 function enhanceTypeResolver(
   originalResolver: UnionTypeResolver,

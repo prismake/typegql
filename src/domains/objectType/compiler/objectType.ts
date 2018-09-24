@@ -1,7 +1,7 @@
 import { GraphQLObjectType } from 'graphql'
 import { ObjectTypeError, objectTypeRegistry } from '../index'
 
-import { fieldsRegistry, compileAllFields } from '../../field'
+import { compileAllFields } from '../../field'
 import {
   getClassWithAllParentClasses,
   createCachedThunk,
@@ -18,13 +18,13 @@ export interface TypeOptions {
 function createTypeFieldsGetter(target: Function, mixins: Function[] = []) {
   const targetWithParents = getClassWithAllParentClasses(target).concat(mixins)
 
-  const hasFields = targetWithParents.some((ancestor) => {
-    return !fieldsRegistry.isEmpty(ancestor)
-  })
+  // const hasFields = targetWithParents.some((ancestor) => {
+  //   return !fieldsRegistry.isEmpty(ancestor)
+  // })
 
-  if (!hasFields) {
-    throw new ObjectTypeError(target, `There are no fields inside this type.`)
-  }
+  // if (!hasFields) {
+  //   throw new ObjectTypeError(target, `There are no fields inside this type.`)
+  // }
 
   return createCachedThunk(() => {
     return compileAllFields(targetWithParents)

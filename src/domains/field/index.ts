@@ -23,6 +23,19 @@ export function Field(options?: FieldOptions): PropertyDecorator {
       isNullable: true,
       ...options,
     }
+    const existingField = fieldsRegistry.get(
+      targetInstance.constructor,
+      fieldName,
+    )
+    if (existingField) {
+      throw new TypeError(
+        `Field "${fieldName}" on class ${
+          targetInstance.constructor.name
+        } cannot be registered-it's already registered as type ${
+          existingField.type.name
+        }`,
+      )
+    }
 
     fieldsRegistry.set(targetInstance.constructor, fieldName, {
       ...finalConfig,

@@ -1,4 +1,4 @@
-import { Schema, Query, compileSchema } from 'typegql'
+import { Schema, Query, compileSchema } from 'decapi'
 import { graphqlLambda, graphiqlLambda } from 'apollo-server-lambda'
 
 @Schema()

@@ -5,7 +5,7 @@ import {
   Field,
   ObjectType,
   compileSchema,
-} from 'typegql'
+} from 'decapi'
 
 @ObjectType()
 class Book {

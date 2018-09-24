@@ -239,7 +239,9 @@ describe('Field', () => {
 
     expect(() =>
       compileObjectType(Foo).getFields(),
-    ).toThrowErrorMatchingSnapshot()
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"@ObjectType Foo.bar: Field returns Promise so it's required to explicitly set resolved type as it's not possible to guess it. You can set resolved type like: @Field({ type: ItemType })"`,
+    )
   })
 
   it('Properly resolves edge cases default values of fields', async () => {
@@ -270,5 +272,28 @@ describe('Field', () => {
     expect(await nully.resolve(foo, {}, null, null)).toEqual(null)
     expect(await zero.resolve(foo, {}, null, null)).toEqual(0)
     expect(await maxInt.resolve(foo, {}, null, null)).toEqual(9007199254740991)
+  })
+
+  it('Will not allow a field to overwrite another', async () => {
+    @ObjectType()
+    class Foo {
+      bar(): number {
+        return 10
+      }
+    }
+
+    const decorate = Field({
+      type: Number,
+    })
+    decorate(Foo.prototype, 'bar')
+    const decorate2 = Field({
+      type: String,
+    })
+
+    expect(() =>
+      decorate2(Foo.prototype, 'bar'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Field \\"bar\\" on class Foo cannot be registered-it's already registered as type Number"`,
+    )
   })
 })

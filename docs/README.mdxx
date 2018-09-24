@@ -1,17 +1,17 @@
 # Getting started
 
-### What is `typegql`?
+### What is `decapi`?
 
-typegql is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
+decapi is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
 
 ## Creating very simple schema
 
 Schema is main building block of any `graphql` schema. It'll join all parts of our api together.
 
-In `typegql` to create schema, we need to pass class decorated with `@Schema` to `compileSchema` function
+In `decapi` to create schema, we need to pass class decorated with `@Schema` to `compileSchema` function
 
-```ts
-import { Schema, compileSchema} from 'typegql
+```js
+import { Schema, compileSchema} from 'decapi
 
 @Schema()
 class SuperSchema {
@@ -37,8 +37,8 @@ Very simple fully working schema like
 
 Could be implemented as:
 
-```typescript
-import { Schema, Query, compileSchema} from 'typegql
+```js
+import { Schema, Query, compileSchema} from 'decapi
 
 @Schema()
 class SuperSchema {
@@ -63,8 +63,8 @@ Let's add some customization to our schema:
 
 With tiny change in our code:
 
-```typescript
-import { Schema, Query, compileSchema} from 'typegql
+```js
+import { Schema, Query, compileSchema} from 'decapi
 
 @Schema()
 class SuperSchema {
@@ -93,8 +93,8 @@ mutation {
 
 Such query will have a bit more code and here it is:
 
-```typescript
-import { Schema, Query, ObjectType, Field, Mutation, compileSchema} from 'typegql;
+```js
+import { Schema, Query, ObjectType, Field, Mutation, compileSchema} from 'decapi;
 
 @ObjectType({ description: 'Simple product object type' })
 class Product {
@@ -126,7 +126,7 @@ const compiledSchema = compileSchema(SuperSchema);
 
 ## Forcing field type.
 
-Since now, `typegql` was able to guess type of every field from typescript type definitions.
+Since now, `decapi` was able to guess type of every field from typescript type definitions.
 
 There are, however, some cases where we'd have to define them explicitly.
 
@@ -136,7 +136,7 @@ There are, however, some cases where we'd have to define them explicitly.
 
 Let's modify our `Product` so it has additional `categories` field that will return array of strings. For sake of readibility, I'll ommit all fields we've defined previously.
 
-```typescript
+```js
 @ObjectType()
 class Product {
   @Field({ type: [String] }) // note we can use any native type like GraphQLString!
@@ -157,7 +157,7 @@ We've added `{ type: [String] }` as `@Field` options. Type can be anything that 
 
 Every field function we write can be `async` and return `Promise`. Let's say, instead of hard-coding our categories, we want to fetch it from some external API:
 
-```typescript
+```js
 @ObjectType()
 class Product {
   @Field({ type: [String] }) // note we can use any native type like GraphQLString!
@@ -170,6 +170,6 @@ class Product {
 
 ## Adding to your project
 
-[Installation and setup](getting-started/setup.md)
+[Installation and setup](getting-started-setup)
 
-**Important!** setup steps are simple, but required. Make sure to check [setup](getting-started/setup.md) section.
+**Important!** setup steps are simple, but required. Make sure to check [setup](getting-started-setup) section.

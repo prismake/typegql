@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { Schema, Query, compileSchema } from 'typegql'
+import { Schema, Query, compileSchema } from 'decapi'
 import * as graphqlHTTP from 'express-graphql'
 
 import { schema } from './schema'

@@ -2,7 +2,7 @@
 
 Sometimes we'd like to define a single type as both input and output object type. That's where DuplexObjectType comes in. Of course you only want to take a subset of all fields as input-so just mark those that you don't want in the input as regular `@Field()`.
 
-```ts
+```js
 import {
   DuplexObjectType,
   Field,
@@ -10,7 +10,7 @@ import {
   Arg,
   InputObjectType,
   Mutation,
-} from 'typegql'
+} from 'decapi'
 
 @DuplexObjectType()
 class User {

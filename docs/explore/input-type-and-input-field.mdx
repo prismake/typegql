@@ -14,8 +14,8 @@ query {
 
 Let's create such `User` type that allows complex `where` argument for `deleteManyTodos` field.
 
-```ts
-import { ObjectType, Field, Arg, InputObjectType } from 'typegql'
+```js
+import { ObjectType, Field, Arg, InputObjectType } from 'decapi'
 
 @InputObjectType()
 class WhereFilter {

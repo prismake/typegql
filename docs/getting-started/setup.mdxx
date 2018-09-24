@@ -1,0 +1,22 @@
+# Installation and setup
+
+Firstly, add `decapi` to your project
+
+`yarn add decapi graphql reflect-medatada`
+
+**Important!** To work with `typescript`, you'll need `reflect-medatada` so `decapi` can infer types from your code.
+
+Add `import "reflect-metadata";` somewhere in bootstrap (before any `decapi` decorator is used) of your app eg `app/index.ts`.
+
+## Modify `tsconfig.json`
+
+`decapi` will try to infer types of your fields, when possible. To allow this, you'll have to add following to your `tsconfig.json` `compilerOptions` section:
+
+```
+"emitDecoratorMetadata": true,
+"experimentalDecorators": true,
+```
+
+## Does `decapi` work without typescript?
+
+It absolutely does. Keep in mind, however - without typescript all types will have to be defined explicitly.

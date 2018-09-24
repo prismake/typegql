@@ -1,41 +1,41 @@
 {
-  "name": "@capaj/typegql",
-  "version": "0.6.5",
+  "name": "decapi",
+  "version": "0.6.6",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
   "scripts": {
+    "docz:dev": "docz dev",
+    "docz:build": "docz build",
+    "docsDeploy": "docz build && gh-pages -d .docz/dist",
     "test": "jest --coverage",
     "jestw": "jest --watch",
     "build": "rimraf types lib && tsc --project tsconfig.json",
-    "prepublishOnly": "rimraf types lib && yarn build",
-    "docs": "gitbook serve",
-    "docs:build": "gitbook build ./docs",
+    "prepublishOnly": "rimraf types lib && yarn build && yarn docsDeploy",
     "precommit": "pretty-quick --staged"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/prismake/typegql"
+    "url": "https://github.com/capaj/decapi"
   },
   "devDependencies": {
     "@types/graphql": "^14.0.0",
     "@types/graphql-iso-date": "^3.3.0",
     "@types/jest": "^23.3.2",
-    "@types/node": "^10.10.1",
+    "@types/node": "^10.10.3",
     "@types/object-path": "^0.9.29",
     "@types/reflect-metadata": "^0.1.0",
-    "gh-pages": "^1.2.0",
-    "gitbook": "^3.2.3",
-    "gitbook-cli": "^2.3.2",
+    "docz": "^0.11.2",
+    "gh-pages": "^2.0.0",
     "graphql": "^14.0.2",
     "husky": "^0.14.3",
     "jest": "^23.6.0",
     "prettier": "^1.14.3",
     "pretty-quick": "^1.7.0",
     "rimraf": "^2.6.2",
-    "rollup": "^0.66.1",
+    "rollup": "^0.66.2",
     "rollup-plugin-typescript2": "^0.17.0",
-    "ts-jest": "^23.10.0",
+    "ts-jest": "^23.10.1",
     "typescript": "^3.0.3"
   },
   "peerDependencies": {

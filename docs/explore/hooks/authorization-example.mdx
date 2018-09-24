@@ -8,8 +8,8 @@
 
 Very basic authorization model could look like:
 
-```ts
-import { ObjectType, Field, Before } from 'typegql'
+```js
+import { ObjectType, Field, Before } from 'decapi'
 
 @ObjectType()
 class User {
@@ -34,8 +34,8 @@ Authorization like in example above is very likely to be required in many places
 
 We could simply create custom hook that can be easily re-used:
 
-```ts
-import { ObjectType, Field, Before } from 'typegql'
+```js
+import { ObjectType, Field, Before } from 'decapi'
 
 function AdminOnly(errorMessage: string = 'Unauthorized') {
   return Before(({ context }) => {
@@ -64,8 +64,8 @@ class User {
 
 Quite often access level for every given object depends on who is seeing it. Let's say we want only admin or owner of account to be able to see email address of `User`:
 
-```ts
-import { ObjectType, Field, Before } from 'typegql'
+```js
+import { ObjectType, Field, Before } from 'decapi'
 
 function AdminOrAccountOwner(errorMessage: string = 'Unauthorized') {
   return Before(async ({ context, source }) => {

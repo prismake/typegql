@@ -14,12 +14,12 @@ Quite often we need to have access to graphql context inside resolver. Common ex
 
 ## Built-in injectors `@Context`, `@Source`, `@Info`
 
-There are 3 argument decorators in `typegql` that allow passing values to resolvers - `@Context`, `@Source`, `@Info`
+There are 3 argument decorators in `decapi` that allow passing values to resolvers - `@Context`, `@Source`, `@Info`
 
 Implementation of `Viewer` type would use `@Context` decorator to get user id from graphql context and could look like:
 
-```ts
-import { ObjectType, Field, Context } from 'typegql'
+```js
+import { ObjectType, Field, Context } from 'decapi'
 
 @ObjectType()
 class Viewer {
@@ -38,8 +38,8 @@ Beside built-in injectors you can use `@Inject` decorator to pass any value to g
 
 `@Inject` decorator requires getter function that converts resolve info to any arbitral value. **Note you can return promise of any value, too**.
 
-```ts
-import { ObjectType, Field, Inject } from 'typegql';
+```js
+import { ObjectType, Field, Inject } from 'decapi';
 
 @ObjectType()
 class Viewer {

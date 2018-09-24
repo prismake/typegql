@@ -8,7 +8,7 @@
     "graphql": "0.13.2",
     "serverless": "^1.26.1",
     "serverless-plugin-typescript": "^1.1.5",
-    "typegql": "^0.4.0"
+    "decapi": "^0.4.0"
   },
   "devDependencies": {
     "serverless-offline": "^3.20.2"

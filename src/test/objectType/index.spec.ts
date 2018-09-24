@@ -10,7 +10,7 @@ describe('Type', () => {
     )
   })
 
-  it('Throws when @ObjectType has no fields', () => {
+  it('It does not throw when @ObjectType has no fields', () => {
     @ObjectType()
     class NoFields {}
 
@@ -18,16 +18,8 @@ describe('Type', () => {
     class NoDeclaredFields {
       foo: string
     }
-    expect(() =>
-      compileObjectType(NoFields),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType 'NoFields': There are no fields inside this type."`,
-    )
-    expect(() =>
-      compileObjectType(NoDeclaredFields),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType 'NoDeclaredFields': There are no fields inside this type."`,
-    )
+    expect(() => compileObjectType(NoFields)).not.toThrow()
+    expect(() => compileObjectType(NoDeclaredFields)).not.toThrow()
   })
 
   it('Compiles basic type with field', () => {

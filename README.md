@@ -1,15 +1,15 @@
-[![npm version](https://badge.fury.io/js/typegql.svg)](https://badge.fury.io/js/typegql)
-[![npm version](https://david-dm.org/prismake/typegql.svg)](https://david-dm.org/prismake/typegql)
-[![codecov](https://codecov.io/gh/prismake/typegql/branch/master/graph/badge.svg)](https://codecov.io/gh/prismake/typegql)
-[![Build Status](https://api.travis-ci.org/prismake/typegql.svg?branch=master)](https://travis-ci.org/prismake/typegql)
+<!-- [![npm version](https://badge.fury.io/js/decapi.svg)](https://badge.fury.io/js/decapi)
+[![npm version](https://david-dm.org/capaj/decapi.svg)](https://david-dm.org/capaj/decapi)
+[![codecov](https://codecov.io/gh/capaj/decapi/branch/master/graph/badge.svg)](https://codecov.io/gh/capaj/decapi)
+[![Build Status](https://api.travis-ci.org/capaj/decapi.svg?branch=master)](https://travis-ci.org/capaj/decapi) -->
 
-### What is `typegql`?
+### What is `decapi`?
 
 ![demo](assets/demo.gif)
 
-typegql is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
+decapi is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
 
-- [Documentation](https://prismake.github.io/typegql/)
+- [Documentation](https://capaj.github.io/decapi/)
 
 ### Examples:
 
@@ -31,8 +31,8 @@ query {
 }
 ```
 
-```typescript
-import { Schema, Query, compileSchema } from 'typegql'
+```js
+import { Schema, Query, compileSchema } from 'decapi'
 
 @Schema()
 class SuperSchema {
@@ -49,7 +49,7 @@ const compiledSchema = compileSchema(SuperSchema)
 
 To use it with `express`, you'd have to simply:
 
-```typescript
+```js
 import * as express from 'express'
 import * as graphqlHTTP from 'express-graphql'
 
@@ -83,7 +83,7 @@ mutation {
 
 Such query will have a bit more code and here it is:
 
-```typescript
+```js
 import {
   Schema,
   Query,
@@ -91,7 +91,7 @@ import {
   Field,
   Mutation,
   compileSchema,
-} from 'typegql'
+} from 'decapi'
 
 @ObjectType({ description: 'Simple product object type' })
 class Product {
@@ -123,7 +123,7 @@ const compiledSchema = compileSchema(SuperSchema)
 
 ## Forcing field type.
 
-Since now, `typegql` was able to guess type of every field from typescript type definitions.
+Since now, `decapi` was able to guess type of every field from typescript type definitions.
 
 There are, however, some cases where we'd have to define them explicitly.
 
@@ -134,7 +134,7 @@ There are, however, some cases where we'd have to define them explicitly.
 
 Let's modify our `Product` so it has additional `categories` field that will return array of strings. For sake of readibility, I'll ommit all fields we've defined previously.
 
-```typescript
+```js
 @ObjectType()
 class Product {
   @Field({ type: [String] }) // note we can use any native type like GraphQLString!
@@ -155,7 +155,7 @@ We've added `{ type: [String] }` as `@Field` options. Type can be anything that 
 
 Every field function we write can be `async` and return `Promise`. Let's say, instead of hard-coding our categories, we want to fetch it from some external API:
 
-```typescript
+```js
 @ObjectType()
 class Product {
   @Field({ type: [String] }) // note we can use any native type like GraphQLString!
@@ -168,4 +168,13 @@ class Product {
 
 ## Before `1.0.0`
 
-Before version `1.0.0` consider APIs of `typegql` to be subject to change. We encourage you to try this library out and provide us feedback so we can polish it to be as usable and efficent as possible.
+Before version `1.0.0` consider APIs of `decapi` to be subject to change. We encourage you to try this library out and provide us feedback so we can polish it to be as usable and efficent as possible.
+
+## Why forking?
+
+I wanted to contribute to [typegql](https://github.com/prismake/typegql) and work on it together with @pie6k, but it soon became obvious that we both have something different in mind. Just to briefly summarise the differences:
+
+- decapi has `@DuplexObjectType` and `@DuplexField`
+- decapi has mixins
+- decapi can type infer Date type
+- decapi allows you to have an empty object type-you can populate it with fields at runtime

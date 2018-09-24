@@ -8,7 +8,7 @@
     "express-graphql": "^0.6.12",
     "graphql-list-fields": "^2.0.2",
     "ts-node": "^6.0.0",
-    "typegql": "^0.4.0",
+    "decapi": "^0.4.0",
     "typescript": "^2.8.1"
   },
   "scripts": {

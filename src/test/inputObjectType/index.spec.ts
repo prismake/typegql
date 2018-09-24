@@ -6,20 +6,6 @@ describe('Type', () => {
     expect(() => compileObjectType(class Bar {})).toThrowErrorMatchingSnapshot()
   })
 
-  it('Throws when @ObjectType has no fields', () => {
-    @ObjectType()
-    class NoFields {}
-
-    @ObjectType()
-    class NoDeclaredFields {
-      foo: string
-    }
-    expect(() => compileObjectType(NoFields)).toThrowErrorMatchingSnapshot()
-    expect(() =>
-      compileObjectType(NoDeclaredFields),
-    ).toThrowErrorMatchingSnapshot()
-  })
-
   it('Compiles basic type with field', () => {
     @ObjectType()
     class Foo {

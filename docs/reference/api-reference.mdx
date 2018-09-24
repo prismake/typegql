@@ -2,7 +2,7 @@
 
 ### @ObjectType
 
-```typescript
+```js
 interface ObjectTypeOptions {
   name?: string; // infered from class name
   description?: string;
@@ -13,7 +13,7 @@ interface ObjectTypeOptions {
 
 ### @Field
 
-```typescript
+```js
  interface FieldOptions {
   name?: string;
   description?: string;
@@ -26,7 +26,7 @@ interface ObjectTypeOptions {
 
 ### @InputObjectType
 
-```typescript
+```js
 interface InputObjectTypeOptions {
   name?: string;
   description?: string;
@@ -37,7 +37,7 @@ interface InputObjectTypeOptions {
 
 ### @InputField
 
-```typescript
+```js
  interface InputFieldOptions {
   description?: string;
   defaultValue?: any;
@@ -51,7 +51,7 @@ interface InputObjectTypeOptions {
 
 ### @DuplexObjectType
 
-```typescript
+```js
 interface DuplexObjectTypeOptions {
   name?: string;
   description?: string;
@@ -62,7 +62,7 @@ interface DuplexObjectTypeOptions {
 
 ### @DuplexField
 
-```typescript
+```js
  interface DuplexFieldOptions {
   description?: string;
   defaultValue?: any;
@@ -77,7 +77,7 @@ interface DuplexObjectTypeOptions {
 
 ### @Arg
 
-```typescript
+```js
  interface ArgOptions {
   description?: string;
   type?: any;
@@ -88,7 +88,7 @@ interface DuplexObjectTypeOptions {
 
 ### @Inject
 
-```typescript
+```js
 type InjectorResolver = (
   source: any,
   args: any,
@@ -103,7 +103,7 @@ type InjectorResolver = (
 
 No decorator options avaliable
 
-```typescript
+```js
 @Context: ParameterDecorator
 ```
 
@@ -111,7 +111,7 @@ No decorator options avaliable
 
 No decorator options avaliable
 
-```typescript
+```js
 @Source: ParameterDecorator
 ```
 
@@ -119,13 +119,13 @@ No decorator options avaliable
 
 No decorator options avaliable
 
-```typescript
+```js
 @Info: ParameterDecorator
 ```
 
 ### @Before
 
-```typescript
+```js
 interface HookExecutorResolverArgs {
   source: any;
   args: { [argName: string]: any };
@@ -140,7 +140,7 @@ type HookExecutor = (data: HookExecutorResolverArgs) => any | Promise<any>;
 
 ### @After
 
-```typescript
+```js
 interface HookExecutorResolverArgs {
   source: any;
   args: { [argName: string]: any };
@@ -155,7 +155,7 @@ type HookExecutor = (data: HookExecutorResolverArgs) => any | Promise<any>;
 
 ### @Schema
 
-```typescript
+```js
 @Schema(): ClassDecorator;
 ```
 
@@ -169,7 +169,7 @@ Has same interface as [@Field](#field) decorator. Can be used only inside @Schem
 
 ### @Union
 
-```typescript
+```js
 interface UnionOptions {
   name?: string;
   resolveTypes?: (value: any, context: any, info: GraphQLResolveInfo): any; // must return type resolvable to one of defined in `types` option
@@ -185,7 +185,7 @@ interface UnionTypeResolver {
 
 ### registerEnum
 
-```typescript
+```js
 interface EnumOptions {
   name: string;
   description?: string;
@@ -196,18 +196,18 @@ registerEnum(enumDef: Object, options: EnumOptions | string): void;
 
 ### compileSchema
 
-```typescript
+```js
 compileSchema(schemaTarget: Function): GraphQLSchema
 ```
 
 ### compileObjectType,
 
-```typescript
+```js
 compileObjectType(schemaTarget: Function): GraphQLObjectType
 ```
 
 ### compileInputObjectType,
 
-```typescript
+```js
 compileInputObjectType(schemaTarget: Function): GraphQLInputObjectType
 ```

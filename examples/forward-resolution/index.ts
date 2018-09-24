@@ -1,14 +1,7 @@
 import * as express from 'express'
 import { GraphQLResolveInfo } from 'graphql'
 import * as getFieldNames from 'graphql-list-fields'
-import {
-  Schema,
-  Query,
-  ObjectType,
-  Field,
-  Inject,
-  compileSchema,
-} from 'typegql'
+import { Schema, Query, ObjectType, Field, Inject, compileSchema } from 'decapi'
 import * as graphqlHTTP from 'express-graphql'
 
 function NeededFields(filter: string[] = []) {

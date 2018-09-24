@@ -7,7 +7,7 @@ import {
   ObjectType,
   Field,
   compileSchema,
-} from 'typegql'
+} from 'decapi'
 import * as graphqlHTTP from 'express-graphql'
 
 import { PrimaryGeneratedColumn, Column, createConnection } from 'typeorm'

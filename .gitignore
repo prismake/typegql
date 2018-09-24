@@ -11,3 +11,4 @@ _book
 coverage
 yarn-error.log
 .vscode
+.docz

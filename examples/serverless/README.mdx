@@ -1,6 +1,6 @@
 ## Serverless example
 
-This example presents how to deploy graphql schema based on typegql to serverless infrastructure like AWS lambda.
+This example presents how to deploy graphql schema based on decapi to serverless infrastructure like AWS lambda.
 
 Schema is very simple:
 
@@ -12,8 +12,8 @@ query {
 
 As schema compiled by `compileSchema` is regular, normal GraphQLSchema, we can simply use it with `apollo-server-lambda` that will handle everything.
 
-```typescript
-import { Schema, Query, compileSchema } from 'typegql'
+```js
+import { Schema, Query, compileSchema } from 'decapi'
 import { graphqlLambda, graphiqlLambda } from 'apollo-server-lambda'
 
 @Schema()
