@@ -1,4 +1,5 @@
 import { DeepWeakMap } from '../../services/utils'
+import { rootFieldTypes } from '../schema/rootFields'
 
 export interface AllRegisteredFields {
   [fieldName: string]: FieldInnerConfig
@@ -12,6 +13,7 @@ export const fieldsRegistry = new DeepWeakMap<
 
 export interface FieldInnerConfig {
   name: string
+  rootFieldType?: rootFieldTypes
   property: string
   description?: string
   isNullable?: boolean
