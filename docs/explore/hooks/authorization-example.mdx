@@ -1,3 +1,7 @@
+---
+order: -1
+---
+
 # Authorization example with @Before hook
 
 `@Before` hook is great for use-cases like authorization because:
@@ -8,7 +12,7 @@
 
 Very basic authorization model could look like:
 
-```js
+```ts
 import { ObjectType, Field, Before } from 'decapi'
 
 @ObjectType()
@@ -34,7 +38,7 @@ Authorization like in example above is very likely to be required in many places
 
 We could simply create custom hook that can be easily re-used:
 
-```js
+```ts
 import { ObjectType, Field, Before } from 'decapi'
 
 function AdminOnly(errorMessage: string = 'Unauthorized') {
@@ -64,7 +68,7 @@ class User {
 
 Quite often access level for every given object depends on who is seeing it. Let's say we want only admin or owner of account to be able to see email address of `User`:
 
-```js
+```ts
 import { ObjectType, Field, Before } from 'decapi'
 
 function AdminOrAccountOwner(errorMessage: string = 'Unauthorized') {

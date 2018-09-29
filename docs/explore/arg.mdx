@@ -12,7 +12,7 @@ query {
 
 Let's create such `Calculator` object type.
 
-```js
+```ts
 import { ObjectType, Field } from 'decapi'
 
 @ObjectType()
@@ -30,7 +30,7 @@ Note we didn't even have to use `@Arg` decorator yet. In case of simple, scalar 
 
 Let's say we're building another calculator metod, called `pow` which returns `base` to the `exponent` power (base^exponent). By default, we want `exponent` to be `2`.
 
-```js
+```ts
 import { ObjectType, Field, Arg } from 'decapi'
 
 @ObjectType()

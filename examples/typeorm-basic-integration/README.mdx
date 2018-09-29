@@ -42,7 +42,7 @@ Idea behind:
 
 Decorators of `typeorm` and `decapi` works very well together. We've declared single `User` class like:
 
-```js
+```ts
 @Entity() // set this class to be database entity
 @ObjectType() // also, make it graphql api public type
 export class User extends BaseEntity {
@@ -70,7 +70,7 @@ export class User extends BaseEntity {
 
 After model is ready, let's define some api interface with some mutation and queries
 
-```js
+```ts
 @Schema()
 class ApiSchema {
   @Query({ type: [User] }) // as function return type is Promise of user, we need to set type manually as array of users

@@ -18,7 +18,7 @@ There are 3 argument decorators in `decapi` that allow passing values to resolve
 
 Implementation of `Viewer` type would use `@Context` decorator to get user id from graphql context and could look like:
 
-```js
+```ts
 import { ObjectType, Field, Context } from 'decapi'
 
 @ObjectType()
@@ -38,7 +38,7 @@ Beside built-in injectors you can use `@Inject` decorator to pass any value to g
 
 `@Inject` decorator requires getter function that converts resolve info to any arbitral value. **Note you can return promise of any value, too**.
 
-```js
+```ts
 import { ObjectType, Field, Inject } from 'decapi';
 
 @ObjectType()

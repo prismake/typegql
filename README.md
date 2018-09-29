@@ -31,7 +31,7 @@ query {
 }
 ```
 
-```js
+```ts
 import { Schema, Query, compileSchema } from 'decapi'
 
 @Schema()
@@ -49,7 +49,7 @@ const compiledSchema = compileSchema(SuperSchema)
 
 To use it with `express`, you'd have to simply:
 
-```js
+```ts
 import * as express from 'express'
 import * as graphqlHTTP from 'express-graphql'
 
@@ -83,7 +83,7 @@ mutation {
 
 Such query will have a bit more code and here it is:
 
-```js
+```ts
 import {
   Schema,
   Query,
@@ -134,7 +134,7 @@ There are, however, some cases where we'd have to define them explicitly.
 
 Let's modify our `Product` so it has additional `categories` field that will return array of strings. For sake of readibility, I'll ommit all fields we've defined previously.
 
-```js
+```ts
 @ObjectType()
 class Product {
   @Field({ type: [String] }) // note we can use any native type like GraphQLString!
@@ -155,7 +155,7 @@ We've added `{ type: [String] }` as `@Field` options. Type can be anything that 
 
 Every field function we write can be `async` and return `Promise`. Let's say, instead of hard-coding our categories, we want to fetch it from some external API:
 
-```js
+```ts
 @ObjectType()
 class Product {
   @Field({ type: [String] }) // note we can use any native type like GraphQLString!

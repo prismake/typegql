@@ -1,8 +1,10 @@
 # Api Reference
 
-### @ObjectType
+## @ObjectType
 
-```js
+Registers a class as a GraphQL object type.
+
+```ts
 interface ObjectTypeOptions {
   name?: string; // infered from class name
   description?: string;
@@ -11,9 +13,11 @@ interface ObjectTypeOptions {
 @ObjectType(options?: ObjectTypeOptions)
 ```
 
-### @Field
+## @Field
 
-```js
+Registers a class field as a GraphQLField.
+
+```ts
  interface FieldOptions {
   name?: string;
   description?: string;
@@ -24,9 +28,9 @@ interface ObjectTypeOptions {
 @Field(options?: FieldOptions)
 ```
 
-### @InputObjectType
+## @InputObjectType
 
-```js
+```ts
 interface InputObjectTypeOptions {
   name?: string;
   description?: string;
@@ -35,9 +39,9 @@ interface InputObjectTypeOptions {
 @InputObjectType(options?: InputObjectTypeOptions)
 ```
 
-### @InputField
+## @InputField
 
-```js
+```ts
  interface InputFieldOptions {
   description?: string;
   defaultValue?: any;
@@ -49,9 +53,11 @@ interface InputObjectTypeOptions {
 @InputField(options?: InputFieldOptions)
 ```
 
-### @DuplexObjectType
+## @DuplexObjectType
 
-```js
+Just a shorthand-it is the same as putting both `@InputObjectType` and `@ObjectType`
+
+```ts
 interface DuplexObjectTypeOptions {
   name?: string;
   description?: string;
@@ -60,9 +66,11 @@ interface DuplexObjectTypeOptions {
 @DuplexObjectType(options?: DuplexObjectTypeOptions)
 ```
 
-### @DuplexField
+## @DuplexField
 
-```js
+Just a shorthand-it is the same as putting both `@InputField` and `@Field`
+
+```ts
  interface DuplexFieldOptions {
   description?: string;
   defaultValue?: any;
@@ -72,12 +80,12 @@ interface DuplexObjectTypeOptions {
   inputNullable?: boolean;
 }
 
-@InputField(options?: InputFieldOptions)
+@DuplexField(options?: DuplexFieldOptions)
 ```
 
-### @Arg
+## @Arg
 
-```js
+```ts
  interface ArgOptions {
   description?: string;
   type?: any;
@@ -86,9 +94,9 @@ interface DuplexObjectTypeOptions {
 @Arg(options?: ArgOptions)
 ```
 
-### @Inject
+## @Inject
 
-```js
+```ts
 type InjectorResolver = (
   source: any,
   args: any,
@@ -99,33 +107,33 @@ type InjectorResolver = (
 @Inject(resolver: InjectorResolver): ParameterDecorator {
 ```
 
-### @Context
+## @Context
 
 No decorator options avaliable
 
-```js
+```ts
 @Context: ParameterDecorator
 ```
 
-### @Source
+## @Source
 
 No decorator options avaliable
 
-```js
+```ts
 @Source: ParameterDecorator
 ```
 
-### @Info
+## @Info
 
 No decorator options avaliable
 
-```js
+```ts
 @Info: ParameterDecorator
 ```
 
-### @Before
+## @Before
 
-```js
+```ts
 interface HookExecutorResolverArgs {
   source: any;
   args: { [argName: string]: any };
@@ -138,9 +146,9 @@ type HookExecutor = (data: HookExecutorResolverArgs) => any | Promise<any>;
 @Before(hook: HookExecutor);
 ```
 
-### @After
+## @After
 
-```js
+```ts
 interface HookExecutorResolverArgs {
   source: any;
   args: { [argName: string]: any };
@@ -153,23 +161,23 @@ type HookExecutor = (data: HookExecutorResolverArgs) => any | Promise<any>;
 @After(hook: HookExecutor);
 ```
 
-### @Schema
+## @Schema
 
-```js
+```ts
 @Schema(): ClassDecorator;
 ```
 
-### @Query
+## @Query
 
 Has same interface as [@Field](#field) decorator. Can be used only inside @Schema class
 
-### @Mutation
+## @Mutation
 
 Has same interface as [@Field](#field) decorator. Can be used only inside @Schema class
 
-### @Union
+## @Union
 
-```js
+```ts
 interface UnionOptions {
   name?: string;
   resolveTypes?: (value: any, context: any, info: GraphQLResolveInfo): any; // must return type resolvable to one of defined in `types` option
@@ -183,9 +191,9 @@ interface UnionTypeResolver {
 @Union(options: UnionOptions): ClassDecorator;
 ```
 
-### registerEnum
+## registerEnum
 
-```js
+```ts
 interface EnumOptions {
   name: string;
   description?: string;
@@ -194,20 +202,20 @@ interface EnumOptions {
 registerEnum(enumDef: Object, options: EnumOptions | string): void;
 ```
 
-### compileSchema
+## compileSchema
 
-```js
+```ts
 compileSchema(schemaTarget: Function): GraphQLSchema
 ```
 
-### compileObjectType,
+## compileObjectType,
 
-```js
+```ts
 compileObjectType(schemaTarget: Function): GraphQLObjectType
 ```
 
-### compileInputObjectType,
+## compileInputObjectType,
 
-```js
+```ts
 compileInputObjectType(schemaTarget: Function): GraphQLInputObjectType
 ```

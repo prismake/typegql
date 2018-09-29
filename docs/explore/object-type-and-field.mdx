@@ -4,7 +4,7 @@ Object types are main building block of any graphql schema. In `decapi` - `Objec
 
 To define new object type, decorate any class with `@ObjectType` decorator.
 
-```js
+```ts
 import { ObjectType } from 'decapi'
 
 @ObjectType()
@@ -17,7 +17,7 @@ class MyType {
 
 Every `ObjectType` must have at least one field. To create new field, decorate any property or method of `ObjectType` class with `@Field` decorator:
 
-```js
+```ts
 import { ObjectType, Field } from 'decapi'
 
 @ObjectType()
@@ -36,7 +36,7 @@ class MyType {
 
 To build nested structure of objects - every field can use another `ObjectType` as it's type
 
-```js
+```ts
 import { ObjectType, Field } from 'decapi'
 
 @ObjectType()
@@ -70,7 +70,7 @@ In other to define circular references. Eg. car have owner, owner has cars which
 
 To do so, we'll use `@Field` with `type` option.
 
-```js
+```ts
 import { ObjectType, Field } from 'decapi'
 
 @ObjectType()
