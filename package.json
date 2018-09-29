@@ -7,11 +7,10 @@
   "scripts": {
     "docz:dev": "docz dev",
     "docz:build": "docz build",
-    "docsDeploy": "docz build && gh-pages -d .docz/dist",
     "test": "jest --coverage",
     "jestw": "jest --watch",
     "build": "rimraf types lib && tsc --project tsconfig.json",
-    "prepublishOnly": "rimraf types lib && yarn build && yarn docsDeploy",
+    "prepublishOnly": "rimraf types lib && yarn build",
     "precommit": "pretty-quick --staged"
   },
   "repository": {
