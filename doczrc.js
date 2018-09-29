@@ -1,5 +1,5 @@
 module.exports = {
-  src: ['docs'],
+  src: 'docs',
   typescript: true,
   // base: '/decapi/',
 }
