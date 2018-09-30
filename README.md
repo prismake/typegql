@@ -146,7 +146,7 @@ class Product {
 
 We've added `{ type: [String] }` as `@Field` options. Type can be anything that is resolvable to `GraphQL` type
 
-- Native JS scalars: `String`, `Number`, `Boolean`.
+- Native JS scalars: `String`, `Number`, `Boolean`, `Date`.
 - Any type that is already compiled to `graphql` eg. `GraphQLFloat` or any type from external graphql library etc
 - Every class decorated with `@ObjectType`
 - One element array of any of above for list types eg. `[String]` or `[GraphQLFloat]`
