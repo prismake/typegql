@@ -1,6 +1,6 @@
 {
   "name": "decapi",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
@@ -18,10 +18,10 @@
     "url": "https://github.com/capaj/decapi"
   },
   "devDependencies": {
-    "@types/graphql": "^14.0.1",
+    "@types/graphql": "^14.0.2",
     "@types/graphql-iso-date": "^3.3.0",
-    "@types/jest": "^23.3.3",
-    "@types/node": "^10.11.4",
+    "@types/jest": "^23.3.5",
+    "@types/node": "^10.11.6",
     "@types/object-path": "^0.9.29",
     "@types/reflect-metadata": "^0.1.0",
     "docz": "^0.12.5",
@@ -32,10 +32,10 @@
     "prettier": "^1.14.3",
     "pretty-quick": "^1.7.0",
     "rimraf": "^2.6.2",
-    "rollup": "^0.66.4",
+    "rollup": "^0.66.5",
     "rollup-plugin-typescript2": "^0.17.1",
     "ts-jest": "^23.10.4",
-    "typescript": "^3.1.1"
+    "typescript": "^3.1.2"
   },
   "peerDependencies": {
     "graphql": "^0.13 || ^14"
