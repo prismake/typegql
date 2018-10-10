@@ -10,6 +10,7 @@ import {
   InputField,
   Mutation,
 } from '../..'
+import { GraphQLDateTime } from 'graphql-iso-date'
 
 @InputObjectType()
 class Input {
@@ -47,6 +48,13 @@ class FooSchema {
   @Mutation()
   barMutation(@Arg({ type: Input }) input: Input): string {
     return input.someMethodOnInputObjectType()
+  }
+
+  @Query()
+  withScalar(
+    @Arg({ type: GraphQLDateTime, isNullable: true }) aDate?: Date,
+  ): number {
+    return aDate.getTime()
   }
 }
 
@@ -111,6 +119,25 @@ Object {
 Object {
   "data": Object {
     "barMutation": "worksBar",
+  },
+}
+`)
+  })
+
+  it('should work with scalars', async () => {
+    const result2 = await graphql(
+      schema,
+      `
+        {
+          withScalar(aDate: "2018-10-10T23:37:34+02:00")
+        }
+      `,
+    )
+
+    expect(result2).toMatchInlineSnapshot(`
+Object {
+  "data": Object {
+    "withScalar": 1539207454000,
   },
 }
 `)

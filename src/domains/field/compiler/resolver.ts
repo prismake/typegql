@@ -57,18 +57,23 @@ export function computeFinalArgs(
 
       if (argConfig && argConfig.type) {
         if (Array.isArray(argConfig.type)) {
+          const type = argConfig.type[0]
+          if (!type) {
+            return argValue
+          }
           return argValue.map((singleArg: any) => {
-            if (typeof singleArg !== 'object') {
+            if (typeof singleArg !== 'object' || !type.prototype) {
               return singleArg
             }
-            const instance = Object.create(argConfig.type[0].prototype)
+            const instance = Object.create(type.prototype)
             return Object.assign(instance, singleArg)
           })
         } else {
-          if (typeof argValue !== 'object') {
+          const { type } = argConfig
+          if (typeof argValue !== 'object' || !type.prototype) {
             return argValue
           }
-          const instance = Object.create(argConfig.type.prototype)
+          const instance = Object.create(type.prototype)
           return Object.assign(instance, argValue)
         }
       } else {

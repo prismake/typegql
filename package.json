@@ -1,6 +1,6 @@
 {
   "name": "decapi",
-  "version": "0.6.8",
+  "version": "0.6.9",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "@types/graphql": "^14.0.2",
     "@types/graphql-iso-date": "^3.3.0",
     "@types/jest": "^23.3.5",
-    "@types/node": "^10.11.6",
+    "@types/node": "^10.11.7",
     "@types/object-path": "^0.9.29",
     "@types/reflect-metadata": "^0.1.0",
     "docz": "^0.12.5",
