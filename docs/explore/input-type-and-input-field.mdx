@@ -37,6 +37,10 @@ class User {
   @Field()
   deleteManyTodos(where: WhereFilter): DeleteTodosResult {
     const deletedCount = todosService.remove(where)
+
+    // BTW where argument is an instance of WhereFilter class here
+    console.log(where instanceof WhereFilter) // true
+
     return new DeleteTodosResult(deletedCount)
   }
 }

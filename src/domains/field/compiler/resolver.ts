@@ -44,17 +44,38 @@ async function performHooksExecution(
   )
 }
 
-function computeFinalArgs(
+export function computeFinalArgs(
   func: Function,
   { args, injectors, injectorToValueMapper, getArgConfig }: ComputeArgsOptions,
 ) {
   const paramNames = getParameterNames(func)
   return paramNames.map((paramName, index) => {
+    const argConfig = getArgConfig(index)
+
     if (args && args.hasOwnProperty(paramName)) {
-      return args[paramName]
+      const argValue = args[paramName]
+
+      if (argConfig && argConfig.type) {
+        if (Array.isArray(argConfig.type)) {
+          return argValue.map((singleArg: any) => {
+            if (typeof singleArg !== 'object') {
+              return singleArg
+            }
+            const instance = Object.create(argConfig.type[0].prototype)
+            return Object.assign(instance, singleArg)
+          })
+        } else {
+          if (typeof argValue !== 'object') {
+            return argValue
+          }
+          const instance = Object.create(argConfig.type.prototype)
+          return Object.assign(instance, argValue)
+        }
+      } else {
+        return argValue
+      }
     }
 
-    const argConfig = getArgConfig(index)
     if (argConfig) {
       return args[argConfig.name]
     }
@@ -113,11 +134,13 @@ export function compileFieldResolver(
 
     const params = computeFinalArgs(instanceFieldFunc, {
       args: args || {},
+
       injectors: injectors || {},
       injectorToValueMapper: (injector) =>
         injector.apply(source, [{ source, args, context, info }]),
       getArgConfig: (index: number) => {
-        return argRegistry.get(target, [fieldName, index])
+        const argConfig = argRegistry.get(target, [fieldName, index])
+        return argConfig
       },
     })
 
