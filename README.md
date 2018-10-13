@@ -177,5 +177,5 @@ I wanted to contribute to [typegql](https://github.com/prismake/typegql) and wor
 - decapi has `@DuplexObjectType` and `@DuplexField`
 - decapi has mixins
 - decapi can infer Date type
-- InputObjectType argument passed ot your Field/Query is not just an object, but an instance of it's class
+- InputObjectType argument passed ot your Field/Query is not just a plain object, but an instance of it's class
 - decapi allows you to have an empty object type-you can populate it with fields at runtime
