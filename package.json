@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "docz:dev": "docz dev",
-    "docz:build": "docz build",
+    "docz:build": "docz build && cp docs/netlify.toml .docz/dist/",
     "test": "jest --coverage",
     "jestw": "jest --watch",
     "build": "rimraf types lib && tsc --project tsconfig.json",
