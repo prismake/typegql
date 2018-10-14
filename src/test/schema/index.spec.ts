@@ -18,14 +18,14 @@ describe('@SchemaRoot', () => {
   it('should not allow compiling schema not decorated with @Schema', () => {
     class Foo {}
 
-    expect(() => compileSchema({ roots: [Foo] })).toThrowErrorMatchingSnapshot()
+    expect(() => compileSchema([Foo])).toThrowErrorMatchingSnapshot()
   })
 
   it('should not allow @Schema without any @Query field', () => {
     @SchemaRoot()
     class Foo {}
 
-    expect(() => compileSchema({ roots: [Foo] })).toThrowErrorMatchingSnapshot()
+    expect(() => compileSchema([Foo])).toThrowErrorMatchingSnapshot()
   })
 
   it('should generate all schema fields properly for valid schema', async () => {
@@ -45,7 +45,7 @@ describe('@SchemaRoot', () => {
       }
     }
 
-    const schema = compileSchema({ roots: [FooSchema] })
+    const schema = compileSchema([FooSchema])
 
     expect(await graphql(schema, introspectionQuery)).toMatchSnapshot()
   })
@@ -67,7 +67,7 @@ describe('@SchemaRoot', () => {
       }
     }
 
-    const schema = compileSchema({ roots: [FooSchema, BarSchema] })
+    const schema = compileSchema([FooSchema, BarSchema])
 
     const queryType = schema.getQueryType() as GraphQLObjectType
 
@@ -97,7 +97,7 @@ describe('@SchemaRoot', () => {
       }
     }
 
-    const schema = compileSchema({ roots: [FooSchema, BarSchema] })
+    const schema = compileSchema([FooSchema, BarSchema])
 
     const queryType = schema.getQueryType() as GraphQLObjectType
     const mutationType = schema.getMutationType() as GraphQLObjectType
@@ -130,7 +130,7 @@ describe('@SchemaRoot', () => {
     }
 
     expect(() =>
-      compileSchema({ roots: [FooSchema, BarSchema] }),
+      compileSchema([FooSchema, BarSchema]),
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -152,7 +152,7 @@ describe('@SchemaRoot', () => {
     }
 
     expect(() =>
-      compileSchema({ roots: [FooSchema, BarSchema] }),
+      compileSchema([FooSchema, BarSchema]),
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -173,9 +173,7 @@ describe('@SchemaRoot', () => {
       }
     }
 
-    expect(() =>
-      compileSchema({ roots: [FooSchema] }),
-    ).toThrowErrorMatchingSnapshot()
+    expect(() => compileSchema([FooSchema])).toThrowErrorMatchingSnapshot()
   })
 
   it('should support schema root instance properties', async () => {
@@ -189,7 +187,7 @@ describe('@SchemaRoot', () => {
       }
     }
 
-    const schema = compileSchema({ roots: [FooSchema] })
+    const schema = compileSchema([FooSchema])
 
     const result = await graphql(
       schema,
@@ -217,7 +215,7 @@ describe('@SchemaRoot', () => {
       }
     }
 
-    const schema = compileSchema({ roots: [FooSchema] })
+    const schema = compileSchema([FooSchema])
 
     await graphql(
       schema,
@@ -241,7 +239,7 @@ describe('@SchemaRoot', () => {
           return 42
         }
       }
-      compileSchema({ roots: [BarSchema] })
+      compileSchema([BarSchema])
     }).toThrowErrorMatchingInlineSnapshot(
       `"Root field \\"fooa\\" on schema class BarSchema cannot be registered as a query-it's already registered"`,
     )
@@ -256,6 +254,6 @@ describe('@SchemaRoot', () => {
       }
     }
 
-    expect(() => compileSchema({ roots: [BarSchema] })).not.toThrow()
+    expect(() => compileSchema([BarSchema])).not.toThrow()
   })
 })

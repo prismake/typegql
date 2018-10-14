@@ -24,7 +24,7 @@ class MySchema {
   }
 }
 
-const schema = compileSchema(MySchema)
+const schema = compileSchema(MySchema);
 
 export function graphqlHandler(event, context, callback) {
   function callbackFilter(error, output) {

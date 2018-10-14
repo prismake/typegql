@@ -22,7 +22,7 @@ class FooSchema {
   }
 }
 
-const schema = compileSchema({ roots: [FooSchema] })
+const schema = compileSchema(FooSchema)
 
 describe('Query', () => {
   it('should support queries with simple arguments', async () => {

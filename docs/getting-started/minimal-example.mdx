@@ -36,5 +36,14 @@ class MyFirstSchema {
   }
 }
 
-const schema = compileSchema(MyFirstSchema)
+@Schema()
+class MySecondSchema {
+  @Mutation()
+  foo(): Date {
+    return new Date()
+  }
+}
+
+
+const compiledSchema = compileSchema([MyFirstSchema, MySecondSchema]);
 ```

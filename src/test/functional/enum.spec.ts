@@ -33,7 +33,7 @@ class FooSchema {
   }
 }
 
-const schema = compileSchema({ roots: [FooSchema] })
+const schema = compileSchema(FooSchema)
 
 describe('Query with enums', () => {
   it('Will guard proper enum values', async () => {

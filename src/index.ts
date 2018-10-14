@@ -24,7 +24,6 @@ export {
   compileObjectType,
   compileInputObjectType,
   registerEnum,
-  Schema,
   After,
   Before,
 } from './domains/index'

@@ -38,7 +38,7 @@ class FooSchema {
   }
 }
 
-const schema = compileSchema({ roots: [FooSchema] })
+const schema = compileSchema(FooSchema)
 
 describe('Mutation', () => {
   it('should not allow wrong argument types', async () => {

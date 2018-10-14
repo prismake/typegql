@@ -63,7 +63,7 @@ class FooSchema {
   }
 }
 
-const schema = compileSchema({ roots: [FooSchema] })
+const schema = compileSchema(FooSchema)
 
 describe('Field args', () => {
   it('will have correct values even for "false"', async () => {

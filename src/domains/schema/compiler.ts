@@ -7,11 +7,6 @@ import {
 import { SchemaRootError } from './error'
 
 import { validateSchemaRoots } from './services'
-import { showDeprecationWarning } from '../../services/utils'
-
-export interface CompileSchemaOptions {
-  roots: Function[]
-}
 
 function getAllRootFieldsFromRegistry(
   roots: Function[],
@@ -48,15 +43,10 @@ function getAllRootFieldsFromRegistry(
   })
 }
 
-export function compileSchema(config: CompileSchemaOptions | Function) {
-  const roots = typeof config === 'function' ? [config] : config.roots
-
-  if (typeof config === 'function') {
-    showDeprecationWarning(
-      `Passing schema root to compileSchema is deprecated. Use config object with 'roots' field. compileSchema(SchemaRoot) --> compileSchema({ roots: [SchemaRoot] })`,
-      config,
-    )
-  }
+export function compileSchema(schemaOrSchemas: Function | Function[]) {
+  const roots = Array.isArray(schemaOrSchemas)
+    ? schemaOrSchemas
+    : [schemaOrSchemas]
 
   validateSchemaRoots(roots)
 

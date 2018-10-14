@@ -58,7 +58,7 @@ class FooSchema {
   }
 }
 
-const schema = compileSchema({ roots: [FooSchema] })
+const schema = compileSchema(FooSchema)
 
 describe('input object type arguments are passed as instances', () => {
   it('passes as Input', async () => {

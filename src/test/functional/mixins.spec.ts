@@ -31,7 +31,7 @@ class FooSchema {
   }
 }
 
-const schema = compileSchema({ roots: [FooSchema] })
+const schema = compileSchema(FooSchema)
 
 describe('Query a mixin method', () => {
   it('executes and field method has correct context', async () => {

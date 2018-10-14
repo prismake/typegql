@@ -64,6 +64,22 @@ class Restaurant {
 }
 ```
 
+## Aliasing a runtime field as some other
+
+Often you might have a field on your model that you want to expose on your API, but you want to make sort of a API getter for that field. This is easily achieved using a `name` config.
+
+```ts
+@ObjectType()
+class User {
+  readonly id!: string
+
+  @Field({name: 'id'})
+  apiId(): string { // this field is now exposed as "id" on GQL-you cna query it by doing a query like {users {id}}
+    return 'user_id_' + this.id
+  }
+}
+
+
 ## Circular type references
 
 In other to define circular references. Eg. car have owner, owner has cars which have owner. it's required to assign types in lazy way (with getter functions)

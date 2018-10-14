@@ -41,7 +41,7 @@ describe('duplex object type', () => {
         return new Duplex(input.foo)
       }
     }
-    const schema = compileSchema({ roots: [FooSchema] })
+    const schema = compileSchema(FooSchema)
     const result = await graphql(
       schema,
       `
