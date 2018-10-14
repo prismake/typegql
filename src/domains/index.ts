@@ -19,7 +19,6 @@ export { Union, unionRegistry } from './union/index'
 export { Before, After } from './hooks/index'
 export {
   SchemaRoot,
-  Schema,
   schemaRootsRegistry,
   compileSchema,
   Query,
