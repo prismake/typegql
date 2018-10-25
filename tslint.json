@@ -1,0 +1,25 @@
+{
+  "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": ["node_modules/**", "**/*.spec.ts", "**/*.js"]
+  },
+  "rules": {
+    "only-arrow-functions": false,
+    "no-console": false,
+    "no-submodule-imports": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "member-access": false,
+    "no-shadowed-variable": [true, { "import": false }],
+    "no-empty": [true, "allow-empty-functions"],
+    "no-implicit-dependencies": false,
+    "no-unused-expression": false,
+    "no-this-assignment": [true, { "allow-destructuring": true }],
+    "variable-name": false,
+    "max-classes-per-file": [true, 4, "exclude-class-expressions"],
+    "member-ordering": [true, { "order": "fields-first" }],
+    "forin": false,
+    "curly": [true, "ignore-same-line"],
+    "array-type": [true, "array-simple"]
+  }
+}

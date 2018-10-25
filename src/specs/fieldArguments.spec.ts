@@ -1,6 +1,13 @@
 import { graphql } from 'graphql'
-import { ObjectType, Field, Arg, SchemaRoot, Query, compileSchema } from '../..'
-import { Context } from '../../domains'
+import {
+  ObjectType,
+  Field,
+  Arg,
+  SchemaRoot,
+  Query,
+  compileSchema,
+  Context,
+} from '../..'
 
 @ObjectType()
 class Hello {

@@ -8,8 +8,7 @@ import {
   Source,
   Info,
 } from '../..'
-
-import { wait } from '../utils/index'
+import { wait } from '../../specs/waitUtil'
 
 describe('@Inject', () => {
   it('Properly injects any value', async () => {

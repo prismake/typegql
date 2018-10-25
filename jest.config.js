@@ -6,5 +6,5 @@ module.exports = {
   },
   collectCoverage: false,
   testMatch: ['**/*.spec.(ts|tsx)'],
-  setupFiles: ['<rootDir>/src/test/setup.ts'],
-};
+  setupFiles: ['<rootDir>/src/specs/setup.ts'],
+}
