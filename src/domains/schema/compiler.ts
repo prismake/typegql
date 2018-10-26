@@ -18,7 +18,9 @@ function getAllRootFieldsFromRegistry(
     const rootFields = registry.getAll(root)
     Object.keys(rootFields).forEach((fieldName) => {
       const fieldConfigGetter = rootFields[fieldName]
+      console.log('fieldConfigGetter: ', fieldConfigGetter)
       const fieldConfig = fieldConfigGetter()
+      console.log('fieldConfig: ', fieldConfig)
 
       // throw error if root field with this name is already registered
       if (!!allRootFields[fieldName]) {

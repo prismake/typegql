@@ -13,9 +13,13 @@ export interface TypeOptions {
   name: string
   description?: string
   mixins?: Function[]
+  implements?: Function | Function[]
 }
 
-function createTypeFieldsGetter(target: Function, mixins: Function[] = []) {
+export function createTypeFieldsGetter(
+  target: Function,
+  mixins: Function[] = [],
+) {
   const targetWithParents = getClassWithAllParentClasses(target).concat(mixins)
 
   // const hasFields = targetWithParents.some((ancestor) => {
@@ -30,16 +34,21 @@ function createTypeFieldsGetter(target: Function, mixins: Function[] = []) {
     return compileAllFields(targetWithParents)
   })
 }
-
+console.log('aaa')
 export function compileObjectTypeWithConfig(
   target: Function,
   config: TypeOptions,
 ): GraphQLObjectType {
+  console.log('config.implements: ', config.implements)
+
   if (compileOutputTypeCache.has(target)) {
     return compileOutputTypeCache.get(target)
   }
 
   const compiled = new GraphQLObjectType({
+    // interfaces: [(arguments) => {
+
+    // }]
     name: config.name,
     description: config.description,
     isTypeOf: (value: any) => value instanceof target,

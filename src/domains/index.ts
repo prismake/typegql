@@ -15,7 +15,12 @@ export { DuplexField } from './duplexField/index'
 export { Arg } from './arg/index'
 export { Inject, Context, Source, Info } from './inject/index'
 export { registerEnum, enumsRegistry } from './enum/index'
-export { Union, unionRegistry } from './union/index'
+export { Union } from './union/index'
+export { unionRegistry } from './union/registry'
+
+export { InterfaceType } from './interfaceType/InterfaceType'
+export { interfaceTypeRegistry } from './interfaceType/interfaceTypeRegistry'
+
 export { Before, After } from './hooks/index'
 export {
   SchemaRoot,

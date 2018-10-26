@@ -18,6 +18,7 @@ export {
   InputField,
   InputObjectType,
   Union,
+  InterfaceType,
   Inject,
   Source,
   compileSchema,

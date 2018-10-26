@@ -1,6 +1,4 @@
 import { unionRegistry } from './registry'
-export { unionRegistry } from './registry'
-
 import { compileUnionType, UnionTypeResolver } from './compiler'
 import { Thunk } from '../../services/types'
 

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InterfaceType should expose GQL interface 1`] = `
+"type Query {
+  vehicles: [Vehicle!]
+}
+
+interface Vehicle {
+  windows: Int
+  seats: Int
+}
+"
+`;

@@ -6,8 +6,11 @@ import {
   unionRegistry,
   inputObjectTypeRegistry,
   objectTypeRegistry,
+  interfaceTypeRegistry,
+  compileInputObjectType,
+  compileObjectType,
 } from '../../../../domains'
-import { compileInputObjectType, compileObjectType } from '../../../..'
+
 import { Thunk } from '../../../types'
 
 export function resolveType(
@@ -33,6 +36,10 @@ export function resolveType(
 
   if (unionRegistry.has(input)) {
     return unionRegistry.get(input)()
+  }
+
+  if (interfaceTypeRegistry.has(input)) {
+    return interfaceTypeRegistry.get(input)()
   }
 
   if (isArgument && inputObjectTypeRegistry.has(input)) {
