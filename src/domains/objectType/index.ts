@@ -9,7 +9,7 @@ export interface ObjectTypeOptions {
   name?: string
   description?: string
   mixins?: Function[]
-  implements: Function | Function[]
+  implements: Function
 }
 
 export function ObjectType(options?: ObjectTypeOptions): ClassDecorator {

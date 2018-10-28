@@ -15,7 +15,7 @@
     // "strictNullChecks": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "skipLibCheck": true,
     "stripInternal": true,
     "sourceMap": true

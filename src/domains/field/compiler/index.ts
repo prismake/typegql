@@ -36,7 +36,7 @@ export function compileFieldConfig(
   }
 
   const finalType = enhanceType(resolvedType, isNullable)
-  // console.log('finalType: ', finalType);
+  console.log('finalType: ', finalType)
 
   return {
     description,
@@ -47,7 +47,9 @@ export function compileFieldConfig(
 }
 
 function getAllFields(target: Function) {
+  console.log('target: ', target)
   const fields = fieldsRegistry.getAll(target)
+
   const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {}
   Object.keys(fields).forEach((fieldName) => {
     if (isRootFieldOnNonRootBase(target, fieldName)) {

@@ -6,6 +6,7 @@ import {
   getClassWithAllParentClasses,
   createCachedThunk,
 } from '../../../services/utils'
+import { interfaceTypeRegistry } from '../../interfaceType/interfaceTypeRegistry'
 
 const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>()
 
@@ -13,14 +14,19 @@ export interface TypeOptions {
   name: string
   description?: string
   mixins?: Function[]
-  implements?: Function | Function[]
+  implements?: Function
 }
 
-export function createTypeFieldsGetter(
-  target: Function,
-  mixins: Function[] = [],
-) {
-  const targetWithParents = getClassWithAllParentClasses(target).concat(mixins)
+export function createTypeFieldsGetter(target: Function, config?: TypeOptions) {
+  let targetWithParents = getClassWithAllParentClasses(target)
+  if (config) {
+    if (config.mixins) {
+      targetWithParents = targetWithParents.concat(config.mixins)
+    }
+    if (config.implements) {
+      targetWithParents = targetWithParents.concat(config.implements)
+    }
+  }
 
   // const hasFields = targetWithParents.some((ancestor) => {
   //   return !fieldsRegistry.isEmpty(ancestor)
@@ -34,7 +40,7 @@ export function createTypeFieldsGetter(
     return compileAllFields(targetWithParents)
   })
 }
-console.log('aaa')
+
 export function compileObjectTypeWithConfig(
   target: Function,
   config: TypeOptions,
@@ -44,15 +50,13 @@ export function compileObjectTypeWithConfig(
   if (compileOutputTypeCache.has(target)) {
     return compileOutputTypeCache.get(target)
   }
-
+  const interf = interfaceTypeRegistry.get(config.implements)
   const compiled = new GraphQLObjectType({
-    // interfaces: [(arguments) => {
-
-    // }]
+    interfaces: [interf()],
     name: config.name,
     description: config.description,
     isTypeOf: (value: any) => value instanceof target,
-    fields: createTypeFieldsGetter(target, config.mixins),
+    fields: createTypeFieldsGetter(target, config),
   })
 
   compileOutputTypeCache.set(target, compiled)

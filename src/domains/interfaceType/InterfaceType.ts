@@ -1,7 +1,7 @@
 import { interfaceTypeRegistry } from './interfaceTypeRegistry'
 
 // import { compileUnionType, UnionTypeResolver } from './compiler'
-import { Thunk } from '../../services/types'
+// import { Thunk } from '../../services/types'
 import {
   GraphQLInterfaceType,
   // GraphQLObjectType,
@@ -12,12 +12,6 @@ import { createTypeFieldsGetter } from '../objectType/compiler/objectType'
 
 export interface InterfaceTypeResolver {
   (value: any, context: any, info: GraphQLResolveInfo): any
-}
-
-export interface InterfaceTypeOptions {
-  name?: string
-  // resolveTypes?: UnionTypeResolver
-  types: Thunk<any[]>
 }
 
 // function getDefaultResolver(types: GraphQLObjectType[]): InterfaceTypeResolver {
@@ -32,6 +26,7 @@ export interface InterfaceTypeOptions {
 
 export interface InterfaceTypeOptions {
   name?: string
+  description?: string
 }
 
 export function InterfaceType(config?: InterfaceTypeOptions): ClassDecorator {
@@ -39,12 +34,14 @@ export function InterfaceType(config?: InterfaceTypeOptions): ClassDecorator {
     interfaceTypeRegistry.set(target, () => {
       // return compileUnionType(target, { name: target.name, ...config })
 
-      // const { types } = config
-
       // const resolvedTypes = resolveTypesList(types)
+      const name = config && config.name ? config.name : target.name
 
+      console.log('name: ', name)
+      const description = config ? config.description : null
       return new GraphQLInterfaceType({
-        name: target.name,
+        name,
+        description,
         // resolveType: getDefaultResolver(resolvedTypes),
         fields: createTypeFieldsGetter(target),
       })

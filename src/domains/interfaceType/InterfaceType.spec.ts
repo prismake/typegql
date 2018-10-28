@@ -9,7 +9,7 @@ import {
 import { GraphQLInt, graphql, printSchema } from 'graphql'
 
 describe('InterfaceType', () => {
-  @InterfaceType()
+  @InterfaceType({ description: 'a vehicle interface for a basic spec' })
   abstract class Vehicle {
     @Field({ type: GraphQLInt })
     windows: number
@@ -47,12 +47,15 @@ describe('InterfaceType', () => {
       const boat = new Boat()
       boat.seats = 150
       boat.windows = 30
-      return [car]
+      return [car, boat]
     }
-    @Query({ type: Boat })
-    boat(): Boat {
-      return null
-    }
+    // @Query({ type: Boat })
+    // boat(): Boat {
+    //   const boat = new Boat()
+    //   boat.seats = 150
+    //   boat.windows = 30
+    //   return boat
+    // }
   }
 
   const schema = compileSchema(FooSchema)
@@ -61,16 +64,19 @@ describe('InterfaceType', () => {
     expect(printSchema(schema)).toMatchSnapshot()
   })
   it('should resolve', async () => {
-    await graphql(
-      schema,
-      `
-        {
-          vehicles {
-            seats
-            wheels
+    expect(
+      await graphql(
+        schema,
+        `
+          {
+            vehicles {
+              seats
+              windows
+              #propellers
+            }
           }
-        }
-      `,
-    )
+        `,
+      ),
+    ).toMatchSnapshot()
   })
 })
