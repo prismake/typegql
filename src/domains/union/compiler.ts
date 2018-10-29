@@ -3,7 +3,7 @@ import {
   GraphQLObjectType,
   GraphQLResolveInfo,
   GraphQLType,
-  isObjectType,
+  isObjectType
 } from 'graphql'
 
 import { UnionError } from './error'
@@ -16,7 +16,7 @@ export interface UnionTypeResolver {
 
 export interface UnionOptions {
   types: Thunk<any[]>
-  name: string
+  name?: string
   resolveTypes?: UnionTypeResolver
 }
 
@@ -36,7 +36,7 @@ function getDefaultResolver(types: GraphQLObjectType[]): UnionTypeResolver {
  * Resolves type, and if needed, tries to resolve it using decapi-aware types
  */
 function enhanceTypeResolver(
-  originalResolver: UnionTypeResolver,
+  originalResolver: UnionTypeResolver
 ): UnionTypeResolver {
   return (value, context, info) => {
     const rawResolvedType = originalResolver(value, context, info)
@@ -46,13 +46,13 @@ function enhanceTypeResolver(
 
 function validateResolvedTypes(
   target: Function,
-  types: GraphQLType[],
+  types: GraphQLType[]
 ): types is GraphQLObjectType[] {
   for (let type of types) {
     if (!isObjectType(type)) {
       throw new UnionError(
         target,
-        `Every union type must be of type GraphQLObjectType. '${type}' is not.`,
+        `Every union type must be of type GraphQLObjectType. '${type}' is not.`
       )
     }
   }
@@ -79,7 +79,7 @@ export function compileUnionType(target: Function, config: UnionOptions) {
   const compiled = new GraphQLUnionType({
     name,
     resolveType: typeResolver,
-    types: resolvedTypes as GraphQLObjectType[],
+    types: resolvedTypes as GraphQLObjectType[]
   })
 
   compileUnionCache.set(target, compiled)

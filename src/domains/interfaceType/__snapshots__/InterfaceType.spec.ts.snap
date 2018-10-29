@@ -1,8 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InterfaceType should expose GQL interface 1`] = `
-"type Query {
+exports[`InterfaceType should expose GQL interface type 2`] = `
+"type Boat implements Vehicle {
+  propellers: Float
+  windows: Int
+  seats: Int
+}
+
+type Car implements Vehicle {
+  wheels: Float
+  windows: Int
+  seats: Int
+}
+
+type Query {
   vehicles: [Vehicle!]
+  boat: Boat
+  car: Car
 }
 
 \\"\\"\\"a vehicle interface for a basic spec\\"\\"\\"
@@ -13,13 +27,42 @@ interface Vehicle {
 "
 `;
 
-exports[`InterfaceType should resolve 1`] = `
+exports[`InterfaceType should resolve correctly 1`] = `
 Object {
   "data": Object {
-    "vehicles": null,
+    "vehicles": Array [
+      Object {
+        "__typename": "Car",
+        "seats": 4,
+        "wheels": 4,
+        "windows": 6,
+      },
+      Object {
+        "__typename": "Boat",
+        "propellers": null,
+        "seats": 150,
+        "windows": 30,
+      },
+    ],
   },
-  "errors": Array [
-    [GraphQLError: Abstract type Vehicle must resolve to an Object type at runtime for field Query.vehicles with value { seats: 4, windows: 6, wheels: 4 }, received "undefined". Either the Vehicle type should provide a "resolveType" function or each possible type should provide an "isTypeOf" function.],
-  ],
+}
+`;
+
+exports[`InterfaceType should resolve correctly 2`] = `
+Object {
+  "data": Object {
+    "boat": Object {
+      "__typename": "Boat",
+      "propellers": null,
+      "seats": 150,
+      "windows": 30,
+    },
+    "car": Object {
+      "__typename": "Car",
+      "seats": 4,
+      "wheels": 4,
+      "windows": 6,
+    },
+  },
 }
 `;

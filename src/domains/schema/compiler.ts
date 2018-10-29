@@ -1,17 +1,23 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLFieldConfig } from 'graphql'
+import {
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLFieldConfig,
+  visit
+} from 'graphql'
 import {
   queryFieldsRegistry,
   mutationFieldsRegistry,
-  RootFieldsRegistry,
+  RootFieldsRegistry
 } from './registry'
 import { SchemaRootError } from './error'
 
 import { validateSchemaRoots } from './services'
+import { interfaceTypeImplementorsSet } from '../interfaceType/interfaceTypeRegistry'
 
 function getAllRootFieldsFromRegistry(
   roots: Function[],
   registry: RootFieldsRegistry,
-  name: 'Query' | 'Mutation',
+  name: 'Query' | 'Mutation'
 ): GraphQLObjectType {
   const allRootFields: { [key: string]: GraphQLFieldConfig<any, any> } = {}
   for (let root of roots) {
@@ -19,13 +25,12 @@ function getAllRootFieldsFromRegistry(
     Object.keys(rootFields).forEach((fieldName) => {
       const fieldConfigGetter = rootFields[fieldName]
       const fieldConfig = fieldConfigGetter()
-      console.log('fieldConfig: ', fieldConfig)
 
       // throw error if root field with this name is already registered
       if (!!allRootFields[fieldName]) {
         throw new SchemaRootError(
           root,
-          `Duplicate of root field name: '${fieldName}'. Seems this name is also used inside other schema root.`,
+          `Duplicate of root field name: '${fieldName}'. Seems this name is also used inside other schema root.`
         )
       }
       allRootFields[fieldName] = fieldConfig
@@ -40,7 +45,7 @@ function getAllRootFieldsFromRegistry(
 
   return new GraphQLObjectType({
     name,
-    fields: allRootFields,
+    fields: allRootFields
   })
 }
 
@@ -54,12 +59,13 @@ export function compileSchema(schemaOrSchemas: Function | Function[]) {
   const query = getAllRootFieldsFromRegistry(
     roots,
     queryFieldsRegistry,
-    'Query',
+    'Query'
   )
+
   const mutation = getAllRootFieldsFromRegistry(
     roots,
     mutationFieldsRegistry,
-    'Mutation',
+    'Mutation'
   )
 
   if (!query) {
@@ -69,5 +75,6 @@ export function compileSchema(schemaOrSchemas: Function | Function[]) {
   return new GraphQLSchema({
     query: query || undefined,
     mutation: mutation || undefined,
+    types: Array.from(interfaceTypeImplementorsSet)
   })
 }

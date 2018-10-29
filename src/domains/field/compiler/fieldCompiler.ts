@@ -6,7 +6,7 @@ import {
   enhanceType,
   isRootFieldOnNonRootBase,
   resolveRegisteredOrInferedType,
-  validateResolvedType,
+  validateResolvedType
 } from './services'
 
 import { validateNotInferableField } from './fieldType'
@@ -14,11 +14,11 @@ import { compileFieldArgs } from '../../arg'
 
 export function compileFieldConfig(
   target: Function,
-  fieldName: string,
+  fieldName: string
 ): GraphQLFieldConfig<any, any, any> {
   const { type, description, isNullable } = fieldsRegistry.get(
     target,
-    fieldName,
+    fieldName
   )
   const args = compileFieldArgs(target, fieldName)
 
@@ -34,20 +34,17 @@ export function compileFieldConfig(
     validateNotInferableField(target, fieldName)
     return
   }
-
   const finalType = enhanceType(resolvedType, isNullable)
-  console.log('finalType: ', finalType)
 
   return {
     description,
     type: finalType,
     resolve: compileFieldResolver(target, fieldName),
-    args,
+    args
   }
 }
 
 function getAllFields(target: Function) {
-  console.log('target: ', target)
   const fields = fieldsRegistry.getAll(target)
 
   const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {}
@@ -56,11 +53,12 @@ function getAllFields(target: Function) {
       throw new FieldError(
         target,
         fieldName,
-        `Given field is root field (@Query or @Mutation) not registered inside @Schema type. `,
+        `Given field is root field (@Query or @Mutation) not registered inside @Schema type. `
       )
     }
 
     const config = fieldsRegistry.get(target, fieldName)
+
     finalFieldsMap[config.name] = compileFieldConfig(target, fieldName)
   })
   return finalFieldsMap

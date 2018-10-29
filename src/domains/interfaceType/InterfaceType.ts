@@ -1,50 +1,55 @@
-import { interfaceTypeRegistry } from './interfaceTypeRegistry'
+import {
+  interfaceTypeRegistry,
+  interfaceTypeImplementors,
+  interfaceTypeImplementorsSet
+} from './interfaceTypeRegistry'
 
-// import { compileUnionType, UnionTypeResolver } from './compiler'
-// import { Thunk } from '../../services/types'
 import {
   GraphQLInterfaceType,
   // GraphQLObjectType,
-  GraphQLResolveInfo,
+  GraphQLResolveInfo
 } from 'graphql'
 import { createTypeFieldsGetter } from '../objectType/compiler/objectType'
-// import { resolveTypesList } from '../../services/utils'
+
+import { objectTypeRegistry } from '../objectType'
 
 export interface InterfaceTypeResolver {
   (value: any, context: any, info: GraphQLResolveInfo): any
 }
-
-// function getDefaultResolver(types: GraphQLObjectType[]): InterfaceTypeResolver {
-//   return (value: any, context: any, info: any) => {
-//     for (let type of types) {
-//       if (type.isTypeOf && type.isTypeOf(value, context, info)) {
-//         return type
-//       }
-//     }
-//   }
-// }
 
 export interface InterfaceTypeOptions {
   name?: string
   description?: string
 }
 
+const compileInterfaceCache = new WeakMap<Function, GraphQLInterfaceType>()
+
 export function InterfaceType(config?: InterfaceTypeOptions): ClassDecorator {
   return (target) => {
-    interfaceTypeRegistry.set(target, () => {
-      // return compileUnionType(target, { name: target.name, ...config })
+    const typeGetter = () => {
+      if (compileInterfaceCache.has(target)) {
+        return compileInterfaceCache.get(target)
+      }
 
-      // const resolvedTypes = resolveTypesList(types)
       const name = config && config.name ? config.name : target.name
 
-      console.log('name: ', name)
+      const implementors = interfaceTypeImplementors.get(target)
+
+      implementors.forEach((impl) => {
+        const implementor = objectTypeRegistry.get(impl)()
+        interfaceTypeImplementorsSet.add(implementor)
+      })
       const description = config ? config.description : null
-      return new GraphQLInterfaceType({
+      const intfc = new GraphQLInterfaceType({
         name,
         description,
-        // resolveType: getDefaultResolver(resolvedTypes),
-        fields: createTypeFieldsGetter(target),
+        fields: createTypeFieldsGetter(target)
       })
-    })
+      compileInterfaceCache.set(target, intfc)
+
+      return intfc
+    }
+
+    interfaceTypeRegistry.set(target, typeGetter)
   }
 }
