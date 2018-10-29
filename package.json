@@ -18,6 +18,18 @@
     "type": "git",
     "url": "https://github.com/capaj/decapi"
   },
+  "keywords": [
+    "typescript",
+    "graphql",
+    "schema",
+    "resolvers",
+    "api",
+    "typesafe",
+    "oop",
+    "decorators",
+    "controllers",
+    "apollo"
+  ],
   "devDependencies": {
     "@types/graphql": "^14.0.3",
     "@types/graphql-iso-date": "^3.3.1",
