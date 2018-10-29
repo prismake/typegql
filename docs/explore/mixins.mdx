@@ -1,6 +1,8 @@
-## Mixins
+# Mixins
 
-mixins which can be easily "sprinkled" onto any class in your existing hierarchy. At runtime method fields on the mixin run in the context of a class where you apply them, but typescript doesn't know that, so you have to explicitly set `this` parameter, as shown:
+mixins which can be easily "sprinkled" onto any class in your existing hierarchy.
+At runtime method fields on the mixin run in the context of a class where you apply them, but
+typescript doesn't know that, so you have to explicitly set `this` parameter, as shown:
 
 ```ts
 import { ObjectType, Field, Union } from 'decapi'
@@ -29,10 +31,4 @@ class Hello implements IHasMyProp {
   }
 }
 ```
-
-
-## Interfaces
-
-When a regular typescript class is not flexible enough, you can implement an interface.
-Are kind of like mixins, but their existence is exposed on the GraphQL so it's usually a better idea to use them instead of mixins.
 

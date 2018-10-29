@@ -1,0 +1,69 @@
+# Interfaces
+
+When a regular typescript class is not flexible enough, you can implement an interface.
+Are kind of like mixins, but their existence is exposed on the GraphQL so they're helpful
+when you have collections of entities returned from a field and these have multiple different types, but they have a common set of fields.
+Interfaces are slighly more convenient for your API consumers than Unions.
+
+```ts
+  @InterfaceType({ description: 'a vehicle interface' })
+  abstract class IVehicle {
+    @Field({ type: GraphQLInt })
+    windows: number
+
+    @Field({ type: GraphQLInt })
+    seats: number
+  }
+
+  @ObjectType({ implements: IVehicle })
+  class Car implements IVehicle {
+    windows: number
+    seats: number
+    @Field()
+    wheels: number
+  }
+
+  @ObjectType({ implements: IVehicle })
+  class Boat implements IVehicle {
+    windows: number
+    seats: number
+
+    @Field()
+    propellers: number
+  }
+
+  @SchemaRoot()
+  class FooSchema {
+    @Query({ type: [IVehicle] })
+    vehicles(): IVehicle[] {
+      const car = new Car()
+      car.seats = 4
+      car.windows = 6
+      car.wheels = 4
+
+      const boat = new Boat()
+      boat.seats = 150
+      boat.windows = 30
+      return [car, boat]
+    }
+  }
+
+
+// THEN you can query your schema like this:
+
+ `
+  {
+    vehicles {
+      seats
+      windows
+      __typename
+      ... on Car {
+        wheels
+      }
+      ... on Boat {
+        propellers
+      }
+    }
+  }
+`
+```
