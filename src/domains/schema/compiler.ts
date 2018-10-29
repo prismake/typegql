@@ -1,9 +1,4 @@
-import {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLFieldConfig,
-  visit
-} from 'graphql'
+import { GraphQLSchema, GraphQLObjectType, GraphQLFieldConfig } from 'graphql'
 import {
   queryFieldsRegistry,
   mutationFieldsRegistry,
