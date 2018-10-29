@@ -6,14 +6,17 @@ import {
   unionRegistry,
   inputObjectTypeRegistry,
   objectTypeRegistry,
-} from '../../../../domains'
-import { compileInputObjectType, compileObjectType } from '../../../..'
+  compileInputObjectType,
+  compileObjectType
+} from '../../../../index'
+
 import { Thunk } from '../../../types'
+import { interfaceTypeRegistry } from '../../../../domains/interfaceType/interfaceTypeRegistry'
 
 export function resolveType(
   input: any,
   allowThunk = true,
-  isArgument?: boolean,
+  isArgument?: boolean
 ): GraphQLType {
   if (isType(input)) {
     return input
@@ -33,6 +36,10 @@ export function resolveType(
 
   if (unionRegistry.has(input)) {
     return unionRegistry.get(input)()
+  }
+
+  if (interfaceTypeRegistry.has(input)) {
+    return interfaceTypeRegistry.get(input)()
   }
 
   if (isArgument && inputObjectTypeRegistry.has(input)) {

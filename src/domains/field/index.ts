@@ -4,9 +4,9 @@ import { rootFieldTypes } from '../schema/rootFields'
 export {
   FieldInnerConfig,
   fieldsRegistry,
-  queryFieldsRegistry,
+  queryFieldsRegistry
 } from './registry'
-export { compileAllFields, compileFieldConfig } from './compiler/index'
+export { compileAllFields, compileFieldConfig } from './compiler/fieldCompiler'
 export { FieldError } from './error'
 
 export interface FieldOptions {
@@ -23,11 +23,11 @@ export function Field(options?: FieldOptions): PropertyDecorator {
       property: fieldName,
       name: fieldName,
       isNullable: true,
-      ...options,
+      ...options
     }
     const existingField = fieldsRegistry.get(
       targetInstance.constructor,
-      fieldName,
+      fieldName
     )
 
     if (existingField) {
@@ -37,7 +37,7 @@ export function Field(options?: FieldOptions): PropertyDecorator {
             targetInstance.constructor.name
           } cannot be registered-it's already registered as type ${
             existingField.type.name
-          }`,
+          }`
         )
       }
       if (options.rootFieldType === existingField.rootFieldType) {
@@ -46,7 +46,7 @@ export function Field(options?: FieldOptions): PropertyDecorator {
             targetInstance.constructor.name
           } cannot be registered as a ${
             existingField.rootFieldType
-          }-it's already registered`,
+          }-it's already registered`
         )
       }
     }

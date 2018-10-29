@@ -1,6 +1,6 @@
 {
   "name": "decapi",
-  "version": "0.6.10",
+  "version": "0.7.0",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/graphql": "^14.0.3",
     "@types/graphql-iso-date": "^3.3.1",
-    "@types/jest": "^23.3.7",
+    "@types/jest": "^23.3.8",
     "@types/node": "^10.12.0",
     "@types/object-path": "^0.9.29",
     "@types/reflect-metadata": "^0.1.0",
@@ -30,7 +30,7 @@
     "graphql": "^14.0.2",
     "husky": "^1.1.2",
     "jest": "^23.6.0",
-    "lint-staged": "^7.3.0",
+    "lint-staged": "^8.0.0",
     "prettier": "^1.14.3",
     "pretty-quick": "^1.8.0",
     "rimraf": "^2.6.2",

@@ -6,13 +6,13 @@ import {
   Arg,
   SchemaRoot,
   Query,
-  compileSchema,
-} from '../..'
+  compileSchema
+} from '../index'
 
 enum TestEnum {
   Foo = 'Foo',
   Bar = 'Bar',
-  Baz = 'Baz',
+  Baz = 'Baz'
 }
 
 registerEnum(TestEnum, { name: 'TestEnum' })
@@ -45,7 +45,7 @@ describe('Query with enums', () => {
             world(name: Foob)
           }
         }
-      `,
+      `
     )
 
     expect(result.errors).toBeDefined()

@@ -7,8 +7,8 @@ import {
   SchemaRoot,
   Mutation,
   compileSchema,
-  Query,
-} from '../..'
+  Query
+} from '../index'
 
 @InputObjectType()
 class Input {
@@ -50,7 +50,7 @@ describe('Mutation', () => {
             world(name: 2)
           }
         }
-      `,
+      `
     )
     expect(result.errors).toBeDefined()
     expect(result.errors).toMatchSnapshot()
@@ -65,7 +65,7 @@ describe('Mutation', () => {
             world(name: "Bob")
           }
         }
-      `,
+      `
     )
 
     expect(result).toEqual({ data: { deepInput: { world: 'Hola, Bob' } } })

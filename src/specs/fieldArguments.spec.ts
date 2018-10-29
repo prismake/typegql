@@ -6,8 +6,8 @@ import {
   SchemaRoot,
   Query,
   compileSchema,
-  Context,
-} from '../..'
+  Context
+} from '../index'
 
 @ObjectType()
 class Hello {
@@ -18,7 +18,7 @@ class Hello {
   @Field({ type: [Boolean], isNullable: true })
   boolTest2(
     @Arg() v2: boolean,
-    @Arg({ isNullable: true }) v2a: boolean,
+    @Arg({ isNullable: true }) v2a: boolean
   ): boolean[] {
     // console.log('[v2, v2a]: ', [v2, v2a]);
     expect(v2).toBe(false)
@@ -40,7 +40,7 @@ class Hello {
   @Field()
   argRename(
     @Context ctx: any,
-    @Arg({ isNullable: true, name: 'myFancyArgument' }) a: string,
+    @Arg({ isNullable: true, name: 'myFancyArgument' }) a: string
   ): boolean {
     expect(ctx).toBe(null)
     expect(a).toBe('fancy')
@@ -52,7 +52,7 @@ class Hello {
   argRename2(
     @Arg({ isNullable: true, name: 'myFirstFancyArgument' }) a: string,
     @Arg({ isNullable: true, name: 'mySecondFancyArgument' }) b: string,
-    @Context ctx: any,
+    @Context ctx: any
   ): boolean {
     expect(ctx).toBe(null)
     expect(a).toBe('fancya')
@@ -84,7 +84,7 @@ describe('Field args', () => {
             boolTest3(v3: true)
           }
         }
-      `,
+      `
     )
 
     expect(result.errors).toBeUndefined()
@@ -106,7 +106,7 @@ Object {
             boolTest4(a2: true)
           }
         }
-      `,
+      `
     )
     expect(result).toMatchInlineSnapshot(`
 Object {
@@ -132,7 +132,7 @@ Object {
             )
           }
         }
-      `,
+      `
     )
     expect(result).toMatchInlineSnapshot(`
 Object {

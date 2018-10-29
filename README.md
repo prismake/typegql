@@ -59,11 +59,11 @@ app.use(
   '/graphql',
   graphqlHTTP({
     schema: compiledSchema,
-    graphiql: true,
-  }),
+    graphiql: true
+  })
 )
 app.listen(3000, () =>
-  console.log('Graphql API ready on http://localhost:3000/graphql'),
+  console.log('Graphql API ready on http://localhost:3000/graphql')
 )
 ```
 
@@ -90,7 +90,7 @@ import {
   ObjectType,
   Field,
   Mutation,
-  compileSchema,
+  compileSchema
 } from 'decapi'
 
 @ObjectType({ description: 'Simple product object type' })
@@ -175,7 +175,7 @@ Before version `1.0.0` consider APIs of `decapi` to be subject to change. We enc
 I wanted to contribute to [typegql](https://github.com/prismake/typegql) and work on it together with @pie6k, but it soon became obvious that we both have something different in mind. Just to briefly summarise the differences:
 
 - decapi has `@DuplexObjectType` and `@DuplexField`
-- decapi has mixins
+- decapi has interfaces and mixins
 - decapi can infer Date type
 - InputObjectType argument passed ot your Field/Query is not just a plain object, but an instance of it's class
 - decapi allows you to have an empty object type-you can populate it with fields at runtime

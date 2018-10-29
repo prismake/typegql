@@ -1,5 +1,4 @@
 import * as express from 'express'
-import { Schema, Query, compileSchema } from 'decapi'
 import * as graphqlHTTP from 'express-graphql'
 
 import { schema } from './schema'
@@ -10,8 +9,8 @@ app.use(
   '/graphql',
   graphqlHTTP({
     schema,
-    graphiql: true,
-  }),
+    graphiql: true
+  })
 )
 app.listen(3000, () => {
   console.log('Api ready on port 3000')

@@ -1,5 +1,5 @@
 import { graphql } from 'graphql'
-import { ObjectType, Field, SchemaRoot, Query, compileSchema } from '../..'
+import { ObjectType, Field, SchemaRoot, Query, compileSchema } from '../index'
 
 interface IHasMyProp {
   myProp: number
@@ -43,7 +43,7 @@ describe('Query a mixin method', () => {
             mixinMethod(a: "Bob")
           }
         }
-      `,
+      `
     )
 
     expect(result).toMatchSnapshot()

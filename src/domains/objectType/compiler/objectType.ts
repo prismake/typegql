@@ -1,30 +1,32 @@
 import { GraphQLObjectType } from 'graphql'
-import { ObjectTypeError, objectTypeRegistry } from '../index'
+import {
+  ObjectTypeError,
+  objectTypeRegistry,
+  IObjectTypeOptions
+} from '../index'
 
 import { compileAllFields } from '../../field'
 import {
   getClassWithAllParentClasses,
-  createCachedThunk,
+  createCachedThunk
 } from '../../../services/utils'
+import { interfaceTypeRegistry } from '../../interfaceType/interfaceTypeRegistry'
 
-const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>()
+export const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>()
 
-export interface TypeOptions {
-  name: string
-  description?: string
-  mixins?: Function[]
-}
-
-function createTypeFieldsGetter(target: Function, mixins: Function[] = []) {
-  const targetWithParents = getClassWithAllParentClasses(target).concat(mixins)
-
-  // const hasFields = targetWithParents.some((ancestor) => {
-  //   return !fieldsRegistry.isEmpty(ancestor)
-  // })
-
-  // if (!hasFields) {
-  //   throw new ObjectTypeError(target, `There are no fields inside this type.`)
-  // }
+export function createTypeFieldsGetter(
+  target: Function,
+  config?: IObjectTypeOptions
+) {
+  let targetWithParents = getClassWithAllParentClasses(target)
+  if (config) {
+    if (config.mixins) {
+      targetWithParents = targetWithParents.concat(config.mixins)
+    }
+    if (config.implements) {
+      targetWithParents = targetWithParents.concat(config.implements)
+    }
+  }
 
   return createCachedThunk(() => {
     return compileAllFields(targetWithParents)
@@ -33,17 +35,23 @@ function createTypeFieldsGetter(target: Function, mixins: Function[] = []) {
 
 export function compileObjectTypeWithConfig(
   target: Function,
-  config: TypeOptions,
+  config: IObjectTypeOptions
 ): GraphQLObjectType {
   if (compileOutputTypeCache.has(target)) {
     return compileOutputTypeCache.get(target)
   }
+  const interf = interfaceTypeRegistry.get(config.implements)
 
   const compiled = new GraphQLObjectType({
+    interfaces: interf
+      ? createCachedThunk(() => {
+          return [interf()]
+        })
+      : null,
     name: config.name,
     description: config.description,
     isTypeOf: (value: any) => value instanceof target,
-    fields: createTypeFieldsGetter(target, config.mixins),
+    fields: createTypeFieldsGetter(target, config)
   })
 
   compileOutputTypeCache.set(target, compiled)
@@ -54,7 +62,7 @@ export function compileObjectType(target: Function) {
   if (!objectTypeRegistry.has(target)) {
     throw new ObjectTypeError(
       target,
-      `Class is not registered. Make sure it's decorated with @ObjectType decorator`,
+      `Class is not registered. Make sure it's decorated with @ObjectType decorator`
     )
   }
 

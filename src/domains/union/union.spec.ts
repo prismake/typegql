@@ -1,5 +1,13 @@
-import { GraphQLUnionType } from 'graphql'
-import { ObjectType, Union, Field, compileObjectType } from '../..'
+import { GraphQLUnionType, printSchema } from 'graphql'
+import {
+  ObjectType,
+  Union,
+  Field,
+  compileObjectType,
+  SchemaRoot,
+  Query,
+  compileSchema
+} from '../..'
 
 import 'jest'
 import { resolveType } from '../../services/utils/gql'
@@ -23,7 +31,7 @@ const customTypeResolver = jest.fn((type) => Sub1)
 
 @Union({
   types: [Sub1, Sub2],
-  resolveTypes: customTypeResolver,
+  resolveTypes: customTypeResolver
 })
 class CustomUnionType {}
 
@@ -49,10 +57,10 @@ describe('Unions', () => {
     const unionType = bar.type as GraphQLUnionType
 
     expect(
-      unionType.resolveType && unionType.resolveType(new Sub1(), null, null),
+      unionType.resolveType && unionType.resolveType(new Sub1(), null, null)
     ).toBe(resolveType(Sub1))
     expect(
-      unionType.resolveType && unionType.resolveType(new Sub2(), null, null),
+      unionType.resolveType && unionType.resolveType(new Sub2(), null, null)
     ).toBe(resolveType(Sub2))
   })
 
@@ -62,8 +70,34 @@ describe('Unions', () => {
     const unionType = baz.type as GraphQLUnionType
 
     expect(
-      unionType.resolveType && unionType.resolveType(new Sub2(), null, null),
+      unionType.resolveType && unionType.resolveType(new Sub2(), null, null)
     ).toBe(resolveType(Sub1))
     expect(customTypeResolver).toBeCalled()
+  })
+
+  it('should work in a schema', async () => {
+    @SchemaRoot()
+    class FooSchema {
+      @Query({ type: [UnionType] })
+      aUnion() {}
+    }
+    const schema = compileSchema(FooSchema)
+
+    expect(printSchema(schema)).toMatchInlineSnapshot(`
+"type Query {
+  aUnion: [UnionType!]
+}
+
+type Sub1 {
+  bar: String
+}
+
+type Sub2 {
+  bar: Float
+}
+
+union UnionType = Sub1 | Sub2
+"
+`)
   })
 })

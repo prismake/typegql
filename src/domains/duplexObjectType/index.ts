@@ -1,5 +1,5 @@
 import { objectTypeRegistry } from '../objectType/registry'
-import { compileObjectTypeWithConfig } from '../objectType/compiler/index'
+import { compileObjectTypeWithConfig } from '../objectType/compiler/objectType'
 import { compileInputObjectTypeWithConfig } from '../inputObjectType/compiler/index'
 import { inputObjectTypeRegistry } from '../inputObjectType/registry'
 export { ObjectTypeError } from './error'

@@ -3,7 +3,7 @@ import { inputFieldsRegistry, FieldInputInnerConfig } from './registry'
 export { FieldInputInnerConfig, inputFieldsRegistry } from './registry'
 export {
   compileAllInputFields,
-  compileInputFieldConfig,
+  compileInputFieldConfig
 } from './compiler/index'
 export { InputFieldError } from './error'
 
@@ -20,7 +20,7 @@ export function InputField(options?: InputFieldOptions): PropertyDecorator {
     const finalConfig: FieldInputInnerConfig = {
       property: fieldName,
       name: fieldName,
-      ...options,
+      ...options
     }
 
     inputFieldsRegistry.set(targetInstance.constructor, fieldName, finalConfig)

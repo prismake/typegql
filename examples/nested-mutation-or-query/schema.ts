@@ -1,11 +1,12 @@
 import {
-  Schema,
+  SchemaRoot,
   Query,
   Mutation,
   Field,
   ObjectType,
-  compileSchema,
+  compileSchema
 } from 'decapi'
+import { plainToClass } from 'class-transformer'
 
 @ObjectType()
 class Book {
@@ -17,7 +18,7 @@ class Book {
 
 const booksDb: Book[] = [
   { id: 1, name: 'Lord of the Rings' },
-  { id: 2, name: 'Harry Potter' },
+  { id: 2, name: 'Harry Potter' }
 ]
 
 @ObjectType()
@@ -42,16 +43,17 @@ class BookMutation {
   }
 }
 
-@Schema()
+@SchemaRoot()
 class MySchema {
   @Mutation()
   book(bookId: number): BookMutation {
     return new BookMutation(bookId)
   }
 
-  @Query()
-  hello(): string {
-    return 'World!'
+  @Query({ type: [Book] })
+  books(): Book[] {
+    // just a utlitity to cast our POJOs into a class of Book
+    return plainToClass(Book, booksDb)
   }
 }
 
