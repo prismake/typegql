@@ -8,8 +8,8 @@ import {
   compileSchema,
   InputObjectType,
   InputField,
-  Mutation,
-} from '../..'
+  Mutation
+} from '../index'
 import { GraphQLDateTime } from 'graphql-iso-date'
 
 @InputObjectType()
@@ -52,7 +52,7 @@ class FooSchema {
 
   @Query()
   withScalar(
-    @Arg({ type: GraphQLDateTime, isNullable: true }) aDate?: Date,
+    @Arg({ type: GraphQLDateTime, isNullable: true }) aDate?: Date
   ): number {
     return aDate.getTime()
   }
@@ -70,7 +70,7 @@ describe('input object type arguments are passed as instances', () => {
             bar(input: { inputField: "Foo" })
           }
         }
-      `,
+      `
     )
 
     expect(result1).toMatchInlineSnapshot(`
@@ -93,7 +93,7 @@ Object {
             )
           }
         }
-      `,
+      `
     )
 
     expect(result2).toMatchInlineSnapshot(`
@@ -112,7 +112,7 @@ Object {
         mutation {
           barMutation(input: { inputField: "Bar" })
         }
-      `,
+      `
     )
 
     expect(result3).toMatchInlineSnapshot(`
@@ -131,7 +131,7 @@ Object {
         {
           withScalar(aDate: "2018-10-10T23:37:34+02:00")
         }
-      `,
+      `
     )
 
     expect(result2).toMatchInlineSnapshot(`

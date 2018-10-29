@@ -4,8 +4,8 @@ import {
   DuplexField,
   SchemaRoot,
   Query,
-  compileSchema,
-} from '../..'
+  compileSchema
+} from '../index'
 
 describe('duplex object type', () => {
   it('should compile and echo back', async () => {
@@ -50,7 +50,7 @@ describe('duplex object type', () => {
             foo2
           }
         }
-      `,
+      `
     )
 
     expect(result).toEqual({ data: { output: { foo2: 'bar' } } })
@@ -63,7 +63,7 @@ describe('duplex object type', () => {
             foo
           }
         }
-      `,
+      `
     )
 
     expect(result2).toEqual({ data: { echo: { foo: 'aaa' } } })

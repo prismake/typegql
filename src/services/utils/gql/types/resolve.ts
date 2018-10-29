@@ -6,17 +6,17 @@ import {
   unionRegistry,
   inputObjectTypeRegistry,
   objectTypeRegistry,
-  interfaceTypeRegistry,
   compileInputObjectType,
-  compileObjectType,
-} from '../../../../domains'
+  compileObjectType
+} from '../../../../index'
 
 import { Thunk } from '../../../types'
+import { interfaceTypeRegistry } from '../../../../domains/interfaceType/interfaceTypeRegistry'
 
 export function resolveType(
   input: any,
   allowThunk = true,
-  isArgument?: boolean,
+  isArgument?: boolean
 ): GraphQLType {
   if (isType(input)) {
     return input

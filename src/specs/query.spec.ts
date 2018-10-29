@@ -1,5 +1,5 @@
 import { graphql } from 'graphql'
-import { compileSchema, ObjectType, Field, SchemaRoot, Query } from '../..'
+import { compileSchema, ObjectType, Field, SchemaRoot, Query } from '../index'
 
 @ObjectType()
 class Hello {
@@ -34,7 +34,7 @@ describe('Query', () => {
             world(name: "Bob")
           }
         }
-      `,
+      `
     )
 
     expect(result).toEqual({ data: { hello: { world: 'Hello, Bob' } } })
@@ -49,7 +49,7 @@ describe('Query', () => {
             world(name: 2)
           }
         }
-      `,
+      `
     )
     expect(result.errors).toBeDefined()
     expect(result.errors).toMatchSnapshot()
@@ -62,7 +62,7 @@ describe('Query', () => {
         {
           foo
         }
-      `,
+      `
     )
     expect(result).toEqual({ data: { foo: 'bar' } })
   })
