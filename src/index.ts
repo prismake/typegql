@@ -24,6 +24,8 @@ export { registerEnum, enumsRegistry } from './domains/enum/index'
 export { Union } from './domains/union/index'
 export { unionRegistry } from './domains/union/registry'
 
+export { InterfaceType } from './domains/interfaceType/InterfaceType'
+
 export { Before, After } from './domains/hooks/index'
 export {
   SchemaRoot,
