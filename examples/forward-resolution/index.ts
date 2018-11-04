@@ -1,8 +1,8 @@
-import * as express from 'express'
+import express from 'express'
 import { GraphQLResolveInfo } from 'graphql'
-import * as getFieldNames from 'graphql-list-fields'
+import getFieldNames from 'graphql-list-fields'
 import { Schema, Query, ObjectType, Field, Inject, compileSchema } from 'decapi'
-import * as graphqlHTTP from 'express-graphql'
+import graphqlHTTP from 'express-graphql'
 
 function NeededFields(filter: string[] = []) {
   return Inject(({ info }) => {
@@ -26,7 +26,7 @@ class LazyObject {
   constructor(neededFields: string[]) {
     console.log(
       'I will only perform expensive operations for fields:',
-      neededFields,
+      neededFields
     )
 
     if (neededFields.includes['foo']) {
@@ -47,7 +47,7 @@ class LazyObject {
 class SuperSchema {
   @Query()
   foo(
-    @NeededFields(['foo', 'bar']) neededFields: string[], // this arg will tell if `foo` and `bar` are needed
+    @NeededFields(['foo', 'bar']) neededFields: string[] // this arg will tell if `foo` and `bar` are needed
   ): LazyObject {
     console.log('Needed fields are: ', { neededFields })
     return new LazyObject(neededFields)
@@ -62,7 +62,7 @@ app.use(
   '/graphql',
   graphqlHTTP({
     schema: compiledSchema,
-    graphiql: true,
-  }),
+    graphiql: true
+  })
 )
 app.listen(3000)

@@ -1,4 +1,4 @@
-import * as express from 'express'
+import express from 'express'
 import { Entity, BaseEntity, ManyToOne, OneToMany } from 'typeorm'
 import {
   Schema,
@@ -6,9 +6,9 @@ import {
   Mutation,
   ObjectType,
   Field,
-  compileSchema,
+  compileSchema
 } from 'decapi'
-import * as graphqlHTTP from 'express-graphql'
+import graphqlHTTP from 'express-graphql'
 
 import { PrimaryGeneratedColumn, Column, createConnection } from 'typeorm'
 
@@ -87,12 +87,12 @@ class ApiSchema {
   async createBook(
     title: string,
     pagesCount: number,
-    authorId: number,
+    authorId: number
   ): Promise<Book> {
     const newBook = Book.create({
       title,
       pagesCount,
-      author: { id: authorId },
+      author: { id: authorId }
     })
     return await newBook.save()
   }
@@ -112,7 +112,7 @@ async function startApp() {
     password: '',
     database: 'test',
     entities: [User, Book],
-    synchronize: true,
+    synchronize: true
   })
   console.log('Connected')
 
@@ -120,8 +120,8 @@ async function startApp() {
     '/graphql',
     graphqlHTTP({
       schema: compiledSchema,
-      graphiql: true,
-    }),
+      graphiql: true
+    })
   )
   app.listen(3000, () => console.log('API ready on port 3000'))
 }

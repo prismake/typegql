@@ -1,5 +1,5 @@
-import * as express from 'express'
-import * as graphqlHTTP from 'express-graphql'
+import express from 'express'
+import graphqlHTTP from 'express-graphql'
 import { mergeSchemas } from 'graphql-tools'
 
 import { schemaA } from './schemaA'
@@ -13,8 +13,8 @@ app.use(
   '/graphql',
   graphqlHTTP({
     schema: mergedSchema,
-    graphiql: true,
-  }),
+    graphiql: true
+  })
 )
 app.listen(3000, () => {
   console.log('Api ready on port 3000')

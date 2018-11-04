@@ -1,4 +1,4 @@
-import * as objectPath from 'object-path'
+import { get, set } from 'object-path'
 
 export type DeepWeakMapPath = (string | number) | (string | number)[]
 
@@ -34,12 +34,12 @@ export class DeepWeakMap<
   }
 
   set(target: Key, path: DeepWeakMapPath, value: Value) {
-    objectPath.set(this.getAll(target), path, value)
+    set(this.getAll(target), path, value)
   }
 
   get(target: Key, ...paths: DeepWeakMapPath[]): Value {
     const path = flattenPaths(paths)
-    return objectPath.get(this.getAll(target), path)
+    return get(this.getAll(target), path)
   }
 
   has(target: Key, ...paths: DeepWeakMapPath[]): boolean {

@@ -50,8 +50,8 @@ const compiledSchema = compileSchema(SuperSchema)
 To use it with `express`, you'd have to simply:
 
 ```ts
-import * as express from 'express'
-import * as graphqlHTTP from 'express-graphql'
+import express from 'express'
+import graphqlHTTP from 'express-graphql'
 
 const app = express()
 
