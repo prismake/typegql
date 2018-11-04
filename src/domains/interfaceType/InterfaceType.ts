@@ -11,7 +11,7 @@ import {
 } from 'graphql'
 import { createTypeFieldsGetter } from '../objectType/compiler/objectType'
 
-import { objectTypeRegistry } from '../objectType'
+import { objectTypeRegistry } from '../objectType/ObjectType'
 
 export interface InterfaceTypeResolver {
   (value: any, context: any, info: GraphQLResolveInfo): any

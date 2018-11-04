@@ -26,3 +26,12 @@ export function InputField(options?: InputFieldOptions): PropertyDecorator {
     inputFieldsRegistry.set(targetInstance.constructor, fieldName, finalConfig)
   }
 }
+
+/**
+ * a shorthand for @InputField({isNullable: true})
+ */
+export function InputFieldNullable(
+  options?: InputFieldOptions
+): PropertyDecorator {
+  return InputField({ ...options, isNullable: true })
+}

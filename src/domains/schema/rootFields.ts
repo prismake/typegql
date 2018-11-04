@@ -1,10 +1,10 @@
 import {
   queryFieldsRegistry,
   mutationFieldsRegistry,
-  schemaRootsRegistry,
+  schemaRootsRegistry
 } from './registry'
 import { SchemaFieldError } from './error'
-import { compileFieldConfig, FieldOptions, Field } from '../field'
+import { compileFieldConfig, FieldOptions, Field } from '../field/Field'
 
 function validateRootSchemaField(targetInstance: Object, fieldName: string) {
   if (
@@ -14,7 +14,7 @@ function validateRootSchemaField(targetInstance: Object, fieldName: string) {
     throw new SchemaFieldError(
       targetInstance.constructor,
       fieldName,
-      `Every root schema field must regular class function`,
+      `Every root schema field must regular class function`
     )
   }
 }
@@ -26,7 +26,7 @@ function requireSchemaRoot(target: Function, fieldName: string) {
   throw new SchemaFieldError(
     target,
     fieldName,
-    `Root field must be registered on class decorated with @Schema`,
+    `Root field must be registered on class decorated with @Schema`
   )
 }
 
@@ -42,7 +42,7 @@ function getFieldCompiler(target: Function, fieldName: string) {
 
 export enum rootFieldTypes {
   query = 'query',
-  mutation = 'mutation',
+  mutation = 'mutation'
 }
 
 // special fields
@@ -51,16 +51,16 @@ export function Query(options?: FieldOptions): PropertyDecorator {
     validateRootSchemaField(targetInstance, fieldName)
     Field({ rootFieldType: rootFieldTypes.query, ...options })(
       targetInstance,
-      fieldName,
+      fieldName
     )
     const fieldCompiler = getFieldCompiler(
       targetInstance.constructor,
-      fieldName,
+      fieldName
     )
     queryFieldsRegistry.set(
       targetInstance.constructor,
       fieldName,
-      fieldCompiler,
+      fieldCompiler
     )
   }
 }
@@ -70,16 +70,42 @@ export function Mutation(options?: FieldOptions): PropertyDecorator {
     validateRootSchemaField(targetInstance, fieldName)
     Field({ rootFieldType: rootFieldTypes.mutation, ...options })(
       targetInstance,
-      fieldName,
+      fieldName
     )
     const fieldCompiler = getFieldCompiler(
       targetInstance.constructor,
-      fieldName,
+      fieldName
     )
     mutationFieldsRegistry.set(
       targetInstance.constructor,
       fieldName,
-      fieldCompiler,
+      fieldCompiler
+    )
+  }
+}
+
+export function QueryAndMutation(options?: FieldOptions): PropertyDecorator {
+  return (targetInstance: Object, fieldName: string) => {
+    validateRootSchemaField(targetInstance, fieldName)
+    Field({ rootFieldType: rootFieldTypes.query, ...options })(
+      targetInstance,
+      fieldName
+    )
+    const fieldCompiler = getFieldCompiler(
+      targetInstance.constructor,
+      fieldName
+    )
+
+    queryFieldsRegistry.set(
+      targetInstance.constructor,
+      fieldName,
+      fieldCompiler
+    )
+
+    mutationFieldsRegistry.set(
+      targetInstance.constructor,
+      fieldName,
+      fieldCompiler
     )
   }
 }

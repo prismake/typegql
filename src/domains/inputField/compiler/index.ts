@@ -4,10 +4,10 @@ import {
   GraphQLInputType,
   GraphQLInputFieldConfig,
   GraphQLInputFieldConfigMap,
-  GraphQLNonNull,
+  GraphQLNonNull
 } from 'graphql'
 
-import { InputFieldError, inputFieldsRegistry } from '../index'
+import { InputFieldError, inputFieldsRegistry } from '../InputFieldDecorators'
 
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType'
 import { getClassWithAllParentClasses } from '../../../services/utils'
@@ -15,7 +15,7 @@ import { getClassWithAllParentClasses } from '../../../services/utils'
 function getFinalInputFieldType(
   target: Function,
   fieldName: string,
-  forcedType?: any,
+  forcedType?: any
 ) {
   if (forcedType) {
     return resolveTypeOrThrow(forcedType, target, fieldName)
@@ -26,13 +26,13 @@ function getFinalInputFieldType(
 function validateResolvedType(
   target: Function,
   fieldName: string,
-  type: GraphQLType,
+  type: GraphQLType
 ): type is GraphQLInputType {
   if (!isInputType(type)) {
     throw new InputFieldError(
       target,
       fieldName,
-      `Validation of type failed. Resolved type must be a GraphQLInputType.`,
+      `Validation of type failed. Resolved type must be a GraphQLInputType.`
     )
   }
   return true
@@ -48,13 +48,13 @@ function enhanceType(originalType: GraphQLInputType, isNullable: boolean) {
 
 export function compileInputFieldConfig(
   target: Function,
-  fieldName: string,
+  fieldName: string
 ): GraphQLInputFieldConfig {
   const {
     type,
     description,
     defaultValue,
-    isNullable,
+    isNullable
   } = inputFieldsRegistry.get(target, fieldName)
 
   const resolvedType = getFinalInputFieldType(target, fieldName, type)
@@ -69,7 +69,7 @@ export function compileInputFieldConfig(
   return {
     description,
     defaultValue,
-    type: finalType,
+    type: finalType
   }
 }
 
@@ -90,7 +90,7 @@ export function compileAllInputFields(target: Function) {
   targetWithParents.forEach((targetLevel) => {
     Object.assign(
       finalFieldsMap,
-      compileAllInputFieldsForSingleTarget(targetLevel),
+      compileAllInputFieldsForSingleTarget(targetLevel)
     )
   })
   return finalFieldsMap

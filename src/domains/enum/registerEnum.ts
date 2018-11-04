@@ -24,7 +24,7 @@ export function registerEnum(enumDef: Object, options: EnumOptions | string) {
   const enumType = new GraphQLEnumType({
     name,
     description,
-    values,
+    values
   })
   enumsRegistry.set(enumDef, enumType)
   return enumType

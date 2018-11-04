@@ -7,7 +7,14 @@ export function Arg(options: ArgOptions = {}): ParameterDecorator {
     argRegistry.set(target.constructor, [fieldName, argIndex], {
       ...defaultArgOptions,
       ...options,
-      argIndex,
+      argIndex
     })
   }
+}
+
+/**
+ * a shorthand for @Arg({isNullable: true})
+ */
+export function ArgNullable(options: ArgOptions = {}): ParameterDecorator {
+  return Arg({ ...options, isNullable: true })
 }

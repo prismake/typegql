@@ -3,16 +3,16 @@ import { GraphQLFieldResolver } from 'graphql'
 import {
   HookExecutor,
   fieldBeforeHooksRegistry,
-  fieldAfterHooksRegistry,
-} from '../../hooks'
-import { isSchemaRoot, getSchemaRootInstance } from '../../schema'
+  fieldAfterHooksRegistry
+} from '../../hooks/hooks'
+import { isSchemaRoot, getSchemaRootInstance } from '../../schema/SchemaRoot'
 
 import { getParameterNames } from '../../../services/utils'
 import {
   injectorRegistry,
   InjectorResolver,
-  InjectorsIndex,
-} from '../../inject'
+  InjectorsIndex
+} from '../../inject/Inject'
 import { argRegistry, ArgInnerConfig } from '../../arg/registry'
 
 interface ArgsMap {
@@ -31,7 +31,7 @@ async function performHooksExecution(
   source: any,
   args: any,
   context: any,
-  info: any,
+  info: any
 ) {
   if (!hooks) {
     return
@@ -40,13 +40,13 @@ async function performHooksExecution(
   return await Promise.all(
     hooks.map((hook) => {
       return hook({ source, args, context, info })
-    }),
+    })
   )
 }
 
 export function computeFinalArgs(
   func: Function,
-  { args, injectors, injectorToValueMapper, getArgConfig }: ComputeArgsOptions,
+  { args, injectors, injectorToValueMapper, getArgConfig }: ComputeArgsOptions
 ) {
   const paramNames = getParameterNames(func)
   return paramNames.map((paramName, index) => {
@@ -111,7 +111,7 @@ function getFieldOfTarget(instance: any, prototype: any, fieldName: string) {
 
 export function compileFieldResolver(
   target: Function,
-  fieldName: string,
+  fieldName: string
 ): GraphQLFieldResolver<any, any> {
   const injectors = injectorRegistry.getAll(target)[fieldName]
   const beforeHooks = fieldBeforeHooksRegistry.get(target, fieldName)
@@ -121,7 +121,7 @@ export function compileFieldResolver(
     source: any,
     args: object | null = null,
     context: any = null,
-    info: any = null,
+    info: any = null
   ) => {
     if (isSchemaRoot(target)) {
       source = getSchemaRootInstance(target)
@@ -146,7 +146,7 @@ export function compileFieldResolver(
       getArgConfig: (index: number) => {
         const argConfig = argRegistry.get(target, [fieldName, index])
         return argConfig
-      },
+      }
     })
 
     const result = await instanceFieldFunc.apply(source, params)

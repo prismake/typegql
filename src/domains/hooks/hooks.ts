@@ -1,13 +1,13 @@
 import {
   registerFieldAfterHook,
   registerFieldBeforeHook,
-  HookExecutor,
+  HookExecutor
 } from './registry'
 
 export {
   fieldAfterHooksRegistry,
   fieldBeforeHooksRegistry,
-  HookExecutor,
+  HookExecutor
 } from './registry'
 export { HookError } from './error'
 

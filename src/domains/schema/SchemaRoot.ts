@@ -1,7 +1,7 @@
 export {
   schemaRootsRegistry,
   mutationFieldsRegistry,
-  queryFieldsRegistry,
+  queryFieldsRegistry
 } from './registry'
 import { schemaRootsRegistry, SchemaRootConfig } from './registry'
 

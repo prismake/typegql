@@ -1,10 +1,16 @@
 import { GraphQLInputObjectType, GraphQLInputFieldConfigMap } from 'graphql'
-import { InputObjectTypeError, inputObjectTypeRegistry } from '../index'
+import {
+  InputObjectTypeError,
+  inputObjectTypeRegistry
+} from '../InputObjectType'
 import {
   getClassWithAllParentClasses,
-  createCachedThunk,
+  createCachedThunk
 } from '../../../services/utils'
-import { inputFieldsRegistry, compileAllInputFields } from '../../inputField'
+import {
+  inputFieldsRegistry,
+  compileAllInputFields
+} from '../../inputField/InputFieldDecorators'
 
 const compileOutputTypeCache = new WeakMap<Function, GraphQLInputObjectType>()
 
@@ -14,7 +20,7 @@ export interface TypeOptions {
 }
 
 function createTypeInputFieldsGetter(
-  target: Function,
+  target: Function
 ): () => GraphQLInputFieldConfigMap {
   const targetWithParents = getClassWithAllParentClasses(target)
   const hasFields = targetWithParents.some((ancestor) => {
@@ -24,7 +30,7 @@ function createTypeInputFieldsGetter(
   if (!hasFields) {
     throw new InputObjectTypeError(
       target,
-      `There are no fields inside this type.`,
+      `There are no fields inside this type.`
     )
   }
 
@@ -35,14 +41,14 @@ function createTypeInputFieldsGetter(
 
 export function compileInputObjectTypeWithConfig(
   target: Function,
-  config: TypeOptions,
+  config: TypeOptions
 ): GraphQLInputObjectType {
   if (compileOutputTypeCache.has(target)) {
     return compileOutputTypeCache.get(target)
   }
   const compiled = new GraphQLInputObjectType({
     ...config,
-    fields: createTypeInputFieldsGetter(target),
+    fields: createTypeInputFieldsGetter(target)
   })
 
   compileOutputTypeCache.set(target, compiled)
@@ -53,7 +59,7 @@ export function compileInputObjectType(target: Function) {
   if (!inputObjectTypeRegistry.has(target)) {
     throw new InputObjectTypeError(
       target,
-      `Class is not registered. Make sure it's decorated with @InputObjectType decorator`,
+      `Class is not registered. Make sure it's decorated with @InputObjectType decorator`
     )
   }
 

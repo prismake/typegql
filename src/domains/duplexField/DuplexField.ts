@@ -1,7 +1,7 @@
 import { fieldsRegistry, FieldInnerConfig } from '../field/registry'
 import {
   inputFieldsRegistry,
-  FieldInputInnerConfig,
+  FieldInputInnerConfig
 } from '../inputField/registry'
 
 export { FieldError } from './error'
@@ -31,21 +31,21 @@ export function DuplexField(options?: {
       property: fieldName,
       name: fieldName,
       isNullable: inputNullable,
-      ...options,
+      ...options
     } as any
 
     const finalConfig: FieldInnerConfig = {
       property: fieldName,
       name: fieldName,
       isNullable,
-      ...options,
+      ...options
     } as any
     fieldsRegistry.set(targetInstance.constructor, fieldName, finalConfig)
 
     inputFieldsRegistry.set(
       targetInstance.constructor,
       fieldName,
-      finalInputConfig,
+      finalInputConfig
     )
   }
 }

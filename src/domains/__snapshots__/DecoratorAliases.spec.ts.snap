@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`decorator aliases should compile 1`] = `
+"type Bar {
+  foo(a: String): String
+}
+
+input BarInput {
+  foo2: String
+  foo: String
+}
+
+type Mutation {
+  output: Bar
+  echo(input: BarInput!): Bar
+}
+
+type Query {
+  output: Bar
+  echo(input: BarInput!): Bar
+}
+"
+`;

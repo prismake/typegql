@@ -11,7 +11,7 @@ export interface InputObjectTypeOptions {
 }
 
 export function InputObjectType(
-  options?: InputObjectTypeOptions,
+  options?: InputObjectTypeOptions
 ): ClassDecorator {
   return (target: Function) => {
     const config = { name: target.name, ...options }

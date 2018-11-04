@@ -8,29 +8,32 @@ export {
   ObjectType,
   compileObjectType,
   objectTypeRegistry
-} from './domains/objectType/index'
+} from './domains/objectType/ObjectType'
 export {
   InputObjectType,
   compileInputObjectType,
   inputObjectTypeRegistry
-} from './domains/inputObjectType/index'
-export { DuplexObjectType } from './domains/duplexObjectType/index'
-export { Field } from './domains/field/index'
-export { InputField } from './domains/inputField/index'
-export { DuplexField } from './domains/duplexField/index'
-export { Arg } from './domains/arg/index'
-export { Inject, Context, Source, Info } from './domains/inject/index'
-export { registerEnum, enumsRegistry } from './domains/enum/index'
-export { Union } from './domains/union/index'
+} from './domains/inputObjectType/InputObjectType'
+export { DuplexObjectType } from './domains/duplexObjectType/DuplexObjectType'
+export { Field } from './domains/field/Field'
+export {
+  InputField,
+  InputFieldNullable
+} from './domains/inputField/InputFieldDecorators'
+export { DuplexField } from './domains/duplexField/DuplexField'
+export { Arg, ArgNullable } from './domains/arg/ArgDecorators'
+export { Inject, Context, Source, Info } from './domains/inject/Inject'
+export { registerEnum, enumsRegistry } from './domains/enum/registerEnum'
+export { Union } from './domains/union/Union'
 export { unionRegistry } from './domains/union/registry'
 
 export { InterfaceType } from './domains/interfaceType/InterfaceType'
 
-export { Before, After } from './domains/hooks/index'
+export { Before, After } from './domains/hooks/hooks'
 export {
   SchemaRoot,
   schemaRootsRegistry,
   compileSchema,
   Query,
   Mutation
-} from './domains/schema/index'
+} from './domains/schema/SchemaRoot'

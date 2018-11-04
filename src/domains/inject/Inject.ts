@@ -3,7 +3,7 @@ export {
   injectorRegistry,
   InjectorsIndex,
   InjectorResolver,
-  InjectorResolverData,
+  InjectorResolverData
 } from './registry'
 
 export function Inject(resolver: InjectorResolver): ParameterDecorator {

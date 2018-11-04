@@ -1,5 +1,5 @@
 import { GraphQLFieldConfig, GraphQLFieldConfigMap } from 'graphql'
-import { FieldError, fieldsRegistry } from '../index'
+import { FieldError, fieldsRegistry } from '../Field'
 
 import { compileFieldResolver } from './resolver'
 import {
@@ -10,7 +10,7 @@ import {
 } from './services'
 
 import { validateNotInferableField } from './fieldType'
-import { compileFieldArgs } from '../../arg'
+import { compileFieldArgs } from '../../arg/ArgDecorators'
 
 export function compileFieldConfig(
   target: Function,

@@ -3,9 +3,9 @@ import {
   ObjectTypeError,
   objectTypeRegistry,
   IObjectTypeOptions
-} from '../index'
+} from '../ObjectType'
 
-import { compileAllFields } from '../../field'
+import { compileAllFields } from '../../field/Field'
 import {
   getClassWithAllParentClasses,
   createCachedThunk

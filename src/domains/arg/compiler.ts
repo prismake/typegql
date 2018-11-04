@@ -3,7 +3,7 @@ import {
   GraphQLType,
   GraphQLInputType,
   isInputType,
-  GraphQLNonNull,
+  GraphQLNonNull
 } from 'graphql'
 
 import { ArgsIndex, argRegistry } from './registry'
@@ -12,11 +12,11 @@ import { defaultArgOptions } from './options'
 import 'reflect-metadata'
 
 import { resolveType, getParameterNames } from '../../services/utils'
-import { injectorRegistry } from '../inject'
+import { injectorRegistry } from '../inject/Inject'
 
 function compileInferedAndRegisterdArgs(
   infered: any[],
-  registeredArgs: ArgsIndex = [],
+  registeredArgs: ArgsIndex = []
 ) {
   const argsMerged = infered.map((inferedType, index) => {
     const registered = registeredArgs[index]
@@ -36,7 +36,7 @@ function compileInferedAndRegisterdArgs(
 function validateArgs(
   target: Function,
   fieldName: string,
-  types: GraphQLType[],
+  types: GraphQLType[]
 ): types is GraphQLInputType[] {
   types.forEach((argType, argIndex) => {
     const isInjectedArg = injectorRegistry.has(target, fieldName, argIndex)
@@ -46,7 +46,7 @@ function validateArgs(
         target,
         fieldName,
         argIndex,
-        `Could not infer type of argument. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType`,
+        `Could not infer type of argument. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType`
       )
     }
 
@@ -55,7 +55,7 @@ function validateArgs(
         target,
         fieldName,
         argIndex,
-        `Argument has incorrect type. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType`,
+        `Argument has incorrect type. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType`
       )
     }
 
@@ -64,7 +64,7 @@ function validateArgs(
         target,
         fieldName,
         argIndex,
-        `Argument cannot be marked wiht both @Arg and @Inject or custom injector`,
+        `Argument cannot be marked wiht both @Arg and @Inject or custom injector`
       )
     }
   })
@@ -83,11 +83,11 @@ function convertArgsArrayToArgsMap(
   target: Function,
   fieldName: string,
   argsTypes: GraphQLInputType[],
-  registeredArgs: ArgsIndex = [],
+  registeredArgs: ArgsIndex = []
 ): GraphQLFieldConfigArgumentMap {
   const fieldDescriptor = Object.getOwnPropertyDescriptor(
     target.prototype,
-    fieldName,
+    fieldName
   )
 
   // in case of getters, field arguments are not relevant
@@ -120,7 +120,7 @@ function convertArgsArrayToArgsMap(
 
     argsMap[argName] = {
       type: finalType,
-      description: argConfig.description,
+      description: argConfig.description
     }
   })
 
@@ -129,13 +129,13 @@ function convertArgsArrayToArgsMap(
 
 export function compileFieldArgs(
   target: Function,
-  fieldName: string,
+  fieldName: string
 ): GraphQLFieldConfigArgumentMap {
   const registeredArgs = argRegistry.getAll(target)[fieldName]
   let inferedRawArgs = Reflect.getMetadata(
     'design:paramtypes',
     target.prototype,
-    fieldName,
+    fieldName
   )
   // There are no arguments
   if (!inferedRawArgs) {
@@ -155,7 +155,7 @@ export function compileFieldArgs(
   }
   const argTypes = compileInferedAndRegisterdArgs(
     inferedRawArgs,
-    registeredArgs,
+    registeredArgs
   )
 
   if (!validateArgs(target, fieldName, argTypes)) {
