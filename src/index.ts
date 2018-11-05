@@ -33,7 +33,7 @@ export { Before, After } from './domains/hooks/hooks'
 export {
   SchemaRoot,
   schemaRootsRegistry,
-  compileSchema,
-  Query,
-  Mutation
+  compileSchema
 } from './domains/schema/SchemaRoot'
+
+export { Query, Mutation, QueryAndMutation } from './domains/schema/rootFields'
