@@ -53,6 +53,19 @@ interface InputObjectTypeOptions {
 @InputField(options?: InputFieldOptions)
 ```
 
+## @InputFieldNullable
+
+```ts
+ interface InputFieldOptions {
+  description?: string;
+  defaultValue?: any;
+  type?: any | () => any;
+  name?: string;
+}
+
+@InputFieldNullable(options?: InputFieldOptions)
+```
+
 ## @DuplexObjectType
 
 Just a shorthand-it is the same as putting both `@InputObjectType` and `@ObjectType`
@@ -90,6 +103,16 @@ Just a shorthand-it is the same as putting both `@InputField` and `@Field`
   description?: string;
   type?: any;
   isNullable?: boolean;
+}
+@Arg(options?: ArgOptions)
+```
+
+## @ArgNullable
+
+```ts
+ interface ArgOptions {
+  description?: string;
+  type?: any;
 }
 @Arg(options?: ArgOptions)
 ```
@@ -167,13 +190,17 @@ type HookExecutor = (data: HookExecutorResolverArgs) => any | Promise<any>;
 @Schema(): ClassDecorator;
 ```
 
-## @Query
+### @Query
 
 Has same interface as [@Field](#field) decorator. Can be used only inside @Schema class
 
-## @Mutation
+### @Mutation
 
 Has same interface as [@Field](#field) decorator. Can be used only inside @Schema class
+
+### @QueryAndMutation
+
+A shorthand for both Query And Mutation. Can be used only inside @Schema class
 
 ## @Union
 

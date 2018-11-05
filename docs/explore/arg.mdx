@@ -56,3 +56,9 @@ fragment B on Calculator {
   pow(2, 5) # 32
 }
 ```
+
+Note that you can also use an alias:
+
+```
+@ArgNullable({ defaultValue: 2 }) exponent: number,
+```
