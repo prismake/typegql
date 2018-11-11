@@ -3,14 +3,13 @@ import {
   InputObjectTypeError,
   inputObjectTypeRegistry
 } from '../InputObjectType'
-import {
-  getClassWithAllParentClasses,
-  createCachedThunk
-} from '../../../services/utils'
+
 import {
   inputFieldsRegistry,
   compileAllInputFields
 } from '../../inputField/InputFieldDecorators'
+import { createCachedThunk } from '../../../services/utils/cachedThunk'
+import { getClassWithAllParentClasses } from '../../../services/utils/inheritance'
 
 const compileOutputTypeCache = new WeakMap<Function, GraphQLInputObjectType>()
 

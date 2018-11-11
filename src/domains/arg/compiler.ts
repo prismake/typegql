@@ -11,8 +11,9 @@ import { ArgError } from './error'
 import { defaultArgOptions } from './options'
 import 'reflect-metadata'
 
-import { resolveType, getParameterNames } from '../../services/utils'
 import { injectorRegistry } from '../inject/Inject'
+import { resolveType } from '../../services/utils/gql'
+import { getParameterNames } from '../../services/utils/getParameterNames'
 
 function compileInferedAndRegisterdArgs(
   infered: any[],

@@ -6,5 +6,5 @@ export interface ArgOptions {
 }
 
 export const defaultArgOptions: ArgOptions = {
-  isNullable: false,
+  isNullable: false
 }

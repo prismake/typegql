@@ -4,9 +4,9 @@ import { ObjectType, Field, compileObjectType } from '../..'
 describe('Type', () => {
   it('Throws when trying to compile type without @ObjectType decorator', () => {
     expect(() =>
-      compileObjectType(class Bar {}),
+      compileObjectType(class Bar {})
     ).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType 'Bar': Class is not registered. Make sure it's decorated with @ObjectType decorator"`,
+      `"@ObjectType 'Bar': Class is not registered. Make sure it's decorated with @ObjectType decorator"`
     )
   })
 

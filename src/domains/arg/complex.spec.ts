@@ -6,7 +6,7 @@ import {
   compileObjectType,
   InputObjectType,
   compileInputObjectType,
-  Arg,
+  Arg
 } from '../..'
 
 describe('Complex arguments', () => {
@@ -24,7 +24,7 @@ describe('Complex arguments', () => {
       }
     }
     expect(() =>
-      compileObjectType(Foo).getFields(),
+      compileObjectType(Foo).getFields()
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -44,7 +44,7 @@ describe('Complex arguments', () => {
     }
 
     expect(() =>
-      compileObjectType(Foo).getFields(),
+      compileObjectType(Foo).getFields()
     ).toThrowErrorMatchingSnapshot()
   })
   it('Supports complex input types', async () => {
@@ -63,7 +63,7 @@ describe('Complex arguments', () => {
     }
     const { bar } = compileObjectType(Foo).getFields()
     expect(bar.args[0].type).toEqual(
-      new GraphQLNonNull(compileInputObjectType(Input)),
+      new GraphQLNonNull(compileInputObjectType(Input))
     )
   })
 

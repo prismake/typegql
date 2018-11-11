@@ -1,5 +1,5 @@
-import { DeepWeakMap } from '../../services/utils'
 import { rootFieldTypes } from '../schema/rootFields'
+import { DeepWeakMap } from '../../services/utils/deepWeakMap/DeepWeakMap'
 
 export interface AllRegisteredFields {
   [fieldName: string]: FieldInnerConfig

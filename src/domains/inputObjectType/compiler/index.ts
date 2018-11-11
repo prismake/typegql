@@ -1,4 +1,4 @@
 export {
   compileInputObjectType,
-  compileInputObjectTypeWithConfig,
+  compileInputObjectTypeWithConfig
 } from './objectType'

@@ -7,13 +7,13 @@ import {
 } from '../../hooks/hooks'
 import { isSchemaRoot, getSchemaRootInstance } from '../../schema/SchemaRoot'
 
-import { getParameterNames } from '../../../services/utils'
 import {
   injectorRegistry,
   InjectorResolver,
   InjectorsIndex
 } from '../../inject/Inject'
 import { argRegistry, ArgInnerConfig } from '../../arg/registry'
+import { getParameterNames } from '../../../services/utils/getParameterNames'
 
 interface ArgsMap {
   [argName: string]: any

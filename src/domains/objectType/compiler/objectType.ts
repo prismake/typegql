@@ -6,11 +6,10 @@ import {
 } from '../ObjectType'
 
 import { compileAllFields } from '../../field/Field'
-import {
-  getClassWithAllParentClasses,
-  createCachedThunk
-} from '../../../services/utils'
+
 import { interfaceTypeRegistry } from '../../interfaceType/interfaceTypeRegistry'
+import { createCachedThunk } from '../../../services/utils/cachedThunk'
+import { getClassWithAllParentClasses } from '../../../services/utils/inheritance'
 
 export const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>()
 

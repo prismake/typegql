@@ -7,7 +7,11 @@ import {
 import { SchemaRootError } from './error'
 
 import { validateSchemaRoots } from './services'
-import { interfaceTypeImplementorsSet } from '../interfaceType/interfaceTypeRegistry'
+import {
+  interfaceClassesSet,
+  interfaceTypeImplementors
+} from '../interfaceType/interfaceTypeRegistry'
+import { objectTypeRegistry } from '../objectType/registry'
 
 function getAllRootFieldsFromRegistry(
   roots: Function[],
@@ -67,9 +71,18 @@ export function compileSchema(schemaOrSchemas: Function | Function[]) {
     throw new Error('At least one of schema roots must have @Query root field.')
   }
 
+  const extraTypes: GraphQLObjectType[] = []
+  Array.from(interfaceClassesSet).forEach((interfaceClass) => {
+    const implementorClasses = interfaceTypeImplementors.get(interfaceClass)
+    implementorClasses.forEach((implementorClass) => {
+      const implementor = objectTypeRegistry.get(implementorClass)()
+      extraTypes.push(implementor)
+    })
+  })
+
   return new GraphQLSchema({
     query: query || undefined,
     mutation: mutation || undefined,
-    types: Array.from(interfaceTypeImplementorsSet)
+    types: extraTypes
   })
 }

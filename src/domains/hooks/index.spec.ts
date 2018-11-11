@@ -39,14 +39,14 @@ describe('Hooks', () => {
       args: { bar: 42 },
       context: 'baz',
       info: null,
-      source: 'foo',
+      source: 'foo'
     })
 
     expect(beforeCb).toBeCalledWith({
       args: { bar: 42 },
       context: 'baz',
       info: null,
-      source: 'foo',
+      source: 'foo'
     })
 
     expect(afterInnerCb).toBeCalledWith('baz')

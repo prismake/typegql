@@ -1,11 +1,11 @@
 import { registerEnum } from '../..'
-import { resolveType } from '../../services/utils'
+import { resolveType } from '../../services/utils/gql/index'
 
 describe('Enums', () => {
   it('Registers returns proper enum type', () => {
     enum Foo {
       Bar,
-      Baz,
+      Baz
     }
 
     const enumType = registerEnum(Foo, 'Foo')
@@ -18,7 +18,7 @@ describe('Enums', () => {
   it('Registers returns proper enum type with string based enums', () => {
     enum Foo {
       Bar = 'Test',
-      Baz = 'Test2',
+      Baz = 'Test2'
     }
 
     const enumType = registerEnum(Foo, 'Foo')
@@ -31,19 +31,19 @@ describe('Enums', () => {
   it('Throw when registering the same enum twice', () => {
     enum Foo {
       Bar = 'Test',
-      Baz = 'Test2',
+      Baz = 'Test2'
     }
 
     registerEnum(Foo, { name: 'Foo' })
     expect(() =>
-      registerEnum(Foo, { name: 'Foo2' }),
+      registerEnum(Foo, { name: 'Foo2' })
     ).toThrowErrorMatchingSnapshot()
   })
 
   it('Will properly resolve registered enum', () => {
     enum Foo {
       Bar = 'Test',
-      Baz = 'Test2',
+      Baz = 'Test2'
     }
 
     const enumType = registerEnum(Foo, { name: 'Foo' })

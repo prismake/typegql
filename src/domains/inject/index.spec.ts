@@ -6,7 +6,7 @@ import {
   Arg,
   Context,
   Source,
-  Info,
+  Info
 } from '../..'
 import { wait } from '../../specs/waitUtil'
 
@@ -46,13 +46,13 @@ describe('@Inject', () => {
       bar(
         @Arg()
         @Inject(() => 'baz')
-        test: string,
+        test: string
       ): string {
         return test
       }
     }
     expect(() =>
-      compileObjectType(Foo).getFields(),
+      compileObjectType(Foo).getFields()
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -63,7 +63,7 @@ describe('@Inject', () => {
       bar(
         @Context context: string,
         @Source source: Foo,
-        @Info info: any,
+        @Info info: any
       ): number {
         if (context === 'context' && source === this && info === null) {
           return 42
@@ -81,7 +81,7 @@ describe('@Inject', () => {
       bar(
         @Arg() zzz: string,
         @Context context: string,
-        @Inject(() => 42) answer: number,
+        @Inject(() => 42) answer: number
       ): string {
         return `${zzz}.${context}.${answer}`
       }
@@ -89,7 +89,7 @@ describe('@Inject', () => {
     const { bar } = compileObjectType(Foo).getFields()
     expect(bar.args.length).toEqual(1)
     expect(
-      await bar.resolve(new Foo(), { zzz: 'zzz' }, 'context', null),
+      await bar.resolve(new Foo(), { zzz: 'zzz' }, 'context', null)
     ).toEqual('zzz.context.42')
   })
 
@@ -102,7 +102,7 @@ describe('@Inject', () => {
         @Inject(function() {
           return this.test
         })
-        baz: string,
+        baz: string
       ): string {
         return baz
       }
@@ -121,7 +121,7 @@ describe('@Inject', () => {
           await wait(1)
           return 'async'
         })
-        baz: string,
+        baz: string
       ): string {
         return baz
       }

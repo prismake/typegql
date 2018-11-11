@@ -1,17 +1,13 @@
 import {
   interfaceTypeRegistry,
-  interfaceTypeImplementors,
-  interfaceTypeImplementorsSet
+  interfaceClassesSet
 } from './interfaceTypeRegistry'
 
-import {
-  GraphQLInterfaceType,
-  // GraphQLObjectType,
-  GraphQLResolveInfo
-} from 'graphql'
-import { createTypeFieldsGetter } from '../objectType/compiler/objectType'
+import { GraphQLInterfaceType, GraphQLResolveInfo } from 'graphql'
 
-import { objectTypeRegistry } from '../objectType/ObjectType'
+import { compileAllFields } from '../field/Field'
+import { createCachedThunk } from '../../services/utils/cachedThunk'
+import { getClassWithAllParentClasses } from '../../services/utils/inheritance'
 
 export interface InterfaceTypeResolver {
   (value: any, context: any, info: GraphQLResolveInfo): any
@@ -26,6 +22,8 @@ const compileInterfaceCache = new WeakMap<Function, GraphQLInterfaceType>()
 
 export function InterfaceType(config?: InterfaceTypeOptions): ClassDecorator {
   return (target) => {
+    interfaceClassesSet.add(target)
+
     const typeGetter = () => {
       if (compileInterfaceCache.has(target)) {
         return compileInterfaceCache.get(target)
@@ -33,17 +31,15 @@ export function InterfaceType(config?: InterfaceTypeOptions): ClassDecorator {
 
       const name = config && config.name ? config.name : target.name
 
-      const implementors = interfaceTypeImplementors.get(target)
-
-      implementors.forEach((impl) => {
-        const implementor = objectTypeRegistry.get(impl)()
-        interfaceTypeImplementorsSet.add(implementor)
-      })
       const description = config ? config.description : null
       const intfc = new GraphQLInterfaceType({
         name,
         description,
-        fields: createTypeFieldsGetter(target)
+        fields: createCachedThunk(() => {
+          const targetWithParents = getClassWithAllParentClasses(target)
+
+          return compileAllFields(targetWithParents)
+        })
       })
       compileInterfaceCache.set(target, intfc)
 

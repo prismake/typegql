@@ -1,4 +1,4 @@
-import { GraphQLInterfaceType, GraphQLObjectType } from 'graphql'
+import { GraphQLInterfaceType } from 'graphql'
 
 type Getter<Result> = () => Result
 
@@ -8,7 +8,7 @@ export const interfaceTypeRegistry = new WeakMap<
 >()
 
 export const interfaceTypeImplementors = new WeakMap<Function, Function[]>()
-export const interfaceTypeImplementorsSet: Set<GraphQLObjectType> = new Set()
+export const interfaceClassesSet: Set<Function> = new Set()
 
 export interface TypeConfig {
   name: string

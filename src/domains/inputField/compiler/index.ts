@@ -10,7 +10,7 @@ import {
 import { InputFieldError, inputFieldsRegistry } from '../InputFieldDecorators'
 
 import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType'
-import { getClassWithAllParentClasses } from '../../../services/utils'
+import { getClassWithAllParentClasses } from '../../../services/utils/inheritance'
 
 function getFinalInputFieldType(
   target: Function,

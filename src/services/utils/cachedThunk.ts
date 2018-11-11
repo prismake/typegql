@@ -1,7 +1,7 @@
 const cache = new WeakMap<() => any, any>()
 
 export function createCachedThunk<ThunkResult>(
-  thunk: () => ThunkResult,
+  thunk: () => ThunkResult
 ): () => ThunkResult {
   return () => {
     if (cache.has(thunk)) {

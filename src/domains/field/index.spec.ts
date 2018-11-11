@@ -3,7 +3,7 @@ import {
   GraphQLFloat,
   GraphQLBoolean,
   isNamedType,
-  getNamedType,
+  getNamedType
 } from 'graphql'
 
 import 'reflect-metadata'
@@ -35,7 +35,7 @@ describe('Field', () => {
     const barField = compiled.getFields().bar
 
     expect(await barField.resolve(new Foo(), {}, null, null as any)).toEqual(
-      'baz',
+      'baz'
     )
   })
 
@@ -60,7 +60,7 @@ describe('Field', () => {
     expect(bazField).toBeTruthy()
     expect(bazField.description).toEqual('test')
     expect(await bazField.resolve(new Foo(), {}, null, null as any)).toBe(
-      'test',
+      'test'
     )
   })
 
@@ -160,7 +160,7 @@ describe('Field', () => {
     }
 
     expect(() =>
-      compileObjectType(Bar).getFields(),
+      compileObjectType(Bar).getFields()
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -186,7 +186,7 @@ describe('Field', () => {
     }
 
     expect(() =>
-      compileObjectType(Foo).getFields(),
+      compileObjectType(Foo).getFields()
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -200,7 +200,7 @@ describe('Field', () => {
     }
 
     expect(() =>
-      compileObjectType(Foo).getFields(),
+      compileObjectType(Foo).getFields()
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -238,9 +238,9 @@ describe('Field', () => {
     }
 
     expect(() =>
-      compileObjectType(Foo).getFields(),
+      compileObjectType(Foo).getFields()
     ).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType Foo.bar: Field returns Promise so it's required to explicitly set resolved type as it's not possible to guess it. You can set resolved type like: @Field({ type: ItemType })"`,
+      `"@ObjectType Foo.bar: Field returns Promise so it's required to explicitly set resolved type as it's not possible to guess it. You can set resolved type like: @Field({ type: ItemType })"`
     )
   })
 
@@ -283,17 +283,17 @@ describe('Field', () => {
     }
 
     const decorate = Field({
-      type: Number,
+      type: Number
     })
     decorate(Foo.prototype, 'bar')
     const decorate2 = Field({
-      type: String,
+      type: String
     })
 
     expect(() =>
-      decorate2(Foo.prototype, 'bar'),
+      decorate2(Foo.prototype, 'bar')
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Field \\"bar\\" on class Foo cannot be registered-it's already registered as type Number"`,
+      `"Field \\"bar\\" on class Foo cannot be registered-it's already registered as type Number"`
     )
   })
 })

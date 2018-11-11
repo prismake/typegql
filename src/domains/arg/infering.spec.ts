@@ -28,7 +28,7 @@ describe('Arguments', () => {
       }
     }
     expect(() =>
-      compileObjectType(Foo).getFields(),
+      compileObjectType(Foo).getFields()
     ).toThrowErrorMatchingSnapshot()
   })
 

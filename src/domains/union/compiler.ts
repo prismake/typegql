@@ -8,7 +8,7 @@ import {
 
 import { UnionError } from './error'
 import { Thunk } from '../../services/types'
-import { resolveTypesList, resolveType } from '../../services/utils'
+import { resolveTypesList, resolveType } from '../../services/utils/gql'
 
 export interface UnionTypeResolver {
   (value: any, context: any, info: GraphQLResolveInfo): any

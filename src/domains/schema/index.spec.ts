@@ -4,14 +4,14 @@ import {
   compileSchema,
   ObjectType,
   Field,
-  Mutation,
+  Mutation
 } from '../..'
 import {
   graphql,
   introspectionQuery,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLFloat,
+  GraphQLFloat
 } from 'graphql'
 
 describe('@SchemaRoot', () => {
@@ -130,7 +130,7 @@ describe('@SchemaRoot', () => {
     }
 
     expect(() =>
-      compileSchema([FooSchema, BarSchema]),
+      compileSchema([FooSchema, BarSchema])
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -152,7 +152,7 @@ describe('@SchemaRoot', () => {
     }
 
     expect(() =>
-      compileSchema([FooSchema, BarSchema]),
+      compileSchema([FooSchema, BarSchema])
     ).toThrowErrorMatchingSnapshot()
   })
 
@@ -195,7 +195,7 @@ describe('@SchemaRoot', () => {
         {
           foo
         }
-      `,
+      `
     )
 
     expect(result.data.foo).toEqual(42)
@@ -223,7 +223,7 @@ describe('@SchemaRoot', () => {
         {
           foo
         }
-      `,
+      `
     )
 
     expect(constructorCall).toBeCalled()
@@ -241,7 +241,7 @@ describe('@SchemaRoot', () => {
       }
       compileSchema([BarSchema])
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Root field \\"fooa\\" on schema class BarSchema cannot be registered as a query-it's already registered"`,
+      `"Root field \\"fooa\\" on schema class BarSchema cannot be registered as a query-it's already registered"`
     )
   })
   it('will allow both @Mutation and @Query on a single class method', async () => {

@@ -5,7 +5,7 @@ export type Logger = (msg: string) => void
 export function showDeprecationWarning(
   message: string,
   uniqueIdentifier?: any,
-  logger: Logger = console.log,
+  logger: Logger = console.log
 ) {
   if (uniqueIdentifier && shownRegistry.has(uniqueIdentifier)) {
     return

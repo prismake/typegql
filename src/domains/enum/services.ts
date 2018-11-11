@@ -1,7 +1,7 @@
 import { GraphQLEnumValueConfigMap } from 'graphql'
 
 export function convertNativeEnumToGraphQLEnumValues(
-  enumDef: any,
+  enumDef: any
 ): GraphQLEnumValueConfigMap {
   const valueConfigMap: GraphQLEnumValueConfigMap = {}
   Object.keys(enumDef).map((key) => {
@@ -10,7 +10,7 @@ export function convertNativeEnumToGraphQLEnumValues(
     }
     const value = enumDef[key]
     valueConfigMap[key] = {
-      value,
+      value
     }
   })
   return valueConfigMap

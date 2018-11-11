@@ -1,12 +1,12 @@
 import { BaseError } from '../../services/error'
-import { getParameterNames } from '../../services/utils'
+import { getParameterNames } from '../../services/utils/getParameterNames'
 
 export class ArgError extends BaseError {
   constructor(
     target: Function,
     fieldName: string,
     argIndex: number,
-    msg: string,
+    msg: string
   ) {
     const paramNames = getParameterNames(target.prototype[fieldName])
     const paramName = paramNames[argIndex]

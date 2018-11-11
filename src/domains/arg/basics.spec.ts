@@ -43,7 +43,7 @@ describe('Arguments with @Arg', () => {
       new Foo(),
       { zzz: 'zzz', aaa: 'aaa' },
       null,
-      null,
+      null
     )
     expect(resolvedValue).toEqual('aaa.zzz')
   })
@@ -62,7 +62,7 @@ describe('Arguments with @Arg', () => {
       new Foo(),
       { param: 'param' },
       null,
-      null,
+      null
     )
     expect(resolvedValue).toEqual('instance.param')
   })
@@ -73,7 +73,7 @@ describe('Arguments with @Arg', () => {
       @Field()
       bar(
         @Arg({ isNullable: true }) baz: string,
-        @Arg({ isNullable: false }) bazRequired: string,
+        @Arg({ isNullable: false }) bazRequired: string
       ): string {
         return baz
       }
