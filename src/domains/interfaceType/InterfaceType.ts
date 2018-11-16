@@ -1,6 +1,7 @@
 import {
   interfaceTypeRegistry,
-  interfaceClassesSet
+  interfaceClassesSet,
+  interfaceTypeImplementors
 } from './interfaceTypeRegistry'
 
 import { GraphQLInterfaceType, GraphQLResolveInfo } from 'graphql'
@@ -8,6 +9,7 @@ import { GraphQLInterfaceType, GraphQLResolveInfo } from 'graphql'
 import { compileAllFields } from '../field/Field'
 import { createCachedThunk } from '../../services/utils/cachedThunk'
 import { getClassWithAllParentClasses } from '../../services/utils/inheritance'
+import { objectTypeRegistry } from '../objectType/registry'
 
 export interface InterfaceTypeResolver {
   (value: any, context: any, info: GraphQLResolveInfo): any
@@ -35,6 +37,15 @@ export function InterfaceType(config?: InterfaceTypeOptions): ClassDecorator {
       const intfc = new GraphQLInterfaceType({
         name,
         description,
+        resolveType: (value: any) => {
+          const implementors = interfaceTypeImplementors.get(target)
+          for (let implementor of implementors) {
+            if (Object.getPrototypeOf(value) === implementor.prototype) {
+              const typeGetter = objectTypeRegistry.get(implementor)
+              return typeGetter()
+            }
+          }
+        },
         fields: createCachedThunk(() => {
           const targetWithParents = getClassWithAllParentClasses(target)
 

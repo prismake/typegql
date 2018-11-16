@@ -1,5 +1,5 @@
 import { unionRegistry } from './registry'
-import { compileUnionType, UnionOptions } from './compiler'
+import { compileUnionType, UnionOptions } from './compileUnionType'
 
 export function Union(config: UnionOptions): ClassDecorator {
   return (target) => {
