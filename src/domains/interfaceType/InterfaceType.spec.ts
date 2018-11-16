@@ -35,6 +35,12 @@ describe('InterfaceType', () => {
     propellers: number
   }
 
+  @ObjectType({ implements: Vehicle })
+  class Katamaran extends Boat {
+    @Field()
+    hulls: number
+  }
+
   @SchemaRoot()
   class FooSchema {
     @Query({ type: [Vehicle] })
@@ -64,7 +70,12 @@ describe('InterfaceType', () => {
       const boat = new Boat()
       boat.seats = 150
       boat.windows = 30
-      return [car, boat]
+
+      const katamaran = new Katamaran()
+      katamaran.propellers = 2
+      katamaran.hulls = 2
+
+      return [car, boat, katamaran]
     }
     @Query({ type: Boat })
     boat(): Boat {
@@ -96,6 +107,13 @@ describe('InterfaceType', () => {
 
 type Car implements Vehicle {
   wheels: Float
+  windows: Int
+  seats: Int
+}
+
+type Katamaran implements Vehicle {
+  propellers: Float
+  hulls: Float
   windows: Int
   seats: Int
 }
@@ -134,7 +152,8 @@ interface Vehicle {
         `
       )
     ).toMatchSnapshot()
-
+  })
+  it('should resolve correctly even when extending another implemetor type', async () => {
     expect(
       await graphql(
         schemaMoreComplex,
@@ -151,6 +170,21 @@ interface Vehicle {
               windows
               __typename
               propellers
+            }
+            vehicles {
+              seats
+              windows
+              __typename
+              ... on Car {
+                wheels
+              }
+              ... on Boat {
+                propellers
+              }
+
+              ... on Katamaran {
+                hulls
+              }
             }
           }
         `

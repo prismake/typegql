@@ -49,7 +49,10 @@ export function compileObjectTypeWithConfig(
       : null,
     name: config.name,
     description: config.description,
-    isTypeOf: (value: any) => value instanceof target,
+    isTypeOf: (value: any) => {
+      // previously we used instanceof but it wasn't strict enough when extending other implementors in an interface
+      return Object.getPrototypeOf(value) === target.prototype
+    },
     fields: createTypeFieldsGetter(target, config)
   })
 

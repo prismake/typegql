@@ -13,6 +13,13 @@ type Car implements Vehicle {
   seats: Int
 }
 
+type Katamaran implements Vehicle {
+  propellers: Float
+  hulls: Float
+  windows: Int
+  seats: Int
+}
+
 type Query {
   vehicles: [Vehicle!]
   boat: Boat
@@ -48,7 +55,7 @@ Object {
 }
 `;
 
-exports[`InterfaceType should resolve correctly 2`] = `
+exports[`InterfaceType should resolve correctly even when extending another implemetor type 1`] = `
 Object {
   "data": Object {
     "boat": Object {
@@ -63,6 +70,26 @@ Object {
       "wheels": 4,
       "windows": 6,
     },
+    "vehicles": Array [
+      Object {
+        "__typename": "Car",
+        "seats": 4,
+        "wheels": 4,
+        "windows": 6,
+      },
+      Object {
+        "__typename": "Boat",
+        "propellers": null,
+        "seats": 150,
+        "windows": 30,
+      },
+      Object {
+        "__typename": "Katamaran",
+        "hulls": 2,
+        "seats": null,
+        "windows": null,
+      },
+    ],
   },
 }
 `;
