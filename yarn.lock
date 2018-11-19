@@ -948,6 +948,20 @@
   resolved "https://registry.yarnpkg.com/@hbetts/parse-repository-url/-/parse-repository-url-2.1.2.tgz#f78e6950529be9fd0b904fc90e06b078ddf4a847"
   integrity sha512-e4GS7ATDwnrft2I99M0jV6/0YH8oVA943vWWXAHULhpzzBui29RgMBz4ZaFIY+L3BqW/6OTdlzTM88rFRq/RNg==
 
+"@iamstarkov/listr-update-renderer@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@iamstarkov/listr-update-renderer/-/listr-update-renderer-0.4.1.tgz#d7c48092a2dcf90fd672b6c8b458649cb350c77e"
+  integrity sha512-IJyxQWsYDEkf8C8QthBn5N8tIUR9V9je6j3sMIpAkonaadjbvxmRC6RAhpa3RKxndhNnU2M6iNbtJwd7usQYIA==
+  dependencies:
+    chalk "^1.1.3"
+    cli-truncate "^0.2.1"
+    elegant-spinner "^1.0.1"
+    figures "^1.7.0"
+    indent-string "^3.0.0"
+    log-symbols "^1.0.2"
+    log-update "^2.3.0"
+    strip-ansi "^3.0.1"
+
 "@mdx-js/loader@^0.16.0":
   version "0.16.0"
   resolved "https://registry.yarnpkg.com/@mdx-js/loader/-/loader-0.16.0.tgz#801df7fba7f61d0171acc7bcf710f6689da5e5fa"
@@ -3645,10 +3659,10 @@ doctrine@^2.0.0:
   dependencies:
     esutils "^2.0.2"
 
-docz-core@^0.12.11:
-  version "0.12.11"
-  resolved "https://registry.yarnpkg.com/docz-core/-/docz-core-0.12.11.tgz#15edf037caa48959e3d8ddb82fe6aab00f1b6c3e"
-  integrity sha512-FCECGC4f2VFWnT6DxVpoIvRSgTdqBg0R9bk6H853fCkkBrvYpQhgPs90E97u3y6Jt3DFYDobx9QCagNUs8K6pg==
+docz-core@^0.12.12:
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/docz-core/-/docz-core-0.12.12.tgz#a298b8b5c20f32892b59985e4ed29dfd26eb9acd"
+  integrity sha512-uHQ2SHMauMnVTyLz1a+EFAVeJ3pcFIXXKd3ziBGWr4IilGq75kGZv35x7BJ9mLjKeUVSgc/d9vFqY+si8yyZ+A==
   dependencies:
     "@babel/core" "7.1.6"
     "@babel/polyfill" "7.0.0"
@@ -3670,7 +3684,7 @@ docz-core@^0.12.11:
     cpy "^7.0.1"
     deepmerge "^2.2.1"
     detect-port "^1.2.3"
-    docz-utils "^0.12.10"
+    docz-utils "^0.12.12"
     dotenv "^6.1.0"
     env-dot-prop "^1.0.2"
     fast-deep-equal "^2.0.1"
@@ -3695,7 +3709,7 @@ docz-core@^0.12.11:
     react-dev-utils "^6.1.1"
     react-docgen-typescript-loader "^3.0.0-rc.0"
     react-hot-loader "4.3.12"
-    rehype-docz "^0.12.10"
+    rehype-docz "^0.12.12"
     rehype-slug "^2.0.1"
     remark-docz "^0.12.2"
     remark-frontmatter "^1.2.1"
@@ -3716,14 +3730,14 @@ docz-core@^0.12.11:
     ws "^6.1.0"
     yargs "^12.0.2"
 
-docz-theme-default@^0.12.11:
-  version "0.12.11"
-  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.12.11.tgz#0f18799dfc830605389fcefb8bd781d4f1fed395"
-  integrity sha512-x/TV+TkELRC8I3tDJu9VmIEPbKTE4Ljf3roxQ5+ZXx9Kmm49ILijl3BmfV0RKt4xXnFeWSJnE1ZgQzjICCd2Iw==
+docz-theme-default@^0.12.12:
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.12.12.tgz#073d92791d1e7d30863bd204d638fd774aeca7fe"
+  integrity sha512-aZIkqV1MSHLvZtdY51KAVOaOf/UpHI46ROQZaG9eh/QkKFaCi3M1U3bYEdWH23KGiLjSLB08w38lx6PW9rHguw==
   dependencies:
     codemirror "^5.41.0"
     copy-text-to-clipboard "^1.0.4"
-    docz "^0.12.11"
+    docz "^0.12.12"
     emotion "^9.2.12"
     emotion-theming "^9.2.9"
     facepaint "^1.2.1"
@@ -3747,10 +3761,10 @@ docz-theme-default@^0.12.11:
     react-sizes "^1.0.4"
     webfontloader "^1.6.28"
 
-docz-utils@^0.12.10:
-  version "0.12.10"
-  resolved "https://registry.yarnpkg.com/docz-utils/-/docz-utils-0.12.10.tgz#fc58f8951d76b1583c9b096206464ed8a36d65b7"
-  integrity sha512-kqfCRv1KDwR7h+6QMX02ANk+Y6fDFTrV/FZ9BTWCQkrHVve0ltx1uyfxYHg16g5emPGwvfgBWLpj1diVilPOtA==
+docz-utils@^0.12.12:
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/docz-utils/-/docz-utils-0.12.12.tgz#e6b486d8db4e7d8895ed277cb83544134be4aea4"
+  integrity sha512-QuzDe/K0Sbv3M9dyOWQqBV1nO5reyTKNog8GcuMk0hHLYl2z+XbiocPNcl8MvBPkWyDlbclAJXOhMTHdhOPxcg==
   dependencies:
     "@babel/generator" "^7.1.6"
     "@babel/parser" "^7.1.6"
@@ -3775,10 +3789,10 @@ docz-utils@^0.12.10:
     unist-util-is "^2.1.2"
     unist-util-visit "^1.4.0"
 
-docz@^0.12.11:
-  version "0.12.11"
-  resolved "https://registry.yarnpkg.com/docz/-/docz-0.12.11.tgz#2a242be498b4591657bb4297ed8b4a95cc47bcd9"
-  integrity sha512-4f7lHqhoYuR9Rp18BHSo02dMn1iGinZ3izIgGh7MoIibjU3Aed8PdmBF050xKgEtoxkNLQ6JNpx8r6vPV4aSpQ==
+docz@^0.12.12:
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/docz/-/docz-0.12.12.tgz#ddcc36ab444b05570870b55417859ba91a8130ca"
+  integrity sha512-WjKEZlz3O7wGDbjYi7bz55v3L/MG2J1K1F167GQ7gkZGHpkrp/Ti/6pgOpOraBf9Vqi7tzD1cgjxrEiy5io6Uw==
   dependencies:
     "@mdx-js/tag" "^0.16.0"
     "@sindresorhus/slugify" "^0.6.0"
@@ -3787,8 +3801,8 @@ docz@^0.12.11:
     callbag-subject "^1.0.2"
     capitalize "^2.0.0"
     deepmerge "^2.2.1"
-    docz-core "^0.12.11"
-    docz-theme-default "^0.12.11"
+    docz-core "^0.12.12"
+    docz-theme-default "^0.12.12"
     fast-deep-equal "^2.0.1"
     lodash "^4.17.11"
     prop-types "^15.6.2"
@@ -6843,11 +6857,12 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-lint-staged@^8.0.4:
-  version "8.0.4"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-8.0.4.tgz#d3c909fcf7897152cdce2d6e42500cd9b5b41a0d"
-  integrity sha512-Rs0VxXoyFqHMrPQgKAMy+O907+m5Po71UVPhBi7BUBwU7ZZ2aoc+mZmpOX3DVPCoTcy6+hqJa9yIZfacNpJHdg==
+lint-staged@^8.0.5:
+  version "8.0.5"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-8.0.5.tgz#8eeca1a213eaded09c4e217da455b6f432046034"
+  integrity sha512-QI2D6lw2teArlr2fmrrCIqHxef7mK2lKjz9e+aZSzFlk5rsy10rg97p3wA9H/vIFR3Fvn34fAgUktD/k896S2A==
   dependencies:
+    "@iamstarkov/listr-update-renderer" "0.4.1"
     chalk "^2.3.1"
     commander "^2.14.1"
     cosmiconfig "^5.0.2"
@@ -6861,7 +6876,6 @@ lint-staged@^8.0.4:
     is-windows "^1.0.2"
     jest-validate "^23.5.0"
     listr "^0.14.2"
-    listr-update-renderer "https://github.com/okonet/listr-update-renderer/tarball/upgrade-log-update"
     lodash "^4.17.5"
     log-symbols "^2.2.0"
     micromatch "^3.1.8"
@@ -6879,7 +6893,7 @@ listr-silent-renderer@^1.1.1:
   resolved "https://registry.yarnpkg.com/listr-silent-renderer/-/listr-silent-renderer-1.1.1.tgz#924b5a3757153770bf1a8e3fbf74b8bbf3f9242e"
   integrity sha1-kktaN1cVN3C/Go4/v3S4u/P5JC4=
 
-listr-update-renderer@^0.4.0, "listr-update-renderer@https://github.com/okonet/listr-update-renderer/tarball/upgrade-log-update":
+listr-update-renderer@^0.4.0:
   version "0.4.0"
   resolved "https://github.com/okonet/listr-update-renderer/tarball/upgrade-log-update#06073fa93166277607a7814f4e1f83960081414c"
   dependencies:
@@ -9265,12 +9279,12 @@ regjsparser@^0.3.0:
   dependencies:
     jsesc "~0.5.0"
 
-rehype-docz@^0.12.10:
-  version "0.12.10"
-  resolved "https://registry.yarnpkg.com/rehype-docz/-/rehype-docz-0.12.10.tgz#8cd50ff01836377f4efae81549766648dc9fbb7a"
-  integrity sha512-+v/CsO1EKOY75nZjq6ggEEfivcIc1IaZ0VHFHUF7pw0hLBBluHuRcEx6UU35j5VxNvhdUj8yKLV7HONiDW1Jfg==
+rehype-docz@^0.12.12:
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/rehype-docz/-/rehype-docz-0.12.12.tgz#1fed6457c5c83385909a35fe89e46ab2ef516958"
+  integrity sha512-zR5OBsG6RFy/f8I3P99InVb0c52J2nXFre/RjqTU6quB9U6ddtsfIsEmGBQ+HolgFTHt7ltntzYbOK37nVdBVA==
   dependencies:
-    docz-utils "^0.12.10"
+    docz-utils "^0.12.12"
     hast-util-to-string "^1.0.1"
     jsx-ast-utils "^2.0.1"
     lodash.flatten "^4.4.0"
@@ -9652,10 +9666,10 @@ rollup-pluginutils@2.3.3:
     estree-walker "^0.5.2"
     micromatch "^2.3.11"
 
-rollup@^0.67.1:
-  version "0.67.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.67.1.tgz#4094110c944d3c9e25b5bf196771b51132ec3adb"
-  integrity sha512-BfwL9pw5VyxrAWx/G1tP8epgG+NH4KcR78aoWacV7+dFp1Mj6ynH8QTIC/lDQ3KlwzDakqZmJQ4LQ7TmLg+pBA==
+rollup@^0.67.3:
+  version "0.67.3"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.67.3.tgz#55475b1b62c43220c3b4bd7edc5846233932f50b"
+  integrity sha512-TyNQCz97rKuVVbsKUTXfwIjV7UljWyTVd7cTMuE+aqlQ7WJslkYF5QaYGjMLR2BlQtUOO5CAxSVnpQ55iYp5jg==
   dependencies:
     "@types/estree" "0.0.39"
     "@types/node" "*"
