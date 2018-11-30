@@ -962,10 +962,17 @@
     log-update "^2.3.0"
     strip-ansi "^3.0.1"
 
+<<<<<<< HEAD
 "@mdx-js/loader@^0.16.3":
   version "0.16.5"
   resolved "https://registry.yarnpkg.com/@mdx-js/loader/-/loader-0.16.5.tgz#3130818c97f37720b0c7e31df1b3cb8875e06226"
   integrity sha512-7uTApWXMtYxi29uzkkGrwfPPOKeVdp60toFWssZqwSi1l2qjoHao+6FmO/Vx2uoNuUyV0MGfNXrKmG3zKwYqxw==
+=======
+"@mdx-js/loader@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@mdx-js/loader/-/loader-0.16.0.tgz#801df7fba7f61d0171acc7bcf710f6689da5e5fa"
+  integrity sha512-oinqxmjm1XRVUS0gcSQdYDgeM3EgX+1+TviB/+r2ndvexRh3WtGZyr37hotOSOpqVcPszQdcCN4043T/z4JQmA==
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
   dependencies:
     "@mdx-js/mdx" "^0.16.5"
     "@mdx-js/tag" "^0.16.1"
@@ -3657,10 +3664,17 @@ doctrine@^2.0.0:
   dependencies:
     esutils "^2.0.2"
 
+<<<<<<< HEAD
 docz-core@^0.12.13:
   version "0.12.13"
   resolved "https://registry.yarnpkg.com/docz-core/-/docz-core-0.12.13.tgz#a0e2b648f2af6e8a2af5bb16a56764292d2ec924"
   integrity sha512-ltRMyy3WVkBo9nSCQ5EMxD1S02CzpsqGH4ekMVeNNuqzXVDl6udftlXWQUCOW+Thwmy9aUOKmg/jIHbLHZVP1A==
+=======
+docz-core@^0.12.12:
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/docz-core/-/docz-core-0.12.12.tgz#a298b8b5c20f32892b59985e4ed29dfd26eb9acd"
+  integrity sha512-uHQ2SHMauMnVTyLz1a+EFAVeJ3pcFIXXKd3ziBGWr4IilGq75kGZv35x7BJ9mLjKeUVSgc/d9vFqY+si8yyZ+A==
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
   dependencies:
     "@babel/core" "7.1.6"
     "@babel/polyfill" "7.0.0"
@@ -3681,8 +3695,13 @@ docz-core@^0.12.13:
     connect-history-api-fallback "^1.5.0"
     cpy "^7.0.1"
     deepmerge "^2.2.1"
+<<<<<<< HEAD
     detect-port "^1.3.0"
     docz-utils "^0.12.13"
+=======
+    detect-port "^1.2.3"
+    docz-utils "^0.12.12"
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
     dotenv "^6.1.0"
     env-dot-prop "^1.0.2"
     fast-deep-equal "^2.0.1"
@@ -3707,8 +3726,13 @@ docz-core@^0.12.13:
     react-dev-utils "^6.1.1"
     react-docgen-typescript-loader "^3.0.0-rc.0"
     react-hot-loader "4.3.12"
+<<<<<<< HEAD
     rehype-docz "^0.12.13"
     rehype-slug "^2.0.2"
+=======
+    rehype-docz "^0.12.12"
+    rehype-slug "^2.0.1"
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
     remark-docz "^0.12.2"
     remark-frontmatter "^1.3.1"
     remark-parse "^6.0.2"
@@ -3730,14 +3754,25 @@ docz-core@^0.12.13:
     ws "^6.1.2"
     yargs "^12.0.5"
 
+<<<<<<< HEAD
 docz-theme-default@^0.12.13:
   version "0.12.13"
   resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.12.13.tgz#9ddc72494d8bb2f49eaf5d123d29ba599ee42449"
   integrity sha512-SDIimK80o7gts3bYYN0buTuCoKaMVfn2rp17gI4/4dwzFg2zwXNuXRp70fPrAwgkdKbdK6ckj1oohZ+/BskKzw==
+=======
+docz-theme-default@^0.12.12:
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.12.12.tgz#073d92791d1e7d30863bd204d638fd774aeca7fe"
+  integrity sha512-aZIkqV1MSHLvZtdY51KAVOaOf/UpHI46ROQZaG9eh/QkKFaCi3M1U3bYEdWH23KGiLjSLB08w38lx6PW9rHguw==
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
   dependencies:
     codemirror "^5.42.0"
     copy-text-to-clipboard "^1.0.4"
+<<<<<<< HEAD
     docz "^0.12.13"
+=======
+    docz "^0.12.12"
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
     emotion "^9.2.12"
     emotion-theming "^9.2.9"
     facepaint "^1.2.1"
@@ -3760,10 +3795,17 @@ docz-theme-default@^0.12.13:
     react-sizes "^1.0.4"
     webfontloader "^1.6.28"
 
+<<<<<<< HEAD
 docz-utils@^0.12.13:
   version "0.12.13"
   resolved "https://registry.yarnpkg.com/docz-utils/-/docz-utils-0.12.13.tgz#cec23c9db4c1bb6d43163f35d86accd25b700c35"
   integrity sha512-Tjwz3zF1Cn5z6qFk2l0ATAudY8ig2VNhKtkm1AyRzOsHdUrXdYczg4lGxOZPXPIdmAu/5MyXxh8trZfyy4cW9Q==
+=======
+docz-utils@^0.12.12:
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/docz-utils/-/docz-utils-0.12.12.tgz#e6b486d8db4e7d8895ed277cb83544134be4aea4"
+  integrity sha512-QuzDe/K0Sbv3M9dyOWQqBV1nO5reyTKNog8GcuMk0hHLYl2z+XbiocPNcl8MvBPkWyDlbclAJXOhMTHdhOPxcg==
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
   dependencies:
     "@babel/generator" "^7.1.6"
     "@babel/parser" "^7.1.6"
@@ -3788,10 +3830,17 @@ docz-utils@^0.12.13:
     unist-util-is "^2.1.2"
     unist-util-visit "^1.4.0"
 
+<<<<<<< HEAD
 docz@^0.12.13:
   version "0.12.13"
   resolved "https://registry.yarnpkg.com/docz/-/docz-0.12.13.tgz#6edd9bf2356fba267968bdd38539979986bf0422"
   integrity sha512-oXANdeTtt1YGkfDHDFKNF3JDg31Fb6Y3O+/nYawKMhiQ9ma5PbbJgor9s9m/2bi+JcpEm3yeQX5zyxxTuA3LjQ==
+=======
+docz@^0.12.12:
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/docz/-/docz-0.12.12.tgz#ddcc36ab444b05570870b55417859ba91a8130ca"
+  integrity sha512-WjKEZlz3O7wGDbjYi7bz55v3L/MG2J1K1F167GQ7gkZGHpkrp/Ti/6pgOpOraBf9Vqi7tzD1cgjxrEiy5io6Uw==
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
   dependencies:
     "@mdx-js/tag" "^0.16.1"
     "@sindresorhus/slugify" "^0.6.0"
@@ -3800,8 +3849,13 @@ docz@^0.12.13:
     callbag-subject "^1.0.2"
     capitalize "^2.0.0"
     deepmerge "^2.2.1"
+<<<<<<< HEAD
     docz-core "^0.12.13"
     docz-theme-default "^0.12.13"
+=======
+    docz-core "^0.12.12"
+    docz-theme-default "^0.12.12"
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
     fast-deep-equal "^2.0.1"
     lodash "^4.17.11"
     prop-types "^15.6.2"
@@ -6910,10 +6964,17 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+<<<<<<< HEAD
 lint-staged@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-8.1.0.tgz#dbc3ae2565366d8f20efb9f9799d076da64863f2"
   integrity sha512-yfSkyJy7EuVsaoxtUSEhrD81spdJOe/gMTGea3XaV7HyoRhTb9Gdlp6/JppRZERvKSEYXP9bjcmq6CA5oL2lYQ==
+=======
+lint-staged@^8.0.5:
+  version "8.0.5"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-8.0.5.tgz#8eeca1a213eaded09c4e217da455b6f432046034"
+  integrity sha512-QI2D6lw2teArlr2fmrrCIqHxef7mK2lKjz9e+aZSzFlk5rsy10rg97p3wA9H/vIFR3Fvn34fAgUktD/k896S2A==
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
   dependencies:
     "@iamstarkov/listr-update-renderer" "0.4.1"
     chalk "^2.3.1"
@@ -9356,12 +9417,21 @@ regjsparser@^0.3.0:
   dependencies:
     jsesc "~0.5.0"
 
+<<<<<<< HEAD
 rehype-docz@^0.12.13:
   version "0.12.13"
   resolved "https://registry.yarnpkg.com/rehype-docz/-/rehype-docz-0.12.13.tgz#88cc127c77b9b66980e7981386a86c9350925083"
   integrity sha512-nB4tOzW4TuGH4XbzcuU32hfGkSO0gMkdw5FQlGEcMT2XRvTJLqsP61NoSNuTFSImS8WXzdz82csW5f99usuzOA==
   dependencies:
     docz-utils "^0.12.13"
+=======
+rehype-docz@^0.12.12:
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/rehype-docz/-/rehype-docz-0.12.12.tgz#1fed6457c5c83385909a35fe89e46ab2ef516958"
+  integrity sha512-zR5OBsG6RFy/f8I3P99InVb0c52J2nXFre/RjqTU6quB9U6ddtsfIsEmGBQ+HolgFTHt7ltntzYbOK37nVdBVA==
+  dependencies:
+    docz-utils "^0.12.12"
+>>>>>>> e936f6ae43f6aa18eaad6272aeae62435ba99485
     hast-util-to-string "^1.0.1"
     jsx-ast-utils "^2.0.1"
     lodash.flatten "^4.4.0"
