@@ -9750,10 +9750,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rollup-plugin-typescript2@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.18.0.tgz#ab3f7003f47c3858810d516e4d3fada546bfb1df"
-  integrity sha512-AL7LJl31bYO/x8zO1fuE7ACn/2nDs9DVYL3qjiWSYg5LC4EV/iKuCL4Fm6pjzEqCB4fFIMXoUuGUf5R+BLNKSg==
+rollup-plugin-typescript2@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.18.1.tgz#921865828080a254c088c6bc181ca654e5ef73c6"
+  integrity sha512-aR2m5NCCAUV/KpcKgCWX6Giy8rTko9z92b5t0NX9eZyjOftCvcdDFa1C9Ze/9yp590hnRymr5hG0O9SAXi1oUg==
   dependencies:
     fs-extra "7.0.0"
     resolve "1.8.1"
