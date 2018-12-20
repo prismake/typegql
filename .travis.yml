@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - 8
+  - 10
 cache:
   yarn: true
 before_install:
@@ -9,3 +10,9 @@ scripts:
   - npm run test --ci
 after_success:
   - codecov
+deploy:
+  provider: npm
+  email: capajj@gmail.com
+  api_key: $NPM_TOKEN
+  on:
+    tags: true
