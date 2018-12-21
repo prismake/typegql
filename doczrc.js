@@ -1,5 +1,8 @@
 module.exports = {
   src: 'docs',
-  typescript: true,
+  themeConfig: {
+    mode: 'dark'
+  },
+  typescript: true
   // base: '/decapi/',
 }
