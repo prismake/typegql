@@ -10,9 +10,10 @@ scripts:
   - yarn test --ci
 after_success:
   - codecov
-  - npm i typescript -g
+  - yarn build
 deploy:
   provider: npm
+  skip_cleanup: true
   email: capajj@gmail.com
   api_key: $NPM_TOKEN
   on:

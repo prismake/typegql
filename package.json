@@ -12,7 +12,6 @@
     "test": "jest --coverage",
     "jestw": "jest --watch",
     "build": "rm -rf types lib && tsc --project tsconfig.json",
-    "prepublishOnly": "yarn build",
     "precommit": "pretty-quick --staged"
   },
   "repository": {
