@@ -1,6 +1,6 @@
 {
   "name": "decapi",
-  "version": "0.7.8",
+  "version": "0.7.9",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "pretest": "yarn lint",
     "test": "jest --coverage",
     "jestw": "jest --watch",
-    "build": "rm -rf types lib && tsc --project tsconfig.json",
+    "build": "rm -rf types lib && ./node_modules/typescript/bin/tsc --project tsconfig.json",
     "prepublishOnly": "yarn build",
     "precommit": "pretty-quick --staged"
   },
