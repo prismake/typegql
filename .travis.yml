@@ -5,12 +5,12 @@ node_js:
 cache:
   yarn: true
 before_install:
-  - yarn add codecov -g
+  - npm i codecov -g
 scripts:
   - yarn test --ci
 after_success:
   - codecov
-  - yarn add typescript -g
+  - npm i typescript -g
 deploy:
   provider: npm
   email: capajj@gmail.com
