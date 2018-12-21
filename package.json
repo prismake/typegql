@@ -1,6 +1,6 @@
 {
   "name": "decapi",
-  "version": "0.7.7",
+  "version": "0.7.8",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "pretest": "yarn lint",
     "test": "jest --coverage",
     "jestw": "jest --watch",
-    "build": "del types lib && tsc --project tsconfig.json",
+    "build": "rm -rf types lib && tsc --project tsconfig.json",
     "prepublishOnly": "yarn build",
     "precommit": "pretty-quick --staged"
   },
@@ -38,7 +38,6 @@
     "@types/node": "^10.12.18",
     "@types/object-path": "^0.9.29",
     "@types/reflect-metadata": "^0.1.0",
-    "del-cli": "^1.1.0",
     "docz": "^0.13.5",
     "gh-pages": "^2.0.1",
     "graphql": "^14.0.2",
