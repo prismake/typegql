@@ -8,13 +8,18 @@ import {
 
 import { UnionError } from './error'
 import { Thunk } from '../../services/types'
-import { resolveTypesList, resolveType } from '../../services/utils/gql'
+import {
+  resolveType,
+  resolveTypesList
+} from '../../services/utils/gql/types/typeResolvers'
 
-export interface UnionTypeResolver {
-  (value: any, context: any, info: GraphQLResolveInfo): any
-}
+export type UnionTypeResolver = (
+  value: any,
+  context: any,
+  info: GraphQLResolveInfo
+) => any
 
-export interface UnionOptions {
+export interface IUnionOptions {
   types: Thunk<any[]>
   name?: string
   resolveTypes?: UnionTypeResolver
@@ -24,7 +29,7 @@ const compileUnionCache = new WeakMap<Function, GraphQLUnionType>()
 
 function getDefaultResolver(types: GraphQLObjectType[]): UnionTypeResolver {
   return (value: any, context: any, info: any) => {
-    for (let type of types) {
+    for (const type of types) {
       if (type.isTypeOf && type.isTypeOf(value, context, info)) {
         return type
       }
@@ -48,7 +53,7 @@ function validateResolvedTypes(
   target: Function,
   types: GraphQLType[]
 ): types is GraphQLObjectType[] {
-  for (let type of types) {
+  for (const type of types) {
     if (!isObjectType(type)) {
       throw new UnionError(
         target,
@@ -59,7 +64,7 @@ function validateResolvedTypes(
   return true
 }
 
-export function compileUnionType(target: Function, config: UnionOptions) {
+export function compileUnionType(target: Function, config: IUnionOptions) {
   if (compileUnionCache.has(target)) {
     return compileUnionCache.get(target)
   }

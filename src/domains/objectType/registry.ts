@@ -11,7 +11,7 @@ export const inputTypeRegistry = new WeakMap<
   Getter<GraphQLInputType>
 >()
 
-export interface TypeConfig {
+export interface ITypeConfig {
   name: string
   description: string
   isNonNull?: boolean

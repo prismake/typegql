@@ -10,7 +10,7 @@ import {
 } from '../..'
 
 import 'jest'
-import { resolveType } from '../../services/utils/gql'
+import { resolveType } from '../../services/utils/gql/types/typeResolvers'
 
 @ObjectType()
 class Sub1 {

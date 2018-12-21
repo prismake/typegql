@@ -3,9 +3,7 @@ import { DeepWeakMap } from '../../services/utils/deepWeakMap/DeepWeakMap'
 
 export type Getter<Result> = () => Result
 
-export interface SchemaRootConfig {}
-
-export const schemaRootsRegistry = new WeakMap<Function, SchemaRootConfig>()
+export const schemaRootsRegistry = new WeakMap<Function, object>()
 
 export type RootFieldsRegistry = DeepWeakMap<
   Function,

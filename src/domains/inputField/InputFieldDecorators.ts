@@ -1,6 +1,9 @@
-import { inputFieldsRegistry, FieldInputInnerConfig } from './registry'
+import { inputFieldsRegistry, IFieldInputInnerConfig } from './registry'
 
-export { FieldInputInnerConfig, inputFieldsRegistry } from './registry'
+export {
+  IFieldInputInnerConfig as FieldInputInnerConfig,
+  inputFieldsRegistry
+} from './registry'
 export {
   compileAllInputFields,
   compileInputFieldConfig
@@ -17,7 +20,7 @@ export interface InputFieldOptions {
 
 export function InputField(options?: InputFieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
-    const finalConfig: FieldInputInnerConfig = {
+    const finalConfig: IFieldInputInnerConfig = {
       property: fieldName,
       name: fieldName,
       ...options

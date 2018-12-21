@@ -2,18 +2,18 @@ import { GraphQLInputObjectType, GraphQLInputFieldConfigMap } from 'graphql'
 import {
   InputObjectTypeError,
   inputObjectTypeRegistry
-} from '../InputObjectType'
+} from './InputObjectType'
 
 import {
   inputFieldsRegistry,
   compileAllInputFields
-} from '../../inputField/InputFieldDecorators'
-import { createCachedThunk } from '../../../services/utils/cachedThunk'
-import { getClassWithAllParentClasses } from '../../../services/utils/inheritance'
+} from '../inputField/InputFieldDecorators'
+import { createCachedThunk } from '../../services/utils/cachedThunk'
+import { getClassWithAllParentClasses } from '../../services/utils/inheritance'
 
 const compileOutputTypeCache = new WeakMap<Function, GraphQLInputObjectType>()
 
-export interface TypeOptions {
+export interface ITypeOptions {
   name: string
   description?: string
 }
@@ -40,7 +40,7 @@ function createTypeInputFieldsGetter(
 
 export function compileInputObjectTypeWithConfig(
   target: Function,
-  config: TypeOptions
+  config: ITypeOptions
 ): GraphQLInputObjectType {
   if (compileOutputTypeCache.has(target)) {
     return compileOutputTypeCache.get(target)

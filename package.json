@@ -1,13 +1,14 @@
 {
   "name": "decapi",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
   "scripts": {
     "docz:dev": "docz dev",
-    "lint": "tslint --",
+    "lint": "tslint --project ./tsconfig.json",
     "docz:build": "docz build && cp docs/netlify.toml .docz/dist/",
+    "pretest": "yarn lint",
     "test": "jest --coverage",
     "jestw": "jest --watch",
     "build": "rimraf types lib && tsc --project tsconfig.json",
@@ -50,6 +51,7 @@
     "rollup-plugin-typescript2": "^0.18.1",
     "ts-jest": "^23.10.5",
     "tslint": "^5.12.0",
+    "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.2"
   },
   "peerDependencies": {

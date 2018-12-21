@@ -11,18 +11,20 @@ import { createCachedThunk } from '../../services/utils/cachedThunk'
 import { getClassWithAllParentClasses } from '../../services/utils/inheritance'
 import { objectTypeRegistry } from '../objectType/registry'
 
-export interface InterfaceTypeResolver {
-  (value: any, context: any, info: GraphQLResolveInfo): any
-}
+export type ITypeResolver = (
+  value: any,
+  context: any,
+  info: GraphQLResolveInfo
+) => any
 
-export interface InterfaceTypeOptions {
+export interface ITypeOptions {
   name?: string
   description?: string
 }
 
 const compileInterfaceCache = new WeakMap<Function, GraphQLInterfaceType>()
 
-export function InterfaceType(config?: InterfaceTypeOptions): ClassDecorator {
+export function InterfaceType(config?: ITypeOptions): ClassDecorator {
   return (target) => {
     interfaceClassesSet.add(target)
 
@@ -39,10 +41,10 @@ export function InterfaceType(config?: InterfaceTypeOptions): ClassDecorator {
         description,
         resolveType: (value: any) => {
           const implementors = interfaceTypeImplementors.get(target)
-          for (let implementor of implementors) {
+          for (const implementor of implementors) {
             if (Object.getPrototypeOf(value) === implementor.prototype) {
-              const typeGetter = objectTypeRegistry.get(implementor)
-              return typeGetter()
+              const typeGetterFromRegistry = objectTypeRegistry.get(implementor)
+              return typeGetterFromRegistry()
             }
           }
         },

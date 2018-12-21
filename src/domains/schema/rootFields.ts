@@ -4,7 +4,7 @@ import {
   schemaRootsRegistry
 } from './registry'
 import { SchemaFieldError } from './error'
-import { compileFieldConfig, FieldOptions, Field } from '../field/Field'
+import { compileFieldConfig, IFieldOptions, Field } from '../field/Field'
 
 function validateRootSchemaField(targetInstance: Object, fieldName: string) {
   if (
@@ -46,7 +46,7 @@ export enum rootFieldTypes {
 }
 
 // special fields
-export function Query(options?: FieldOptions): PropertyDecorator {
+export function Query(options?: IFieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     validateRootSchemaField(targetInstance, fieldName)
     Field({ rootFieldType: rootFieldTypes.query, ...options })(
@@ -65,7 +65,7 @@ export function Query(options?: FieldOptions): PropertyDecorator {
   }
 }
 
-export function Mutation(options?: FieldOptions): PropertyDecorator {
+export function Mutation(options?: IFieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     validateRootSchemaField(targetInstance, fieldName)
     Field({ rootFieldType: rootFieldTypes.mutation, ...options })(
@@ -84,7 +84,7 @@ export function Mutation(options?: FieldOptions): PropertyDecorator {
   }
 }
 
-export function QueryAndMutation(options?: FieldOptions): PropertyDecorator {
+export function QueryAndMutation(options?: IFieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     validateRootSchemaField(targetInstance, fieldName)
     Field({ rootFieldType: rootFieldTypes.query, ...options })(

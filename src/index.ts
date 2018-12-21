@@ -11,9 +11,12 @@ export {
 } from './domains/objectType/ObjectType'
 export {
   InputObjectType,
-  compileInputObjectType,
   inputObjectTypeRegistry
 } from './domains/inputObjectType/InputObjectType'
+export {
+  compileInputObjectType
+} from './domains/inputObjectType/objectTypeCompiler'
+
 export { DuplexObjectType } from './domains/duplexObjectType/DuplexObjectType'
 export { Field } from './domains/field/Field'
 export {

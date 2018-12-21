@@ -19,7 +19,7 @@ function getAllRootFieldsFromRegistry(
   name: 'Query' | 'Mutation'
 ): GraphQLObjectType {
   const allRootFields: { [key: string]: GraphQLFieldConfig<any, any> } = {}
-  for (let root of roots) {
+  for (const root of roots) {
     const rootFields = registry.getAll(root)
     Object.keys(rootFields).forEach((fieldName) => {
       const fieldConfigGetter = rootFields[fieldName]

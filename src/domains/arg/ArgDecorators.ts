@@ -1,8 +1,8 @@
 import { argRegistry } from './registry'
 export { compileFieldArgs } from './compiler'
-import { ArgOptions, defaultArgOptions } from './options'
+import { IArgOptions, defaultArgOptions } from './options'
 
-export function Arg(options: ArgOptions = {}): ParameterDecorator {
+export function Arg(options: IArgOptions = {}): ParameterDecorator {
   return (target: Object, fieldName: string, argIndex: number) => {
     argRegistry.set(target.constructor, [fieldName, argIndex], {
       ...defaultArgOptions,
@@ -15,6 +15,6 @@ export function Arg(options: ArgOptions = {}): ParameterDecorator {
 /**
  * a shorthand for @Arg({isNullable: true})
  */
-export function ArgNullable(options: ArgOptions = {}): ParameterDecorator {
+export function ArgNullable(options: IArgOptions = {}): ParameterDecorator {
   return Arg({ ...options, isNullable: true })
 }

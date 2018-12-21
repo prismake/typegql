@@ -6,18 +6,19 @@ import {
   GraphQLNonNull
 } from 'graphql'
 
-import { ArgsIndex, argRegistry } from './registry'
+import { IArgsIndex, argRegistry } from './registry'
 import { ArgError } from './error'
 import { defaultArgOptions } from './options'
 import 'reflect-metadata'
 
 import { injectorRegistry } from '../inject/Inject'
-import { resolveType } from '../../services/utils/gql'
+
 import { getParameterNames } from '../../services/utils/getParameterNames'
+import { resolveType } from '../../services/utils/gql/types/typeResolvers'
 
 function compileInferedAndRegisterdArgs(
   infered: any[],
-  registeredArgs: ArgsIndex = []
+  registeredArgs: IArgsIndex = []
 ) {
   const argsMerged = infered.map((inferedType, index) => {
     const registered = registeredArgs[index]
@@ -84,7 +85,7 @@ function convertArgsArrayToArgsMap(
   target: Function,
   fieldName: string,
   argsTypes: GraphQLInputType[],
-  registeredArgs: ArgsIndex = []
+  registeredArgs: IArgsIndex = []
 ): GraphQLFieldConfigArgumentMap {
   const fieldDescriptor = Object.getOwnPropertyDescriptor(
     target.prototype,
@@ -117,7 +118,7 @@ function convertArgsArrayToArgsMap(
       return
     }
 
-    let finalType = enhanceType(argType, argConfig.isNullable)
+    const finalType = enhanceType(argType, argConfig.isNullable)
 
     argsMap[argName] = {
       type: finalType,

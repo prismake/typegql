@@ -3,7 +3,7 @@ import { GraphQLResolveInfo } from 'graphql'
 import { HookError } from './error'
 import { DeepWeakMap } from '../../services/utils/deepWeakMap/DeepWeakMap'
 
-export interface HookExecutorResolverArgs {
+export interface IHookExecutorResolverArgs {
   source: any
   args: { [argName: string]: any }
   context: any
@@ -11,23 +11,23 @@ export interface HookExecutorResolverArgs {
 }
 
 export type HookExecutor<Result = void> = (
-  data: HookExecutorResolverArgs
+  data: IHookExecutorResolverArgs
 ) => Result | Promise<Result>
 
-export interface AllRegisteredHooks {
+export interface IAllRegisteredHooks {
   [fieldName: string]: HookExecutor
 }
 
 export const fieldBeforeHooksRegistry = new DeepWeakMap<
   Function,
   HookExecutor[],
-  AllRegisteredHooks
+  IAllRegisteredHooks
 >()
 
 export const fieldAfterHooksRegistry = new DeepWeakMap<
   Function,
   HookExecutor[],
-  AllRegisteredHooks
+  IAllRegisteredHooks
 >()
 
 export function registerFieldBeforeHook(

@@ -1,16 +1,16 @@
 import { DeepWeakMap } from '../../services/utils/deepWeakMap/DeepWeakMap'
 
-export interface AllRegisteredInputFields {
-  [fieldName: string]: FieldInputInnerConfig
+export interface IAllRegisteredInputFields {
+  [fieldName: string]: IFieldInputInnerConfig
 }
 
 export const inputFieldsRegistry = new DeepWeakMap<
   Function,
-  FieldInputInnerConfig,
-  AllRegisteredInputFields
+  IFieldInputInnerConfig,
+  IAllRegisteredInputFields
 >()
 
-export interface FieldInputInnerConfig {
+export interface IFieldInputInnerConfig {
   name: string
   defaultValue?: any
   property: string

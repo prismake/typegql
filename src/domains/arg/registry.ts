@@ -1,6 +1,6 @@
 import { DeepWeakMap } from '../../services/utils/deepWeakMap/DeepWeakMap'
 
-export interface ArgInnerConfig {
+export interface IArgInnerConfig {
   description?: string
   isNullable?: boolean
   type?: any
@@ -9,13 +9,13 @@ export interface ArgInnerConfig {
 }
 export const argRegistry = new DeepWeakMap<
   Function,
-  ArgInnerConfig,
+  IArgInnerConfig,
   {
-    [fieldName: string]: ArgsIndex
+    [fieldName: string]: IArgsIndex
   }
 >()
 
-export interface ArgsIndex {
-  [argIndex: number]: ArgInnerConfig
+export interface IArgsIndex {
+  [argIndex: number]: IArgInnerConfig
   length: number
 }

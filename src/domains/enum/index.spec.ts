@@ -1,5 +1,5 @@
 import { registerEnum } from '../..'
-import { resolveType } from '../../services/utils/gql/index'
+import { resolveType } from '../../services/utils/gql/types/typeResolvers'
 
 describe('Enums', () => {
   it('Registers returns proper enum type', () => {

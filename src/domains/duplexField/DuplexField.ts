@@ -1,7 +1,7 @@
-import { fieldsRegistry, FieldInnerConfig } from '../field/registry'
+import { fieldsRegistry, IFieldInnerConfig } from '../field/registry'
 import {
   inputFieldsRegistry,
-  FieldInputInnerConfig
+  IFieldInputInnerConfig
 } from '../inputField/registry'
 
 export { FieldError } from './error'
@@ -27,14 +27,14 @@ export function DuplexField(options?: {
       delete options.inputNullable
     }
 
-    const finalInputConfig: FieldInputInnerConfig = {
+    const finalInputConfig: IFieldInputInnerConfig = {
       property: fieldName,
       name: fieldName,
       isNullable: inputNullable,
       ...options
     } as any
 
-    const finalConfig: FieldInnerConfig = {
+    const finalConfig: IFieldInnerConfig = {
       property: fieldName,
       name: fieldName,
       isNullable,

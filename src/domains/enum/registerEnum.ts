@@ -5,16 +5,16 @@ import { enumsRegistry } from './registry'
 export { enumsRegistry } from './registry'
 import { convertNativeEnumToGraphQLEnumValues } from './services'
 
-export interface EnumOptions {
+export interface IEnumOptions {
   name: string
   description?: string
 }
 
-export function registerEnum(enumDef: Object, options: EnumOptions | string) {
+export function registerEnum(enumDef: Object, options: IEnumOptions | string) {
   if (typeof options === 'string') {
     options = { name: options }
   }
-  const { name, description }: EnumOptions = options
+  const { name, description }: IEnumOptions = options
 
   if (enumsRegistry.has(enumDef)) {
     throw new EnumError(name, `Enum is already registered`)

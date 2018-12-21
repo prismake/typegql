@@ -12,18 +12,18 @@ import {
   InjectorResolver,
   InjectorsIndex
 } from '../../inject/Inject'
-import { argRegistry, ArgInnerConfig } from '../../arg/registry'
+import { argRegistry, IArgInnerConfig } from '../../arg/registry'
 import { getParameterNames } from '../../../services/utils/getParameterNames'
 
-interface ArgsMap {
+interface IArgsMap {
   [argName: string]: any
 }
 
-interface ComputeArgsOptions {
-  args: ArgsMap
+interface IComputeArgsOptions {
+  args: IArgsMap
   injectors: InjectorsIndex
   injectorToValueMapper: (injector: InjectorResolver) => any
-  getArgConfig: (index: number) => ArgInnerConfig
+  getArgConfig: (index: number) => IArgInnerConfig
 }
 
 async function performHooksExecution(
@@ -37,7 +37,7 @@ async function performHooksExecution(
     return
   }
   // all hooks are executed in parrell instead of sequence. We wait for them all to be resolved before we continue
-  return await Promise.all(
+  return Promise.all(
     hooks.map((hook) => {
       return hook({ source, args, context, info })
     })
@@ -46,7 +46,7 @@ async function performHooksExecution(
 
 export function computeFinalArgs(
   func: Function,
-  { args, injectors, injectorToValueMapper, getArgConfig }: ComputeArgsOptions
+  { args, injectors, injectorToValueMapper, getArgConfig }: IComputeArgsOptions
 ) {
   const paramNames = getParameterNames(func)
   return paramNames.map((paramName, index) => {

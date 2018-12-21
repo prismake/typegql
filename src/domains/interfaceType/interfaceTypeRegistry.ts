@@ -10,7 +10,7 @@ export const interfaceTypeRegistry = new WeakMap<
 export const interfaceTypeImplementors = new WeakMap<Function, Function[]>()
 export const interfaceClassesSet: Set<Function> = new Set()
 
-export interface TypeConfig {
+export interface ITypeConfig {
   name: string
   description: string
   isNonNull?: boolean

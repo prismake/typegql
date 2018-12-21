@@ -23,6 +23,11 @@ function NeededFields(filter: string[] = []) {
 // let's create some object that is aware of fields that it needs to know about
 @ObjectType()
 class LazyObject {
+  @Field()
+  foo: string
+  @Field()
+  bar: string
+
   constructor(neededFields: string[]) {
     console.log(
       'I will only perform expensive operations for fields:',
@@ -37,10 +42,6 @@ class LazyObject {
       this.bar = 'I have bar'
     }
   }
-  @Field()
-  foo: string
-  @Field()
-  bar: string
 }
 
 @Schema()

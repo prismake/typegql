@@ -1,15 +1,15 @@
-import { fieldsRegistry, FieldInnerConfig } from './registry'
+import { fieldsRegistry, IFieldInnerConfig } from './registry'
 import { rootFieldTypes } from '../schema/rootFields'
 
 export {
-  FieldInnerConfig,
+  IFieldInnerConfig as FieldInnerConfig,
   fieldsRegistry,
   queryFieldsRegistry
 } from './registry'
 export { compileAllFields, compileFieldConfig } from './compiler/fieldCompiler'
 export { FieldError } from './error'
 
-export interface FieldOptions {
+export interface IFieldOptions {
   description?: string
   rootFieldType?: rootFieldTypes
   type?: any
@@ -17,9 +17,9 @@ export interface FieldOptions {
   isNullable?: boolean
 }
 
-export function Field(options?: FieldOptions): PropertyDecorator {
+export function Field(options?: IFieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
-    const finalConfig: FieldInnerConfig = {
+    const finalConfig: IFieldInnerConfig = {
       property: fieldName,
       name: fieldName,
       isNullable: true,

@@ -1,15 +1,16 @@
 import { objectTypeRegistry } from '../objectType/registry'
 import { compileObjectTypeWithConfig } from '../objectType/compiler/objectType'
-import { compileInputObjectTypeWithConfig } from '../inputObjectType/compiler/index'
+
 import { inputObjectTypeRegistry } from '../inputObjectType/registry'
+import { compileInputObjectTypeWithConfig } from '../inputObjectType/objectTypeCompiler'
 export { ObjectTypeError } from './error'
 
-export interface ObjectTypeOptions {
+export interface IObjectTypeOptions {
   name?: string
   description?: string
 }
 
-export function DuplexObjectType(options?: ObjectTypeOptions): ClassDecorator {
+export function DuplexObjectType(options?: IObjectTypeOptions): ClassDecorator {
   return (target: Function) => {
     const inputConfig = { name: target.name + 'Input', ...options }
     const outputConfig = { name: target.name, ...options }

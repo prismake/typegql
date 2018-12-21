@@ -1,10 +1,10 @@
-export interface ArgOptions {
+export interface IArgOptions {
   description?: string
   type?: any
   isNullable?: boolean
   name?: string
 }
 
-export const defaultArgOptions: ArgOptions = {
+export const defaultArgOptions: IArgOptions = {
   isNullable: false
 }

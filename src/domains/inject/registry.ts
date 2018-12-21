@@ -14,12 +14,12 @@ export interface InjectorsIndex {
   [injectorIndex: number]: InjectorResolver
 }
 
-export interface AllInjectors {
+export interface IAllInjectors {
   [fieldName: string]: InjectorsIndex
 }
 
 export const injectorRegistry = new DeepWeakMap<
   Function,
   InjectorResolver,
-  AllInjectors
+  IAllInjectors
 >()

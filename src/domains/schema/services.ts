@@ -16,7 +16,7 @@ export function validateSchemaRoots(roots: Function[]) {
       `At least one schema root is provided more than once in schema roots`
     )
   }
-  for (let root of roots) {
+  for (const root of roots) {
     if (!schemaRootsRegistry.has(root)) {
       throw new SchemaRootError(
         root,

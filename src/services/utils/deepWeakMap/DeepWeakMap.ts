@@ -1,6 +1,6 @@
 import { get, set } from 'object-path'
 
-export type DeepWeakMapPath = (string | number) | (string | number)[]
+export type DeepWeakMapPath = (string | number) | Array<string | number>
 
 function flattenPaths(paths: DeepWeakMapPath[]): string[] {
   return paths.reduce((accumulatedPath: string[], nextPath) => {
@@ -12,7 +12,7 @@ function flattenPaths(paths: DeepWeakMapPath[]): string[] {
 }
 
 export class DeepWeakMap<
-  Key extends Object,
+  Key extends object,
   Value,
   Structure = { [key: string]: Value }
 > {
@@ -28,7 +28,8 @@ export class DeepWeakMap<
   getAll(target: Key): Structure {
     const { map } = this
     if (!map.has(target)) {
-      map.set(target, {} as Structure)
+      const empty = {}
+      map.set(target, empty as Structure)
     }
     return map.get(target)
   }
