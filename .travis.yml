@@ -10,9 +10,10 @@ scripts:
   - npm run test --ci
 after_success:
   - codecov
+  - npm i -g typescript
 deploy:
   provider: npm
   email: capajj@gmail.com
   api_key: $NPM_TOKEN
   on:
-    tags: true
+    tags: false
