@@ -1,6 +1,6 @@
 {
   "name": "decapi",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "test": "jest --coverage",
     "jestw": "jest --watch",
     "build": "del types lib && tsc --project tsconfig.json",
-    "prepublishOnly": "rimraf types lib && yarn build",
+    "prepublishOnly": "yarn build",
     "precommit": "pretty-quick --staged"
   },
   "repository": {
