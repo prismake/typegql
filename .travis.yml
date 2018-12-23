@@ -17,4 +17,4 @@ deploy:
   email: capajj@gmail.com
   api_key: $NPM_TOKEN
   on:
-    tags: false
+    tags: true
