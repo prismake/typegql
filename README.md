@@ -7,7 +7,7 @@
 
 ![demo](assets/demo.gif)
 
-decapi is set of decorators allowing creating GraphQL APIs quickly and in type-safe way.
+decapi is set of decorators for creating GraphQL APIs quickly and in type-safe way.
 
 - [Documentation](https://decapi.netlify.com/)
 
