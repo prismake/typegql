@@ -977,4 +977,4 @@ exports[`@SchemaRoot should not allow schema that has only mutation fields 1`] =
 
 exports[`@SchemaRoot will not allow multiple schema roots to have conflicting root field names 1`] = `"@Schema BarSchema: Duplicate of root field name: 'foo'. Seems this name is also used inside other schema root."`;
 
-exports[`@SchemaRoot will not allow schema with incorrect object types 1`] = `"@ObjectType Hello.world: Field returns Promise so it's required to explicitly set resolved type as it's not possible to guess it. You can set resolved type like: @Field({ type: ItemType })"`;
+exports[`@SchemaRoot will not allow schema with incorrect object types 1`] = `"@ObjectType Hello.world: Field type was infered as \\"function Promise() { [native code] }\\" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })"`;

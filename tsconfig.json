@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "paths": { "*": ["types/*"] },
     "module": "commonjs",
     "lib": ["es2017", "dom"],
     "target": "es5",
@@ -15,6 +16,8 @@
     // "strictNullChecks": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "stripInternal": true,

@@ -22,6 +22,28 @@ export function resolveTypeOrThrow(
   return resolvedType
 }
 
+function throwIfNotInferableType(
+  inferedType: any,
+  target: Function,
+  fieldName: string
+) {
+  if (typeof inferedType === 'function') {
+    const stringSignature = inferedType.toString()
+    if (
+      stringSignature.match(
+        // previously we've been comparing tho these functions directly, but this would fail in environments where for example Promise was monkeypatched
+        /function (Object|Array|Promise)\(\) { \[native code\] }/
+      )
+    ) {
+      throw new FieldError(
+        target,
+        fieldName,
+        `Field type was infered as "${inferedType}" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })`
+      )
+    }
+  }
+}
+
 export function inferTypeOrThrow(
   target: Function,
   fieldName: string
@@ -34,33 +56,12 @@ export function inferTypeOrThrow(
       `Could not infer return type and no type is forced. In case of circular dependencies make sure to explicitly set a type.`
     )
   }
+  throwIfNotInferableType(inferedType, target, fieldName)
   return resolveType(inferedType)
 }
 
 export function validateNotInferableField(target: Function, fieldName: string) {
   const inferedType = inferTypeByTarget(target.prototype, fieldName)
-  if (inferedType === Array) {
-    throw new FieldError(
-      target,
-      fieldName,
-      `Field returns list so it's required to explicitly set list item type. You can set list type like: @Field({ type: [ItemType] })`
-    )
-  }
-
-  if (inferedType === Promise) {
-    throw new FieldError(
-      target,
-      fieldName,
-      `Field returns Promise so it's required to explicitly set resolved type as it's not possible to guess it. You can set resolved type like: @Field({ type: ItemType })`
-    )
-  }
-
-  if (inferedType === Object) {
-    throw new FieldError(
-      target,
-      fieldName,
-      `It was not possible to guess type of this field. It might be because it returns Promise, Array etc. In such case it's needed to explicitly declare type of field like: @Field({ type: ItemType })`
-    )
-  }
+  throwIfNotInferableType(inferedType, target, fieldName)
   return true
 }

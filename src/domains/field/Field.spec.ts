@@ -240,7 +240,7 @@ describe('Field', () => {
     expect(() =>
       compileObjectType(Foo).getFields()
     ).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType Foo.bar: Field returns Promise so it's required to explicitly set resolved type as it's not possible to guess it. You can set resolved type like: @Field({ type: ItemType })"`
+      `"@ObjectType Foo.bar: Field type was infered as \\"function Promise() { [native code] }\\" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })"`
     )
   })
 
