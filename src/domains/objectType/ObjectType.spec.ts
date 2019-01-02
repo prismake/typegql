@@ -1,7 +1,7 @@
 import { GraphQLObjectType } from 'graphql'
 import { ObjectType, Field, compileObjectType } from '../..'
 
-describe('Type', () => {
+describe('ObjectType', () => {
   it('Throws when trying to compile type without @ObjectType decorator', () => {
     expect(() =>
       compileObjectType(class Bar {})

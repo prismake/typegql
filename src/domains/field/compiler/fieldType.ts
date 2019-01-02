@@ -31,7 +31,7 @@ export function inferTypeOrThrow(
     throw new FieldError(
       target,
       fieldName,
-      `Could not infer return type and no type is forced. In case of circular dependencies make sure to force types of instead of infering them.`
+      `Could not infer return type and no type is forced. In case of circular dependencies make sure to explicitly set a type.`
     )
   }
   return resolveType(inferedType)
