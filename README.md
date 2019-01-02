@@ -121,13 +121,13 @@ class SuperSchema {
 const compiledSchema = compileSchema(SuperSchema)
 ```
 
-## Forcing field type.
+## Setting the type explicitly
 
 Since now, `decapi` was able to guess type of every field from typescript type definitions.
 
-There are, however, some cases where we'd have to define them explicitly.
+There are, however, some cases where we have to define them explicitly.
 
-- We want to strictly tell if field is nullable or not
+- We want to specify whether field is nullable or not
 - We want to be explicit about if some `number` type is `Float` or `Int` (`GraphQLFloat` or `GraphQLInt`) etc
 - Function we use returns type of `Promise<SomeType>` while field itself is typed as `SomeType`
 - List (Array) type is used. (For now, typescript `Reflect` api is not able to guess type of single array item. This might change in the future)
@@ -148,8 +148,8 @@ We've added `{ type: [String] }` as `@Field` options. Type can be anything that 
 
 - Native JS scalars: `String`, `Number`, `Boolean`, `Date`.
 - Any type that is already compiled to `graphql` eg. `GraphQLFloat` or any type from external graphql library etc
-- Every class decorated with `@ObjectType`
-- One element array of any of above for list types eg. `[String]` or `[GraphQLFloat]`
+- Any class decorated with `@ObjectType`
+- Single element array for list types eg. `[String]` or `[GraphQLFloat]`
 
 ## Writing Asynchronously
 
@@ -166,16 +166,21 @@ class Product {
 }
 ```
 
-## Before `1.0.0`
+## Compared to type-graphql
 
-Before version `1.0.0` consider APIs of `decapi` to be subject to change. We encourage you to try this library out and provide us feedback so we can polish it to be as usable and efficent as possible.
+There is a much more popular [library](https://github.com/19majkel94/type-graphql) with the same goals-so what makes decapi different? Decapi has smaller API surface-it only has hooks on top of the basic decorators for constructing schemas.
+Whereas type-graphql has authorization, middleware, guards.
 
 ## Why forking?
 
 I wanted to contribute to [typegql](https://github.com/prismake/typegql) and work on it together with @pie6k, but it soon became obvious that we both have something different in mind. Just to briefly summarise the differences:
 
 - decapi has `@DuplexObjectType` and `@DuplexField`
-- decapi has interfaces and mixins
+- decapi supports interfaces and mixins
 - decapi can infer Date type
 - InputObjectType argument passed ot your Field/Query is not just a plain object, but an instance of it's class
 - decapi allows you to have an empty object type-you can populate it with fields at runtime
+
+## Before `1.0.0`
+
+Before version `1.0.0` consider APIs of `decapi` to be subject to change. We encourage you to try this library out and provide us feedback so we can polish it to be as usable and efficent as possible.
