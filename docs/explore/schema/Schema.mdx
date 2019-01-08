@@ -141,7 +141,7 @@ There are, however, some cases where we'd have to define them explicitly.
 - Function we use returns type of `Promise<SomeType>` while field itself is typed as `SomeType`
 - List (Array) type is used. (For now, typescript `Reflect` api is not able to guess type of single array item. This might change in the future)
 
-Let's modify our `Product` so it has additional `categories` field that will return array of strings. For sake of readibility, I'll ommit all fields we've defined previously.
+Let's modify our `Product` so it has additional `categories` field that will return array of strings. For the sake of readability, let's ommit all fields we've defined previously.
 
 ```js
 @ObjectType()
