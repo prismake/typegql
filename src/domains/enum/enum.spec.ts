@@ -1,5 +1,9 @@
-import { registerEnum } from '../..'
 import { resolveType } from '../../services/utils/gql/types/typeResolvers'
+import { registerEnum } from '../..'
+import { SchemaRoot, compileSchema } from '../schema/SchemaRoot'
+import { Query } from '../schema/rootFields'
+import { printSchema } from 'graphql'
+import { Arg } from '../arg/ArgDecorators'
 
 describe('Enums', () => {
   it('Registers returns proper enum type', () => {
@@ -48,5 +52,25 @@ describe('Enums', () => {
 
     const enumType = registerEnum(Foo, { name: 'Foo' })
     expect(resolveType(Foo)).toEqual(enumType)
+  })
+
+  it('renders schema with an enum used in a query', async () => {
+    enum StateEnum {
+      Done = 'DONE',
+      InProgress = 'INPROGRESS',
+      Finished = 'FINISHED',
+      Cancelled = 'CANCELLED'
+    }
+
+    registerEnum(StateEnum, { name: 'StateEnum' })
+    @SchemaRoot()
+    class FooSchema {
+      @Query({ type: StateEnum })
+      echo(@Arg({ type: StateEnum }) input: StateEnum): StateEnum {
+        return input
+      }
+    }
+    const schema = compileSchema(FooSchema)
+    expect(printSchema(schema)).toMatchSnapshot()
   })
 })

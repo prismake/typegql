@@ -3,7 +3,7 @@ import { EnumError } from './error'
 
 import { enumsRegistry } from './registry'
 export { enumsRegistry } from './registry'
-import { convertNativeEnumToGraphQLEnumValues } from './services'
+import { convertNativeEnumToGraphQLEnumValues } from './convertNativeEnumToGraphQLEnumValues'
 
 export interface IEnumOptions {
   name: string
