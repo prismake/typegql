@@ -5,7 +5,6 @@ interface IHasMyProp {
   myProp: number
 }
 
-@ObjectType()
 class Mixin {
   @Field()
   mixinMethod(this: IHasMyProp, a: string): string {
@@ -75,7 +74,6 @@ describe('Query a mixin method', () => {
   })
 
   it('accepts a thunk to avoid circular refs', async () => {
-    @ObjectType()
     class Mixin {
       @Field()
       mixinMethod(this: IHasMyProp, a: string): string {
