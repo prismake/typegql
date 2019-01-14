@@ -18,16 +18,41 @@ export function createTypeFieldsGetter(
   config?: IObjectTypeOptions
 ) {
   let targetWithParents = getClassWithAllParentClasses(target)
+  const { mixins } = config
+
   if (config) {
-    if (config.mixins) {
-      targetWithParents = targetWithParents.concat(config.mixins)
+    if (mixins) {
+      if (Array.isArray(mixins)) {
+        mixins.forEach((mixin, i) => {
+          if (typeof mixin !== 'function') {
+            throw new TypeError(
+              `expected a mixin on ${
+                target.name
+              } to be a Class, instead value of index ${i} is ${mixin}`
+            )
+          }
+        })
+        targetWithParents = targetWithParents.concat(mixins)
+      }
     }
     if (config.implements) {
+      if (typeof config.implements !== 'function') {
+        throw new TypeError(
+          `expected an "implements" reference on ${
+            target.name
+          } to be a Class, instead value is ${config.implements}`
+        )
+      }
+
       targetWithParents = targetWithParents.concat(config.implements)
     }
   }
 
   return createCachedThunk(() => {
+    if (typeof mixins === 'function') {
+      targetWithParents = targetWithParents.concat(mixins())
+    }
+
     return compileAllFields(targetWithParents)
   })
 }
