@@ -15,7 +15,7 @@ interface IHasMyProp {
 class Mixin {
   @Field()
   printMyProp(
-    this: IHasMyProp, // <-- you need to explicitly set an interface which all classes implement for this mixin
+    this: IHasMyProp, // <-- you need to explicitly set an type/interface which all classes implement for this mixin
     a: string
   ): string {
     return `my prop is ${this.myProp}`
@@ -37,3 +37,9 @@ class Hello implements IHasMyProp {
 ```ts
 @ObjectType({ mixins: () => [Mixin] })
 ```
+
+## Mixins vs interfaces
+
+Mixins and interfaces might seem similar at first glance, but they do have different purpose.
+If you use `@InterfaceType` it will add and interface type to your GQL schema. Whereas mixins do not add a new complex type to you schema.
+Instead they only enhance the existing ObjectType where you apply them. In that regard they are just a helper to keep your code DRY when you need to share some fields across multiple ObjectTypes.
