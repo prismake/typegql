@@ -16,7 +16,7 @@ class Mixin {
   @Field()
   printMyProp(
     this: IHasMyProp, // <-- you need to explicitly set an interface which all classes implement for this mixin
-    a: string,
+    a: string
   ): string {
     return `my prop is ${this.myProp}`
   }
@@ -32,3 +32,8 @@ class Hello implements IHasMyProp {
 }
 ```
 
+**NOTE: same as when defining a `type`, you can define a `mixin` prop value as a thunk to be safe from circular dependencies:**
+
+```ts
+@ObjectType({ mixins: () => [Mixin] })
+```
