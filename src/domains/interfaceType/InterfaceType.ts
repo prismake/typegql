@@ -10,6 +10,7 @@ import { compileAllFields } from '../field/Field'
 import { createCachedThunk } from '../../services/utils/cachedThunk'
 import { getClassWithAllParentClasses } from '../../services/utils/inheritance'
 import { objectTypeRegistry } from '../objectType/registry'
+import { Thunk } from '../../services/types'
 
 export type ITypeResolver = (
   value: any,
@@ -20,6 +21,7 @@ export type ITypeResolver = (
 export interface ITypeOptions {
   name?: string
   description?: string
+  mixins?: Function[] | Thunk<any>
 }
 
 const compileInterfaceCache = new WeakMap<Function, GraphQLInterfaceType>()
@@ -41,15 +43,27 @@ export function InterfaceType(config?: ITypeOptions): ClassDecorator {
         description,
         resolveType: (value: any) => {
           const implementors = interfaceTypeImplementors.get(target)
-          for (const implementor of implementors) {
-            if (Object.getPrototypeOf(value) === implementor.prototype) {
-              const typeGetterFromRegistry = objectTypeRegistry.get(implementor)
-              return typeGetterFromRegistry()
+          if (Array.isArray(implementors)) {
+            for (const implementor of implementors) {
+              if (Object.getPrototypeOf(value) === implementor.prototype) {
+                const typeGetterFromRegistry = objectTypeRegistry.get(
+                  implementor
+                )
+                return typeGetterFromRegistry()
+              }
             }
           }
         },
         fields: createCachedThunk(() => {
-          const targetWithParents = getClassWithAllParentClasses(target)
+          let targetWithParents = getClassWithAllParentClasses(target)
+          if (config) {
+            const { mixins } = config
+            if (typeof mixins === 'function') {
+              targetWithParents = targetWithParents.concat(mixins())
+            } else if (Array.isArray(mixins)) {
+              targetWithParents = targetWithParents.concat(mixins)
+            }
+          }
 
           return compileAllFields(targetWithParents)
         })

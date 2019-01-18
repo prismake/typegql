@@ -4,14 +4,16 @@ import {
   compileSchema,
   ObjectType,
   Field,
-  Mutation
+  Mutation,
+  InterfaceType
 } from '../..'
 import {
   graphql,
   introspectionQuery,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLFloat
+  GraphQLFloat,
+  GraphQLInt
 } from 'graphql'
 
 describe('@SchemaRoot', () => {
@@ -255,5 +257,30 @@ describe('@SchemaRoot', () => {
     }
 
     expect(() => compileSchema([BarSchema])).not.toThrow()
+  })
+
+  it('should throw when an interface has no implementors', async () => {
+    @InterfaceType({ description: 'a vehicle interface for a basic spec' })
+    class Vehicle {
+      @Field({ type: GraphQLInt })
+      windows: number
+
+      @Field({ type: GraphQLInt })
+      seats: number
+    }
+
+    @SchemaRoot()
+    class BarSchema {
+      @Query({ type: Vehicle })
+      foo(): Vehicle {
+        return new Vehicle()
+      }
+    }
+
+    expect(() => {
+      compileSchema([BarSchema])
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"interface type Vehicle doesn't have any implementors"`
+    )
   })
 })

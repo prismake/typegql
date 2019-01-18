@@ -1,4 +1,8 @@
 export {
+  interfaceClassesSet
+} from './domains/interfaceType/interfaceTypeRegistry'
+
+export {
   GraphQLFloat as Float,
   GraphQLInt as Int,
   GraphQLID as ID

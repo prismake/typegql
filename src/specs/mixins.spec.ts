@@ -1,10 +1,18 @@
 import { graphql, printSchema } from 'graphql'
-import { ObjectType, Field, SchemaRoot, Query, compileSchema } from '../index'
+import {
+  ObjectType,
+  InterfaceType,
+  Field,
+  SchemaRoot,
+  Query,
+  compileSchema,
+  interfaceClassesSet
+} from '../index'
 
 interface IHasMyProp {
   myProp: number
 }
-
+@ObjectType()
 class Mixin {
   @Field()
   mixinMethod(this: IHasMyProp, a: string): string {
@@ -16,6 +24,24 @@ class Mixin {
   //   expect(this.myProp).toBe(5)
   //   return `hello from mixin ${a}`
   // }
+}
+
+@InterfaceType({ mixins: [Mixin] })
+class InterfaceSampleType implements IHasMyProp {
+  myProp = 4
+  @Field()
+  interfaceMethod(name: string): string {
+    return `Hello, ${name}`
+  }
+}
+
+@ObjectType({ implements: InterfaceSampleType, mixins: [Mixin] })
+class ImplementorType extends InterfaceSampleType {
+  myProp = 5
+  @Field()
+  world(name: string): string {
+    return `Hello, ${name}`
+  }
 }
 
 @ObjectType({ mixins: [Mixin] })
@@ -33,24 +59,34 @@ class FooSchema {
   hello(): Hello {
     return new Hello()
   }
+  @Query({ type: InterfaceSampleType })
+  interfaceReturning(): InterfaceSampleType {
+    return new ImplementorType()
+  }
 }
 
 const schema = compileSchema(FooSchema)
 
 describe('Query a mixin method', () => {
   it('executes and field method has correct context', async () => {
+    expect(printSchema(schema)).toMatchSnapshot()
+
     const result = await graphql(
       schema,
       `
         {
           hello {
-            mixinMethod(a: "Bob")
+            mixinMethod(a: "Bob1")
+          }
+          interfaceReturning {
+            mixinMethod(a: "Bob2")
           }
         }
       `
     )
 
     expect(result).toMatchSnapshot()
+    interfaceClassesSet.clear()
   })
 
   it('throws', async () => {

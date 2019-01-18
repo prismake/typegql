@@ -74,10 +74,16 @@ export function compileSchema(schemaOrSchemas: Function | Function[]) {
   const extraTypes: GraphQLObjectType[] = []
   Array.from(interfaceClassesSet).forEach((interfaceClass) => {
     const implementorClasses = interfaceTypeImplementors.get(interfaceClass)
-    implementorClasses.forEach((implementorClass) => {
-      const implementor = objectTypeRegistry.get(implementorClass)()
-      extraTypes.push(implementor)
-    })
+    if (Array.isArray(implementorClasses)) {
+      implementorClasses.forEach((implementorClass) => {
+        const implementor = objectTypeRegistry.get(implementorClass)()
+        extraTypes.push(implementor)
+      })
+    } else {
+      throw new Error(
+        `interface type ${interfaceClass.name} doesn't have any implementors`
+      )
+    }
   })
 
   return new GraphQLSchema({

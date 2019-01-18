@@ -65,3 +65,7 @@ THEN you can query your schema like this:
     }
   }
 ```
+
+NOTE: The interfaces are store globally in `interfaceClassesSet`.
+If you need to build more than one schema, it may be wise do `clear()` this Set after you compile
+each schema to avoid having all the interfaces in all of your schemas.
