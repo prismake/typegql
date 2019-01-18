@@ -14,7 +14,7 @@ interface IHasMyProp {
 class Mixin {
   @Field()
   printMyProp(
-    this: IHasMyProp, // <-- you need to explicitly set an type/interface which all classes implement for this mixin
+    this: IHasMyProp, // <-- unfortunatelly this is only possible if you don't use decorators on arguments due to this bug: https://github.com/Microsoft/TypeScript/issues/29427
     a: string
   ): string {
     return `my prop is ${this.myProp}`

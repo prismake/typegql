@@ -11,6 +11,11 @@ class Mixin {
     expect(this.myProp).toBe(5)
     return `hello from mixin ${a}`
   }
+  // TODO enable this test when https://github.com/Microsoft/TypeScript/issues/29427 is resolved
+  // mixinMethodWithContext(this: IHasMyProp, a: string, @Context ctx: any): string {
+  //   expect(this.myProp).toBe(5)
+  //   return `hello from mixin ${a}`
+  // }
 }
 
 @ObjectType({ mixins: [Mixin] })
