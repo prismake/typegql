@@ -66,6 +66,6 @@ THEN you can query your schema like this:
   }
 ```
 
-NOTE: The interfaces are store globally in `interfaceClassesSet`.
+NOTE: All your interfaces are stored globally in a singleton `interfaceClassesSet`.
 If you need to build more than one schema, it may be wise do `clear()` this Set after you compile
-each schema to avoid having all the interfaces in all of your schemas.
+each schema to avoid having all the interfaces in all of your schemas. Import it like this: `import {interfaceClassesSet} from decapi`
