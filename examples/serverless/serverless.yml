@@ -1,6 +1,6 @@
 service: serverless-graphql-rest
 
-frameworkVersion: ">=1.21.0 <2.0.0"
+frameworkVersion: '>=1.21.0 <2.0.0'
 
 provider:
   name: aws
@@ -12,19 +12,18 @@ plugins:
   - serverless-offline
   - serverless-plugin-typescript
 
-
 functions:
   graphql:
     handler: handler.graphqlHandler
     events:
-    - http:
-        path: graphql
-        method: post
-        cors: true
+      - http:
+          path: graphql
+          method: post
+          cors: true
   graphiql:
     handler: handler.graphiqlHandler
     events:
-    - http:
-        path: graphiql
-        method: get
-        cors: true
+      - http:
+          path: graphiql
+          method: get
+          cors: true

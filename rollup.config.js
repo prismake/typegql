@@ -8,5 +8,5 @@ export default {
   extensions: ['.js', '.jsx', '.ts', '.tsx'],
   output: { file: pkg.main, name: 'decapi', format: 'cjs' },
   cacheRoot: './cache/.rpt2',
-  plugins: [typescript()],
+  plugins: [typescript()]
 }

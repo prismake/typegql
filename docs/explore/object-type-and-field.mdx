@@ -73,12 +73,13 @@ Often you might have a field on your model that you want to expose on your API, 
 class User {
   readonly id!: string
 
-  @Field({name: 'id'})
-  apiId(): string { // this field is now exposed as "id" on GQL-you cna query it by doing a query like {users {id}}
+  @Field({ name: 'id' })
+  apiId(): string {
+    // this field is now exposed as "id" on GQL-you cna query it by doing a query like {users {id}}
     return 'user_id_' + this.id
   }
 }
-
+```
 
 ## Circular type references
 

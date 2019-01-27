@@ -1,5 +1,5 @@
 [![npm version](https://badge.fury.io/js/decapi.svg)](https://badge.fury.io/js/decapi)
-[![npm version](https://david-dm.org/capaj/decapi.svg)](https://david-dm.org/capaj/decapi)
+[![deps](https://david-dm.org/capaj/decapi.svg)](https://david-dm.org/capaj/decapi)
 [![codecov](https://codecov.io/gh/capaj/decapi/branch/master/graph/badge.svg)](https://codecov.io/gh/capaj/decapi)
 [![Build Status](https://api.travis-ci.org/capaj/decapi.svg?branch=master)](https://travis-ci.org/capaj/decapi)
 

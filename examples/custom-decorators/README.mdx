@@ -12,12 +12,12 @@ import { Schema, Query, Field, ObjectType, compileSchema } from 'decapi'
 function StringWithDescription(fieldDescription: string) {
   if (!fieldDescription) {
     throw new Error(
-      `Field description is required when decorated with @StringWithDescription`,
+      `Field description is required when decorated with @StringWithDescription`
     )
   }
   return Field({
     type: String,
-    description: fieldDescription,
+    description: fieldDescription
   })
 }
 ```

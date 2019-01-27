@@ -23,7 +23,7 @@ class SuperSchema {
   }
 }
 
-const compiledSchema = compileSchema(SuperSchema);
+const compiledSchema = compileSchema(SuperSchema)
 
 const app = express()
 
@@ -31,8 +31,8 @@ app.use(
   '/graphql',
   graphqlHTTP({
     schema: compiledSchema,
-    graphiql: true,
-  }),
+    graphiql: true
+  })
 )
 app.listen(3000)
 ```

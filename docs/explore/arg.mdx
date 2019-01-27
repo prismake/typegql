@@ -38,7 +38,7 @@ class Calculator {
   @Field()
   pow(
     base: number,
-    @Arg({ nullable: true, defaultValue: 2 }) exponent: number,
+    @Arg({ nullable: true, defaultValue: 2 }) exponent: number
   ): number {
     return Math.pow(base, exponent)
   }

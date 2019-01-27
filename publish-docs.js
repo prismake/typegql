@@ -1,5 +1,5 @@
-var ghpages = require('gh-pages');
+var ghpages = require('gh-pages')
 
 ghpages.publish('docs/_book', () => {
-  console.log('Done.');
-});
+  console.log('Done.')
+})
