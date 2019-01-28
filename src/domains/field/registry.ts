@@ -17,6 +17,7 @@ export interface IFieldInnerConfig {
   property: string
   description?: string
   isNullable?: boolean
+  castTo?: any
   type?: any
 }
 

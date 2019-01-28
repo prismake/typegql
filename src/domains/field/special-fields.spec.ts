@@ -12,6 +12,8 @@ describe('Special fields - @Query, @Mutation @Subscribe', () => {
 
     expect(() => {
       return compileObjectType(Foo).getFields()
-    }).toThrowErrorMatchingSnapshot()
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"@ObjectType Foo.bar: Given field is root field (@Query or @Mutation) not registered inside @Schema type. "`
+    )
   })
 })

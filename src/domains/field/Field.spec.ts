@@ -3,11 +3,19 @@ import {
   GraphQLFloat,
   GraphQLBoolean,
   isNamedType,
-  getNamedType
+  getNamedType,
+  graphql
 } from 'graphql'
 
 import 'reflect-metadata'
-import { ObjectType, Field, compileObjectType } from '../..'
+import {
+  ObjectType,
+  Field,
+  compileObjectType,
+  SchemaRoot,
+  Query,
+  compileSchema
+} from '../..'
 
 describe('Field', () => {
   it('Resolves fields with default value', async () => {
@@ -295,5 +303,63 @@ describe('Field', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `"Field \\"bar\\" on class Foo cannot be registered-it's already registered as type Number"`
     )
+  })
+
+  describe('IFieldOptions', () => {
+    @ObjectType()
+    class Foo {
+      baz = 'baz'
+      @Field()
+      bar(): string {
+        return this.baz
+      }
+
+      @Field({ castTo: Foo })
+      castedField() {
+        return { baz: 'castedFromAField' }
+      }
+      @Field({ castTo: Foo })
+      castedFieldNullReturning(): Foo {
+        return null
+      }
+    }
+
+    @SchemaRoot()
+    class FooSchema {
+      @Query({ castTo: Foo })
+      castedQuery() {
+        return { baz: 'castedFromAQuery' }
+      }
+    }
+    it('should register a field with castTo', async () => {
+      const schema = compileSchema(FooSchema)
+      const result = await graphql(
+        schema,
+        `
+          {
+            castedQuery {
+              bar
+              castedField {
+                bar
+              }
+              castedFieldNullReturning {
+                bar
+              }
+            }
+          }
+        `
+      )
+
+      expect(result.errors).toBeUndefined()
+      expect(result.data.castedQuery).toMatchInlineSnapshot(`
+Object {
+  "bar": "castedFromAQuery",
+  "castedField": Object {
+    "bar": "castedFromAField",
+  },
+  "castedFieldNullReturning": null,
+}
+`)
+    })
   })
 })

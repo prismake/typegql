@@ -14,6 +14,7 @@ import {
 } from '../../inject/Inject'
 import { argRegistry, IArgInnerConfig } from '../../arg/registry'
 import { getParameterNames } from '../../../services/utils/getParameterNames'
+import { plainToClass } from 'class-transformer'
 
 interface IArgsMap {
   [argName: string]: any
@@ -54,7 +55,6 @@ export function computeFinalArgs(
 
     if (args && args.hasOwnProperty(paramName)) {
       const argValue = args[paramName]
-
       if (argConfig && argConfig.type) {
         if (Array.isArray(argConfig.type)) {
           const type = argConfig.type[0]
@@ -111,7 +111,8 @@ function getFieldOfTarget(instance: any, prototype: any, fieldName: string) {
 
 export function compileFieldResolver(
   target: Function,
-  fieldName: string
+  fieldName: string,
+  castTo?: any
 ): GraphQLFieldResolver<any, any> {
   const injectors = injectorRegistry.getAll(target)[fieldName]
   const beforeHooks = fieldBeforeHooksRegistry.get(target, fieldName)
@@ -149,7 +150,10 @@ export function compileFieldResolver(
       }
     })
 
-    const result = await instanceFieldFunc.apply(source, params)
+    let result = await instanceFieldFunc.apply(source, params)
+    if (castTo && result !== null && typeof result === 'object') {
+      result = plainToClass(castTo, result)
+    }
 
     await performHooksExecution(afterHooks, source, args, context, info) // TODO: Consider adding resolve return to hook callback
     return result

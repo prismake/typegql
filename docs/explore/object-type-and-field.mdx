@@ -64,7 +64,26 @@ class Restaurant {
 }
 ```
 
-## Aliasing a runtime field as some other
+### Using `castTo`
+
+If you want to just return plain object or object of a different class than the class you're exposing on GQL, you might want to use `castTo`. casTo field is used insted of `type` field.
+
+```ts
+@ObjectType()
+class Restaurant {
+  @Field()
+  name: string
+
+  @Field({ castTo: Location })
+  location(): Location {
+    return { lat: 50, long: 50 }
+  }
+}
+```
+
+NOTE: this will always force any thing you return into the provided class.
+
+## Aliasing a field under a different name in graphql schema
 
 Often you might have a field on your model that you want to expose on your API, but you want to make sort of a API getter for that field. This is easily achieved using a `name` config.
 

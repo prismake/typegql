@@ -13,6 +13,7 @@ export interface IFieldOptions {
   description?: string
   rootFieldType?: rootFieldTypes
   type?: any
+  castTo?: any
   name?: string
   isNullable?: boolean
 }
