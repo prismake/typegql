@@ -152,7 +152,10 @@ export function compileFieldResolver(
 
     let result = await instanceFieldFunc.apply(source, params)
     if (castTo && result !== null && typeof result === 'object') {
-      result = plainToClass(castTo, result)
+      result =
+        Array.isArray(castTo) && Array.isArray(result)
+          ? result.map((item) => plainToClass(castTo[0], item))
+          : plainToClass(castTo, result)
     }
 
     await performHooksExecution(afterHooks, source, args, context, info) // TODO: Consider adding resolve return to hook callback

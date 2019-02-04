@@ -322,6 +322,11 @@ describe('Field', () => {
       castedFieldNullReturning(): Foo {
         return null
       }
+
+      @Field({ castTo: [Foo] })
+      castedFieldAsArray() {
+        return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
+      }
     }
 
     @SchemaRoot()
@@ -331,8 +336,9 @@ describe('Field', () => {
         return { baz: 'castedFromAQuery' }
       }
     }
+    const schema = compileSchema(FooSchema)
+
     it('should register a field with castTo', async () => {
-      const schema = compileSchema(FooSchema)
       const result = await graphql(
         schema,
         `
@@ -358,6 +364,37 @@ Object {
     "bar": "castedFromAField",
   },
   "castedFieldNullReturning": null,
+}
+`)
+    })
+
+    it('should be able to castTo an array of classes', async () => {
+      const result = await graphql(
+        schema,
+        `
+          {
+            castedQuery {
+              bar
+              castedFieldAsArray {
+                bar
+              }
+            }
+          }
+        `
+      )
+
+      expect(result.errors).toBeUndefined()
+      expect(result.data.castedQuery).toMatchInlineSnapshot(`
+Object {
+  "bar": "castedFromAQuery",
+  "castedFieldAsArray": Array [
+    Object {
+      "bar": "castedFromAField1",
+    },
+    Object {
+      "bar": "castedFromAField2",
+    },
+  ],
 }
 `)
     })
