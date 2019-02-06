@@ -21,12 +21,12 @@ export function compileFieldConfig(
     fieldName
   )
   const args = compileFieldArgs(target, fieldName)
-  const forcedType = castTo ? castTo : type
+  const explicitType = castTo ? castTo : type
 
   const resolvedType = resolveRegisteredOrInferedType(
     target,
     fieldName,
-    forcedType
+    explicitType
   )
 
   // if was not able to resolve type, try to show some helpful information about it

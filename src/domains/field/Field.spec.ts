@@ -16,6 +16,7 @@ import {
   Query,
   compileSchema
 } from '../..'
+import { GraphQLDateTime } from 'graphql-iso-date'
 
 describe('Field', () => {
   it('Resolves fields with default value', async () => {
@@ -98,7 +99,7 @@ describe('Field', () => {
     expect(coo.type).toEqual(GraphQLBoolean)
   })
 
-  it('Properly sets forced field type', () => {
+  it('Properly sets explicit field type', () => {
     @ObjectType()
     class Foo {
       @Field({ type: () => GraphQLFloat })
@@ -169,7 +170,9 @@ describe('Field', () => {
 
     expect(() =>
       compileObjectType(Bar).getFields()
-    ).toThrowErrorMatchingSnapshot()
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"@ObjectType Bar.foo: Explicit type is incorrect. Make sure to use either native graphql type or class that is registered with @Type decorator"`
+    )
   })
 
   it('Properly resolves native scalar types', () => {
@@ -179,11 +182,17 @@ describe('Field', () => {
       bar: any
       @Field({ type: () => Number })
       baz: any
+      @Field()
+      date: Date
+      @Field()
+      bool: boolean
     }
 
-    const { bar, baz } = compileObjectType(Foo).getFields()
+    const { bar, baz, date, bool } = compileObjectType(Foo).getFields()
     expect(bar.type).toBe(GraphQLString)
     expect(baz.type).toBe(GraphQLFloat)
+    expect(date.type).toBe(GraphQLDateTime)
+    expect(bool.type).toBe(GraphQLBoolean)
   })
 
   it('Shows proper error message when trying to use list type without being explicit about item type', () => {
@@ -195,7 +204,9 @@ describe('Field', () => {
 
     expect(() =>
       compileObjectType(Foo).getFields()
-    ).toThrowErrorMatchingSnapshot()
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"@ObjectType Foo.bar: Field type was infered as \\"function Array() { [native code] }\\" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })"`
+    )
   })
 
   it('Shows proper error message when trying to use promise type without being explicit about item type', () => {
@@ -209,7 +220,9 @@ describe('Field', () => {
 
     expect(() =>
       compileObjectType(Foo).getFields()
-    ).toThrowErrorMatchingSnapshot()
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"@ObjectType Foo.bar: Field type was infered as \\"function Promise() { [native code] }\\" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })"`
+    )
   })
 
   it('Properly supports list type of field', () => {

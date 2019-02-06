@@ -15,10 +15,10 @@ import { getClassWithAllParentClasses } from '../../../services/utils/inheritanc
 function getFinalInputFieldType(
   target: Function,
   fieldName: string,
-  forcedType?: any
+  explicitType?: any
 ) {
-  if (forcedType) {
-    return resolveTypeOrThrow(forcedType, target, fieldName)
+  if (explicitType) {
+    return resolveTypeOrThrow(explicitType, target, fieldName)
   }
   return inferTypeOrThrow(target, fieldName)
 }

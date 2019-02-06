@@ -102,7 +102,7 @@ class User {
 
 ## Circular type references
 
-In other to define circular references. Eg. car have owner, owner has cars which have owner. it's required to assign types in lazy way (with getter functions)
+Often you will want to define circular references. Eg. car has owner, owner has cars which have owner. It's required to assign types in lazy way with arrow functions serving as getters
 
 To do so, we'll use `@Field` with `type` option.
 

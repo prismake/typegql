@@ -13,6 +13,13 @@ import {
 import { Thunk } from '../../../types'
 import { interfaceTypeRegistry } from '../../../../domains/interfaceType/interfaceTypeRegistry'
 
+function isNativeClass(thing: any) {
+  return (
+    typeof thing === 'function' &&
+    thing.hasOwnProperty('prototype') &&
+    !thing.hasOwnProperty('arguments')
+  )
+}
 /**
  * @param input is a type provided in the decorator config
  * @param allowThunk
@@ -55,12 +62,21 @@ export function resolveType(
     return compileObjectType(input)
   }
 
-  if (input === Promise) {
+  if (
+    input === Promise ||
+    input === Object || // "any" get's inferred as Object by reflect-metadata
+    !allowThunk ||
+    typeof input !== 'function'
+  ) {
     return
   }
 
-  if (!allowThunk || typeof input !== 'function') {
-    return
+  if (isNativeClass(input)) {
+    throw new Error(
+      `Class ${
+        input.name
+      } cannot be used as a resolve type because it lacks an @ObjectType decorator`
+    )
   }
 
   return resolveType(input(), false)

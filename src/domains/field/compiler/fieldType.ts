@@ -15,7 +15,7 @@ export function resolveTypeOrThrow(
     throw new FieldError(
       target,
       fieldName,
-      `Forced type is incorrect. Make sure to use either native graphql type or class that is registered with @Type decorator`
+      `Explicit type is incorrect. Make sure to use either native graphql type or class that is registered with @Type decorator`
     )
   }
 
@@ -53,7 +53,7 @@ export function inferTypeOrThrow(
     throw new FieldError(
       target,
       fieldName,
-      `Could not infer return type and no type is forced. In case of circular dependencies make sure to explicitly set a type.`
+      `Could not infer return type and no type is explicitly configured. In case of circular dependencies make sure to explicitly set a type.`
     )
   }
   throwIfNotInferableType(inferedType, target, fieldName)

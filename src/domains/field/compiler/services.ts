@@ -16,10 +16,10 @@ import {
 export function resolveRegisteredOrInferedType(
   target: Function,
   fieldName: string,
-  forcedType?: any
+  explicitType?: any
 ) {
-  if (forcedType) {
-    return resolveTypeOrThrow(forcedType, target, fieldName)
+  if (explicitType) {
+    return resolveTypeOrThrow(explicitType, target, fieldName)
   }
   return inferTypeOrThrow(target, fieldName)
 }

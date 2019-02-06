@@ -19,7 +19,7 @@ describe('Arguments', () => {
     expect(bazArg.name).toBe('baz')
   })
 
-  it('Throws if is not able to infer arguemtn type without @Arg decorator', () => {
+  it('Throws if not able to infer argument type without @Arg decorator', () => {
     @ObjectType()
     class Foo {
       @Field()
@@ -29,7 +29,9 @@ describe('Arguments', () => {
     }
     expect(() =>
       compileObjectType(Foo).getFields()
-    ).toThrowErrorMatchingSnapshot()
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"@Type Foo.bar(baz <-------): Could not infer type of argument. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType"`
+    )
   })
 
   it('Infers multiple basic arguments without @Arg decorator', () => {
