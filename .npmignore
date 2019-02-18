@@ -1,1 +1,14 @@
 lib/specs
+**/*.spec.js
+**/*.spec.js.map
+src
+docs
+examples
+.rpt2_cache
+.docz
+.entlify
+.vscode
+assets
+coverage
+CHANGELOG.md
+README.md
