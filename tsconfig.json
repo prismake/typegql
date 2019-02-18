@@ -23,5 +23,9 @@
     "stripInternal": true,
     "sourceMap": true
   },
-  "exclude": ["./examples", "./types", "**/*.spec.ts", "./src/specs"]
+  "exclude": [
+    "./examples",
+    "./types"
+    // , "**/*.spec.ts", "./src/specs" // for some reason these cause the build to fail
+  ]
 }
