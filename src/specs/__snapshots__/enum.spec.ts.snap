@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Query with enums Will guard proper enum values 1`] = `
-Array [
-  [GraphQLError: Expected type TestEnum, found Foob; Did you mean the enum value Foo?],
-]
-`;

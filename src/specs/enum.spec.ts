@@ -49,6 +49,10 @@ describe('Query with enums', () => {
     )
 
     expect(result.errors).toBeDefined()
-    expect(result.errors).toMatchSnapshot()
+    expect(result.errors).toMatchInlineSnapshot(`
+Array [
+  [GraphQLError: Expected type TestEnum, found Foob; Did you mean the enum value Foo?],
+]
+`)
   })
 })
