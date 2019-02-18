@@ -1,17 +1,16 @@
-const COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm
-const DEFAULT_PARAMS = /=[^,]+/gm
-const FAT_ARROWS = /=>.*$/gm
-
+/**
+ * taken from https://stackoverflow.com/a/31194949/671457
+ */
 export function getParameterNames(fn: Function): string[] {
-  const code = fn
-    .toString()
-    .replace(COMMENTS, '')
-    .replace(FAT_ARROWS, '')
-    .replace(DEFAULT_PARAMS, '')
+  const asString = Function.toString.call(fn)
 
-  const result = code
-    .slice(code.indexOf('(') + 1, code.indexOf(')'))
-    .match(/([^\s,]+)/g)
-
-  return result === null ? [] : result
+  return asString
+    .replace(/[/][/].*$/gm, '') // strip single-line comments
+    .replace(/\s+/g, '') // strip white space
+    .replace(/[/][*][^/*]*[*][/]/g, '') // strip multi-line comments
+    .split('){', 1)[0]
+    .replace(/^[^(]*[(]/, '') // extract the parameters
+    .replace(/=[^,]+/g, '') // strip any ES6 defaults
+    .split(',')
+    .filter(Boolean) // split & filter [""]
 }

@@ -3,6 +3,6 @@ module.exports = {
   modulePaths: ['<rootDir>/src/'],
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   collectCoverage: false,
-  testMatch: ['**/*.spec.(ts|tsx)'],
+  testMatch: ['**/*.spec.(ts|tsx|js)'],
   setupFiles: ['<rootDir>/src/specs/setup.ts']
 }

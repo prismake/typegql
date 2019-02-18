@@ -1,6 +1,6 @@
 {
   "name": "decapi",
-  "version": "0.7.15",
+  "version": "0.7.16",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",

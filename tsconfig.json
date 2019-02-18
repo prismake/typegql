@@ -21,7 +21,8 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "stripInternal": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "allowJs": true
   },
   "exclude": ["./examples", "./types"]
 }
