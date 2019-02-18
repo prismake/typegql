@@ -15,37 +15,34 @@ export const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>()
 
 export function createTypeFieldsGetter(
   target: Function,
-  config?: IObjectTypeOptions
+  config: IObjectTypeOptions
 ) {
   let targetWithParents = getClassWithAllParentClasses(target)
   const { mixins } = config
-
-  if (config) {
-    if (mixins) {
-      if (Array.isArray(mixins)) {
-        mixins.forEach((mixin, i) => {
-          if (typeof mixin !== 'function') {
-            throw new TypeError(
-              `expected a mixin on ${
-                target.name
-              } to be a Class, instead value of index ${i} is ${mixin}`
-            )
-          }
-        })
-        targetWithParents = targetWithParents.concat(mixins)
-      }
+  if (mixins) {
+    if (Array.isArray(mixins)) {
+      mixins.forEach((mixin, i) => {
+        if (typeof mixin !== 'function') {
+          throw new TypeError(
+            `expected a mixin on ${
+              target.name
+            } to be a Class, instead value of index ${i} is ${mixin}`
+          )
+        }
+      })
+      targetWithParents = targetWithParents.concat(mixins)
     }
-    if (config.implements) {
-      if (typeof config.implements !== 'function') {
-        throw new TypeError(
-          `expected an "implements" reference on ${
-            target.name
-          } to be a Class, instead value is ${config.implements}`
-        )
-      }
-
-      targetWithParents = targetWithParents.concat(config.implements)
+  }
+  if (config.implements) {
+    if (typeof config.implements !== 'function') {
+      throw new TypeError(
+        `expected an "implements" reference on ${
+          target.name
+        } to be a Class, instead value is ${config.implements}`
+      )
     }
+
+    targetWithParents = targetWithParents.concat(config.implements)
   }
 
   return createCachedThunk(() => {
