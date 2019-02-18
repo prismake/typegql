@@ -21,8 +21,7 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "stripInternal": true,
-    "sourceMap": true,
-    "allowJs": true
+    "sourceMap": true
   },
-  "exclude": ["./examples", "./types"]
+  "exclude": ["./examples", "./types", "**/*.spec.ts", "./src/specs"]
 }

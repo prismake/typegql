@@ -4,5 +4,6 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   collectCoverage: false,
   testMatch: ['**/*.spec.(ts|tsx|js)'],
-  setupFiles: ['<rootDir>/src/specs/setup.ts']
+  setupFiles: ['<rootDir>/src/specs/setup.ts'],
+  testPathIgnorePatterns: ['/lib/']
 }

@@ -1,4 +1,5 @@
 const { getParameterNames } = require('./getParameterNames')
+
 describe('getParameterNames', function() {
   class Test {
     async topicsOrderedByViewCount(order = OrderEnum.DESC) {
