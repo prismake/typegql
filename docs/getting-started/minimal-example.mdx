@@ -37,13 +37,13 @@ class MyFirstSchema {
   }
 }
 
-@Schema()
-class MySecondSchema {
-  @Mutation()
-  foo(): Date {
-    return new Date()
-  }
-}
+const compiledSchema = compileSchema([MyFirstSchema])
+```
 
+## Compiling multiple schemas
+
+For complex APIs you might find yourself having multiple schemas. Compiling all of them together is straigforward as:
+
+```ts
 const compiledSchema = compileSchema([MyFirstSchema, MySecondSchema])
 ```
