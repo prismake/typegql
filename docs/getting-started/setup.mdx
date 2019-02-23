@@ -5,7 +5,7 @@ order: 2
 
 # Installation and setup
 
-Firstly, add `decapi` to your project
+Firstly, add `decapi` and it's peer dependecies to your project
 
 ```
 yarn add decapi graphql reflect-metadata
@@ -15,7 +15,7 @@ yarn add decapi graphql reflect-metadata
 
 Add `import "reflect-metadata";` somewhere in bootstrap (before any `decapi` decorator is used) of your app eg `app/index.ts`.
 
-## Modify `tsconfig.json`
+## Configuring `tsconfig.json`
 
 `decapi` will try to infer types of your fields, when possible. To allow this, you'll have to add following to your `tsconfig.json` `compilerOptions` section:
 
@@ -23,6 +23,9 @@ Add `import "reflect-metadata";` somewhere in bootstrap (before any `decapi` dec
 "emitDecoratorMetadata": true,
 "experimentalDecorators": true,
 ```
+
+Also you need to target `es6` or newer target in your `compilerOptions`.
+**Important!** `es5` target will not work correctly. ObjectTypes type inference only currently works for es6 or newr targets.
 
 ## Does `decapi` work without typescript?
 

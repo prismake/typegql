@@ -1,7 +1,7 @@
-import { Schema, Query, compileSchema } from 'decapi'
-import { graphqlLambda, graphiqlLambda } from 'apollo-server-lambda'
+import { SchemaRoot, Query, compileSchema } from 'decapi'
+import { ApolloServer } from 'apollo-server-lambda'
 
-@Schema()
+@SchemaRoot()
 class MySchema {
   @Query()
   hello(name: string): string {
@@ -10,14 +10,8 @@ class MySchema {
 }
 
 const schema = compileSchema(MySchema)
+const server = new ApolloServer({ schema, tracing: true })
+const handler = server.createHandler()
 
-export function graphqlHandler(event, context, callback) {
-  function callbackFilter(error, output) {
-    output.headers['Access-Control-Allow-Origin'] = '*'
-    callback(error, output)
-  }
-  const handler = graphqlLambda({ schema, tracing: true })
-  return handler(event, context, callbackFilter)
-}
-
-export const graphiqlHandler = graphiqlLambda({ endpointURL: '/graphql' })
+export const graphiqlHandler = handler
+export const graphqlHandler = handler

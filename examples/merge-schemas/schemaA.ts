@@ -1,6 +1,6 @@
-import { Schema, Query, compileSchema } from 'decapi'
+import { SchemaRoot, Query, compileSchema } from 'decapi'
 
-@Schema()
+@SchemaRoot()
 class SchemaA {
   @Query()
   foo(name: string): string {

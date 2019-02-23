@@ -1,6 +1,6 @@
 {
   "name": "decapi",
-  "version": "0.7.19",
+  "version": "0.7.20",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
@@ -47,12 +47,12 @@
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0",
     "rimraf": "^2.6.3",
-    "rollup": "^1.2.2",
+    "rollup": "^1.2.3",
     "rollup-plugin-typescript2": "^0.19.2",
     "ts-jest": "^24.0.0",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.3.3"
+    "typescript": "^3.3.3333"
   },
   "peerDependencies": {
     "graphql": "^0.13 || ^14"

@@ -1,36 +1,23 @@
 import express from 'express'
-import { Entity, BaseEntity, ManyToOne, OneToMany } from 'typeorm'
 import {
-  Schema,
+  SchemaRoot,
   Query,
   Mutation,
   ObjectType,
   Field,
   compileSchema
-} from 'decapi'
+} from '../../src/index'
 import graphqlHTTP from 'express-graphql'
 
-import { PrimaryGeneratedColumn, Column, createConnection } from 'typeorm'
-
-@Entity()
-@ObjectType()
-export class Book extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  @Field()
-  id: number
-
-  @Column()
-  @Field()
-  title: string
-
-  @Column()
-  @Field()
-  pagesCount: number
-
-  @ManyToOne((type) => User, (user) => user.books, { lazy: true })
-  @Field({ type: () => User })
-  author: User
-}
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  createConnection,
+  Entity,
+  BaseEntity,
+  ManyToOne,
+  OneToMany
+} from 'typeorm'
 
 @Entity()
 @ObjectType()
@@ -57,7 +44,27 @@ export class User extends BaseEntity {
   }
 }
 
-@Schema()
+@Entity()
+@ObjectType()
+export class Book extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  @Field()
+  id: number
+
+  @Column()
+  @Field()
+  title: string
+
+  @Column()
+  @Field()
+  pagesCount: number
+
+  @ManyToOne((type) => User, (user) => user.books, { lazy: true })
+  @Field({ type: () => User })
+  author: User
+}
+
+@SchemaRoot()
 class ApiSchema {
   @Query({ type: [User] })
   async getAllUsers(): Promise<User[]> {
@@ -80,7 +87,7 @@ class ApiSchema {
   @Mutation({ type: User })
   async createUser(name: string, age: number): Promise<User> {
     const newUser = User.create({ age, name })
-    return await newUser.save()
+    return newUser.save()
   }
 
   @Mutation({ type: Book })
@@ -94,7 +101,7 @@ class ApiSchema {
       pagesCount,
       author: { id: authorId }
     })
-    return await newBook.save()
+    return newBook.save()
   }
 }
 
@@ -105,11 +112,7 @@ const app = express()
 async function startApp() {
   console.log('Connecting to database')
   const connection = await createConnection({
-    type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'adam',
-    password: '',
+    type: 'sqlite',
     database: 'test',
     entities: [User, Book],
     synchronize: true
@@ -123,7 +126,7 @@ async function startApp() {
       graphiql: true
     })
   )
-  app.listen(3000, () => console.log('API ready on port 3000'))
+  app.listen(5000, () => console.log('API ready on port 3000'))
 }
 
 startApp()

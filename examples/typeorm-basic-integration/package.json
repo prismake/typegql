@@ -4,15 +4,19 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.3",
-    "express-graphql": "^0.6.12",
-    "pg": "^7.4.1",
-    "ts-node": "^6.0.0",
-    "decapi": "^0.4.0",
-    "typeorm": "^0.1.21",
-    "typescript": "^2.8.1"
+    "decapi": "^0.7.19",
+    "express": "^4.16.4",
+    "express-graphql": "^0.7.1",
+    "pg": "^7.8.1",
+    "sqlite3": "^4.0.6",
+    "ts-node": "^8.0.2",
+    "typeorm": "^0.2.13",
+    "typescript": "^3.3.3333"
   },
   "scripts": {
     "start": "ts-node index.ts"
+  },
+  "devDependencies": {
+    "@types/express-graphql": "^0.6.2"
   }
 }

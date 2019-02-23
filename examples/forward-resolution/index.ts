@@ -1,7 +1,14 @@
 import express from 'express'
 import { GraphQLResolveInfo } from 'graphql'
 import getFieldNames from 'graphql-list-fields'
-import { Schema, Query, ObjectType, Field, Inject, compileSchema } from 'decapi'
+import {
+  SchemaRoot,
+  Query,
+  ObjectType,
+  Field,
+  Inject,
+  compileSchema
+} from 'decapi'
 import graphqlHTTP from 'express-graphql'
 
 function NeededFields(filter: string[] = []) {
@@ -44,7 +51,7 @@ class LazyObject {
   }
 }
 
-@Schema()
+@SchemaRoot()
 class SuperSchema {
   @Query()
   foo(

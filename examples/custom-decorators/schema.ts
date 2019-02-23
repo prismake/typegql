@@ -1,4 +1,4 @@
-import { Schema, Query, Field, ObjectType, compileSchema } from 'decapi'
+import { SchemaRoot, Query, Field, ObjectType, compileSchema } from 'decapi'
 
 function StringWithDescription(additionalDescription: string) {
   return Field({
@@ -22,7 +22,7 @@ class CustomObject {
   stringValue: string
 }
 
-@Schema()
+@SchemaRoot()
 class MySchema {
   @Query()
   getCustomObject(stringValue: string): CustomObject {
