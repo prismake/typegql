@@ -20,6 +20,18 @@ export interface IFieldOptions {
 
 export function Field(options?: IFieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
+    if (
+      options &&
+      options.hasOwnProperty('type') &&
+      options.type === undefined
+    ) {
+      console.log(
+        'This usually happens when a circular dependency is present. Wrap your explicit type in an arrow function to avoid this problem.'
+      )
+      throw new TypeError(
+        `${targetInstance} Field ${fieldName} got an undefined as explicit type`
+      )
+    }
     const finalConfig: IFieldInnerConfig = {
       property: fieldName,
       name: fieldName,
