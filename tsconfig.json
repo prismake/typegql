@@ -14,6 +14,7 @@
     "declarationDir": "./types",
     "declaration": true,
     // "strictNullChecks": true,
+    "preserveConstEnums": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,

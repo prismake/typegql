@@ -1,10 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Enums Throw when registering the same enum twice 1`] = `"Enum Foo2: Enum is already registered"`;
-
 exports[`Enums renders schema with an enum used in a query 1`] = `
-"type Query {
-  echo(input: StateEnum!): StateEnum
+"enum IntEnum {
+  one
+  two
+}
+
+type Query {
+  echoAsInferred(input: StateEnum!): String
+  echoAsEnum(input: StateEnum!): StateEnum
+  intAsInferred(input: IntEnum!): Float
+  intAsEnum(input: IntEnum!): IntEnum
 }
 
 enum StateEnum {

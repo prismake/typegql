@@ -2,14 +2,14 @@ import { resolveType } from '../../services/utils/gql/types/typeResolvers'
 import { registerEnum } from '../..'
 import { SchemaRoot, compileSchema } from '../schema/SchemaRoot'
 import { Query } from '../schema/rootFields'
-import { printSchema } from 'graphql'
+import { printSchema, graphql } from 'graphql'
 import { Arg } from '../arg/ArgDecorators'
 
 describe('Enums', () => {
   it('Registers returns proper enum type', () => {
     enum Foo {
-      Bar,
-      Baz
+      'Bar',
+      'Baz'
     }
 
     const enumType = registerEnum(Foo, 'Foo')
@@ -41,7 +41,9 @@ describe('Enums', () => {
     registerEnum(Foo, { name: 'Foo' })
     expect(() =>
       registerEnum(Foo, { name: 'Foo2' })
-    ).toThrowErrorMatchingSnapshot()
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Enum Foo2: Enum is already registered"`
+    )
   })
 
   it('Will properly resolve registered enum', () => {
@@ -55,6 +57,11 @@ describe('Enums', () => {
   })
 
   it('renders schema with an enum used in a query', async () => {
+    enum IntEnum {
+      one,
+      two
+    }
+    console.log('IntEnum: ', IntEnum)
     enum StateEnum {
       Done = 'DONE',
       InProgress = 'INPROGRESS',
@@ -63,14 +70,51 @@ describe('Enums', () => {
     }
 
     registerEnum(StateEnum, { name: 'StateEnum' })
+    registerEnum(IntEnum, { name: 'IntEnum' })
     @SchemaRoot()
     class FooSchema {
+      @Query()
+      echoAsInferred(@Arg({ type: StateEnum }) input: StateEnum): StateEnum {
+        return input
+      }
       @Query({ type: StateEnum })
-      echo(@Arg({ type: StateEnum }) input: StateEnum): StateEnum {
+      echoAsEnum(@Arg({ type: StateEnum }) input: StateEnum): StateEnum {
+        return input
+      }
+
+      @Query()
+      intAsInferred(@Arg({ type: IntEnum }) input: IntEnum): IntEnum {
+        return input
+      }
+
+      @Query({ type: IntEnum })
+      intAsEnum(@Arg({ type: IntEnum }) input: IntEnum): IntEnum {
         return input
       }
     }
     const schema = compileSchema(FooSchema)
     expect(printSchema(schema)).toMatchSnapshot()
+    const result = await graphql(
+      schema,
+      `
+        {
+          echoAsInferred(input: InProgress)
+          echoAsEnum(input: InProgress)
+          intAsEnum(input: two)
+          intAsInferred(input: two)
+        }
+      `
+    )
+
+    expect(result).toMatchInlineSnapshot(`
+Object {
+  "data": Object {
+    "echoAsEnum": "InProgress",
+    "echoAsInferred": "INPROGRESS",
+    "intAsEnum": "two",
+    "intAsInferred": 1,
+  },
+}
+`)
   })
 })

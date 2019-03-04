@@ -151,6 +151,7 @@ export function compileFieldResolver(
     })
 
     let result = await instanceFieldFunc.apply(source, params)
+
     if (castTo && result !== null && typeof result === 'object') {
       result =
         Array.isArray(castTo) && Array.isArray(result)

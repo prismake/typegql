@@ -1,13 +1,14 @@
 # Enums
 
-For enums we can work with native Typescript enum keyword like
+For enums we can work with native Typescript string enums.
+It is highly recommended to use only string enums exposed through decapi, because if you just use a regular enum and you forget to specify the type explicitly you will only get back the values as integers which won't be usable by your consumers.
 
 ```ts
 enum TaskType {
-  Done,
-  InProgress,
-  Finished,
-  Cancelled
+  DONE = 'DONE',
+  INPROGRESS = 'INPROGRESS',
+  FINISHED = 'FINISHED',
+  CANCELLED = 'CANCELLED'
 }
 ```
 
@@ -17,10 +18,10 @@ The only thing is required is registering such enum with it's name, so schema co
 import { registerEnum } from 'decapi'
 
 enum TaskType {
-  Done,
-  InProgress,
-  Finished,
-  Cancelled
+  DONE = 'DONE',
+  INPROGRESS = 'INPROGRESS',
+  FINISHED = 'FINISHED',
+  CANCELLED = 'CANCELLED'
 }
 
 registerEnum(TaskType, { name: 'TaskType' })
@@ -31,24 +32,15 @@ Now, to use such enum in query like:
 ```graphql
 query {
   currentUser {
-    hasAnyTaskOfType(type: Done)
+    hasAnyTaskOfType(type: DONE)
   }
 }
 ```
 
-`User` type would be defined as:
+`User` type resolved by `currentUser` would be defined as:
 
 ```ts
-import { ObjectType, Field, registerEnum } from 'decapi'
-
-enum TaskType {
-  Done,
-  InProgress,
-  Finished,
-  Cancelled
-}
-
-registerEnum(TaskType, { name: 'TaskType' })
+import { ObjectType, Field } from 'decapi'
 
 @ObjectType()
 class User {
@@ -56,7 +48,7 @@ class User {
   id: number
 
   @Field()
-  hasAnyTaskOfType(type: TaskType): boolean {
+  hasAnyTaskOfType(@Arg({ type: TaskType }) type: TaskType): boolean {
     return tasksService.hasTasksOfType(type)
   }
 }
