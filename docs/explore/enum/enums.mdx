@@ -2,24 +2,14 @@
 
 For enums we can work with native Typescript string enums.
 It is highly recommended to use only string enums exposed through decapi, because if you just use a regular enum and you forget to specify the type explicitly you will only get back the values as integers which won't be usable by your consumers.
-
-```ts
-enum TaskType {
-  DONE = 'DONE',
-  INPROGRESS = 'INPROGRESS',
-  FINISHED = 'FINISHED',
-  CANCELLED = 'CANCELLED'
-}
-```
-
-The only thing is required is registering such enum with it's name, so schema compiler is aware of it (as under the hood, enum is plain key-value object).
+In order to expose the enum, all you need to do is registering the enum with it's name, so schema compiler is aware of it (as under the hood, enum is plain key-value object).
 
 ```ts
 import { registerEnum } from 'decapi'
 
 enum TaskType {
   DONE = 'DONE',
-  INPROGRESS = 'INPROGRESS',
+  IN_PROGRESS = 'IN_PROGRESS',
   FINISHED = 'FINISHED',
   CANCELLED = 'CANCELLED'
 }
