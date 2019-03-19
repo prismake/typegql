@@ -181,7 +181,7 @@ I wanted to contribute to [typegql](https://github.com/prismake/typegql) and wor
 - decapi supports interfaces and mixins
 - decapi can infer Date type
 - decapi has `castTo` Field config
-- InputObjectType argument passed ot your Field/Query is not just a plain object, but an instance of it's class
+- InputObjectType argument passed to Field/Query method is not just a plain object, but an instance of it's class.
 - decapi allows you to have an empty object type-you can populate it with fields at runtime
 
 ## Before `1.0.0`
