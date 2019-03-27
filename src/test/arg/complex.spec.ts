@@ -22,9 +22,9 @@ describe('Complex arguments', () => {
         return 'ok';
       }
     }
-    expect(() =>
-      compileObjectType(Foo).getFields(),
-    ).toThrowErrorMatchingSnapshot();
+    expect(() => {
+      compileObjectType(Foo).getFields();
+    }).toThrowErrorMatchingSnapshot();
   });
 
   it('should not allow complex argument type decorated with @ObjectType', async () => {

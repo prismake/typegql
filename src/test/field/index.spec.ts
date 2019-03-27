@@ -126,13 +126,13 @@ describe('Field', () => {
     @ObjectType()
     class Car {
       @Field({ type: () => Owner })
-      owner: Owner;
+      owner: any;
     }
 
     @ObjectType()
     class Owner {
       @Field({ type: () => Car })
-      car: Car;
+      car: any;
     }
 
     const { owner } = compileObjectType(Car).getFields();
@@ -244,8 +244,7 @@ describe('Field', () => {
     }
     const compiled = compileObjectType(Foo);
 
-    const {undef, falsy, truthy, nully, zero, maxInt} = compiled.getFields();
-    
+    const { undef, falsy, truthy, nully, zero, maxInt } = compiled.getFields();
 
     const foo = new Foo();
 
@@ -254,9 +253,6 @@ describe('Field', () => {
     expect(await truthy.resolve(foo, {}, null, null)).toEqual(true);
     expect(await nully.resolve(foo, {}, null, null)).toEqual(null);
     expect(await zero.resolve(foo, {}, null, null)).toEqual(0);
-    expect(await maxInt.resolve(foo, {}, null, null)).toEqual(
-      9007199254740991
-    );
+    expect(await maxInt.resolve(foo, {}, null, null)).toEqual(9007199254740991);
   });
-
 });

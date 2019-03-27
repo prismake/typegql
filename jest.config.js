@@ -1,11 +1,12 @@
 module.exports = {
   modulePaths: ['<rootDir>/src/'],
   moduleNameMapper: {
-    '~/(.*)': '<rootDir>/src/$1'
+    '~/(.*)': '<rootDir>/src/$1',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   transform: {
-    '^.+\\.(ts|tsx)$': '<rootDir>/preprocessor.js',
+    '^.+\\.(t|j)sx?$': 'ts-jest',
+    // '^.+\\.(ts|tsx)$': '<rootDir>/preprocessor.js',
   },
   collectCoverage: false,
   testMatch: ['**/*.spec.(ts|tsx)'],

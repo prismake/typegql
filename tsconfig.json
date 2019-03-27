@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "lib": [
-      "es2017"
-    ],
-    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "lib": ["es2017"],
+    "target": "es2015",
     "noImplicitAny": true,
     "noImplicitUseStrict": true,
     "pretty": true,
@@ -12,10 +11,10 @@
     "rootDir": "./src",
     "outDir": "./lib",
     "paths": {
-      "~/*": [
-        "src/*"
-      ]
+      "~/*": ["src/*"]
     },
+    "declaration": true,
+    "esModuleInterop": true,
     "declarationDir": "./types",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -24,7 +23,5 @@
     "stripInternal": true,
     "sourceMap": true
   },
-  "exclude": [
-    "./examples"
-  ]
+  "exclude": ["./examples"]
 }

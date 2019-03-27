@@ -61,7 +61,11 @@ export function resolveType(
     return;
   }
 
-  return resolveType(input(), preferInputType, false);
+  try {
+    return resolveType(input(), preferInputType, false);
+  } catch (error) {
+    return;
+  }
 }
 
 function resolveListType(input: any[], preferInputType = false): GraphQLType {

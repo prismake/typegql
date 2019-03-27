@@ -34,12 +34,12 @@ export class DeepWeakMap<
   }
 
   set(target: Key, path: DeepWeakMapPath, value: Value) {
-    objectPath.set(this.getAll(target), path, value);
+    objectPath.set(this.getAll(target) as any, path, value);
   }
 
   get(target: Key, ...paths: DeepWeakMapPath[]): Value {
     const path = flattenPaths(paths);
-    return objectPath.get(this.getAll(target), path);
+    return objectPath.get(this.getAll(target) as any, path);
   }
 
   has(target: Key, ...paths: DeepWeakMapPath[]): boolean {
