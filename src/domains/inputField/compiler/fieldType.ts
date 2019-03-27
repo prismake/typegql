@@ -9,7 +9,7 @@ export function resolveTypeOrThrow(
   target: Function,
   fieldName: string,
 ): GraphQLType {
-  const resolvedType = resolveType(type);
+  const resolvedType = resolveType(type, true);
 
   if (!resolvedType) {
     throw new InputFieldError(
@@ -34,5 +34,5 @@ export function inferTypeOrThrow(
       `Could not infer return type and no type is forced. In case of circular dependencies make sure to force types of instead of infering them.`,
     );
   }
-  return resolveType(inferedType);
+  return resolveType(inferedType, true);
 }

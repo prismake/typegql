@@ -10,7 +10,17 @@ import {
 } from '~/domains';
 import { parseNativeTypeToGraphQL, isParsableScalar } from './parseNative';
 
-export function resolveType(input: any, allowThunk = true): GraphQLType {
+/**
+ *
+ * @param input
+ * @param allowThunk
+ * @param preferInputType We want to be able to have single class used both for output and input type - thats why we need to be able to set resolve priority in different scenarios
+ */
+export function resolveType(
+  input: any,
+  preferInputType = false,
+  allowThunk = true,
+): GraphQLType {
   if (isType(input)) {
     return input;
   }
@@ -31,6 +41,10 @@ export function resolveType(input: any, allowThunk = true): GraphQLType {
     return unionRegistry.get(input)();
   }
 
+  if (preferInputType && inputObjectTypeRegistry.has(input)) {
+    return compileInputObjectType(input);
+  }
+
   if (objectTypeRegistry.has(input)) {
     return compileObjectType(input);
   }
@@ -47,16 +61,16 @@ export function resolveType(input: any, allowThunk = true): GraphQLType {
     return;
   }
 
-  return resolveType(input(), false);
+  return resolveType(input(), preferInputType, false);
 }
 
-function resolveListType(input: any[]): GraphQLType {
+function resolveListType(input: any[], preferInputType = false): GraphQLType {
   if (input.length !== 1) {
     return;
   }
   const [itemType] = input;
 
-  const resolvedItemType = resolveType(itemType);
+  const resolvedItemType = resolveType(itemType, preferInputType);
 
   if (!resolvedItemType) {
     return;
@@ -64,13 +78,16 @@ function resolveListType(input: any[]): GraphQLType {
   return new GraphQLList(new GraphQLNonNull(resolvedItemType));
 }
 
-export function resolveTypesList(types: Thunk<any[]>): GraphQLType[] {
+export function resolveTypesList(
+  types: Thunk<any[]>,
+  preferInputType = false,
+): GraphQLType[] {
   if (Array.isArray(types)) {
     return types.map(type => {
-      return resolveType(type);
+      return resolveType(type, preferInputType);
     });
   }
   return types().map(type => {
-    return resolveType(type);
+    return resolveType(type, preferInputType);
   });
 }

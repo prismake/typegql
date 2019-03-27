@@ -24,7 +24,7 @@ function compileInferedAndRegisterdArgs(
   });
 
   const resolvedArgs = argsMerged.map((rawType, index) => {
-    return resolveType(rawType);
+    return resolveType(rawType, true);
   });
 
   return resolvedArgs;
