@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Type Throws when trying to compile type without @ObjectType decorator 1`] = `"@ObjectType 'Bar': Class is not registered. Make sure it's decorated with @ObjectType decorator"`;

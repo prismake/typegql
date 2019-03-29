@@ -31,10 +31,10 @@
     "apollo"
   ],
   "devDependencies": {
-    "@types/graphql": "^14.0.7",
+    "@types/graphql": "^14.2.0",
     "@types/graphql-iso-date": "^3.3.1",
     "@types/jest": "^24.0.11",
-    "@types/node": "^11.11.4",
+    "@types/node": "^11.12.1",
     "@types/object-path": "^0.11.0",
     "@types/reflect-metadata": "^0.1.0",
     "docz": "^0.13.7",
@@ -47,12 +47,12 @@
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0",
     "rimraf": "^2.6.3",
-    "rollup": "^1.7.0",
+    "rollup": "^1.7.4",
     "rollup-plugin-typescript2": "^0.20.1",
     "ts-jest": "^24.0.0",
     "tslint": "^5.14.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.3.4000"
+    "typescript": "^3.4.1"
   },
   "peerDependencies": {
     "graphql": "^0.13 || ^14"

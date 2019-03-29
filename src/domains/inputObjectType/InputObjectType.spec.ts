@@ -1,9 +1,13 @@
 import { GraphQLObjectType } from 'graphql'
 import { ObjectType, compileObjectType, Field } from '../..'
 
-describe('Type', () => {
+describe('InputObjectType', () => {
   it('Throws when trying to compile type without @ObjectType decorator', () => {
-    expect(() => compileObjectType(class Bar {})).toThrowErrorMatchingSnapshot()
+    expect(() =>
+      compileObjectType(class Bar {})
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"@ObjectType 'Bar': Class is not registered. Make sure it's decorated with @ObjectType decorator"`
+    )
   })
 
   it('Compiles basic type with field', () => {
