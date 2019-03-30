@@ -61,7 +61,7 @@ describe('Enums', () => {
       one,
       two
     }
-    console.log('IntEnum: ', IntEnum)
+
     enum StateEnum {
       Done = 'DONE',
       InProgress = 'INPROGRESS',

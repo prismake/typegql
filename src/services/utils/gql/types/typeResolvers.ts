@@ -64,7 +64,7 @@ export function resolveType(
 
   if (
     input === Promise ||
-    input === Object || // "any" get's inferred as Object by reflect-metadata
+    input === Object || // "any" gets inferred as Object by reflect-metadata
     !allowThunk ||
     typeof input !== 'function'
   ) {
@@ -75,7 +75,7 @@ export function resolveType(
     throw new Error(
       `Class ${
         input.name
-      } cannot be used as a resolve type because it lacks an @ObjectType decorator`
+      } cannot be used as a resolve type because it is not an @ObjectType`
     )
   }
 

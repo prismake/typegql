@@ -155,10 +155,15 @@ export function compileFieldArgs(
       inferedRawArgs = registeredArgs
     }
   }
-  const argTypes = compileInferedAndRegisterdArgs(
-    inferedRawArgs,
-    registeredArgs
-  )
+  let argTypes
+  try {
+    argTypes = compileInferedAndRegisterdArgs(inferedRawArgs, registeredArgs)
+  } catch (err) {
+    err.message = `Field ${fieldName} on ${target} failed to compile arguments: ${
+      err.message
+    }`
+    throw err
+  }
 
   if (!validateArgs(target, fieldName, argTypes)) {
     return

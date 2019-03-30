@@ -15,6 +15,7 @@ import {
 import { argRegistry, IArgInnerConfig } from '../../arg/registry'
 import { getParameterNames } from '../../../services/utils/getParameterNames'
 import { plainToClass } from 'class-transformer'
+import { isParsableScalar } from '../../../services/utils/gql/types/parseNative'
 
 interface IArgsMap {
   [argName: string]: any
@@ -22,6 +23,7 @@ interface IArgsMap {
 
 interface IComputeArgsOptions {
   args: IArgsMap
+  reflectedParamTypes: any[]
   injectors: InjectorsIndex
   injectorToValueMapper: (injector: InjectorResolver) => any
   getArgConfig: (index: number) => IArgInnerConfig
@@ -47,7 +49,13 @@ async function performHooksExecution(
 
 export function computeFinalArgs(
   func: Function,
-  { args, injectors, injectorToValueMapper, getArgConfig }: IComputeArgsOptions
+  {
+    args,
+    injectors,
+    injectorToValueMapper,
+    getArgConfig,
+    reflectedParamTypes
+  }: IComputeArgsOptions
 ) {
   const paramNames = getParameterNames(func)
   return paramNames.map((paramName, index) => {
@@ -55,6 +63,7 @@ export function computeFinalArgs(
 
     if (args && args.hasOwnProperty(paramName)) {
       const argValue = args[paramName]
+      const reflectedType = reflectedParamTypes[index]
       if (argConfig && argConfig.type) {
         if (Array.isArray(argConfig.type)) {
           const type = argConfig.type[0]
@@ -73,9 +82,22 @@ export function computeFinalArgs(
           if (typeof argValue !== 'object' || !type.prototype) {
             return argValue
           }
+
           const instance = Object.create(type.prototype)
+
+          const resultingInstance = Object.assign(instance, argValue)
+
+          return resultingInstance
+        }
+      } else if (reflectedType) {
+        if (
+          typeof reflectedType === 'function' &&
+          !isParsableScalar(reflectedType)
+        ) {
+          const instance = Object.create(reflectedType.prototype)
           return Object.assign(instance, argValue)
         }
+        return argValue
       } else {
         return argValue
       }
@@ -140,7 +162,11 @@ export function compileFieldResolver(
 
     const params = computeFinalArgs(instanceFieldFunc, {
       args: args || {},
-
+      reflectedParamTypes: Reflect.getMetadata(
+        'design:paramtypes',
+        target.prototype,
+        fieldName
+      ),
       injectors: injectors || {},
       injectorToValueMapper: (injector) =>
         injector.apply(source, [{ source, args, context, info }]),

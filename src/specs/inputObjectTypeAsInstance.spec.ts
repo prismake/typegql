@@ -25,7 +25,7 @@ class Input {
 @ObjectType()
 class Hello {
   @Field()
-  bar(@Arg({ type: Input }) input: Input): string {
+  bar(@Arg() input: Input): string {
     return input.someMethodOnInputObjectType()
   }
   @Field()
