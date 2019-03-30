@@ -23,7 +23,7 @@ interface IArgsMap {
 
 interface IComputeArgsOptions {
   args: IArgsMap
-  reflectedParamTypes: any[]
+  reflectedParamTypes: any[] | null
   injectors: InjectorsIndex
   injectorToValueMapper: (injector: InjectorResolver) => any
   getArgConfig: (index: number) => IArgInnerConfig
@@ -63,7 +63,7 @@ export function computeFinalArgs(
 
     if (args && args.hasOwnProperty(paramName)) {
       const argValue = args[paramName]
-      const reflectedType = reflectedParamTypes[index]
+      const reflectedType = reflectedParamTypes && reflectedParamTypes[index]
       if (argConfig && argConfig.type) {
         if (Array.isArray(argConfig.type)) {
           const type = argConfig.type[0]
