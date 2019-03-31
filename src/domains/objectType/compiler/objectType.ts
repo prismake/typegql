@@ -1,5 +1,9 @@
 import { GraphQLObjectType } from 'graphql';
 import { ObjectTypeError, objectTypeRegistry } from '../index';
+import {
+  compileInterfaceType,
+  interfaceTypeRegistry,
+} from '~/domains/interfaceType';
 
 import { compileAllFields, fieldsRegistry } from '~/domains/field';
 import {
@@ -12,6 +16,18 @@ const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>();
 export interface TypeOptions {
   name: string;
   description?: string;
+}
+
+function getInterfaces(target: Function) {
+  const targetWithParents = getClassWithAllParentClasses(target);
+  const interfaces = targetWithParents.filter(ancestor => {
+    return interfaceTypeRegistry.has(ancestor);
+  });
+
+  if (interfaces) {
+    const result = interfaces.map(fn => compileInterfaceType(fn));
+    return result;
+  }
 }
 
 function createTypeFieldsGetter(target: Function) {
@@ -41,6 +57,7 @@ export function compileObjectTypeWithConfig(
     ...config,
     isTypeOf: value => value instanceof target,
     fields: createTypeFieldsGetter(target),
+    interfaces: getInterfaces(target),
   });
 
   compileOutputTypeCache.set(target, compiled);

@@ -11,6 +11,7 @@ export {
   SchemaRoot,
   Context,
   ObjectType,
+  InterfaceType,
   Query,
   Mutation,
   InputField,

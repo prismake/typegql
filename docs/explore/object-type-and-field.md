@@ -88,3 +88,22 @@ class Person {
   }
 }
 ```
+
+## Interfaces
+
+```ts
+import { InterfaceType, ObjectType, Field } from 'typegql';
+
+@InterfaceType()
+class Vehicle {
+  @Field() id: number;
+}
+
+@ObjectType()
+class Car extends Vehicle {
+  @Field({ type: () => Person })
+  owner() {
+    return db.findPersonByCarId(this.id);
+  }
+}
+```

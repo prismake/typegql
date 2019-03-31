@@ -4,6 +4,11 @@ export {
   objectTypeRegistry,
 } from './objectType';
 export {
+  InterfaceType,
+  compileInterfaceType,
+  interfaceTypeRegistry,
+} from './interfaceType';
+export {
   InputObjectType,
   compileInputObjectType,
   inputObjectTypeRegistry,
