@@ -1,5 +1,13 @@
-import { GraphQLString, GraphQLNonNull } from 'graphql';
-import { Field, ObjectType, compileObjectType, Arg } from '~/domains';
+import { graphql, GraphQLString, GraphQLNonNull } from 'graphql';
+import {
+  Field,
+  ObjectType,
+  compileObjectType,
+  Arg,
+  SchemaRoot,
+  Query,
+  compileSchema,
+} from '~/domains';
 
 describe('Arguments with @Arg', () => {
   it('Allows setting argument with @Arg decorator', () => {
@@ -94,16 +102,13 @@ describe('Arguments with @Arg', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar(
-        baz: string,
-        bazRequired: string,
-      ): string {
+      bar(baz: string, bazRequired: string): string {
         return baz;
       }
     }
 
-    Arg({type: String, isNullable: true})(Foo.prototype, 'bar', 0);
-    Arg({type: String, isNullable: false})(Foo.prototype, 'bar', 1);
+    Arg({ type: String, isNullable: true })(Foo.prototype, 'bar', 0);
+    Arg({ type: String, isNullable: false })(Foo.prototype, 'bar', 1);
 
     const [bazArg, bazRequiredArg] = compileObjectType(
       Foo,
@@ -111,5 +116,56 @@ describe('Arguments with @Arg', () => {
 
     expect(bazArg.type).toBe(GraphQLString);
     expect(bazRequiredArg.type).toEqual(new GraphQLNonNull(GraphQLString));
+  });
+
+  it('Respects unset defaultValue @Arg option', () => {
+    @ObjectType()
+    class Foo {
+      @Field()
+      bar(
+        @Arg({ isNullable: true })
+        baz: string,
+        @Arg({ isNullable: false })
+        bazRequired: string,
+      ): string {
+        return baz;
+      }
+    }
+    const [bazArg, bazRequiredArg] = compileObjectType(
+      Foo,
+    ).getFields().bar.args;
+    expect(bazArg.type).toBe(GraphQLString);
+    expect(bazArg.defaultValue).toBe(undefined);
+    expect(bazRequiredArg.type).toEqual(new GraphQLNonNull(GraphQLString));
+  });
+
+  it('Respects defaultValue @Arg option', async () => {
+    @ObjectType()
+    class Foo {
+      @Field()
+      bar(
+        @Arg({ isNullable: true, defaultValue: 'default' })
+        baz: string,
+      ): string {
+        return baz;
+      }
+    }
+    @SchemaRoot()
+    class FooSchema {
+      @Query()
+      foo(): Foo {
+        return new Foo();
+      }
+    }
+
+    const compiledObject = compileObjectType(Foo);
+    const [bazArg] = compiledObject.getFields().bar.args;
+    expect(bazArg.type).toBe(GraphQLString);
+    expect(bazArg.defaultValue).toBe('default');
+
+    const compiledSchema = compileSchema({ roots: [FooSchema] });
+    expect(await graphql(compiledSchema, '{ foo { bar } }')).toEqual({
+      data: { foo: { bar: 'default' } },
+    });
   });
 });
