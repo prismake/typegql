@@ -31,7 +31,7 @@ class Person {
 
 Arguments passed to resolver are exactly the same, as ones passed to native graphql resolver funtion. Signature of hook function is
 
-`(source, arguments, context, info) => void`
+`({source, arguments, context, info}) => void | Promise<any>`
 
 In case, we'd like to add id of removed user to logs, we'd change our code to:
 
