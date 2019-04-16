@@ -10,7 +10,7 @@ export {
 } from './compiler/index'
 export { InputFieldError } from './error'
 
-export interface InputFieldOptions {
+export interface IInputFieldOptions {
   description?: string
   defaultValue?: any
   type?: any
@@ -18,7 +18,7 @@ export interface InputFieldOptions {
   isNullable?: boolean
 }
 
-export function InputField(options?: InputFieldOptions): PropertyDecorator {
+export function InputField(options?: IInputFieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     const finalConfig: IFieldInputInnerConfig = {
       property: fieldName,
@@ -34,7 +34,7 @@ export function InputField(options?: InputFieldOptions): PropertyDecorator {
  * a shorthand for @InputField({isNullable: true})
  */
 export function InputFieldNullable(
-  options?: InputFieldOptions
+  options?: IInputFieldOptions
 ): PropertyDecorator {
   return InputField({ ...options, isNullable: true })
 }

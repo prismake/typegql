@@ -4,13 +4,13 @@ import { compileInputObjectTypeWithConfig } from './objectTypeCompiler'
 export { InputObjectTypeError } from './error'
 export { inputObjectTypeRegistry } from './registry'
 
-export interface InputObjectTypeOptions {
+export interface IInputObjectTypeOptions {
   name?: string
   description?: string
 }
 
 export function InputObjectType(
-  options?: InputObjectTypeOptions
+  options?: IInputObjectTypeOptions
 ): ClassDecorator {
   return (target: Function) => {
     const config = { name: target.name, ...options }

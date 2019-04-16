@@ -39,7 +39,7 @@ async function performHooksExecution(
   if (!hooks) {
     return
   }
-  // all hooks are executed in parrell instead of sequence. We wait for them all to be resolved before we continue
+  // all hooks are executed in paralel. Resolution of the field continues after the hooks resolve all their promises
   return Promise.all(
     hooks.map((hook) => {
       return hook({ source, args, context, info })

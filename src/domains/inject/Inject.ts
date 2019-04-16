@@ -1,9 +1,9 @@
 import { injectorRegistry, InjectorResolver } from './registry'
 export {
   injectorRegistry,
-  InjectorsIndex,
+  IInjectorsIndex as InjectorsIndex,
   InjectorResolver,
-  InjectorResolverData
+  IInjectorResolverData as InjectorResolverData
 } from './registry'
 
 export function Inject(resolver: InjectorResolver): ParameterDecorator {
