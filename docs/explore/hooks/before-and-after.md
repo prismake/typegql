@@ -34,10 +34,8 @@ class Person {
   @Field() id: number;
 
   @Field()
-  @After(user => {
-    loggingService.sendLog(`User with id ${user.id} was removed`);
-    // note we could as well use `this` keyword like:
-    // loggingService.sendLog(`User with id ${this.id} was removed`);
+  @After(() => {
+    loggingService.sendLog(`User with id ${this.id} may have been removed(if it was found)`); 
   })
   remove(): boolean {
     const isDeleted = userService.removeById(this.id);
