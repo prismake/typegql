@@ -22,13 +22,11 @@ function isNativeClass(thing: any) {
 }
 /**
  * @param input is a type provided in the decorator config
- * @param allowThunk
- * @param isArgument
  */
 export function resolveType(
   input: any,
   allowThunk = true,
-  isArgument?: boolean
+  isArgument: boolean = false
 ): GraphQLType {
   if (isType(input)) {
     return input

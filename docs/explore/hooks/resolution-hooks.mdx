@@ -18,7 +18,7 @@ class Person {
 
   @Field()
   @After(() => {
-    loggingService.sendLog(`User was removed`)
+    loggingService.sendLog(`Some user may have been removed`)
   })
   remove(): boolean {
     const isDeleted = userService.removeById(this.id)
@@ -29,9 +29,17 @@ class Person {
 
 ## Using resolver informations inside hook function
 
-Arguments passed to resolver are exactly the same, as ones passed to native graphql resolver funtion. Signature of hook function is
+Arguments passed to resolver are exactly the same, as ones passed to native graphql resolver funtion. Signature of a @Before hook function is
 
-`({source, arguments, context, info}) => void | Promise<any>`
+```js
+({source, arguments, context, info}) => void | Promise<any>
+```
+
+for @After, it is:
+
+```js
+(resolvedValue, {source, arguments, context, info}) => void | Promise<any>
+```
 
 In case, we'd like to add id of removed user to logs, we'd change our code to:
 
@@ -42,10 +50,11 @@ class Person {
   id: number
 
   @Field()
-  @After((user) => {
-    loggingService.sendLog(`User with id ${user.id} was removed`)
-    // note we could as well use `this` keyword like:
-    // loggingService.sendLog(`User with id ${this.id} was removed`);
+  @After((isDeleted, { source }) => {
+    if (isDeleted) {
+      loggingService.sendLog(`User with id ${this.id} was removed`)
+      //loggingService.sendLog(`User with id ${source.id} was removed`) could be used alternatively
+    }
   })
   remove(): boolean {
     const isDeleted = userService.removeById(this.id)

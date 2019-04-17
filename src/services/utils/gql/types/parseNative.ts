@@ -8,6 +8,7 @@ import {
 } from 'graphql'
 import { GraphQLDateTime } from 'graphql-iso-date'
 
+// tslint:disable-next-line: use-primitive-type
 export type ParsableScalar = String | Number | Boolean | Date
 
 export function isParsableScalar(input: any): input is ParsableScalar {
@@ -37,6 +38,5 @@ export function inferTypeByTarget(target: Function, key?: string) {
     return returnType
   }
 
-  const type = Reflect.getMetadata('design:type', target, key)
-  return type
+  return Reflect.getMetadata('design:type', target, key)
 }

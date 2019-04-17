@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:latest", "tslint-config-prettier"],
+  "extends": ["tslint:latest", "tslint-config-prettier", "tslint-sonarts"],
   "linterOptions": {
     "exclude": ["node_modules/**", "**/*.spec.ts", "**/*.js"]
   },

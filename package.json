@@ -1,6 +1,6 @@
 {
   "name": "decapi",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
@@ -50,8 +50,9 @@
     "rollup": "^1.10.0",
     "rollup-plugin-typescript2": "^0.20.1",
     "ts-jest": "^24.0.2",
-    "tslint": "^5.15.0",
+    "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
+    "tslint-sonarts": "^1.9.0",
     "typescript": "^3.4.3"
   },
   "peerDependencies": {

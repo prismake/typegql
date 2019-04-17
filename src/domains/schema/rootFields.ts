@@ -31,13 +31,10 @@ function requireSchemaRoot(target: Function, fieldName: string) {
 }
 
 function getFieldCompiler(target: Function, fieldName: string) {
-  const fieldCompiler = () => {
+  return () => {
     requireSchemaRoot(target, fieldName)
-    const compiledField = compileFieldConfig(target, fieldName)
-    return compiledField
+    return compileFieldConfig(target, fieldName)
   }
-
-  return fieldCompiler
 }
 
 export enum rootFieldTypes {

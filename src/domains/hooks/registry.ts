@@ -1,17 +1,14 @@
-import { GraphQLResolveInfo } from 'graphql'
-
 import { HookError } from './error'
 import { DeepWeakMap } from '../../services/utils/deepWeakMap/DeepWeakMap'
+import { IInjectorResolverData } from '../inject/registry'
 
-export interface IHookExecutorResolverArgs {
-  source: any
-  args: { [argName: string]: any }
-  context: any
-  info: GraphQLResolveInfo
-}
+export type AfterHookExecutor<Result = void> = (
+  resolvedValue: any,
+  data: IInjectorResolverData
+) => Result | Promise<Result>
 
 export type HookExecutor<Result = void> = (
-  data: IHookExecutorResolverArgs
+  data: IInjectorResolverData
 ) => Result | Promise<Result>
 
 export interface IAllRegisteredHooks {

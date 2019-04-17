@@ -15,7 +15,12 @@ import {
 import { argRegistry, IArgInnerConfig } from '../../arg/registry'
 import { getParameterNames } from '../../../services/utils/getParameterNames'
 import { plainToClass } from 'class-transformer'
-import { isParsableScalar } from '../../../services/utils/gql/types/parseNative'
+import {
+  isParsableScalar,
+  ParsableScalar
+} from '../../../services/utils/gql/types/parseNative'
+import { IInjectorResolverData } from '../../../domains/inject/registry'
+import { AfterHookExecutor } from '../../../domains/hooks/registry'
 
 interface IArgsMap {
   [argName: string]: any
@@ -31,10 +36,7 @@ interface IComputeArgsOptions {
 
 async function performHooksExecution(
   hooks: HookExecutor[],
-  source: any,
-  args: any,
-  context: any,
-  info: any
+  injectorData: IInjectorResolverData
 ) {
   if (!hooks) {
     return
@@ -42,9 +44,61 @@ async function performHooksExecution(
   // all hooks are executed in paralel. Resolution of the field continues after the hooks resolve all their promises
   return Promise.all(
     hooks.map((hook) => {
-      return hook({ source, args, context, info })
+      return hook(injectorData)
     })
   )
+}
+
+async function performAfterHooksExecution(
+  hooks: AfterHookExecutor[],
+  injectorData: IInjectorResolverData,
+  resolvedValue: any
+) {
+  if (!hooks) {
+    return
+  }
+  // all hooks are executed in paralel. Resolution of the field continues after the hooks resolve all their promises
+  return Promise.all(
+    hooks.map((hook) => {
+      return hook(resolvedValue, injectorData)
+    })
+  )
+}
+
+function resolveExplicitArgument(argConfig: IArgInnerConfig, argValue: any) {
+  if (Array.isArray(argConfig.type)) {
+    const type = argConfig.type[0]
+    if (!type) {
+      return argValue
+    }
+    return argValue.map((singleArg: any) => {
+      if (typeof singleArg !== 'object' || !type.prototype) {
+        return singleArg
+      }
+      const instance = Object.create(type.prototype)
+      return Object.assign(instance, singleArg)
+    })
+  } else {
+    const { type } = argConfig
+    if (typeof argValue !== 'object' || !type.prototype) {
+      return argValue
+    }
+
+    const instance = Object.create(type.prototype)
+
+    return Object.assign(instance, argValue)
+  }
+}
+
+function resolveReflectedArgument(
+  reflectedType: ParsableScalar | any,
+  argValue: any
+) {
+  if (typeof reflectedType === 'function' && !isParsableScalar(reflectedType)) {
+    const instance = Object.create(reflectedType.prototype)
+    return Object.assign(instance, argValue)
+  }
+  return argValue
 }
 
 export function computeFinalArgs(
@@ -65,39 +119,9 @@ export function computeFinalArgs(
       const argValue = args[paramName]
       const reflectedType = reflectedParamTypes && reflectedParamTypes[index]
       if (argConfig && argConfig.type) {
-        if (Array.isArray(argConfig.type)) {
-          const type = argConfig.type[0]
-          if (!type) {
-            return argValue
-          }
-          return argValue.map((singleArg: any) => {
-            if (typeof singleArg !== 'object' || !type.prototype) {
-              return singleArg
-            }
-            const instance = Object.create(type.prototype)
-            return Object.assign(instance, singleArg)
-          })
-        } else {
-          const { type } = argConfig
-          if (typeof argValue !== 'object' || !type.prototype) {
-            return argValue
-          }
-
-          const instance = Object.create(type.prototype)
-
-          const resultingInstance = Object.assign(instance, argValue)
-
-          return resultingInstance
-        }
+        return resolveExplicitArgument(argConfig, argValue)
       } else if (reflectedType) {
-        if (
-          typeof reflectedType === 'function' &&
-          !isParsableScalar(reflectedType)
-        ) {
-          const instance = Object.create(reflectedType.prototype)
-          return Object.assign(instance, argValue)
-        }
-        return argValue
+        return resolveReflectedArgument(reflectedType, argValue)
       } else {
         return argValue
       }
@@ -131,6 +155,16 @@ function getFieldOfTarget(instance: any, prototype: any, fieldName: string) {
   return prototype[fieldName]
 }
 
+function castIfNeeded(castTo: any, result: any) {
+  if (castTo && result !== null && typeof result === 'object') {
+    result =
+      Array.isArray(castTo) && Array.isArray(result)
+        ? result.map((item) => plainToClass(castTo[0], item))
+        : plainToClass(castTo, result)
+  }
+  return result
+}
+
 export function compileFieldResolver(
   target: Function,
   fieldName: string,
@@ -149,13 +183,19 @@ export function compileFieldResolver(
     if (isSchemaRoot(target)) {
       source = getSchemaRootInstance(target)
     }
-
-    await performHooksExecution(beforeHooks, source, args, context, info)
+    const injectorData: IInjectorResolverData = {
+      source,
+      args,
+      context,
+      info
+    }
+    await performHooksExecution(beforeHooks, injectorData)
     const instanceField = getFieldOfTarget(source, target.prototype, fieldName)
-
+    let resolvedValue
     if (typeof instanceField !== 'function') {
-      await performHooksExecution(afterHooks, source, args, context, info)
-      return instanceField
+      resolvedValue = castIfNeeded(castTo, instanceField)
+      await performAfterHooksExecution(afterHooks, injectorData, resolvedValue)
+      return resolvedValue
     }
 
     const instanceFieldFunc = instanceField as Function
@@ -171,21 +211,14 @@ export function compileFieldResolver(
       injectorToValueMapper: (injector) =>
         injector.apply(source, [{ source, args, context, info }]),
       getArgConfig: (index: number) => {
-        const argConfig = argRegistry.get(target, [fieldName, index])
-        return argConfig
+        return argRegistry.get(target, [fieldName, index])
       }
     })
 
-    let result = await instanceFieldFunc.apply(source, params)
+    resolvedValue = await instanceFieldFunc.apply(source, params)
+    resolvedValue = castIfNeeded(castTo, resolvedValue)
 
-    if (castTo && result !== null && typeof result === 'object') {
-      result =
-        Array.isArray(castTo) && Array.isArray(result)
-          ? result.map((item) => plainToClass(castTo[0], item))
-          : plainToClass(castTo, result)
-    }
-
-    await performHooksExecution(afterHooks, source, args, context, info) // TODO: Consider adding resolve return to hook callback
-    return result
+    await performAfterHooksExecution(afterHooks, injectorData, resolvedValue)
+    return resolvedValue
   }
 }

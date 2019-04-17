@@ -5,7 +5,6 @@ export {
 } from './registry'
 import { schemaRootsRegistry } from './registry'
 
-// import { compileSchema } from './compiler';
 export { compileSchema } from './compiler'
 export { isSchemaRoot, getSchemaRootInstance } from './services'
 

@@ -19,20 +19,20 @@ export function createTypeFieldsGetter(
 ) {
   let targetWithParents = getClassWithAllParentClasses(target)
   const { mixins } = config
-  if (mixins) {
-    if (Array.isArray(mixins)) {
-      mixins.forEach((mixin, i) => {
-        if (typeof mixin !== 'function') {
-          throw new TypeError(
-            `expected a mixin on ${
-              target.name
-            } to be a Class, instead value of index ${i} is ${mixin}`
-          )
-        }
-      })
-      targetWithParents = targetWithParents.concat(mixins)
-    }
+
+  if (mixins && Array.isArray(mixins)) {
+    mixins.forEach((mixin, i) => {
+      if (typeof mixin !== 'function') {
+        throw new TypeError(
+          `expected a mixin on ${
+            target.name
+          } to be a Class, instead value of index ${i} is ${mixin}`
+        )
+      }
+    })
+    targetWithParents = targetWithParents.concat(mixins)
   }
+
   if (config.implements) {
     if (typeof config.implements !== 'function') {
       throw new TypeError(

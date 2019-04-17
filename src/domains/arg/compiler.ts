@@ -28,11 +28,9 @@ function compileInferedAndRegisterdArgs(
     return inferedType
   })
 
-  const resolvedArgs = argsMerged.map((rawType, index) => {
+  return argsMerged.map((rawType, index) => {
     return resolveType(rawType, true, true)
   })
-
-  return resolvedArgs
 }
 
 function validateArgs(
@@ -148,12 +146,10 @@ export function compileFieldArgs(
       inferedRawArgs = registeredArgs
     }
   }
-  if (registeredArgs) {
-    if (inferedRawArgs.length < registeredArgs.length) {
-      // we did infer some arguments, but some more were registered at runtime, so we ignore inferred
-      // as we can't be sure which are which
-      inferedRawArgs = registeredArgs
-    }
+  if (registeredArgs && inferedRawArgs.length < registeredArgs.length) {
+    // we did infer some arguments, but some more were registered at runtime, so we ignore inferred
+    // as we can't be sure which are which
+    inferedRawArgs = registeredArgs
   }
   let argTypes
   try {

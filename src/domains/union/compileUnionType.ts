@@ -84,7 +84,7 @@ export function compileUnionType(target: Function, config: IUnionOptions) {
   const compiled = new GraphQLUnionType({
     name,
     resolveType: typeResolver,
-    types: resolvedTypes as GraphQLObjectType[]
+    types: resolvedTypes
   })
 
   compileUnionCache.set(target, compiled)

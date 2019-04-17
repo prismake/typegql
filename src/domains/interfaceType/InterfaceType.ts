@@ -26,6 +26,35 @@ export interface ITypeOptions {
 
 const compileInterfaceCache = new WeakMap<Function, GraphQLInterfaceType>()
 
+function getInterfaceResolveType(target: Function) {
+  return (value: any) => {
+    const implementors = interfaceTypeImplementors.get(target)
+    if (Array.isArray(implementors)) {
+      for (const implementor of implementors) {
+        if (Object.getPrototypeOf(value) === implementor.prototype) {
+          const typeGetterFromRegistry = objectTypeRegistry.get(implementor)
+          return typeGetterFromRegistry()
+        }
+      }
+    }
+  }
+}
+
+function getFieldsGetter(target: Function, config: ITypeOptions) {
+  return createCachedThunk(() => {
+    let targetWithParents = getClassWithAllParentClasses(target)
+    if (config) {
+      const { mixins } = config
+      if (typeof mixins === 'function') {
+        targetWithParents = targetWithParents.concat(mixins())
+      } else if (Array.isArray(mixins)) {
+        targetWithParents = targetWithParents.concat(mixins)
+      }
+    }
+    return compileAllFields(targetWithParents)
+  })
+}
+
 export function InterfaceType(config?: ITypeOptions): ClassDecorator {
   return (target) => {
     interfaceClassesSet.add(target)
@@ -41,32 +70,8 @@ export function InterfaceType(config?: ITypeOptions): ClassDecorator {
       const intfc = new GraphQLInterfaceType({
         name,
         description,
-        resolveType: (value: any) => {
-          const implementors = interfaceTypeImplementors.get(target)
-          if (Array.isArray(implementors)) {
-            for (const implementor of implementors) {
-              if (Object.getPrototypeOf(value) === implementor.prototype) {
-                const typeGetterFromRegistry = objectTypeRegistry.get(
-                  implementor
-                )
-                return typeGetterFromRegistry()
-              }
-            }
-          }
-        },
-        fields: createCachedThunk(() => {
-          let targetWithParents = getClassWithAllParentClasses(target)
-          if (config) {
-            const { mixins } = config
-            if (typeof mixins === 'function') {
-              targetWithParents = targetWithParents.concat(mixins())
-            } else if (Array.isArray(mixins)) {
-              targetWithParents = targetWithParents.concat(mixins)
-            }
-          }
-
-          return compileAllFields(targetWithParents)
-        })
+        resolveType: getInterfaceResolveType(target),
+        fields: getFieldsGetter(target, config)
       })
       compileInterfaceCache.set(target, intfc)
 
