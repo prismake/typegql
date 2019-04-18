@@ -1,7 +1,8 @@
 import {
   registerFieldAfterHook,
   registerFieldBeforeHook,
-  HookExecutor
+  HookExecutor,
+  AfterHookExecutor
 } from './registry'
 
 export {
@@ -17,7 +18,7 @@ export function Before(hook: HookExecutor): PropertyDecorator {
   }
 }
 
-export function After(hook: HookExecutor): PropertyDecorator {
+export function After(hook: AfterHookExecutor): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     registerFieldAfterHook(targetInstance.constructor, fieldName, hook)
   }
