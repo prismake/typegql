@@ -23,7 +23,7 @@ export const fieldBeforeHooksRegistry = new DeepWeakMap<
 
 export const fieldAfterHooksRegistry = new DeepWeakMap<
   Function,
-  HookExecutor[],
+  AfterHookExecutor[],
   IAllRegisteredHooks
 >()
 
@@ -46,7 +46,7 @@ export function registerFieldBeforeHook(
 export function registerFieldAfterHook(
   target: Function,
   fieldName: string,
-  hook: HookExecutor
+  hook: AfterHookExecutor
 ) {
   if (!hook) {
     throw new HookError(
