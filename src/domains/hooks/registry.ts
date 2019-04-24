@@ -2,12 +2,12 @@ import { HookError } from './error'
 import { DeepWeakMap } from '../../services/utils/deepWeakMap/DeepWeakMap'
 import { IInjectorResolverData } from '../inject/registry'
 
-export type AfterHookExecutor<Result = void> = (
+export type AfterHookExecutor<Result = any> = (
   resolvedValue: any,
   data: IInjectorResolverData
 ) => Result | Promise<Result>
 
-export type HookExecutor<Result = void> = (
+export type HookExecutor<Result = any> = (
   data: IInjectorResolverData
 ) => Result | Promise<Result>
 
