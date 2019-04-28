@@ -5,11 +5,12 @@
   "license": "MIT",
   "dependencies": {
     "class-transformer": "^0.2.0",
-    "decapi": "^0.7.19",
+    "cors": "^2.8.5",
+    "decapi": "^0.8.5",
     "express": "^4.16.4",
-    "express-graphql": "^0.7.1",
-    "ts-node": "^8.0.2",
-    "typescript": "^3.3.3333"
+    "express-graphql": "^0.8.0",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5"
   },
   "scripts": {
     "start": "ts-node index.ts"

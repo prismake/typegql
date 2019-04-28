@@ -4,6 +4,8 @@
     "lib": ["es2017"],
     "target": "es5",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   }
 }

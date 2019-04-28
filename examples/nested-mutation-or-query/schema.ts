@@ -14,46 +14,40 @@ class Book {
   id: number
   @Field()
   name: string
-}
 
-const booksDb: Book[] = [
-  { id: 1, name: 'Lord of the Rings' },
-  { id: 2, name: 'Harry Potter' }
-]
-
-@ObjectType()
-class BookMutation {
-  private readonly bookId: number
-
-  constructor(bookId: number) {
-    this.bookId = bookId
+  constructor({ id, name }) {
+    this.id = id
+    this.name = name
   }
 
   @Field()
   edit(name: string): Book {
-    const book = new Book()
-    book.id = this.bookId
-    book.name = name
-    return book
+    this.name = name
+    return this
   }
 
   @Field()
-  remove(name: string): string {
-    return `Book with id ${this.bookId} removed.`
+  remove(): string {
+    return `Book with id ${this.id} removed.`
   }
 }
 
+const booksDb: Book[] = [
+  new Book({ id: 1, name: 'Lord of the Rings' }),
+  new Book({ id: 2, name: 'Harry Potter' })
+]
+
 @SchemaRoot()
 class MySchema {
-  @Mutation()
-  book(bookId: number): BookMutation {
-    return new BookMutation(bookId)
+  @Mutation({ type: Book })
+  book(bookId: number): Book {
+    return booksDb.find(({ id }) => id === bookId)
   }
 
   @Query({ type: [Book] })
   books(): Book[] {
     // just a utlitity to cast our POJOs into a class of Book
-    return plainToClass(Book, booksDb)
+    return booksDb
   }
 }
 
