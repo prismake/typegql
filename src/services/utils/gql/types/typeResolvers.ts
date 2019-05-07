@@ -76,8 +76,7 @@ export function resolveType(
       } cannot be used as a resolve type because it is not an @ObjectType`
     )
   }
-
-  return resolveType(input(), false)
+  return resolveType(input(), false, isArgument)
 }
 
 function resolveListType(input: any[], isArgument: boolean): GraphQLType {

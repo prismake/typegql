@@ -1,4 +1,4 @@
-import { graphql } from 'graphql'
+import { graphql, printSchema } from 'graphql'
 import {
   ObjectType,
   Field,
@@ -6,8 +6,10 @@ import {
   SchemaRoot,
   Query,
   compileSchema,
-  Context
+  Context,
+  InputField
 } from '../index'
+import { InputObjectType } from '../../src/domains/inputObjectType/InputObjectType'
 
 @ObjectType()
 class Hello {
@@ -89,12 +91,12 @@ describe('Field args', () => {
 
     expect(result.errors).toBeUndefined()
     expect(result.data.hello).toMatchInlineSnapshot(`
-Object {
-  "boolTest": false,
-  "boolTest2": null,
-  "boolTest3": true,
-}
-`)
+            Object {
+              "boolTest": false,
+              "boolTest2": null,
+              "boolTest3": true,
+            }
+        `)
   })
 
   it('will have undefined for args which were not sent down the wire', async () => {
@@ -109,14 +111,14 @@ Object {
       `
     )
     expect(result).toMatchInlineSnapshot(`
-Object {
-  "data": Object {
-    "hello": Object {
-      "boolTest4": null,
-    },
-  },
-}
-`)
+            Object {
+              "data": Object {
+                "hello": Object {
+                  "boolTest4": null,
+                },
+              },
+            }
+        `)
   })
 
   it('will rename argument', async () => {
@@ -135,14 +137,49 @@ Object {
       `
     )
     expect(result).toMatchInlineSnapshot(`
-Object {
-  "data": Object {
-    "hello": Object {
-      "argRename": null,
-      "argRename2": null,
-    },
-  },
-}
-`)
+            Object {
+              "data": Object {
+                "hello": Object {
+                  "argRename": null,
+                  "argRename2": null,
+                },
+              },
+            }
+        `)
+  })
+
+  it('allows to return type of argument that is created dynamically', async () => {
+    @SchemaRoot()
+    class FooSchema {
+      @Query()
+      hello(
+        @Arg({
+          type: () => {
+            @InputObjectType()
+            class MyInputObject {
+              @InputField()
+              a: string
+            }
+
+            return MyInputObject
+          }
+        })
+        a1: string
+      ): String {
+        return 'a'
+      }
+    }
+
+    const schema = compileSchema(FooSchema)
+    expect(printSchema(schema)).toMatchInlineSnapshot(`
+      "input MyInputObject {
+        a: String!
+      }
+
+      type Query {
+        hello(a1: MyInputObject!): String
+      }
+      "
+    `)
   })
 })
