@@ -15,7 +15,7 @@
     "precommit": "pretty-quick --staged"
   },
   "engines": {
-    "node": "^10"
+    "node": ">10"
   },
   "repository": {
     "type": "git",
