@@ -17,19 +17,23 @@ import { resolveType } from '../../services/utils/gql/types/typeResolvers'
 
 function compileInferedAndRegisterdArgs(
   infered: any[],
-  registeredArgs: IArgsIndex = []
+  registeredArgs: IArgsIndex = [],
+  onlyDecoratedArgs: boolean
 ) {
-  const argsMerged = infered.map((inferedType, index) => {
-    const registered = registeredArgs[index]
-    if (registered && registered.type) {
-      return registered.type
-    }
-    return inferedType
-  })
-
-  return argsMerged.map((rawType, index) => {
-    return resolveType(rawType, true, true)
-  })
+  return infered
+    .map((inferedType, index) => {
+      const registered = registeredArgs[index]
+      if (registered && registered.type) {
+        return registered.type
+      }
+      if (!registered && onlyDecoratedArgs) {
+        return null // no need to get the type as it is not decorated
+      }
+      return inferedType
+    })
+    .map((argType) => {
+      return resolveType(argType, true, true)
+    })
 }
 
 export interface ICompileArgContextType {
@@ -171,7 +175,8 @@ export function compileFieldArgs(
   try {
     argumentTypes = (compileInferedAndRegisterdArgs(
       inferedRawArgs,
-      registeredArgs
+      registeredArgs,
+      onlyDecoratedArgs
     ) as any) as GraphQLInputType[]
   } catch (err) {
     err.message = `Field ${fieldName} on ${target} failed to compile arguments: ${

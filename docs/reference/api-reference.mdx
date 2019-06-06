@@ -18,11 +18,14 @@ interface ObjectTypeOptions {
 Registers a class field as a GraphQLField.
 
 ```ts
- interface FieldOptions {
-  name?: string;
-  description?: string;
-  type?: any | () => any;
-  isNullable?: boolean;
+interface IFieldOptions {
+  description?: string
+  type?: any
+  castTo?: any
+  onlyDecoratedArgs?: boolean // when true this will not expose arguments that aren't decorated by @Arg()
+  // useful when you have optional arguments that you only want to use on the backend
+  name?: string
+  isNullable?: boolean
 }
 
 @Field(options?: FieldOptions)

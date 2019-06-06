@@ -186,11 +186,13 @@ describe('Field args', () => {
 
 describe('onlyDecoratedArgs', function() {
   it('should omit args when onlyDecoratedArgs is used', async () => {
+    class CustomClass {}
+
     @ObjectType()
     class Test {
       @Field({ onlyDecoratedArgs: true })
-      shouldHaveNone(v1: boolean): boolean {
-        return v1
+      shouldHaveNone(a1?: Function, a2?: CustomClass): boolean {
+        return false
       }
 
       @Field({ onlyDecoratedArgs: true })
