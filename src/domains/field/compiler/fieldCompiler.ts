@@ -16,11 +16,15 @@ export function compileFieldConfig(
   target: Function,
   fieldName: string
 ): GraphQLFieldConfig<any, any, any> {
-  const { type, description, isNullable, castTo } = fieldsRegistry.get(
-    target,
-    fieldName
-  )
-  const args = compileFieldArgs(target, fieldName)
+  const {
+    type,
+    description,
+    isNullable,
+    castTo,
+    onlyDecoratedArgs
+  } = fieldsRegistry.get(target, fieldName)
+  const args = compileFieldArgs(target, fieldName, onlyDecoratedArgs)
+
   const explicitType = castTo ? castTo : type
 
   const resolvedType = resolveRegisteredOrInferedType(

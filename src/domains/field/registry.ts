@@ -18,6 +18,7 @@ export interface IFieldInnerConfig {
   description?: string
   isNullable?: boolean
   castTo?: any
+  onlyDecoratedArgs?: boolean
   type?: any
 }
 

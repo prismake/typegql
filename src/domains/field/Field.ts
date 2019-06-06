@@ -14,6 +14,7 @@ export interface IFieldOptions {
   rootFieldType?: rootFieldTypes
   type?: any
   castTo?: any
+  onlyDecoratedArgs?: boolean
   name?: string
   isNullable?: boolean
 }

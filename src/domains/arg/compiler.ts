@@ -1,6 +1,5 @@
 import {
   GraphQLFieldConfigArgumentMap,
-  GraphQLType,
   GraphQLInputType,
   isInputType,
   GraphQLNonNull
@@ -33,42 +32,49 @@ function compileInferedAndRegisterdArgs(
   })
 }
 
-function validateArgs(
-  target: Function,
-  fieldName: string,
-  types: GraphQLType[]
-): types is GraphQLInputType[] {
-  types.forEach((argType, argIndex) => {
+export interface ICompileArgContextType {
+  target: Function
+  fieldName: string
+  argumentTypes: GraphQLInputType[]
+  registeredArgs: IArgsIndex
+  onlyDecoratedArgs: boolean
+}
+
+function validateArgs(ctx: ICompileArgContextType) {
+  const { target, fieldName, argumentTypes, onlyDecoratedArgs } = ctx
+  argumentTypes.forEach((argType, argIndex) => {
     const isInjectedArg = injectorRegistry.has(target, fieldName, argIndex)
+    const isDecorated = argRegistry.has(target, fieldName, argIndex)
 
-    if (!isInjectedArg && !argType) {
-      throw new ArgError(
-        target,
-        fieldName,
-        argIndex,
-        `Could not infer type of argument. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType`
-      )
+    if (!isInjectedArg) {
+      if (!argType) {
+        if (!isDecorated && onlyDecoratedArgs) {
+          return
+        }
+        throw new ArgError(
+          ctx,
+          argIndex,
+          `Could not infer type of argument. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType`
+        )
+      }
+
+      if (!isInputType(argType)) {
+        throw new ArgError(
+          ctx,
+          argIndex,
+          `Argument has incorrect type. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType`
+        )
+      }
     }
 
-    if (!isInjectedArg && !isInputType(argType)) {
+    if (isInjectedArg && isDecorated) {
       throw new ArgError(
-        target,
-        fieldName,
-        argIndex,
-        `Argument has incorrect type. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType`
-      )
-    }
-
-    if (isInjectedArg && argRegistry.has(target, fieldName, argIndex)) {
-      throw new ArgError(
-        target,
-        fieldName,
+        ctx,
         argIndex,
         `Argument cannot be marked wiht both @Arg and @Inject or custom injector`
       )
     }
   })
-  return true
 }
 
 function enhanceType(originalType: GraphQLInputType, isNullable: boolean) {
@@ -79,12 +85,13 @@ function enhanceType(originalType: GraphQLInputType, isNullable: boolean) {
   return finalType
 }
 
-function convertArgsArrayToArgsMap(
-  target: Function,
-  fieldName: string,
-  argsTypes: GraphQLInputType[],
-  registeredArgs: IArgsIndex = []
-): GraphQLFieldConfigArgumentMap {
+function convertArgsArrayToArgsMap({
+  target,
+  fieldName,
+  argumentTypes,
+  registeredArgs = [],
+  onlyDecoratedArgs
+}: ICompileArgContextType): GraphQLFieldConfigArgumentMap {
   const fieldDescriptor = Object.getOwnPropertyDescriptor(
     target.prototype,
     fieldName
@@ -103,13 +110,19 @@ function convertArgsArrayToArgsMap(
   }
 
   const argsMap: GraphQLFieldConfigArgumentMap = {}
+
   argNames.forEach((argName: string, index: number) => {
-    const argConfig = registeredArgs[index] || { ...defaultArgOptions }
+    const registeredArgConfig = registeredArgs[index]
+
+    if (onlyDecoratedArgs && !registeredArgConfig) {
+      return
+    }
+    const argConfig = registeredArgConfig || { ...defaultArgOptions }
 
     if (argConfig.name) {
       argName = argConfig.name
     }
-    const argType: GraphQLInputType = argsTypes[index]
+    const argType: GraphQLInputType = argumentTypes[index]
 
     // don't publish args marked as auto Injected
     if (injectorRegistry.has(target, fieldName, index)) {
@@ -129,14 +142,17 @@ function convertArgsArrayToArgsMap(
 
 export function compileFieldArgs(
   target: Function,
-  fieldName: string
+  fieldName: string,
+  onlyDecoratedArgs: boolean
 ): GraphQLFieldConfigArgumentMap {
   const registeredArgs = argRegistry.getAll(target)[fieldName]
+
   let inferedRawArgs = Reflect.getMetadata(
     'design:paramtypes',
     target.prototype,
     fieldName
   )
+
   // There are no arguments
   if (!inferedRawArgs) {
     if (!registeredArgs) {
@@ -151,9 +167,12 @@ export function compileFieldArgs(
     // as we can't be sure which are which
     inferedRawArgs = registeredArgs
   }
-  let argTypes
+  let argumentTypes: GraphQLInputType[]
   try {
-    argTypes = compileInferedAndRegisterdArgs(inferedRawArgs, registeredArgs)
+    argumentTypes = (compileInferedAndRegisterdArgs(
+      inferedRawArgs,
+      registeredArgs
+    ) as any) as GraphQLInputType[]
   } catch (err) {
     err.message = `Field ${fieldName} on ${target} failed to compile arguments: ${
       err.message
@@ -161,9 +180,15 @@ export function compileFieldArgs(
     throw err
   }
 
-  if (!validateArgs(target, fieldName, argTypes)) {
-    return
+  const compileFieldArgContext = {
+    target,
+    fieldName,
+    argumentTypes,
+    registeredArgs,
+    onlyDecoratedArgs
   }
 
-  return convertArgsArrayToArgsMap(target, fieldName, argTypes, registeredArgs)
+  validateArgs(compileFieldArgContext)
+
+  return convertArgsArrayToArgsMap(compileFieldArgContext)
 }

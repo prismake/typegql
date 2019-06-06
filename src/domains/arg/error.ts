@@ -1,13 +1,10 @@
 import { BaseError } from '../../services/error'
 import { getParameterNames } from '../../services/utils/getParameterNames'
+import { ICompileArgContextType } from './compiler'
 
 export class ArgError extends BaseError {
-  constructor(
-    target: Function,
-    fieldName: string,
-    argIndex: number,
-    msg: string
-  ) {
+  constructor(ctx: ICompileArgContextType, argIndex: number, msg: string) {
+    const { target, fieldName } = ctx
     const paramNames = getParameterNames(target.prototype[fieldName])
     const paramName = paramNames[argIndex]
     const fullMsg = `@Type ${

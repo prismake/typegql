@@ -22,6 +22,7 @@
     "member-ordering": [true, { "order": "fields-first" }],
     "forin": false,
     "curly": [true, "ignore-same-line"],
-    "array-type": [true, "array-simple"]
+    "array-type": [true, "array-simple"],
+    "cognitive-complexity": [true, 18]
   }
 }
