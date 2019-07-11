@@ -331,6 +331,10 @@ describe('Field', () => {
       castedField() {
         return { baz: 'castedFromAField' }
       }
+      @Field({ castTo: () => Foo })
+      castedFieldDefinedAsThunk() {
+        return { baz: 'castedFromAField' }
+      }
       @Field({ castTo: Foo })
       castedFieldNullReturning(): Foo {
         return null
@@ -338,6 +342,11 @@ describe('Field', () => {
 
       @Field({ castTo: [Foo] })
       castedFieldAsArray() {
+        return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
+      }
+
+      @Field({ castTo: () => [Foo] })
+      castedFieldAsArrayDefinedAsThunk() {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
     }
@@ -361,7 +370,13 @@ describe('Field', () => {
               castedField {
                 bar
               }
+              castedFieldDefinedAsThunk {
+                bar
+              }
               castedFieldNullReturning {
+                bar
+              }
+              castedFieldAsArrayDefinedAsThunk {
                 bar
               }
             }
@@ -371,14 +386,25 @@ describe('Field', () => {
 
       expect(result.errors).toBeUndefined()
       expect(result.data.castedQuery).toMatchInlineSnapshot(`
-Object {
-  "bar": "castedFromAQuery",
-  "castedField": Object {
-    "bar": "castedFromAField",
-  },
-  "castedFieldNullReturning": null,
-}
-`)
+        Object {
+          "bar": "castedFromAQuery",
+          "castedField": Object {
+            "bar": "castedFromAField",
+          },
+          "castedFieldAsArrayDefinedAsThunk": Array [
+            Object {
+              "bar": "castedFromAField1",
+            },
+            Object {
+              "bar": "castedFromAField2",
+            },
+          ],
+          "castedFieldDefinedAsThunk": Object {
+            "bar": "castedFromAField",
+          },
+          "castedFieldNullReturning": null,
+        }
+      `)
     })
 
     it('should be able to castTo an array of classes', async () => {
@@ -398,18 +424,18 @@ Object {
 
       expect(result.errors).toBeUndefined()
       expect(result.data.castedQuery).toMatchInlineSnapshot(`
-Object {
-  "bar": "castedFromAQuery",
-  "castedFieldAsArray": Array [
-    Object {
-      "bar": "castedFromAField1",
-    },
-    Object {
-      "bar": "castedFromAField2",
-    },
-  ],
-}
-`)
+        Object {
+          "bar": "castedFromAQuery",
+          "castedFieldAsArray": Array [
+            Object {
+              "bar": "castedFromAField1",
+            },
+            Object {
+              "bar": "castedFromAField2",
+            },
+          ],
+        }
+      `)
     })
   })
 })

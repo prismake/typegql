@@ -155,21 +155,31 @@ function getFieldOfTarget(instance: any, prototype: any, fieldName: string) {
   return prototype[fieldName]
 }
 
-function castIfNeeded(castTo: any, result: any) {
-  if (castTo && result !== null && typeof result === 'object') {
-    result =
-      Array.isArray(castTo) && Array.isArray(result)
-        ? result.map((item) => plainToClass(castTo[0], item))
-        : plainToClass(castTo, result)
-  }
-  return result
-}
-
 export function compileFieldResolver(
   target: Function,
   fieldName: string,
   castTo?: any
 ): GraphQLFieldResolver<any, any> {
+  function castIfNeeded(result: any) {
+    if (castTo && result !== null && typeof result === 'object') {
+      if (castTo.name === 'castTo') {
+        // this is a thunk, so we get the type now
+        castTo = castTo()
+      }
+      if (Array.isArray(castTo)) {
+        if (!Array.isArray(result)) {
+          throw new TypeError(
+            `field ${fieldName} castTo is an array, yet it resolves with ${result} which is ${typeof result}`
+          )
+        }
+        return result.map((item: any) => plainToClass(castTo[0], item))
+      } else {
+        return plainToClass(castTo, result)
+      }
+    }
+    return result
+  }
+
   const injectors = injectorRegistry.getAll(target)[fieldName]
   const beforeHooks = fieldBeforeHooksRegistry.get(target, fieldName)
   const afterHooks = fieldAfterHooksRegistry.get(target, fieldName)
@@ -191,9 +201,10 @@ export function compileFieldResolver(
     }
     await performHooksExecution(beforeHooks, injectorData)
     const instanceField = getFieldOfTarget(source, target.prototype, fieldName)
+
     let resolvedValue
     if (typeof instanceField !== 'function') {
-      resolvedValue = castIfNeeded(castTo, instanceField)
+      resolvedValue = castIfNeeded(instanceField)
       await performAfterHooksExecution(afterHooks, injectorData, resolvedValue)
       return resolvedValue
     }
@@ -216,7 +227,7 @@ export function compileFieldResolver(
     })
 
     resolvedValue = await instanceFieldFunc.apply(source, params)
-    resolvedValue = castIfNeeded(castTo, resolvedValue)
+    resolvedValue = castIfNeeded(resolvedValue)
 
     await performAfterHooksExecution(afterHooks, injectorData, resolvedValue)
     return resolvedValue
