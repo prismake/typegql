@@ -1,4 +1,4 @@
-import { GraphQLObjectType } from 'graphql'
+import { GraphQLObjectType, GraphQLInterfaceType } from 'graphql'
 import {
   ObjectTypeError,
   objectTypeRegistry,
@@ -10,6 +10,7 @@ import { compileAllFields } from '../../field/Field'
 import { interfaceTypeRegistry } from '../../interfaceType/interfaceTypeRegistry'
 import { createCachedThunk } from '../../../services/utils/cachedThunk'
 import { getClassWithAllParentClasses } from '../../../services/utils/inheritance'
+import { Getter } from '../../../domains/schema/registry'
 
 export const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>()
 
@@ -24,9 +25,7 @@ export function createTypeFieldsGetter(
     mixins.forEach((mixin, i) => {
       if (typeof mixin !== 'function') {
         throw new TypeError(
-          `expected a mixin on ${
-            target.name
-          } to be a Class, instead value of index ${i} is ${mixin}`
+          `expected a mixin on ${target.name} to be a Class, instead value of index ${i} is ${mixin}`
         )
       }
     })
@@ -34,13 +33,13 @@ export function createTypeFieldsGetter(
   }
 
   if (config.implements) {
-    if (typeof config.implements !== 'function') {
-      throw new TypeError(
-        `expected an "implements" reference on ${
-          target.name
-        } to be a Class, instead value is ${config.implements}`
-      )
-    }
+    config.implements.forEach((interfaceClass) => {
+      if (typeof interfaceClass !== 'function') {
+        throw new TypeError(
+          `expected an "implements" reference on ${target.name} to be a Class, instead value is ${config.implements}`
+        )
+      }
+    })
 
     targetWithParents = targetWithParents.concat(config.implements)
   }
@@ -61,12 +60,17 @@ export function compileObjectTypeWithConfig(
   if (compileOutputTypeCache.has(target)) {
     return compileOutputTypeCache.get(target)
   }
-  const interf = interfaceTypeRegistry.get(config.implements)
+  let interfaces: Array<Getter<GraphQLInterfaceType>> = null
+  if (config.implements) {
+    interfaces = config.implements.map((interfaceClass) => {
+      return interfaceTypeRegistry.get(interfaceClass)
+    })
+  }
 
   const compiled = new GraphQLObjectType({
-    interfaces: interf
+    interfaces: interfaces
       ? createCachedThunk(() => {
-          return [interf()]
+          return interfaces.map((intf) => intf())
         })
       : null,
     name: config.name,

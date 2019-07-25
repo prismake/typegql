@@ -35,7 +35,7 @@ class InterfaceSampleType implements IHasMyProp {
   }
 }
 
-@ObjectType({ implements: InterfaceSampleType, mixins: [Mixin] })
+@ObjectType({ implements: [InterfaceSampleType], mixins: [Mixin] })
 class ImplementorType extends InterfaceSampleType {
   myProp = 5
   @Field()

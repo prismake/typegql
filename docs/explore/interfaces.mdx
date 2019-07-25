@@ -14,7 +14,7 @@ abstract class IVehicle {
   seats: number
 }
 
-@ObjectType({ implements: IVehicle })
+@ObjectType({ implements: [IVehicle] })
 class Car implements IVehicle {
   windows: number
   seats: number
@@ -22,7 +22,7 @@ class Car implements IVehicle {
   wheels: number
 }
 
-@ObjectType({ implements: IVehicle })
+@ObjectType({ implements: [IVehicle] })
 class Boat implements IVehicle {
   windows: number
   seats: number

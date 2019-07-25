@@ -10,7 +10,13 @@ import { GraphQLInt, graphql, printSchema } from 'graphql'
 
 describe('InterfaceType', () => {
   @InterfaceType({ description: 'a vehicle interface for a basic spec' })
-  abstract class Vehicle {
+  abstract class IEntity {
+    @Field({ type: GraphQLInt })
+    id: number
+  }
+
+  @InterfaceType({ description: 'a vehicle interface for a basic spec' })
+  abstract class IVehicle {
     @Field({ type: GraphQLInt })
     windows: number
 
@@ -18,16 +24,22 @@ describe('InterfaceType', () => {
     seats: number
   }
 
-  @ObjectType({ implements: Vehicle })
-  class Car implements Vehicle {
+  @ObjectType({ implements: [IVehicle, IEntity] })
+  class Car implements IVehicle, IEntity {
+    @Field({ type: GraphQLInt })
+    id: number
+
     windows: number
     seats: number
     @Field()
     wheels: number
   }
 
-  @ObjectType({ implements: Vehicle })
-  class Boat implements Vehicle {
+  @ObjectType({ implements: [IVehicle, IEntity] })
+  class Boat implements IVehicle, IEntity {
+    @Field({ type: GraphQLInt })
+    id: number
+
     windows: number
     seats: number
 
@@ -35,16 +47,19 @@ describe('InterfaceType', () => {
     propellers: number
   }
 
-  @ObjectType({ implements: Vehicle })
-  class Katamaran extends Boat {
+  @ObjectType({ implements: [IVehicle, IEntity] })
+  class Katamaran extends Boat implements IEntity {
+    @Field({ type: GraphQLInt })
+    id: number
+
     @Field()
     hulls: number
   }
 
   @SchemaRoot()
   class FooSchema {
-    @Query({ type: [Vehicle] })
-    vehicles(): Vehicle[] {
+    @Query({ type: [IVehicle] })
+    vehicles(): IVehicle[] {
       const car = new Car()
       car.seats = 4
       car.windows = 6
@@ -55,13 +70,29 @@ describe('InterfaceType', () => {
       boat.windows = 30
       return [car, boat]
     }
+
+    @Query({ type: [IVehicle] })
+    entities(): IVehicle[] {
+      const car = new Car()
+      car.id = 1
+
+      car.seats = 4
+      car.windows = 6
+      car.wheels = 4
+
+      const boat = new Boat()
+      boat.id = 2
+      boat.seats = 150
+      boat.windows = 30
+      return [car, boat]
+    }
     // we need to test that the Boat and Car Object types get exposed-this is not granted because GraphQLSchema needs these types passed as extra parm in the constructor. They won't be added just by the fact that we're exposing an interface that these Object types implement.
   }
 
   @SchemaRoot()
   class FooSchemaMoreComplex {
-    @Query({ type: [Vehicle] })
-    vehicles(): Vehicle[] {
+    @Query({ type: [IVehicle] })
+    vehicles(): IVehicle[] {
       const car = new Car()
       car.seats = 4
       car.windows = 6
@@ -99,36 +130,45 @@ describe('InterfaceType', () => {
 
   it('should expose GQL interface type', async () => {
     expect(printSchema(schema)).toMatchInlineSnapshot(`
-"type Boat implements Vehicle {
-  propellers: Float
-  windows: Int
-  seats: Int
-}
+      "type Boat implements IVehicle & IEntity {
+        id: Int
+        propellers: Float
+        windows: Int
+        seats: Int
+      }
 
-type Car implements Vehicle {
-  wheels: Float
-  windows: Int
-  seats: Int
-}
+      type Car implements IVehicle & IEntity {
+        id: Int
+        wheels: Float
+        windows: Int
+        seats: Int
+      }
 
-type Katamaran implements Vehicle {
-  propellers: Float
-  hulls: Float
-  windows: Int
-  seats: Int
-}
+      \\"\\"\\"a vehicle interface for a basic spec\\"\\"\\"
+      interface IEntity {
+        id: Int
+      }
 
-type Query {
-  vehicles: [Vehicle!]
-}
+      \\"\\"\\"a vehicle interface for a basic spec\\"\\"\\"
+      interface IVehicle {
+        windows: Int
+        seats: Int
+      }
 
-\\"\\"\\"a vehicle interface for a basic spec\\"\\"\\"
-interface Vehicle {
-  windows: Int
-  seats: Int
-}
-"
-`)
+      type Katamaran implements IVehicle & IEntity {
+        id: Int
+        propellers: Float
+        hulls: Float
+        windows: Int
+        seats: Int
+      }
+
+      type Query {
+        vehicles: [IVehicle!]
+        entities: [IVehicle!]
+      }
+      "
+    `)
     expect(printSchema(schemaMoreComplex)).toMatchSnapshot()
   })
   it('should resolve correctly', async () => {

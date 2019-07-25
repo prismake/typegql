@@ -11,18 +11,20 @@ export interface IObjectTypeOptions {
   name?: string
   description?: string
   mixins?: Function[] | Thunk<any>
-  implements?: Function
+  implements?: Function[]
 }
 
 export function ObjectType(options?: IObjectTypeOptions): ClassDecorator {
   return (target: Function) => {
     if (options && options.implements) {
-      const implementors = interfaceTypeImplementors.get(options.implements)
-      if (!implementors) {
-        interfaceTypeImplementors.set(options.implements, [target])
-      } else {
-        implementors.push(target)
-      }
+      options.implements.forEach((interfaceClass) => {
+        const implementors = interfaceTypeImplementors.get(interfaceClass)
+        if (!implementors) {
+          interfaceTypeImplementors.set(interfaceClass, [target])
+        } else {
+          implementors.push(target)
+        }
+      })
     }
 
     const config = { name: target.name, ...options }
