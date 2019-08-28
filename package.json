@@ -24,11 +24,14 @@
   "keywords": [
     "typescript",
     "graphql",
+    "gql",
     "schema",
     "resolvers",
     "api",
     "typesafe",
     "oop",
+    "orm",
+    "types",
     "decorators",
     "controllers",
     "apollo"
