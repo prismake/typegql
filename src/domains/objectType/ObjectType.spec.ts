@@ -93,24 +93,32 @@ describe('ObjectType', () => {
     const compiled = compileObjectType(Foo)
 
     expect(compiled.getFields()).toMatchInlineSnapshot(`
-Object {
-  "bar": Object {
-    "args": Array [],
-    "description": undefined,
-    "isDeprecated": false,
-    "name": "bar",
-    "resolve": [Function],
-    "type": "String",
-  },
-  "mixinMethod": Object {
-    "args": Array [],
-    "description": undefined,
-    "isDeprecated": false,
-    "name": "mixinMethod",
-    "resolve": [Function],
-    "type": "String",
-  },
-}
-`)
+      Object {
+        "bar": Object {
+          "args": Array [],
+          "astNode": undefined,
+          "deprecationReason": undefined,
+          "description": undefined,
+          "extensions": undefined,
+          "isDeprecated": false,
+          "name": "bar",
+          "resolve": [Function],
+          "subscribe": undefined,
+          "type": "String",
+        },
+        "mixinMethod": Object {
+          "args": Array [],
+          "astNode": undefined,
+          "deprecationReason": undefined,
+          "description": undefined,
+          "extensions": undefined,
+          "isDeprecated": false,
+          "name": "mixinMethod",
+          "resolve": [Function],
+          "subscribe": undefined,
+          "type": "String",
+        },
+      }
+    `)
   })
 })
