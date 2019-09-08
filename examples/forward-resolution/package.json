@@ -4,12 +4,12 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4",
-    "express-graphql": "^0.7.1",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
     "graphql-list-fields": "^2.0.2",
-    "ts-node": "^8.0.2",
-    "decapi": "^0.7.19",
-    "typescript": "^3.3.3333"
+    "ts-node": "^8.3.0",
+    "decapi": "^0.8.10",
+    "typescript": "^3.6.2"
   },
   "scripts": {
     "start": "ts-node index.ts"

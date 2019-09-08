@@ -4,14 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "apollo-server-lambda": "^2.4.6",
-    "graphql": "14.1.1",
-    "serverless": "^1.38.0",
-    "serverless-plugin-typescript": "^1.1.5",
-    "decapi": "^0.7.19"
+    "apollo-server-lambda": "^2.9.3",
+    "graphql": "14.5.4",
+    "serverless": "^1.51.0",
+    "serverless-plugin-typescript": "^1.1.9",
+    "decapi": "^0.8.10"
   },
   "devDependencies": {
-    "serverless-offline": "^4.6.0"
+    "serverless-offline": "^5.10.1"
   },
   "resolutions": {
     "graphql": "0.11.3"
