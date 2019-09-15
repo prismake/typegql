@@ -1,7 +1,7 @@
 import { ObjectType, Query, compileObjectType } from '../..'
 
 describe('Special fields - @Query, @Mutation @Subscribe', () => {
-  it('Will not allow registering special type on type that is not @Schema', () => {
+  it('Will not allow registering special type on type that is not @SchemaRoot', () => {
     @ObjectType()
     class Foo {
       @Query()
@@ -13,7 +13,7 @@ describe('Special fields - @Query, @Mutation @Subscribe', () => {
     expect(() => {
       return compileObjectType(Foo).getFields()
     }).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType Foo.bar: Given field is root field (@Query or @Mutation) not registered inside @Schema type. "`
+      `"@ObjectType Foo.bar: Given field is root field (@Query or @Mutation) not registered inside @SchemaRoot type. "`
     )
   })
 })

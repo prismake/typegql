@@ -34,9 +34,9 @@ query {
 ```
 
 ```ts
-import { Schema, Query, compileSchema } from 'decapi'
+import { SchemaRoot, Query, compileSchema } from 'decapi'
 
-@Schema()
+@SchemaRoot()
 class SuperSchema {
   @Query()
   hello(name: string): string {
@@ -87,7 +87,7 @@ Such query will have a bit more code and here it is:
 
 ```ts
 import {
-  Schema,
+  SchemaRoot,
   Query,
   ObjectType,
   Field,
@@ -109,7 +109,7 @@ class Product {
   }
 }
 
-@Schema()
+@SchemaRoot()
 class SuperSchema {
   @Mutation()
   createProduct(name: string, price: number): Product {

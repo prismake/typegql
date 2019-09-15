@@ -17,17 +17,21 @@ import {
 } from 'graphql'
 
 describe('@SchemaRoot', () => {
-  it('should not allow compiling schema not decorated with @Schema', () => {
+  it('should not allow compiling schema not decorated with @SchemaRoot', () => {
     class Foo {}
 
-    expect(() => compileSchema([Foo])).toThrowErrorMatchingSnapshot()
+    expect(() => compileSchema([Foo])).toThrowErrorMatchingInlineSnapshot(
+      `"@SchemaRoot Foo: Schema root must be registered with @SchemaRoot"`
+    )
   })
 
-  it('should not allow @Schema without any @Query field', () => {
+  it('should not allow @SchemaRoot without any @Query field', () => {
     @SchemaRoot()
     class Foo {}
 
-    expect(() => compileSchema([Foo])).toThrowErrorMatchingSnapshot()
+    expect(() => compileSchema([Foo])).toThrowErrorMatchingInlineSnapshot(
+      `"At least one of schema roots must have @Query root field."`
+    )
   })
 
   it('should generate all schema fields properly for valid schema', async () => {
@@ -133,7 +137,9 @@ describe('@SchemaRoot', () => {
 
     expect(() =>
       compileSchema([FooSchema, BarSchema])
-    ).toThrowErrorMatchingSnapshot()
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"At least one of schema roots must have @Query root field."`
+    )
   })
 
   it('will not allow multiple schema roots to have conflicting root field names', async () => {
@@ -155,7 +161,9 @@ describe('@SchemaRoot', () => {
 
     expect(() =>
       compileSchema([FooSchema, BarSchema])
-    ).toThrowErrorMatchingSnapshot()
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"@SchemaRoot BarSchema: Duplicate of root field name: 'foo'. Seems this name is also used inside other schema root."`
+    )
   })
 
   it('will not allow schema with incorrect object types', async () => {
@@ -175,7 +183,9 @@ describe('@SchemaRoot', () => {
       }
     }
 
-    expect(() => compileSchema([FooSchema])).toThrowErrorMatchingSnapshot()
+    expect(() => compileSchema([FooSchema])).toThrowErrorMatchingInlineSnapshot(
+      `"@ObjectType Hello.world: Field type was infered as \\"function Promise() { [native code] }\\" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })"`
+    )
   })
 
   it('should support schema root instance properties', async () => {

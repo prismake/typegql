@@ -26,7 +26,7 @@ function requireSchemaRoot(target: Function, fieldName: string) {
   throw new SchemaFieldError(
     target,
     fieldName,
-    `Root field must be registered on class decorated with @Schema`
+    `Root field must be registered on class decorated with @SchemaRoot`
   )
 }
 

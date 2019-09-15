@@ -1,5 +1,4 @@
 import express from 'express'
-import { Schema, Query, compileSchema } from 'decapi'
 import graphqlHTTP from 'express-graphql'
 
 import { schema } from './schema'

@@ -62,7 +62,7 @@ function getAllFields(target: Function) {
       throw new FieldError(
         target,
         fieldName,
-        `Given field is root field (@Query or @Mutation) not registered inside @Schema type. `
+        `Given field is root field (@Query or @Mutation) not registered inside @SchemaRoot type. `
       )
     }
 

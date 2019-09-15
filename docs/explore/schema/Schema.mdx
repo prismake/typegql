@@ -13,12 +13,12 @@ decapi is set of decorators allowing creating GraphQL APIs quickly and in type-s
 
 Schema is main building block of any `graphql` schema. It'll join all parts of our api together.
 
-In `decapi` to create schema, we need to pass a class decorated with `@Schema` to `compileSchema` function
+In `decapi` to create schema, we need to pass a class decorated with `@SchemaRoot` to `compileSchema` function
 
 ```js
-import { Schema, compileSchema} from 'decapi
+import { SchemaRoot, compileSchema} from 'decapi
 
-@Schema()
+@SchemaRoot()
 class SuperSchema {
   // fields implementation
 }
@@ -28,7 +28,7 @@ const compiledSchema = compileSchema(SuperSchema);
 
 `compiledSchema` from example above is standard, regular `graphql` schema.
 
-You can also pass an array of classes decorated with `@Schema`-any non trivial app will probably require more than one class to expose all it's API root logic.
+You can also pass an array of classes decorated with `@SchemaRoot`-any non trivial app will probably require more than one class to expose all it's API root logic.
 
 ## Adding Query and Mutation fields
 
@@ -45,9 +45,9 @@ Very simple fully working schema like
 Could be implemented as:
 
 ```js
-import { Schema, Query, compileSchema} from 'decapi
+import { SchemaRoot, Query, compileSchema} from 'decapi
 
-@Schema()
+@SchemaRoot()
 class SuperSchema {
   @Query()
   hello(): string {
@@ -71,9 +71,9 @@ Let's add some customization to our schema:
 With tiny change in our code:
 
 ```js
-import { Schema, Query, compileSchema} from 'decapi
+import { SchemaRoot, Query, compileSchema} from 'decapi
 
-@Schema()
+@SchemaRoot()
 class SuperSchema {
   @Query()
   hello(name: string): string {
@@ -101,7 +101,7 @@ mutation {
 Such query will have a bit more code and here it is:
 
 ```js
-import { Schema, Query, ObjectType, Field, Mutation, compileSchema} from 'decapi;
+import { SchemaRoot, Query, ObjectType, Field, Mutation, compileSchema} from 'decapi;
 
 @ObjectType({ description: 'Simple product object type' })
 class Product {
@@ -117,7 +117,7 @@ class Product {
   }
 }
 
-@Schema()
+@SchemaRoot()
 class SuperSchema {
   @Mutation()
   createProduct(name: string, price: number): Product {

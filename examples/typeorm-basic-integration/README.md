@@ -71,7 +71,7 @@ export class User extends BaseEntity {
 After model is ready, let's define some api interface with some mutation and queries
 
 ```ts
-@Schema()
+@SchemaRoot()
 class ApiSchema {
   @Query({ type: [User] }) // as function return type is Promise of user, we need to set type manually as array of users
   async getAllUsers(): Promise<User[]> {

@@ -20,7 +20,7 @@ class User {
   password_hash: string
 }
 
-@Schema()
+@SchemaRoot()
 class SuperSchema {
   @Mutation()
   createUser(data: User): User {

@@ -187,23 +187,23 @@ type HookExecutor = (data: HookExecutorResolverArgs) => any | Promise<any>;
 @After(hook: HookExecutor);
 ```
 
-## @Schema
+## @SchemaRoot
 
 ```ts
-@Schema(): ClassDecorator;
+@SchemaRoot(): ClassDecorator;
 ```
 
 ### @Query
 
-Has same interface as [@Field](#field) decorator. Can be used only inside @Schema class
+Has same interface as [@Field](#field) decorator. Can be used only inside @SchemaRoot class
 
 ### @Mutation
 
-Has same interface as [@Field](#field) decorator. Can be used only inside @Schema class
+Has same interface as [@Field](#field) decorator. Can be used only inside @SchemaRoot class
 
 ### @QueryAndMutation
 
-A shorthand for both Query And Mutation. Can be used only inside @Schema class
+A shorthand for both Query And Mutation. Can be used only inside @SchemaRoot class
 
 ## @Union
 

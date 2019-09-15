@@ -13,10 +13,10 @@ query {
 As schema compiled by `compileSchema` is regular, normal GraphQLSchema, we can simply use it with `apollo-server-lambda` that will handle everything.
 
 ```ts
-import { Schema, Query, compileSchema } from 'decapi'
+import { SchemaRoot, Query, compileSchema } from 'decapi'
 import { graphqlLambda, graphiqlLambda } from 'apollo-server-lambda'
 
-@Schema()
+@SchemaRoot()
 class MySchema {
   @Query()
   hello(name: string): string {

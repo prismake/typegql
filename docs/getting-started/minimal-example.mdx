@@ -19,7 +19,7 @@ Schema able to handle such query:
 Can be created with:
 
 ```ts
-import { Schema, Query, ObjectType, Field, compileSchema } from 'decapi'
+import { SchemaRoot, Query, ObjectType, Field, compileSchema } from 'decapi'
 
 @ObjectType()
 class Hello {
@@ -29,7 +29,7 @@ class Hello {
   }
 }
 
-@Schema()
+@SchemaRoot()
 class MyFirstSchema {
   @Query()
   hello(): Hello {

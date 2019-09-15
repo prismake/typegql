@@ -12,10 +12,10 @@ Here is all the server code required:
 
 ```ts
 import express from 'express'
-import { Schema, Query, compileSchema } from 'decapi'
+import { SchemaRoot, Query, compileSchema } from 'decapi'
 import graphqlHTTP from 'express-graphql'
 
-@Schema()
+@SchemaRoot()
 class SuperSchema {
   @Query()
   hello(name: string): string {

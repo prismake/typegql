@@ -7,7 +7,7 @@ Doing it is quite simple. You'd need to define custom function that returns call
 Let's say we want to define custom field decorator that always has `String` type and requires field description (that originally would be optional)
 
 ```ts
-import { Schema, Query, Field, ObjectType, compileSchema } from 'decapi'
+import { SchemaRoot, Query, Field, ObjectType, compileSchema } from 'decapi'
 
 function StringWithDescription(fieldDescription: string) {
   if (!fieldDescription) {
