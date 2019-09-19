@@ -57,10 +57,12 @@ describe('Unions', () => {
     const unionType = bar.type as GraphQLUnionType
 
     expect(
-      unionType.resolveType && unionType.resolveType(new Sub1(), null, null)
+      unionType.resolveType &&
+        unionType.resolveType(new Sub1(), null, null, null)
     ).toBe(resolveType(Sub1))
     expect(
-      unionType.resolveType && unionType.resolveType(new Sub2(), null, null)
+      unionType.resolveType &&
+        unionType.resolveType(new Sub2(), null, null, null)
     ).toBe(resolveType(Sub2))
   })
 
@@ -70,7 +72,8 @@ describe('Unions', () => {
     const unionType = baz.type as GraphQLUnionType
 
     expect(
-      unionType.resolveType && unionType.resolveType(new Sub2(), null, null)
+      unionType.resolveType &&
+        unionType.resolveType(new Sub2(), null, null, null)
     ).toBe(resolveType(Sub1))
     expect(customTypeResolver).toBeCalled()
   })
