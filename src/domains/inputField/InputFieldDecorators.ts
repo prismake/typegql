@@ -19,7 +19,20 @@ export interface IInputFieldOptions {
 }
 
 export function InputField(options?: IInputFieldOptions): PropertyDecorator {
-  return (targetInstance: Object, fieldName: string) => {
+  return (targetInstance: typeof Object, fieldName: string) => {
+    if (
+      options &&
+      options.hasOwnProperty('type') &&
+      options.type === undefined
+    ) {
+      console.log(
+        'This can happens when a circular dependency is present. Wrap your explicit type in an arrow function to avoid this problem.'
+      )
+      throw new TypeError(
+        `InputField "${fieldName}" explicit type is "undefined" on InputObjectType ${targetInstance.constructor}`
+      )
+    }
+
     const finalConfig: IFieldInputInnerConfig = {
       property: fieldName,
       name: fieldName,

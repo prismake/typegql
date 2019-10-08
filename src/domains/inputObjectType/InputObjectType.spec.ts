@@ -1,6 +1,9 @@
 import { GraphQLObjectType } from 'graphql'
 import { ObjectType, compileObjectType, Field } from '../..'
 
+import { InputObjectType } from './InputObjectType'
+import { InputField } from '../inputField/InputFieldDecorators'
+
 describe('InputObjectType', () => {
   it('Throws when trying to compile type without @ObjectType decorator', () => {
     expect(() =>
@@ -26,6 +29,24 @@ describe('InputObjectType', () => {
 
     expect(barField).toBeTruthy()
     expect(barField.name).toEqual('bar')
+  })
+
+  it('throws an error when explicit type is "undefined"', (done) => {
+    try {
+      @InputObjectType()
+      class Foo {
+        @InputField({ type: undefined, isNullable: false })
+        asEnum: string
+      }
+
+      expect(Foo).toBeTruthy()
+    } catch (err) {
+      expect(err).toMatchInlineSnapshot(`
+        [TypeError: InputField "asEnum" explicit type is "undefined" on InputObjectType function Foo() {
+                        }]
+      `)
+      done()
+    }
   })
 
   it('Sets proper options', () => {

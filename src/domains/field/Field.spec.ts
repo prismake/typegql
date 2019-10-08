@@ -195,6 +195,24 @@ describe('Field', () => {
     expect(bool.type).toBe(GraphQLBoolean)
   })
 
+  it('throws an error when explicit type is "undefined"', (done) => {
+    try {
+      @ObjectType()
+      class Foo {
+        @Field({ type: undefined, isNullable: false })
+        bar: string
+      }
+
+      expect(Foo).toBeTruthy()
+    } catch (err) {
+      expect(err).toMatchInlineSnapshot(`
+        [TypeError: Field "bar" on function Foo() {
+                        } got an "undefined" as explicit type]
+      `)
+      done()
+    }
+  })
+
   it('Shows proper error message when trying to use list type without being explicit about item type', () => {
     @ObjectType()
     class Foo {

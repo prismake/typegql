@@ -9,7 +9,7 @@ import {
   compileSchema
 } from '../index'
 
-enum TestEnum {
+export enum TestEnum {
   Foo = 'Foo',
   Bar = 'Bar',
   Baz = 'Baz'
