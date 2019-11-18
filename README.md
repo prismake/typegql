@@ -7,7 +7,7 @@
 
 ![demo](assets/demo.gif)
 
-decapi is set of decorators for creating GraphQL APIs quickly and in type-safe way. Write your types and GQL schema at once killing two birds with one stone.
+decapi is set of decorators for creating GraphQL APIs in typescript compatible way. Write your types and GQL schema at once killing two birds with one stone.
 
 ![decapitation](https://media.giphy.com/media/ePBtnkjZeYsik/giphy.gif)
 
