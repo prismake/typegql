@@ -4,13 +4,13 @@ export function convertNativeEnumToGraphQLEnumValues(
   enumDef: any
 ): GraphQLEnumValueConfigMap {
   const valueConfigMap: GraphQLEnumValueConfigMap = {}
-  Object.keys(enumDef).forEach((key) => {
+  Object.entries(enumDef).forEach(([key, val]) => {
     if (!isNaN(key as any)) {
       return
     }
-    const value = enumDef[key]
+
     valueConfigMap[key] = {
-      value
+      value: val
     }
   })
   return valueConfigMap
