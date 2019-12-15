@@ -9,14 +9,25 @@ export {
 export { compileAllFields, compileFieldConfig } from './compiler/fieldCompiler'
 export { FieldError } from './error'
 
-export interface IFieldOptions {
+export interface IFieldOptionsBase {
   description?: string
   rootFieldType?: rootFieldTypes
-  type?: any
-  castTo?: any
+
   onlyDecoratedArgs?: boolean
   name?: string
+}
+
+export interface IFieldOptions extends IFieldOptionsBase {
   isNullable?: boolean
+  itemNullable?: boolean
+  type?: any
+  castTo?: any
+}
+
+export interface IArrayFieldOptions extends IFieldOptionsBase {
+  itemType?: any
+  itemCast?: any
+  itemNullable?: boolean
 }
 
 export function Field(options?: IFieldOptions): PropertyDecorator {
@@ -59,4 +70,19 @@ export function Field(options?: IFieldOptions): PropertyDecorator {
 
     fieldsRegistry.set(targetInstance.constructor, fieldName, finalConfig)
   }
+}
+
+/**
+ * alias to help define array returning resolvers less verbosely and to enforce convention of arrays being not nullable
+ * in real world scenarios you always want the array to be non nullable
+ */
+export function ArrayField(options?: IArrayFieldOptions): PropertyDecorator {
+  const typeOrCastTo = options ? options.itemType || options.itemCast : null
+
+  if (!typeOrCastTo) {
+    throw new TypeError(
+      'ArrayField must have an explicit itemType or itemCast config'
+    )
+  }
+  return Field(options)
 }
