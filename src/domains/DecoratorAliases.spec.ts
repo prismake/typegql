@@ -8,7 +8,7 @@ import { InputFieldNullable } from './inputField/InputFieldDecorators'
 import { DuplexField } from './duplexField/DuplexField'
 import { ArrayField } from './field/Field'
 
-describe.only('decorator aliases', () => {
+describe('decorator aliases', () => {
   it('should compile', async () => {
     @DuplexObjectType()
     class Bar {
