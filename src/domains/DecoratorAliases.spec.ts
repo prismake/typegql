@@ -36,16 +36,18 @@ describe.only('decorator aliases', () => {
   })
 
   describe('ArrayField', () => {
-    it.only('should define the field correctly', async () => {
+    it('should define the field correctly', async () => {
       @DuplexObjectType()
       class Bar {
-        @ArrayField()
+        @ArrayField({ itemType: String })
         foo2: string
-        @ArrayField({ type: () => String })
+        @ArrayField({ itemType: String, itemNullable: true })
+        foo4: string
+        @ArrayField({ itemType: () => String })
         foo(@ArgNullable() a: string): string[] {
           return []
         }
-        @ArrayField({ type: Number })
+        @ArrayField({ itemType: Number })
         foo3() {
           return [1, 2, 3]
         }

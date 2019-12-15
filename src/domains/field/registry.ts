@@ -17,9 +17,12 @@ export interface IFieldInnerConfig {
   property: string
   description?: string
   isNullable?: boolean
+  itemNullable?: boolean
   castTo?: any
   onlyDecoratedArgs?: boolean
   type?: any
+  itemType?: any
+  itemCast?: any
 }
 
 export interface IAllQueryFields {

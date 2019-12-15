@@ -31,6 +31,24 @@ interface IFieldOptions {
 @Field(options?: FieldOptions)
 ```
 
+## @ArrayField
+
+Registers a class field as a GraphQLList.
+
+```ts
+interface IArrayFieldOptions {
+  description?: string
+  itemType?: any
+  itemCast?: any,
+  onlyDecoratedArgs?: boolean // when true this will not expose arguments that aren't decorated by @Arg()
+  // useful when you have optional arguments that you only want to use on the backend
+  name?: string
+  isNullable?: boolean
+}
+
+@ArrayField(options?: IArrayFieldOptions)
+```
+
 ## @InputObjectType
 
 ```ts

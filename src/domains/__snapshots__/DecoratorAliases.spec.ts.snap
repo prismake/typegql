@@ -2,7 +2,8 @@
 
 exports[`decorator aliases ArrayField should define the field correctly 1`] = `
 "type Bar {
-  foo2: String!
+  foo2: [String!]!
+  foo4: [String]!
   foo(a: String): [String!]!
   foo3: [Float!]!
 }

@@ -1,4 +1,9 @@
-import { GraphQLFieldConfig, GraphQLFieldConfigMap } from 'graphql'
+import {
+  GraphQLFieldConfig,
+  GraphQLFieldConfigMap,
+  GraphQLList,
+  GraphQLNonNull
+} from 'graphql'
 import { FieldError, fieldsRegistry } from '../Field'
 
 import { compileFieldResolver } from './resolver'
@@ -16,16 +21,20 @@ export function compileFieldConfig(
   target: Function,
   fieldName: string
 ): GraphQLFieldConfig<any, any, any> {
+  const fieldRegistryConfig = fieldsRegistry.get(target, fieldName)
   const {
     type,
     description,
     isNullable,
+    itemNullable,
     castTo,
     onlyDecoratedArgs
-  } = fieldsRegistry.get(target, fieldName)
+  } = fieldRegistryConfig
   const args = compileFieldArgs(target, fieldName, onlyDecoratedArgs)
+  const arrayFieldType =
+    fieldRegistryConfig.itemType || fieldRegistryConfig.itemCast
 
-  const explicitType = castTo ? castTo : type
+  const explicitType = arrayFieldType ? arrayFieldType : castTo ? castTo : type
 
   const resolvedType = resolveRegisteredOrInferedType(
     target,
@@ -43,8 +52,12 @@ export function compileFieldConfig(
     validateNotInferableField(target, fieldName)
     return
   }
-  const finalType = enhanceType(resolvedType, isNullable)
 
+  const finalType = arrayFieldType
+    ? new GraphQLNonNull(
+        new GraphQLList(enhanceType(resolvedType, itemNullable))
+      )
+    : enhanceType(resolvedType, isNullable)
   return {
     description,
     type: finalType,
