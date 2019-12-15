@@ -34,7 +34,8 @@
     "types",
     "decorators",
     "controllers",
-    "apollo"
+    "apollo",
+    "backend"
   ],
   "devDependencies": {
     "@types/graphql": "^14.5.0",
