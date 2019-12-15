@@ -1,6 +1,4 @@
-export {
-  interfaceClassesSet
-} from './domains/interfaceType/interfaceTypeRegistry'
+export { interfaceClassesSet } from './domains/interfaceType/interfaceTypeRegistry'
 
 export {
   GraphQLFloat as Float,
@@ -17,12 +15,10 @@ export {
   InputObjectType,
   inputObjectTypeRegistry
 } from './domains/inputObjectType/InputObjectType'
-export {
-  compileInputObjectType
-} from './domains/inputObjectType/objectTypeCompiler'
+export { compileInputObjectType } from './domains/inputObjectType/objectTypeCompiler'
 
 export { DuplexObjectType } from './domains/duplexObjectType/DuplexObjectType'
-export { Field } from './domains/field/Field'
+export { Field, ArrayField } from './domains/field/Field'
 export {
   InputField,
   InputFieldNullable
