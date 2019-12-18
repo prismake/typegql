@@ -44,6 +44,5 @@ class User {
 }
 ```
 
-Graphql enum value must match this regex: /[\_A-Za-z][_0-9a-za-z]\*/
-If they don't GraphQL library removes other characters.
-Currently decapi does allow an enum to have a value that does not match and passes it down to GraphQL. It is planned for upcoming version that it will throw if you try to create an enum whose values don't match the regex.
+Graphql enum value must match this regex: /^[\_a-zA-Z][_a-za-z0-9]\*\$/
+If they don't we throw an error. We could remove the dashes and carry on, but that would just create an inconsistency in your API and your TS enums.

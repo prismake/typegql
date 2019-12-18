@@ -30,12 +30,14 @@ export interface IArrayFieldOptions extends IFieldOptionsBase {
   itemNullable?: boolean
 }
 
-export function Field(options?: IFieldOptions): PropertyDecorator {
+export function Field(
+  options?: IFieldOptions | IArrayFieldOptions
+): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     if (
       options &&
       options.hasOwnProperty('type') &&
-      options.type === undefined
+      (options as IFieldOptions).type === undefined
     ) {
       console.log(
         'This usually happens when a circular dependency is present. Wrap your explicit type in an arrow function to avoid this problem.'

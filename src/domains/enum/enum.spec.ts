@@ -6,6 +6,32 @@ import { printSchema, graphql } from 'graphql'
 import { Arg } from '../arg/ArgDecorators'
 
 describe('Enums', () => {
+  it('throws when the enum key cannot be used with GQL', () => {
+    enum Foo {
+      Bar = 'Test-this will totally fail',
+      Baz = 'Test2'
+    }
+
+    enum Foo2 {
+      'Bar-a' = 0,
+      Baz = 1
+    }
+    try {
+      registerEnum(Foo, 'Foo')
+    } catch (err) {
+      expect(err).toMatchInlineSnapshot(
+        `[Error: enum key "Test-this will totally fail" cannot be exposed on graphql]`
+      )
+    }
+    try {
+      registerEnum(Foo2, 'Foo2')
+    } catch (err) {
+      expect(err).toMatchInlineSnapshot(
+        `[Error: enum key "Bar-a" cannot be exposed on graphql]`
+      )
+    }
+  })
+
   it('Registers returns proper enum type', () => {
     enum Foo {
       'Bar',
@@ -28,7 +54,7 @@ describe('Enums', () => {
     const enumType = registerEnum(Foo, 'Foo')
     expect(enumType.name).toEqual('Foo')
     expect(enumType.getValues().length).toEqual(2)
-    expect(enumType.getValues()[1].name).toEqual('Baz')
+    expect(enumType.getValues()[1].name).toEqual('Test2')
     expect(enumType.getValues()[1].value).toEqual('Test2')
   })
 
@@ -98,8 +124,8 @@ describe('Enums', () => {
       schema,
       `
         {
-          echoAsInferred(input: InProgress)
-          echoAsEnum(input: InProgress)
+          echoAsInferred(input: INPROGRESS)
+          echoAsEnum(input: INPROGRESS)
           intAsEnum(input: two)
           intAsInferred(input: two)
         }
@@ -107,14 +133,14 @@ describe('Enums', () => {
     )
 
     expect(result).toMatchInlineSnapshot(`
-Object {
-  "data": Object {
-    "echoAsEnum": "InProgress",
-    "echoAsInferred": "INPROGRESS",
-    "intAsEnum": "two",
-    "intAsInferred": 1,
-  },
-}
-`)
+      Object {
+        "data": Object {
+          "echoAsEnum": "INPROGRESS",
+          "echoAsInferred": "INPROGRESS",
+          "intAsEnum": "two",
+          "intAsInferred": 1,
+        },
+      }
+    `)
   })
 })

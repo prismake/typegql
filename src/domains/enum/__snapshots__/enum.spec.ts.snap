@@ -14,10 +14,10 @@ type Query {
 }
 
 enum StateEnum {
-  Done
-  InProgress
-  Finished
-  Cancelled
+  DONE
+  INPROGRESS
+  FINISHED
+  CANCELLED
 }
 "
 `;
