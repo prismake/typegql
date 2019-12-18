@@ -45,7 +45,8 @@ class User {
 ```
 
 Graphql enum value must match this regex: /^[\_a-zA-Z][_a-za-z0-9]\*\$/
-If they don't we throw an error. We could remove the dashes and carry on, but that would just create an inconsistency in your API and your TS enums.
+
+If they don't an error is thrown. We could remove the dashes and carry on, but that would just create an inconsistency in your API and your TS enums.
 
 String Enums that don't have matching keys and values are created using their TS values on graphql. If you need to use keys instead, pass option like this:
 
@@ -66,5 +67,14 @@ results in:
 enum FooEnum {
   Bar
   Baz
+}
+```
+
+whereas without `seKeys: true` you get:
+
+```graphql
+enum FooEnum {
+  Test
+  Test2
 }
 ```
