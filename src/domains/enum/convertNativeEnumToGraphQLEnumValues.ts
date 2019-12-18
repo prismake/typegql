@@ -8,14 +8,15 @@ function validateForGraphqlJs(val: string) {
 }
 
 export function convertNativeEnumToGraphQLEnumValues(
-  enumDef: any
+  enumDef: any,
+  useKeys = false
 ): GraphQLEnumValueConfigMap {
   const valueConfigMap: GraphQLEnumValueConfigMap = {}
   Object.entries(enumDef).forEach(([key, val]) => {
     if (!isNaN(key as any)) {
       return
     }
-    if (typeof val === 'string') {
+    if (typeof val === 'string' && useKeys === false) {
       validateForGraphqlJs(val)
       valueConfigMap[val] = {
         value: val

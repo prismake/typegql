@@ -9,6 +9,7 @@ exports[`Enums renders schema with an enum used in a query 1`] = `
 type Query {
   echoAsInferred(input: StateEnum!): String
   echoAsEnum(input: StateEnum!): StateEnum
+  echoAsEnum2(input: StateEnumUsingKeys!): StateEnumUsingKeys
   intAsInferred(input: IntEnum!): Float
   intAsEnum(input: IntEnum!): IntEnum
 }
@@ -18,6 +19,13 @@ enum StateEnum {
   IN_PROGRESS
   FINISHED
   CANCELLED
+}
+
+enum StateEnumUsingKeys {
+  Done
+  InProgress
+  Finished
+  Cancelled
 }
 "
 `;

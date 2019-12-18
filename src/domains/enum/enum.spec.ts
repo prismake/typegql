@@ -95,7 +95,19 @@ describe('Enums', () => {
       Cancelled = 'CANCELLED'
     }
 
+    enum StateEnumUsingKeys {
+      Done = 'DONE',
+      InProgress = 'INPROGRESS',
+      Finished = 'FINISHED',
+      Cancelled = 'CANCELLED'
+    }
+
     registerEnum(StateEnum, { name: 'StateEnum' })
+    registerEnum(StateEnumUsingKeys, {
+      name: 'StateEnumUsingKeys',
+      useKeys: true // this is not a good practice as you have inconsistent values for enums on FE and BE if you use keys, but it is necessary in some cases
+    })
+
     registerEnum(IntEnum, { name: 'IntEnum' })
     @SchemaRoot()
     class FooSchema {
@@ -105,6 +117,14 @@ describe('Enums', () => {
       }
       @Query({ type: StateEnum })
       echoAsEnum(@Arg({ type: StateEnum }) input: StateEnum): StateEnum {
+        return input
+      }
+
+      @Query({ type: StateEnumUsingKeys })
+      echoAsEnum2(
+        @Arg({ type: StateEnumUsingKeys }) input: StateEnumUsingKeys
+      ): StateEnumUsingKeys {
+        expect(input).toBe('FINISHED')
         return input
       }
 
@@ -126,6 +146,7 @@ describe('Enums', () => {
         {
           echoAsInferred(input: IN_PROGRESS)
           echoAsEnum(input: IN_PROGRESS)
+          echoAsEnum2(input: Finished)
           intAsEnum(input: two)
           intAsInferred(input: two)
         }
@@ -136,6 +157,7 @@ describe('Enums', () => {
       Object {
         "data": Object {
           "echoAsEnum": "IN_PROGRESS",
+          "echoAsEnum2": "Finished",
           "echoAsInferred": "IN_PROGRESS",
           "intAsEnum": "two",
           "intAsInferred": 1,

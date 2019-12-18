@@ -5,9 +5,13 @@ import { enumsRegistry } from './registry'
 export { enumsRegistry } from './registry'
 import { convertNativeEnumToGraphQLEnumValues } from './convertNativeEnumToGraphQLEnumValues'
 
+/**
+ * useKeys as true might be needed if you need to expose your string enum using it's keys instead of it's values
+ */
 export interface IEnumOptions {
   name: string
   description?: string
+  useKeys?: boolean
 }
 
 export function registerEnum(enumDef: Object, options: IEnumOptions | string) {
@@ -20,7 +24,7 @@ export function registerEnum(enumDef: Object, options: IEnumOptions | string) {
     throw new EnumError(name, `Enum is already registered`)
   }
 
-  const values = convertNativeEnumToGraphQLEnumValues(enumDef)
+  const values = convertNativeEnumToGraphQLEnumValues(enumDef, options.useKeys)
   const enumType = new GraphQLEnumType({
     name,
     description,
