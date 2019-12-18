@@ -90,7 +90,7 @@ describe('Enums', () => {
 
     enum StateEnum {
       Done = 'DONE',
-      InProgress = 'INPROGRESS',
+      In_Progress = 'IN_PROGRESS',
       Finished = 'FINISHED',
       Cancelled = 'CANCELLED'
     }
@@ -124,8 +124,8 @@ describe('Enums', () => {
       schema,
       `
         {
-          echoAsInferred(input: INPROGRESS)
-          echoAsEnum(input: INPROGRESS)
+          echoAsInferred(input: IN_PROGRESS)
+          echoAsEnum(input: IN_PROGRESS)
           intAsEnum(input: two)
           intAsInferred(input: two)
         }
@@ -135,8 +135,8 @@ describe('Enums', () => {
     expect(result).toMatchInlineSnapshot(`
       Object {
         "data": Object {
-          "echoAsEnum": "INPROGRESS",
-          "echoAsInferred": "INPROGRESS",
+          "echoAsEnum": "IN_PROGRESS",
+          "echoAsInferred": "IN_PROGRESS",
           "intAsEnum": "two",
           "intAsInferred": 1,
         },

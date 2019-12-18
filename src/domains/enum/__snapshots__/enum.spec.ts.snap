@@ -15,7 +15,7 @@ type Query {
 
 enum StateEnum {
   DONE
-  INPROGRESS
+  IN_PROGRESS
   FINISHED
   CANCELLED
 }
