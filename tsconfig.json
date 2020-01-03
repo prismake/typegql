@@ -2,8 +2,8 @@
   "compilerOptions": {
     "paths": { "*": ["types/*"] },
     "module": "commonjs",
-    "lib": ["es2017", "dom"],
-    "target": "es5",
+    "lib": ["es2018", "dom"],
+    "target": "ES2018",
     "noImplicitAny": true,
     "noImplicitUseStrict": true,
     "types": ["reflect-metadata"],

@@ -143,13 +143,13 @@ describe('Field', () => {
     @ObjectType()
     class Car {
       @Field({ type: () => Owner })
-      owner: Owner
+      owner: any
     }
 
     @ObjectType()
     class Owner {
       @Field({ type: () => Car })
-      car: Car
+      car: any
     }
 
     const { owner } = compileObjectType(Car).getFields()
@@ -206,8 +206,8 @@ describe('Field', () => {
       expect(Foo).toBeTruthy()
     } catch (err) {
       expect(err).toMatchInlineSnapshot(`
-        [TypeError: Field "bar" on function Foo() {
-                        } got an "undefined" as explicit type]
+        [TypeError: Field "bar" on class Foo {
+                    } got an "undefined" as explicit type]
       `)
       done()
     }

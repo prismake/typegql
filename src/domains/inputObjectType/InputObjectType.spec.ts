@@ -42,8 +42,8 @@ describe('InputObjectType', () => {
       expect(Foo).toBeTruthy()
     } catch (err) {
       expect(err).toMatchInlineSnapshot(`
-        [TypeError: InputField "asEnum" explicit type is "undefined" on InputObjectType function Foo() {
-                        }]
+        [TypeError: InputField "asEnum" explicit type is "undefined" on InputObjectType class Foo {
+                    }]
       `)
       done()
     }
