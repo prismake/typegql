@@ -3,16 +3,15 @@ import {
   inputFieldsRegistry,
   IFieldInputInnerConfig
 } from '../inputField/registry'
+import { IFieldOptions } from '../field/Field'
 
 export { FieldError } from './error'
 
-export function DuplexField(options?: {
-  name?: string
-  description?: string
-  isNullable?: boolean
-  inputNullable?: boolean
-  type?: any
-}): PropertyDecorator {
+export function DuplexField(
+  options?: {
+    inputNullable?: boolean
+  } & IFieldOptions
+): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     let isNullable = true
     let inputNullable = true
