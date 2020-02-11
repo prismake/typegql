@@ -28,6 +28,7 @@ export function compileFieldConfig(
     isNullable,
     itemNullable,
     castTo,
+    itemCast,
     onlyDecoratedArgs
   } = fieldRegistryConfig
   const args = compileFieldArgs(target, fieldName, onlyDecoratedArgs)
@@ -61,7 +62,7 @@ export function compileFieldConfig(
   return {
     description,
     type: finalType,
-    resolve: compileFieldResolver(target, fieldName, castTo),
+    resolve: compileFieldResolver(target, fieldName, castTo || itemCast),
     args
   }
 }

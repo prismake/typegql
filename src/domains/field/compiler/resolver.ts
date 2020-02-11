@@ -162,8 +162,8 @@ export function compileFieldResolver(
 ): GraphQLFieldResolver<any, any> {
   function castIfNeeded(result: any) {
     if (castTo && result !== null && typeof result === 'object') {
-      if (castTo.name === 'castTo') {
-        // this is a thunk, so we get the type now
+      if (castTo.name === 'castTo' || castTo.name === 'itemCast') {
+        // this function is a thunk, so we get the type now
         castTo = castTo()
       }
       if (Array.isArray(castTo)) {

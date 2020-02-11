@@ -17,6 +17,7 @@ import {
   compileSchema
 } from '../..'
 import { GraphQLDateTime } from 'graphql-iso-date'
+import { ArrayField } from './Field'
 
 describe('Field', () => {
   it('Resolves fields with default value', async () => {
@@ -367,6 +368,16 @@ describe('Field', () => {
       castedFieldAsArrayDefinedAsThunk() {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
+
+      @ArrayField({ itemCast: () => Foo })
+      castedArrayFieldDefinedAsThunk() {
+        return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
+      }
+
+      @ArrayField({ itemCast: Foo })
+      castedArrayField() {
+        return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
+      }
     }
 
     @SchemaRoot()
@@ -397,6 +408,12 @@ describe('Field', () => {
               castedFieldAsArrayDefinedAsThunk {
                 bar
               }
+              castedArrayFieldDefinedAsThunk {
+                bar
+              }
+              castedArrayField {
+                bar
+              }
             }
           }
         `
@@ -406,6 +423,22 @@ describe('Field', () => {
       expect(result.data.castedQuery).toMatchInlineSnapshot(`
         Object {
           "bar": "castedFromAQuery",
+          "castedArrayField": Array [
+            Object {
+              "bar": "castedFromAField1",
+            },
+            Object {
+              "bar": "castedFromAField2",
+            },
+          ],
+          "castedArrayFieldDefinedAsThunk": Array [
+            Object {
+              "bar": "castedFromAField1",
+            },
+            Object {
+              "bar": "castedFromAField2",
+            },
+          ],
           "castedField": Object {
             "bar": "castedFromAField",
           },
