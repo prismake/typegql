@@ -378,6 +378,10 @@ describe('Field', () => {
       castedArrayField() {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
+      @Field({ castTo: [Foo] })
+      castedFieldAsArrayWithBadReturnValue() {
+        return [[{ baz: 'castedFromAField1' }]]
+      }
     }
 
     @SchemaRoot()
@@ -487,6 +491,35 @@ describe('Field', () => {
           ],
         }
       `)
+    })
+
+    it('throws when returning array of arrays with an array castTo', async () => {
+      const result = await graphql(
+        schema,
+        `
+          {
+            castedQuery {
+              bar
+              castedFieldAsArrayWithBadReturnValue {
+                bar
+              }
+            }
+          }
+        `
+      )
+      expect(result).toMatchInlineSnapshot(`
+Object {
+  "data": Object {
+    "castedQuery": Object {
+      "bar": "castedFromAQuery",
+      "castedFieldAsArrayWithBadReturnValue": null,
+    },
+  },
+  "errors": Array [
+    [GraphQLError: field "castedFieldAsArrayWithBadReturnValue" cannot be casted to object type Foo - returned value is an array],
+  ],
+}
+`)
     })
   })
 })

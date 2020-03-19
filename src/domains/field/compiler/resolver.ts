@@ -172,7 +172,15 @@ export function compileFieldResolver(
             `field ${fieldName} castTo is an array, yet it resolves with ${result} which is ${typeof result}`
           )
         }
-        return result.map((item: any) => plainToClass(castTo[0], item))
+        return result.map((item: any) => {
+          if (Array.isArray(item)) {
+            console.error('array cannot be casted as object type: ', item)
+            throw new TypeError(
+              `field "${fieldName}" cannot be casted to object type ${castTo[0].name} - returned value is an array`
+            )
+          }
+          return plainToClass(castTo[0], item)
+        })
       } else {
         return plainToClass(castTo, result)
       }
