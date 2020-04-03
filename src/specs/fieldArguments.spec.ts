@@ -10,6 +10,7 @@ import {
   InputField
 } from '../index'
 import { InputObjectType } from '../../src/domains/inputObjectType/InputObjectType'
+import { ArgNullable } from '../../src/domains/arg/ArgDecorators'
 
 describe('Field args', () => {
   @ObjectType()
@@ -62,6 +63,11 @@ describe('Field args', () => {
       expect(b).toBe('fancyb')
 
       return null
+    }
+
+    @Field()
+    defaultVal(@ArgNullable() v3: number = 3): number {
+      return v3
     }
   }
 
@@ -146,6 +152,26 @@ describe('Field args', () => {
                                 },
                               }
                     `)
+  })
+
+  it('uses the default value', async () => {
+    const result = await graphql(
+      schema,
+      `
+        {
+          hello {
+            defaultVal
+          }
+        }
+      `
+    )
+
+    expect(result.errors).toBeUndefined()
+    expect(result.data.hello).toMatchInlineSnapshot(`
+Object {
+  "defaultVal": 3,
+}
+`)
   })
 
   it('allows to return type of argument that is created dynamically', async () => {

@@ -36,10 +36,7 @@ import { ObjectType, Field, Arg } from 'decapi'
 @ObjectType()
 class Calculator {
   @Field()
-  pow(
-    base: number,
-    @Arg({ nullable: true, defaultValue: 2 }) exponent: number
-  ): number {
+  pow(base: number, @Arg({ nullable: true }) exponent: number = 2): number {
     return Math.pow(base, exponent)
   }
 }
@@ -47,7 +44,7 @@ class Calculator {
 
 Right now `exponent` argument is optional so we can use both:
 
-```graphql
+```gql
 fragment A on Calculator {
   pow(2) # 4
 }
@@ -59,6 +56,6 @@ fragment B on Calculator {
 
 Note that you can also use an alias:
 
-```
-@ArgNullable({ defaultValue: 2 }) exponent: number,
+```ts
+@ArgNullable() exponent: number = 2,
 ```
