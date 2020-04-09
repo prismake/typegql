@@ -3,12 +3,8 @@ import { compileObjectTypeWithConfig } from '../objectType/compiler/objectType'
 
 import { inputObjectTypeRegistry } from '../inputObjectType/registry'
 import { compileInputObjectTypeWithConfig } from '../inputObjectType/objectTypeCompiler'
+import { IObjectTypeOptions } from '../objectType/ObjectType'
 export { ObjectTypeError } from './error'
-
-export interface IObjectTypeOptions {
-  name?: string
-  description?: string
-}
 
 export function DuplexObjectType(options?: IObjectTypeOptions): ClassDecorator {
   return (target: Function) => {
