@@ -1,12 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Enums renders schema with an enum used in a query 1`] = `
-"enum IntEnum {
-  one
-  two
-}
-
-type Query {
+"type Query {
   echoAsInferred(input: StateEnum!): String
   echoAsEnum(input: StateEnum!): StateEnum
   echoAsEnum2(input: StateEnumUsingKeys!): StateEnumUsingKeys
@@ -26,6 +21,11 @@ enum StateEnumUsingKeys {
   InProgress
   Finished
   Cancelled
+}
+
+enum IntEnum {
+  one
+  two
 }
 "
 `;

@@ -2,6 +2,6 @@
 
 exports[`Query should not allow wrong argument types 1`] = `
 Array [
-  [GraphQLError: Expected type String!, found 2.],
+  [GraphQLError: String cannot represent a non string value: 2],
 ]
 `;

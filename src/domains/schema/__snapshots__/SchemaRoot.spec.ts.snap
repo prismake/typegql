@@ -59,7 +59,7 @@ Object {
           "args": Array [
             Object {
               "defaultValue": "\\"No longer supported\\"",
-              "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax (as specified by [CommonMark](https://commonmark.org/).",
+              "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/).",
               "name": "reason",
               "type": Object {
                 "kind": "SCALAR",
@@ -154,9 +154,31 @@ Object {
           "possibleTypes": null,
         },
         Object {
+          "description": "The \`Boolean\` scalar type represents \`true\` or \`false\`.",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "Boolean",
+          "possibleTypes": null,
+        },
+        Object {
           "description": "A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.",
           "enumValues": null,
           "fields": Array [
+            Object {
+              "args": Array [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "description",
+              "type": Object {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null,
+              },
+            },
             Object {
               "args": Array [],
               "deprecationReason": null,
@@ -456,7 +478,7 @@ Depending on the kind of a type, certain fields describe information about that 
             },
             Object {
               "deprecationReason": null,
-              "description": "Indicates this type is an interface. \`fields\` and \`possibleTypes\` are valid fields.",
+              "description": "Indicates this type is an interface. \`fields\`, \`interfaces\`, and \`possibleTypes\` are valid fields.",
               "isDeprecated": false,
               "name": "INTERFACE",
             },
@@ -496,16 +518,6 @@ Depending on the kind of a type, certain fields describe information about that 
           "interfaces": null,
           "kind": "ENUM",
           "name": "__TypeKind",
-          "possibleTypes": null,
-        },
-        Object {
-          "description": "The \`Boolean\` scalar type represents \`true\` or \`false\`.",
-          "enumValues": null,
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "SCALAR",
-          "name": "Boolean",
           "possibleTypes": null,
         },
         Object {
@@ -781,6 +793,22 @@ In some cases, you need to provide options to alter GraphQL's execution behavior
                 "kind": "SCALAR",
                 "name": "String",
                 "ofType": null,
+              },
+            },
+            Object {
+              "args": Array [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "isRepeatable",
+              "type": Object {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": Object {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null,
+                },
               },
             },
             Object {

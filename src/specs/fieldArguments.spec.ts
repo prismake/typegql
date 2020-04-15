@@ -168,10 +168,10 @@ describe('Field args', () => {
 
     expect(result.errors).toBeUndefined()
     expect(result.data.hello).toMatchInlineSnapshot(`
-Object {
-  "defaultVal": 3,
-}
-`)
+      Object {
+        "defaultVal": 3,
+      }
+    `)
   })
 
   it('allows to return type of argument that is created dynamically', async () => {
@@ -198,19 +198,19 @@ Object {
 
     const schema = compileSchema(FooSchema)
     expect(printSchema(schema)).toMatchInlineSnapshot(`
-                        "input MyInputObject {
-                          a: String!
-                        }
+      "type Query {
+        hello(a1: MyInputObject!): String
+      }
 
-                        type Query {
-                          hello(a1: MyInputObject!): String
-                        }
-                        "
-                `)
+      input MyInputObject {
+        a: String!
+      }
+      "
+    `)
   })
 })
 
-describe('onlyDecoratedArgs', function() {
+describe('onlyDecoratedArgs', function () {
   it('should omit args when onlyDecoratedArgs is used', async () => {
     class CustomClass {}
 

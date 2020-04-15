@@ -1,16 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`InterfaceType should expose GQL interface type 2`] = `
-"type Boat implements IVehicle & IEntity {
-  id: Int
-  propellers: Float
-  windows: Int
-  seats: Int
-}
-
-type Car implements IVehicle & IEntity {
-  id: Int
-  wheels: Float
+"\\"\\"\\"a vehicle interface for a basic spec\\"\\"\\"
+interface IVehicle {
   windows: Int
   seats: Int
 }
@@ -20,8 +12,16 @@ interface IEntity {
   id: Int
 }
 
-\\"\\"\\"a vehicle interface for a basic spec\\"\\"\\"
-interface IVehicle {
+type Car implements IVehicle & IEntity {
+  id: Int
+  wheels: Float
+  windows: Int
+  seats: Int
+}
+
+type Boat implements IVehicle & IEntity {
+  id: Int
+  propellers: Float
   windows: Int
   seats: Int
 }

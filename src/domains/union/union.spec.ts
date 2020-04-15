@@ -87,20 +87,20 @@ describe('Unions', () => {
     const schema = compileSchema(FooSchema)
 
     expect(printSchema(schema)).toMatchInlineSnapshot(`
-"type Query {
-  aUnion: [UnionType!]
-}
+      "type Query {
+        aUnion: [UnionType!]
+      }
 
-type Sub1 {
-  bar: String
-}
+      union UnionType = Sub1 | Sub2
 
-type Sub2 {
-  bar: Float
-}
+      type Sub1 {
+        bar: String
+      }
 
-union UnionType = Sub1 | Sub2
-"
-`)
+      type Sub2 {
+        bar: Float
+      }
+      "
+    `)
   })
 })

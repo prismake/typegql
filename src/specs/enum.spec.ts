@@ -51,7 +51,7 @@ describe('Query with enums', () => {
     expect(result.errors).toBeDefined()
     expect(result.errors).toMatchInlineSnapshot(`
       Array [
-        [GraphQLError: Expected type TestEnum, found Foob. Did you mean the enum value Foo?],
+        [GraphQLError: Value "Foob" does not exist in "TestEnum" enum. Did you mean the enum value "Foo"?],
       ]
     `)
   })

@@ -9,7 +9,7 @@ import {
 } from '../..'
 import {
   graphql,
-  introspectionQuery,
+  getIntrospectionQuery,
   GraphQLObjectType,
   GraphQLString,
   GraphQLFloat,
@@ -53,7 +53,7 @@ describe('@SchemaRoot', () => {
 
     const schema = compileSchema([FooSchema])
 
-    expect(await graphql(schema, introspectionQuery)).toMatchSnapshot()
+    expect(await graphql(schema, getIntrospectionQuery())).toMatchSnapshot()
   })
 
   it('should allow schema to be compiled from multiple roots', async () => {

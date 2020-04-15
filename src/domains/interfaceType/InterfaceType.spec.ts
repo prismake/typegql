@@ -130,16 +130,8 @@ describe('InterfaceType', () => {
 
   it('should expose GQL interface type', async () => {
     expect(printSchema(schema)).toMatchInlineSnapshot(`
-      "type Boat implements IVehicle & IEntity {
-        id: Int
-        propellers: Float
-        windows: Int
-        seats: Int
-      }
-
-      type Car implements IVehicle & IEntity {
-        id: Int
-        wheels: Float
+      "\\"\\"\\"a vehicle interface for a basic spec\\"\\"\\"
+      interface IVehicle {
         windows: Int
         seats: Int
       }
@@ -149,8 +141,16 @@ describe('InterfaceType', () => {
         id: Int
       }
 
-      \\"\\"\\"a vehicle interface for a basic spec\\"\\"\\"
-      interface IVehicle {
+      type Car implements IVehicle & IEntity {
+        id: Int
+        wheels: Float
+        windows: Int
+        seats: Int
+      }
+
+      type Boat implements IVehicle & IEntity {
+        id: Int
+        propellers: Float
         windows: Int
         seats: Int
       }

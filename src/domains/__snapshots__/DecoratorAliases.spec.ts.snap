@@ -1,7 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`decorator aliases ArrayField should define the field correctly 1`] = `
-"type Bar {
+"type Query {
+  output: Bar
+}
+
+type Bar {
   foo2: [String!]!
   foo4: [String]!
   foo(a: String): [String!]!
@@ -11,15 +15,16 @@ exports[`decorator aliases ArrayField should define the field correctly 1`] = `
 type Mutation {
   output: Bar
 }
-
-type Query {
-  output: Bar
-}
 "
 `;
 
 exports[`decorator aliases should compile 1`] = `
-"type Bar {
+"type Query {
+  output: Bar
+  echo(input: BarInput!): Bar
+}
+
+type Bar {
   foo(a: String): String
 }
 
@@ -29,11 +34,6 @@ input BarInput {
 }
 
 type Mutation {
-  output: Bar
-  echo(input: BarInput!): Bar
-}
-
-type Query {
   output: Bar
   echo(input: BarInput!): Bar
 }
