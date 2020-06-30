@@ -14,7 +14,8 @@ import {
   compileObjectType,
   SchemaRoot,
   Query,
-  compileSchema
+  compileSchema,
+  Arg
 } from '../..'
 import { GraphQLDateTime } from 'graphql-iso-date'
 import { ArrayField } from './Field'
@@ -176,24 +177,54 @@ describe('Field', () => {
     )
   })
 
-  it('Properly resolves native scalar types', () => {
-    @ObjectType()
-    class Foo {
-      @Field({ type: () => String })
-      bar: any
-      @Field({ type: () => Number })
-      baz: any
-      @Field()
-      date: Date
-      @Field()
-      bool: boolean
-    }
+  describe('native scalar types', () => {
+    it('should resolve field types', () => {
+      @ObjectType()
+      class Foo {
+        @Field({ type: () => String })
+        bar: any
+        @Field({ type: () => Number })
+        baz: any
+        @Field({ type: Date })
+        date(@Arg({ type: GraphQLDateTime }) d: Date) {
+          return d
+        }
+        @Field()
+        bool: boolean
+      }
 
-    const { bar, baz, date, bool } = compileObjectType(Foo).getFields()
-    expect(bar.type).toBe(GraphQLString)
-    expect(baz.type).toBe(GraphQLFloat)
-    expect(date.type).toBe(GraphQLDateTime)
-    expect(bool.type).toBe(GraphQLBoolean)
+      const { bar, baz, date, bool } = compileObjectType(Foo).getFields()
+      expect(bar.type).toBe(GraphQLString)
+      expect(baz.type).toBe(GraphQLFloat)
+      expect(date.type).toBe(GraphQLDateTime)
+      expect(bool.type).toBe(GraphQLBoolean)
+    })
+
+    it('should interpret args correctly', async () => {
+      @SchemaRoot()
+      class FooSchema {
+        @Query({ type: Date })
+        date(@Arg({ type: GraphQLDateTime }) d: Date) {
+          return d.toISOString()
+        }
+      }
+      const schema = compileSchema(FooSchema)
+      const result = await graphql(
+        schema,
+        `
+          {
+            date(d: "2020-06-30T08:29:20.879Z")
+          }
+        `
+      )
+
+      expect(result.errors).toBeUndefined()
+      expect(result.data).toMatchInlineSnapshot(`
+        Object {
+          "date": "2020-06-30T08:29:20.879Z",
+        }
+      `)
+    })
   })
 
   it('throws an error when explicit type is "undefined"', (done) => {
@@ -508,18 +539,18 @@ describe('Field', () => {
         `
       )
       expect(result).toMatchInlineSnapshot(`
-Object {
-  "data": Object {
-    "castedQuery": Object {
-      "bar": "castedFromAQuery",
-      "castedFieldAsArrayWithBadReturnValue": null,
-    },
-  },
-  "errors": Array [
-    [GraphQLError: field "castedFieldAsArrayWithBadReturnValue" cannot be casted to object type Foo - returned value is an array],
-  ],
-}
-`)
+        Object {
+          "data": Object {
+            "castedQuery": Object {
+              "bar": "castedFromAQuery",
+              "castedFieldAsArrayWithBadReturnValue": null,
+            },
+          },
+          "errors": Array [
+            [GraphQLError: field "castedFieldAsArrayWithBadReturnValue" cannot be casted to object type Foo - returned value is an array],
+          ],
+        }
+      `)
     })
   })
 })
