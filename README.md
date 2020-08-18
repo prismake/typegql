@@ -7,7 +7,7 @@
 
 ![demo](assets/demo.gif)
 
-decapi is set of decorators for creating GraphQL APIs in typescript compatible way. Write your types and GQL schema at once killing two birds with one stone.
+decapi is a set of decorators for creating GraphQL APIs in typescript. Write your types and GQL schema at once killing two birds with one stone.
 
 ![decapitation](https://media.giphy.com/media/ePBtnkjZeYsik/giphy.gif)
 
@@ -47,7 +47,7 @@ class SuperSchema {
 const compiledSchema = compileSchema(SuperSchema)
 ```
 
-`compiledSchema` is regular executable schema compatible with `graphql-js` library.
+`compiledSchema` is a regular GQL executable schema compatible with `graphql-js` library.
 
 To use it with `express`, you'd have to simply:
 
@@ -68,6 +68,8 @@ app.listen(3000, () =>
   console.log('Graphql API ready on http://localhost:3000/graphql')
 )
 ```
+
+Although it is encouraged to prefer fastify [as it is a bit faster when used with jit](https://github.com/benawad/node-graphql-benchmarks).
 
 ## Adding nested types
 
