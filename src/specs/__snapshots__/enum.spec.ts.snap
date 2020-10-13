@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Query with enums picks up description and deprecation 1`] = `
+"type Query {
+  hello: Hello
+}
+
+type Hello {
+  world(name: TestEnum!): String
+  getAdvancedEnumValue: AdvancedEnum
+}
+
+enum TestEnum {
+  Foo
+  Bar
+  Baz
+}
+
+enum AdvancedEnum {
+  \\"\\"\\"One field description\\"\\"\\"
+  DescriptionProperty
+  DeprecationProperty @deprecated(reason: \\"Two field deprecation reason\\")
+}
+"
+`;

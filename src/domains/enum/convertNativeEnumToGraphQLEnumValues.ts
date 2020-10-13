@@ -1,4 +1,5 @@
 import { GraphQLEnumValueConfigMap } from 'graphql'
+import { EnumFieldsConfig } from './registerEnum'
 
 function validateForGraphqlJs(val: string) {
   if (!val.match(/^[_a-zA-Z][_a-zA-Z0-9]*$/)) {
@@ -9,6 +10,7 @@ function validateForGraphqlJs(val: string) {
 
 export function convertNativeEnumToGraphQLEnumValues(
   enumDef: any,
+  fieldsConfig?: EnumFieldsConfig<any>,
   useKeys = false
 ): GraphQLEnumValueConfigMap {
   const valueConfigMap: GraphQLEnumValueConfigMap = {}
@@ -16,15 +18,20 @@ export function convertNativeEnumToGraphQLEnumValues(
     if (!isNaN(key as any)) {
       return
     }
+    const fieldConfig = fieldsConfig && fieldsConfig[key]
     if (typeof val === 'string' && useKeys === false) {
       validateForGraphqlJs(val)
       valueConfigMap[val] = {
-        value: val
+        value: val,
+        deprecationReason: fieldConfig?.deprecationReason,
+        description: fieldConfig?.description
       }
     } else {
       validateForGraphqlJs(key)
       valueConfigMap[key] = {
-        value: val
+        value: val,
+        deprecationReason: fieldConfig?.deprecationReason,
+        description: fieldConfig?.description
       }
     }
   })

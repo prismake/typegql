@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Field IFieldOptions should print as expected 1`] = `
+"type Query {
+  castedQuery: Foo
+}
+
+type Foo {
+  bar: String
+  deprecated: String @deprecated(reason: \\"obsolete\\")
+  castedField: Foo
+  castedFieldDefinedAsThunk: Foo
+  castedFieldNullReturning: Foo
+  castedFieldAsArray: [Foo!]
+  castedFieldAsArrayDefinedAsThunk: [Foo!]
+  castedArrayFieldDefinedAsThunk: [Foo!]!
+  castedArrayField: [Foo!]!
+  castedFieldAsArrayWithBadReturnValue: [Foo!]
+}
+"
+`;

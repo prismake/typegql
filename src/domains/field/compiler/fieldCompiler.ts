@@ -29,7 +29,8 @@ export function compileFieldConfig(
     itemNullable,
     castTo,
     itemCast,
-    onlyDecoratedArgs
+    onlyDecoratedArgs,
+    deprecationReason
   } = fieldRegistryConfig
   const args = compileFieldArgs(target, fieldName, onlyDecoratedArgs)
   const arrayFieldType =
@@ -62,6 +63,7 @@ export function compileFieldConfig(
   return {
     description,
     type: finalType,
+    deprecationReason,
     resolve: compileFieldResolver(target, fieldName, castTo || itemCast),
     args
   }

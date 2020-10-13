@@ -20,6 +20,7 @@ export interface IFieldInnerConfig {
   itemNullable?: boolean
   castTo?: any
   onlyDecoratedArgs?: boolean
+  deprecationReason?: string
   type?: any
   itemType?: any
   itemCast?: any

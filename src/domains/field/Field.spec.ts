@@ -4,7 +4,8 @@ import {
   GraphQLBoolean,
   isNamedType,
   getNamedType,
-  graphql
+  graphql,
+  printSchema
 } from 'graphql'
 
 import 'reflect-metadata'
@@ -377,6 +378,11 @@ describe('Field', () => {
         return this.baz
       }
 
+      @Field({ deprecationReason: 'obsolete' })
+      deprecated(): string {
+        return this.baz
+      }
+
       @Field({ castTo: Foo })
       castedField() {
         return { baz: 'castedFromAField' }
@@ -423,6 +429,10 @@ describe('Field', () => {
       }
     }
     const schema = compileSchema(FooSchema)
+
+    it('should print as expected', async () => {
+      expect(printSchema(schema)).toMatchSnapshot()
+    })
 
     it('should register a field with castTo', async () => {
       const result = await graphql(
