@@ -117,7 +117,11 @@ export function computeFinalArgs(
 
     if (args && args.hasOwnProperty(paramName)) {
       const argValue = args[paramName]
+      if (argValue === null) {
+        return argValue
+      }
       const reflectedType = reflectedParamTypes && reflectedParamTypes[index]
+
       if (argConfig && argConfig.type) {
         return resolveExplicitArgument(argConfig, argValue)
       } else if (reflectedType) {
