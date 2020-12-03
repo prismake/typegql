@@ -26,14 +26,14 @@ export function inferTypeOrThrow(
   target: Function,
   fieldName: string
 ): GraphQLType {
-  const inferedType = inferTypeByTarget(target.prototype, fieldName)
+  const inferredType = inferTypeByTarget(target.prototype, fieldName)
 
-  if (!inferedType) {
+  if (!inferredType) {
     throw new InputFieldError(
       target,
       fieldName,
       `Could not infer return type and no type is explicitly configured. In case of circular dependencies make sure to force types of instead of infering them.`
     )
   }
-  return resolveType(inferedType, true, true)
+  return resolveType(inferredType, true, true)
 }
