@@ -395,6 +395,10 @@ describe('Field', () => {
       castedFieldNullReturning(): Foo {
         return null
       }
+      @Field({ castTo: Foo })
+      castedFieldUndefinedReturning(): Foo {
+        return
+      }
 
       @Field({ castTo: [Foo] })
       castedFieldAsArray() {
@@ -450,6 +454,9 @@ describe('Field', () => {
               castedFieldNullReturning {
                 bar
               }
+              castedFieldUndefinedReturning {
+                bar
+              }
               castedFieldAsArrayDefinedAsThunk {
                 bar
               }
@@ -499,6 +506,7 @@ describe('Field', () => {
             "bar": "castedFromAField",
           },
           "castedFieldNullReturning": null,
+          "castedFieldUndefinedReturning": null,
         }
       `)
     })
