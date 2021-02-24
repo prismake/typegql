@@ -13,7 +13,7 @@ import {
   queryFieldsRegistry
 } from '../../schema/SchemaRoot'
 
-export function resolveRegisteredOrInferedType(
+export function resolveRegisteredOrInferredType(
   target: Function,
   fieldName: string,
   explicitType?: any

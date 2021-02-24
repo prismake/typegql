@@ -10,7 +10,7 @@ import { compileFieldResolver } from './resolver'
 import {
   enhanceType,
   isRootFieldOnNonRootBase,
-  resolveRegisteredOrInferedType,
+  resolveRegisteredOrInferredType,
   validateResolvedType
 } from './services'
 
@@ -38,7 +38,7 @@ export function compileFieldConfig(
 
   const explicitType = arrayFieldType ? arrayFieldType : castTo ? castTo : type
 
-  const resolvedType = resolveRegisteredOrInferedType(
+  const resolvedType = resolveRegisteredOrInferredType(
     target,
     fieldName,
     explicitType
