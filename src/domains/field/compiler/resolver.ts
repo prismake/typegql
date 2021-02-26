@@ -21,6 +21,7 @@ import {
 } from '../../../services/utils/gql/types/parseNative'
 import { IInjectorResolverData } from '../../../domains/inject/registry'
 import { AfterHookExecutor } from '../../../domains/hooks/registry'
+import isPromiseLike from '../../../isPromiseLike'
 
 interface IArgsMap {
   [argName: string]: any
@@ -38,10 +39,7 @@ async function performHooksExecution(
   hooks: HookExecutor[],
   injectorData: IInjectorResolverData
 ) {
-  if (!hooks) {
-    return
-  }
-  // all hooks are executed in paralel. Resolution of the field continues after the hooks resolve all their promises
+  // all hooks are executed in parallel. Resolution of the field continues after the hooks resolve all their promises
   return Promise.all(
     hooks.map((hook) => {
       return hook(injectorData)
@@ -54,10 +52,7 @@ async function performAfterHooksExecution(
   injectorData: IInjectorResolverData,
   resolvedValue: any
 ) {
-  if (!hooks) {
-    return
-  }
-  // all hooks are executed in paralel. Resolution of the field continues after the hooks resolve all their promises
+  // all hooks are executed in parallel. Resolution of the field continues after the hooks resolve all their promises
   return Promise.all(
     hooks.map((hook) => {
       return hook(resolvedValue, injectorData)
@@ -211,13 +206,21 @@ export function compileFieldResolver(
       context,
       info
     }
-    await performHooksExecution(beforeHooks, injectorData)
+    if (beforeHooks) {
+      await performHooksExecution(beforeHooks, injectorData)
+    }
     const instanceField = getFieldOfTarget(source, target.prototype, fieldName)
 
     let resolvedValue
     if (typeof instanceField !== 'function') {
       resolvedValue = castIfNeeded(instanceField)
-      await performAfterHooksExecution(afterHooks, injectorData, resolvedValue)
+      if (afterHooks) {
+        await performAfterHooksExecution(
+          afterHooks,
+          injectorData,
+          resolvedValue
+        )
+      }
       return resolvedValue
     }
 
@@ -238,10 +241,15 @@ export function compileFieldResolver(
       }
     })
 
-    resolvedValue = await instanceFieldFunc.apply(source, params)
+    const promiseOrValue = instanceFieldFunc.apply(source, params)
+    resolvedValue = isPromiseLike(promiseOrValue)
+      ? await promiseOrValue
+      : promiseOrValue
     resolvedValue = castIfNeeded(resolvedValue)
 
-    await performAfterHooksExecution(afterHooks, injectorData, resolvedValue)
+    if (afterHooks) {
+      await performAfterHooksExecution(afterHooks, injectorData, resolvedValue)
+    }
     return resolvedValue
   }
 }
