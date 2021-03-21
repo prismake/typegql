@@ -44,6 +44,7 @@ export function enhanceType(
   isNullable: boolean
 ) {
   let finalType = originalType
+
   if (!isNullable) {
     finalType = new GraphQLNonNull(finalType)
   }

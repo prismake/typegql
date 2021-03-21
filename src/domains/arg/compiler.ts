@@ -15,13 +15,13 @@ import { injectorRegistry } from '../inject/Inject'
 import { getParameterNames } from '../../services/utils/getParameterNames'
 import { resolveType } from '../../services/utils/gql/types/typeResolvers'
 
-function compileInferedAndRegisterdArgs(
-  infered: any[],
+function compileInferredAndRegisteredArgs(
+  inferred: any[],
   registeredArgs: IArgsIndex = [],
   onlyDecoratedArgs: boolean
 ) {
-  return infered
-    .map((inferedType, index) => {
+  return inferred
+    .map((inferredType, index) => {
       const registered = registeredArgs[index]
       if (registered && registered.type) {
         return registered.type
@@ -29,7 +29,7 @@ function compileInferedAndRegisterdArgs(
       if (!registered && onlyDecoratedArgs) {
         return null // no need to get the type as it is not decorated
       }
-      return inferedType
+      return inferredType
     })
     .map((argType) => {
       return resolveType(argType, true, true)
@@ -173,15 +173,13 @@ export function compileFieldArgs(
   }
   let argumentTypes: GraphQLInputType[]
   try {
-    argumentTypes = (compileInferedAndRegisterdArgs(
+    argumentTypes = (compileInferredAndRegisteredArgs(
       inferedRawArgs,
       registeredArgs,
       onlyDecoratedArgs
     ) as any) as GraphQLInputType[]
   } catch (err) {
-    err.message = `Field ${fieldName} on ${target} failed to compile arguments: ${
-      err.message
-    }`
+    err.message = `Field ${fieldName} on ${target} failed to compile arguments: ${err.message}`
     throw err
   }
 

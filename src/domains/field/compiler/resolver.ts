@@ -75,7 +75,12 @@ function resolveExplicitArgument(argConfig: IArgInnerConfig, argValue: any) {
     })
   } else {
     const { type } = argConfig
-    if (typeof argValue !== 'object' || !type.prototype) {
+
+    if (
+      typeof argValue !== 'object' ||
+      !type.prototype ||
+      argValue.__proto__ === type.prototype // we only want to do the cast into an instance of the explicit type if it isn't already an instance. This can happen when GQL scalar does it-for example GraphQLDateTime
+    ) {
       return argValue
     }
 

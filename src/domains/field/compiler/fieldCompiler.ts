@@ -60,6 +60,7 @@ export function compileFieldConfig(
         new GraphQLList(enhanceType(resolvedType, itemNullable))
       )
     : enhanceType(resolvedType, isNullable)
+
   return {
     description,
     type: finalType,

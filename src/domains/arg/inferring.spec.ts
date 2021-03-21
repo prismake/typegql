@@ -1,5 +1,13 @@
-import { GraphQLString, GraphQLFloat, GraphQLNonNull } from 'graphql'
-import { ObjectType, Field, compileObjectType } from '../..'
+import { GraphQLString, GraphQLFloat, GraphQLNonNull, graphql } from 'graphql'
+import {
+  ObjectType,
+  Field,
+  compileObjectType,
+  SchemaRoot,
+  Query,
+  compileSchema,
+  ArgNullable
+} from '../..'
 import { GraphQLDateTime } from 'graphql-iso-date'
 
 describe('Arguments', () => {
@@ -60,5 +68,55 @@ describe('Arguments', () => {
 
     expect(date.type).toEqual(new GraphQLNonNull(GraphQLDateTime))
     expect(date.name).toEqual('date')
+  })
+
+  it('Does not break on Date when explicit type of Date is specified', async () => {
+    @ObjectType()
+    class Foo {
+      @Field()
+      dateField(@ArgNullable({ type: Date }) date?: Date): Date {
+        expect(date instanceof Date).toBeTruthy()
+
+        return date
+      }
+    }
+    const { dateField } = compileObjectType(Foo).getFields()
+
+    expect(dateField.args.length).toEqual(1)
+    const [date] = dateField.args
+
+    expect(date.type).toEqual(GraphQLDateTime)
+    expect(date.name).toEqual('date')
+
+    @SchemaRoot()
+    class FooSchema {
+      @Query({ castTo: Foo })
+      foo() {
+        return {}
+      }
+    }
+
+    const schema = compileSchema(FooSchema)
+
+    const result = await graphql(
+      schema,
+      `
+        {
+          foo {
+            dateField(date: "2021-03-18T08:25:44.982Z")
+          }
+        }
+      `
+    )
+
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "data": Object {
+          "foo": Object {
+            "dateField": "2021-03-18T08:25:44.982Z",
+          },
+        },
+      }
+    `)
   })
 })
