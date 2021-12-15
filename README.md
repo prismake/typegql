@@ -189,3 +189,8 @@ I wanted to contribute to [typegql](https://github.com/prismake/typegql) and wor
 ## Before `1.0.0`
 
 Before version `1.0.0` consider APIs of `decapi` to be subject to change. We encourage you to try this library out and provide us feedback so we can polish it to be as usable and efficent as possible.
+
+## TC39 decorators proposal
+
+Please if you enjoy decapi, go and star repo with the [proposal-decorators
+](https://github.com/tc39/proposal-decorators). That's a way to show the TC39 members that you are using decorators and you want to have them in the language.
