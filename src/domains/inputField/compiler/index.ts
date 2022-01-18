@@ -63,7 +63,6 @@ export function compileInputFieldConfig(
     return
   }
 
-  resolvedType
   const finalType = enhanceType(resolvedType, isNullable)
 
   return {

@@ -3,14 +3,18 @@ import {
   inputFieldsRegistry,
   IFieldInputInnerConfig
 } from '../inputField/registry'
-import { IFieldOptions } from '../field/Field'
+import { IArrayFieldOptions } from '../field/Field'
 
 export { FieldError } from './error'
 
+interface IDuplexFieldOptions extends IArrayFieldOptions { 
+  inputNullable?: boolean
+  itemType?: any,
+  itemCast?: any
+}
+
 export function DuplexField(
-  options?: {
-    inputNullable?: boolean
-  } & IFieldOptions
+  options?: IDuplexFieldOptions 
 ): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     let isNullable = true
@@ -26,10 +30,16 @@ export function DuplexField(
       delete options.inputNullable
     }
 
+    let type = options?.type
+    if (options?.itemType || options?.itemCast) {
+      type = [options.itemType ?? options.itemCast]
+    } 
+
     const finalInputConfig: IFieldInputInnerConfig = {
       property: fieldName,
       name: fieldName,
       isNullable: inputNullable,
+      type,
       ...options
     } as any
 
@@ -47,4 +57,17 @@ export function DuplexField(
       finalInputConfig
     )
   }
+}
+
+export function DuplexArrayField(
+  options?: IArrayFieldOptions
+): PropertyDecorator {
+  const typeOrCastTo = options ? options.itemType || options.itemCast : null
+
+  if (!typeOrCastTo) {
+    throw new TypeError(
+      'ArrayField must have an explicit itemType or itemCast config'
+    )
+  }
+  return DuplexField(options)
 }

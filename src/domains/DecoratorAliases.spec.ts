@@ -5,11 +5,11 @@ import { ArgNullable } from './arg/ArgDecorators'
 import { QueryAndMutation } from './schema/rootFields'
 
 import { InputFieldNullable } from './inputField/InputFieldDecorators'
-import { DuplexField } from './duplexField/DuplexField'
+import { DuplexArrayField, DuplexField } from './duplexField/DuplexField'
 import { ArrayField } from './field/Field'
 
 describe('decorator aliases', () => {
-  it('should compile', async () => {
+  it.only('should compile', async () => {
     @DuplexObjectType()
     class Bar {
       @InputFieldNullable()
@@ -18,6 +18,8 @@ describe('decorator aliases', () => {
       foo(@ArgNullable() a: string): string {
         return a
       }
+      @DuplexArrayField({ itemType: String})
+      duplexArrayOfString: Array<string | null>
     }
 
     @SchemaRoot()

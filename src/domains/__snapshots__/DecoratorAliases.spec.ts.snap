@@ -26,11 +26,13 @@ exports[`decorator aliases should compile 1`] = `
 
 type Bar {
   foo(a: String): String
+  duplexArrayOfString: [String!]!
 }
 
 input BarInput {
   foo2: String
   foo: String
+  duplexArrayOfString: [String!]
 }
 
 type Mutation {

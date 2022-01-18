@@ -35,5 +35,6 @@ export function inferTypeOrThrow(
       `Could not infer return type and no type is explicitly configured. In case of circular dependencies make sure to force types of instead of infering them.`
     )
   }
+
   return resolveType(inferredType, true, true)
 }

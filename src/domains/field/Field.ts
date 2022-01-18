@@ -25,7 +25,7 @@ export interface IFieldOptions extends IFieldOptionsBase {
   deprecationReason?: string
 }
 
-export interface IArrayFieldOptions extends IFieldOptionsBase {
+export interface IArrayFieldOptions extends IFieldOptions {
   itemType?: any
   itemCast?: any
   itemNullable?: boolean

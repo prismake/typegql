@@ -5,5 +5,10 @@ module.exports = {
   collectCoverage: false,
   testMatch: ['**/*.spec.(ts|tsx|js)'],
   setupFiles: ['<rootDir>/src/specs/setup.ts'],
-  testPathIgnorePatterns: ['/lib/']
+  testPathIgnorePatterns: ['/lib/'],
+  globals: {
+    'ts-jest': {
+      diagnostics: false
+    }
+  }
 }

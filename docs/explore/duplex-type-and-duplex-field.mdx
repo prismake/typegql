@@ -18,6 +18,12 @@ class User {
   name: string
   @Field()
   password_hash: string
+
+  @DuplexArrayField({ itemType: String})
+  duplexArrayOfString: Array<string | null>
+
+  @InputFieldNullable()
+  foo2: string
 }
 
 @SchemaRoot()
