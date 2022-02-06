@@ -127,14 +127,16 @@ const compiledSchema = compileSchema(SuperSchema)
 
 ## Setting the type explicitly
 
-Since now, `decapi` was able to guess type of every field from typescript type definitions.
+In previous examples, `decapi` was able to determine the type of every field from typescript type definitions.
 
-There are, however, some cases where we have to define them explicitly.
+There are, however cases where we have to define them explicitly.
 
 - We want to specify whether field is nullable or not
 - We want to be explicit about if some `number` type is `Float` or `Int` (`GraphQLFloat` or `GraphQLInt`) etc
 - Function we use returns type of `Promise<SomeType>` while field itself is typed as `SomeType`
-- List (Array) type is used. (For now, typescript `Reflect` api is not able to guess type of single array item. This might change in the future)
+- List (Array) type is used. (For now, typescript `Reflect` api is not able to guess type of single array item)
+
+For major version 1.0.0 we will use https://github.com/rezonant/typescript-rtti so it will be able to determine all types directly from the TS type. This is WIP ATM.
 
 Let's modify our `Product` so it has additional `categories` field that will return array of strings. For the sake of readability, let's ommit all fields we've defined previously.
 
