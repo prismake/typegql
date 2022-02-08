@@ -17,6 +17,5 @@ type Foo {
   castedArrayFieldDefinedAsThunk: [Foo!]!
   castedArrayField: [Foo!]!
   castedFieldAsArrayWithBadReturnValue: [Foo!]
-}
-"
+}"
 `;

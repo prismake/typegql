@@ -82,9 +82,9 @@ describe('Field args', () => {
   const schema = compileSchema(FooSchema)
 
   it('will have correct values even for "false"', async () => {
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           hello {
             boolTest(v1: false)
@@ -93,7 +93,7 @@ describe('Field args', () => {
           }
         }
       `
-    )
+    })
 
     expect(result.errors).toBeUndefined()
     expect(result.data.hello).toMatchInlineSnapshot(`
@@ -106,16 +106,16 @@ describe('Field args', () => {
   })
 
   it('will have undefined for args which were not sent down the wire', async () => {
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           hello {
             boolTest4(a2: true)
           }
         }
       `
-    )
+    })
     expect(result).toMatchInlineSnapshot(`
                               Object {
                                 "data": Object {
@@ -128,9 +128,9 @@ describe('Field args', () => {
   })
 
   it('will rename argument', async () => {
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           hello {
             argRename(myFancyArgument: "fancy")
@@ -141,7 +141,7 @@ describe('Field args', () => {
           }
         }
       `
-    )
+    })
     expect(result).toMatchInlineSnapshot(`
                               Object {
                                 "data": Object {
@@ -155,16 +155,16 @@ describe('Field args', () => {
   })
 
   it('uses the default value', async () => {
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           hello {
             defaultVal
           }
         }
       `
-    )
+    })
 
     expect(result.errors).toBeUndefined()
     expect(result.data.hello).toMatchInlineSnapshot(`
@@ -204,8 +204,7 @@ describe('Field args', () => {
 
       input MyInputObject {
         a: String!
-      }
-      "
+      }"
     `)
   })
 })
@@ -244,8 +243,7 @@ describe('onlyDecoratedArgs', function () {
       type Test {
         shouldHaveNone: Boolean
         shouldHaveOnlyOne(v2: Boolean!): Boolean
-      }
-      "
+      }"
     `)
   })
 })

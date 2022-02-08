@@ -6,7 +6,7 @@ import {
   GraphQLBoolean,
   GraphQLScalarType
 } from 'graphql'
-import { GraphQLDateTime } from 'graphql-iso-date'
+import { GraphQLDateTime } from 'graphql-scalars'
 
 // tslint:disable-next-line: use-primitive-type
 export type ParsableScalar = String | Number | Boolean | Date

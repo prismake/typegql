@@ -38,6 +38,5 @@ input BarInput {
 type Mutation {
   output: Bar
   echo(input: BarInput!): Bar
-}
-"
+}"
 `;

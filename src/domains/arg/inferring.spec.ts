@@ -1,4 +1,5 @@
 import { GraphQLString, GraphQLFloat, GraphQLNonNull, graphql } from 'graphql'
+import { GraphQLDateTime } from 'graphql-scalars'
 import {
   ObjectType,
   Field,
@@ -8,7 +9,6 @@ import {
   compileSchema,
   ArgNullable
 } from '../..'
-import { GraphQLDateTime } from 'graphql-iso-date'
 
 describe('Arguments', () => {
   it('Infers basic arguments without @Arg decorator', () => {
@@ -98,22 +98,22 @@ describe('Arguments', () => {
 
     const schema = compileSchema(FooSchema)
 
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           foo {
             dateField(date: "2021-03-18T08:25:44.982Z")
           }
         }
       `
-    )
+    })
 
     expect(result).toMatchInlineSnapshot(`
       Object {
         "data": Object {
           "foo": Object {
-            "dateField": "2021-03-18T08:25:44.982Z",
+            "dateField": 2021-03-18T08:25:44.982Z,
           },
         },
       }

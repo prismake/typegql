@@ -71,9 +71,9 @@ describe('Query a mixin method', () => {
   it('executes and field method has correct context', async () => {
     expect(printSchema(schema)).toMatchSnapshot()
 
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           hello {
             mixinMethod(a: "Bob1")
@@ -83,7 +83,7 @@ describe('Query a mixin method', () => {
           }
         }
       `
-    )
+    })
 
     expect(result).toMatchSnapshot()
     interfaceClassesSet.clear()

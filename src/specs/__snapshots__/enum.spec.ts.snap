@@ -20,6 +20,5 @@ enum AdvancedEnum {
   \\"\\"\\"One field description\\"\\"\\"
   DescriptionProperty
   DeprecationProperty @deprecated(reason: \\"Two field deprecation reason\\")
-}
-"
+}"
 `;

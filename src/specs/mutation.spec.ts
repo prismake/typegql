@@ -42,31 +42,31 @@ const schema = compileSchema(FooSchema)
 
 describe('Mutation', () => {
   it('should not allow wrong argument types', async () => {
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         mutation {
           hello {
             world(name: 2)
           }
         }
       `
-    )
+    })
     expect(result.errors).toBeDefined()
     expect(result.errors).toMatchSnapshot()
   })
 
   it('should allow complex input types', async () => {
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           deepInput(input: { value: "Hola" }) {
             world(name: "Bob")
           }
         }
       `
-    )
+    })
 
     expect(result).toEqual({ data: { deepInput: { world: 'Hola, Bob' } } })
   })

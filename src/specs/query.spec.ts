@@ -26,44 +26,44 @@ const schema = compileSchema(FooSchema)
 
 describe('Query', () => {
   it('should support queries with simple arguments', async () => {
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           hello {
             world(name: "Bob")
           }
         }
       `
-    )
+    })
 
     expect(result).toEqual({ data: { hello: { world: 'Hello, Bob' } } })
   })
 
   it('should not allow wrong argument types', async () => {
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           hello {
             world(name: 2)
           }
         }
       `
-    )
+    })
     expect(result.errors).toBeDefined()
     expect(result.errors).toMatchSnapshot()
   })
 
   it('will support flat root fields', async () => {
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           foo
         }
       `
-    )
+    })
     expect(result).toEqual({ data: { foo: 'bar' } })
   })
 })

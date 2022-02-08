@@ -140,9 +140,9 @@ describe('Enums', () => {
     }
     const schema = compileSchema(FooSchema)
     expect(printSchema(schema)).toMatchSnapshot()
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           echoAsInferred(input: IN_PROGRESS)
           echoAsEnum(input: IN_PROGRESS)
@@ -151,7 +151,7 @@ describe('Enums', () => {
           intAsInferred(input: two)
         }
       `
-    )
+    })
 
     expect(result).toMatchInlineSnapshot(`
       Object {

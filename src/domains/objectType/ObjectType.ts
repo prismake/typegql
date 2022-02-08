@@ -1,7 +1,7 @@
 import { compileObjectTypeWithConfig } from './compiler/objectType'
 import { objectTypeRegistry } from './registry'
 import { interfaceTypeImplementors } from '../interfaceType/interfaceTypeRegistry'
-import { Thunk } from 'graphql'
+import { ThunkReadonlyArray } from 'graphql'
 
 export { compileObjectType } from './compiler/objectType'
 export { ObjectTypeError } from './error'
@@ -10,7 +10,7 @@ export { objectTypeRegistry, inputTypeRegistry } from './registry'
 export interface IObjectTypeOptions {
   name?: string
   description?: string
-  mixins?: Function[] | Thunk<any>
+  mixins?: ThunkReadonlyArray<any>
   implements?: Function[]
 }
 

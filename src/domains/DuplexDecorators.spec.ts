@@ -42,29 +42,29 @@ describe('duplex object type', () => {
       }
     }
     const schema = compileSchema(FooSchema)
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           output {
             foo2
           }
         }
       `
-    )
+    })
 
     expect(result).toEqual({ data: { output: { foo2: 'bar' } } })
 
-    const result2 = await graphql(
+    const result2 = await graphql({
       schema,
-      `
+      source: `
         {
           echo(input: { foo: "aaa", fod: { foo2: "bbb" } }) {
             foo
           }
         }
       `
-    )
+    })
 
     expect(result2).toEqual({ data: { echo: { foo: 'aaa' } } })
   })

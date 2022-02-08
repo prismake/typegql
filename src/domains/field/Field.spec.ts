@@ -18,7 +18,7 @@ import {
   compileSchema,
   Arg
 } from '../..'
-import { GraphQLDateTime } from 'graphql-iso-date'
+import { GraphQLDateTime } from 'graphql-scalars'
 import { ArrayField } from './Field'
 
 describe('Field', () => {
@@ -210,19 +210,19 @@ describe('Field', () => {
         }
       }
       const schema = compileSchema(FooSchema)
-      const result = await graphql(
+      const result = await graphql({
         schema,
-        `
+        source: `
           {
             date(d: "2020-06-30T08:29:20.879Z")
           }
         `
-      )
+      })
 
       expect(result.errors).toBeUndefined()
       expect(result.data).toMatchInlineSnapshot(`
         Object {
-          "date": "2020-06-30T08:29:20.879Z",
+          "date": 2020-06-30T08:29:20.879Z,
         }
       `)
     })
@@ -439,9 +439,9 @@ describe('Field', () => {
     })
 
     it('should register a field with castTo', async () => {
-      const result = await graphql(
+      const result = await graphql({
         schema,
-        `
+        source: `
           {
             castedQuery {
               bar
@@ -469,7 +469,7 @@ describe('Field', () => {
             }
           }
         `
-      )
+      })
 
       expect(result.errors).toBeUndefined()
       expect(result.data.castedQuery).toMatchInlineSnapshot(`
@@ -512,9 +512,9 @@ describe('Field', () => {
     })
 
     it('should be able to castTo an array of classes', async () => {
-      const result = await graphql(
+      const result = await graphql({
         schema,
-        `
+        source: `
           {
             castedQuery {
               bar
@@ -524,7 +524,7 @@ describe('Field', () => {
             }
           }
         `
-      )
+      })
 
       expect(result.errors).toBeUndefined()
       expect(result.data.castedQuery).toMatchInlineSnapshot(`
@@ -543,9 +543,9 @@ describe('Field', () => {
     })
 
     it('throws when returning array of arrays with an array castTo', async () => {
-      const result = await graphql(
+      const result = await graphql({
         schema,
-        `
+        source: `
           {
             castedQuery {
               bar
@@ -555,7 +555,7 @@ describe('Field', () => {
             }
           }
         `
-      )
+      })
       expect(result).toMatchInlineSnapshot(`
         Object {
           "data": Object {

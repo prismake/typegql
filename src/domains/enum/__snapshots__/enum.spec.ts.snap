@@ -26,6 +26,5 @@ enum StateEnumUsingKeys {
 enum IntEnum {
   one
   two
-}
-"
+}"
 `;

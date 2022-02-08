@@ -10,7 +10,7 @@ import {
   InputField,
   Mutation
 } from '../index'
-import { GraphQLDateTime } from 'graphql-iso-date'
+import { GraphQLDateTime } from 'graphql-scalars'
 
 @InputObjectType()
 class Input {
@@ -62,16 +62,16 @@ const schema = compileSchema(FooSchema)
 
 describe('input object type arguments are passed as instances', () => {
   it('passes as Input', async () => {
-    const result1 = await graphql(
+    const result1 = await graphql({
       schema,
-      `
+      source: `
         {
           hello {
             bar(input: { inputField: "Foo" })
           }
         }
       `
-    )
+    })
 
     expect(result1).toMatchInlineSnapshot(`
 Object {
@@ -83,9 +83,9 @@ Object {
 }
 `)
 
-    const result2 = await graphql(
+    const result2 = await graphql({
       schema,
-      `
+      source: `
         {
           hello {
             barWithList(
@@ -94,7 +94,7 @@ Object {
           }
         }
       `
-    )
+    })
 
     expect(result2).toMatchInlineSnapshot(`
 Object {
@@ -106,14 +106,14 @@ Object {
 }
 `)
 
-    const result3 = await graphql(
+    const result3 = await graphql({
       schema,
-      `
+      source: `
         mutation {
           barMutation(input: { inputField: "Bar" })
         }
       `
-    )
+    })
 
     expect(result3).toMatchInlineSnapshot(`
 Object {
@@ -125,14 +125,14 @@ Object {
   })
 
   it('should work with scalars', async () => {
-    const result2 = await graphql(
+    const result2 = await graphql({
       schema,
-      `
+      source: `
         {
           withScalar(aDate: "2018-10-10T23:37:34+02:00")
         }
       `
-    )
+    })
 
     expect(result2).toMatchInlineSnapshot(`
 Object {

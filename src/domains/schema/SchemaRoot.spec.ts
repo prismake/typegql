@@ -53,7 +53,9 @@ describe('@SchemaRoot', () => {
 
     const schema = compileSchema([FooSchema])
 
-    expect(await graphql(schema, getIntrospectionQuery())).toMatchSnapshot()
+    expect(
+      await graphql({ schema, source: getIntrospectionQuery() })
+    ).toMatchSnapshot()
   })
 
   it('should allow schema to be compiled from multiple roots', async () => {
@@ -201,14 +203,14 @@ describe('@SchemaRoot', () => {
 
     const schema = compileSchema([FooSchema])
 
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           foo
         }
       `
-    )
+    })
 
     expect(result.data.foo).toEqual(42)
   })
@@ -229,14 +231,14 @@ describe('@SchemaRoot', () => {
 
     const schema = compileSchema([FooSchema])
 
-    await graphql(
+    await graphql({
       schema,
-      `
+      source: `
         {
           foo
         }
       `
-    )
+    })
 
     expect(constructorCall).toBeCalled()
   })

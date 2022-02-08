@@ -12,7 +12,7 @@ export async function runBenchmark(schema: GraphQLSchema) {
   `
   console.time('singleObject')
   for (let i = 0; i < BENCHMARK_ITERATIONS; i++) {
-    const result = await graphql(schema, singleObjectQuery)
+    const result = await graphql({ schema, source: singleObjectQuery })
     console.assert(result.data !== undefined, 'result data is undefined')
     console.assert(
       result.data.singleObject !== undefined,
@@ -42,7 +42,7 @@ export async function runBenchmark(schema: GraphQLSchema) {
   `
   console.time('nestedObject')
   for (let i = 0; i < BENCHMARK_ITERATIONS; i++) {
-    const result = await graphql(schema, nestedObjectQuery)
+    const result = (await graphql({ schema, source: nestedObjectQuery })) as any
 
     console.assert(result.data !== undefined, 'result data is undefined')
 

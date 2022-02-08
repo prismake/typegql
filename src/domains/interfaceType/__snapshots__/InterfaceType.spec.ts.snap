@@ -38,8 +38,7 @@ type Query {
   vehicles: [IVehicle!]
   boat: Boat
   car: Car
-}
-"
+}"
 `;
 
 exports[`InterfaceType should resolve correctly 1`] = `

@@ -33,7 +33,10 @@ function getInterfaceResolveType(target: Function) {
       for (const implementor of implementors) {
         if (Object.getPrototypeOf(value) === implementor.prototype) {
           const typeGetterFromRegistry = objectTypeRegistry.get(implementor)
-          return typeGetterFromRegistry()
+
+          const type = typeGetterFromRegistry()
+
+          return type.name
         }
       }
     }
@@ -70,6 +73,7 @@ export function InterfaceType(config?: ITypeOptions): ClassDecorator {
       const intfc = new GraphQLInterfaceType({
         name,
         description,
+
         resolveType: getInterfaceResolveType(target),
         fields: getFieldsGetter(target, config)
       })

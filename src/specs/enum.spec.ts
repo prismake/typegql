@@ -57,16 +57,16 @@ describe('Query with enums', () => {
   })
 
   it('Will guard proper enum values', async () => {
-    const result = await graphql(
+    const result = await graphql({
       schema,
-      `
+      source: `
         {
           hello {
             world(name: Foob)
           }
         }
       `
-    )
+    })
 
     expect(result.errors).toBeDefined()
     expect(result.errors).toMatchInlineSnapshot(`

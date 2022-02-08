@@ -99,8 +99,7 @@ describe('Unions', () => {
 
       type Sub2 {
         bar: Float
-      }
-      "
+      }"
     `)
   })
 })

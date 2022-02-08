@@ -166,16 +166,15 @@ describe('InterfaceType', () => {
       type Query {
         vehicles: [IVehicle!]
         entities: [IVehicle!]
-      }
-      "
+      }"
     `)
     expect(printSchema(schemaMoreComplex)).toMatchSnapshot()
   })
   it('should resolve correctly', async () => {
     expect(
-      await graphql(
+      await graphql({
         schema,
-        `
+        source: `
           {
             vehicles {
               seats
@@ -190,14 +189,14 @@ describe('InterfaceType', () => {
             }
           }
         `
-      )
+      })
     ).toMatchSnapshot()
   })
   it('should resolve correctly even when extending another implemetor type', async () => {
     expect(
-      await graphql(
-        schemaMoreComplex,
-        `
+      await graphql({
+        schema: schemaMoreComplex,
+        source: `
           {
             car {
               seats
@@ -228,7 +227,7 @@ describe('InterfaceType', () => {
             }
           }
         `
-      )
+      })
     ).toMatchSnapshot()
   })
 })
