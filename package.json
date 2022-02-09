@@ -50,7 +50,7 @@
     "gh-pages": "^3.2.3",
     "graphql": "^16.3.0",
     "husky": "^7.0.4",
-    "jest": "^27.5.0",
+    "jest": "^27.5.1",
     "lint-staged": "^12.3.3",
     "prettier": "^2.5.1",
     "pretty-quick": "^3.1.3",
