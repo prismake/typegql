@@ -22,7 +22,8 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "stripInternal": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "plugins": [{ "transform": "typescript-rtti/dist/transformer" }]
   },
   "exclude": [
     "./examples",

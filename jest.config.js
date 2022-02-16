@@ -8,7 +8,8 @@ module.exports = {
   testPathIgnorePatterns: ['/lib/'],
   globals: {
     'ts-jest': {
-      diagnostics: false
+      diagnostics: false,
+      compiler: 'ttypescript'
     }
   }
 }
