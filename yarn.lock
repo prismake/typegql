@@ -17276,10 +17276,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript-rtti@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/typescript-rtti/-/typescript-rtti-0.1.2.tgz#f3ec3af5cfb4ad46657e0e64cd6e48405f4426cd"
-  integrity sha512-F+tzK55P6w6I66AuttGtjVbIi7rPUyn/n6P0kiy3WqtxFqzfMV0jqYitXxev8kbsw2+T9IGJNz7IjFBoPxQZeg==
+typescript-rtti@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/typescript-rtti/-/typescript-rtti-0.1.4.tgz#63ebdb127d653e1761294706193b1aa87c68e4a2"
+  integrity sha512-pdqTF7Np9SZbkumSgPDHut/olHMpClYuzSzvwcY6hecNKJFOxwSVio5oyZHNqlaTXYul3xWQFlWmQh6KQbW5Mw==
 
 typescript@3.3.4000:
   version "3.3.4000"
