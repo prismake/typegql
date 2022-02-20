@@ -8,7 +8,6 @@ import { FieldError, fieldsRegistry } from '../Field'
 
 import { compileFieldResolver } from './resolver'
 import {
-  enhanceType,
   isRootFieldOnNonRootBase,
   resolveRegisteredOrInferredType,
   validateResolvedType
@@ -22,21 +21,17 @@ export function compileFieldConfig(
   fieldName: string
 ): GraphQLFieldConfig<any, any, any> {
   const fieldRegistryConfig = fieldsRegistry.get(target, fieldName)
+
   const {
-    type,
     description,
-    isNullable,
-    itemNullable,
     castTo,
     itemCast,
     onlyDecoratedArgs,
     deprecationReason
   } = fieldRegistryConfig
   const args = compileFieldArgs(target, fieldName, onlyDecoratedArgs)
-  const arrayFieldType =
-    fieldRegistryConfig.itemType || fieldRegistryConfig.itemCast
 
-  const explicitType = arrayFieldType ? arrayFieldType : castTo ? castTo : type
+  const explicitType = itemCast ?? castTo ?? null
 
   const resolvedType = resolveRegisteredOrInferredType(
     target,
@@ -55,11 +50,9 @@ export function compileFieldConfig(
     return
   }
 
-  const finalType = arrayFieldType
-    ? new GraphQLNonNull(
-        new GraphQLList(enhanceType(resolvedType, itemNullable))
-      )
-    : enhanceType(resolvedType, isNullable)
+  const finalType = itemCast
+    ? new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(resolvedType)))
+    : resolvedType
 
   return {
     description,

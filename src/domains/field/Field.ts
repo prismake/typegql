@@ -20,13 +20,11 @@ export interface IFieldOptionsBase {
 export interface IFieldOptions extends IFieldOptionsBase {
   isNullable?: boolean
   itemNullable?: boolean
-  type?: any
   castTo?: any
   deprecationReason?: string
 }
 
 export interface IArrayFieldOptions extends IFieldOptions {
-  itemType?: any
   itemCast?: any
   itemNullable?: boolean
 }
@@ -37,11 +35,11 @@ export function Field(
   return (targetInstance: Object, fieldName: string) => {
     if (
       options &&
-      options.hasOwnProperty('type') &&
-      (options as IFieldOptions).type === undefined
+      options.hasOwnProperty('castTo') &&
+      (options as IFieldOptions).castTo === undefined
     ) {
       console.log(
-        'This usually happens when a circular dependency is present. Wrap your explicit type in an arrow function to avoid this problem.'
+        'This usually happens when a circular dependency is present. Wrap your explicit castTo in an arrow function to avoid this problem.'
       )
       throw new TypeError(
         `Field "${fieldName}" on ${targetInstance.constructor} got an "undefined" as explicit type`
@@ -61,7 +59,7 @@ export function Field(
     if (existingField) {
       if (!options.rootFieldType) {
         throw new TypeError(
-          `Field "${fieldName}" on class ${targetInstance.constructor.name} cannot be registered-it's already registered as type ${existingField.type.name}`
+          `Field "${fieldName}" on class ${targetInstance.constructor.name} cannot be registered-it's already registered`
         )
       }
       if (options.rootFieldType === existingField.rootFieldType) {

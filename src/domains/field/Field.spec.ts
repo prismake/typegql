@@ -105,7 +105,7 @@ describe('Field', () => {
   it('Properly sets explicit field type', () => {
     @ObjectType()
     class Foo {
-      @Field({ type: () => GraphQLFloat })
+      @Field({ castTo: () => GraphQLFloat })
       bar: string
     }
 
@@ -145,13 +145,13 @@ describe('Field', () => {
   it('Supports circular references', () => {
     @ObjectType()
     class Car {
-      @Field({ type: () => Owner })
+      @Field({ castTo: () => Owner })
       owner: any
     }
 
     @ObjectType()
     class Owner {
-      @Field({ type: () => Car })
+      @Field({ castTo: () => Car })
       car: any
     }
 
@@ -167,7 +167,7 @@ describe('Field', () => {
 
     @ObjectType()
     class Bar {
-      @Field({ type: () => Foo })
+      @Field({ castTo: () => Foo })
       foo: Foo
     }
 
@@ -182,11 +182,11 @@ describe('Field', () => {
     it('should resolve field types', () => {
       @ObjectType()
       class Foo {
-        @Field({ type: () => String })
+        @Field({ castTo: () => String })
         bar: any
-        @Field({ type: () => Number })
+        @Field({ castTo: () => Number })
         baz: any
-        @Field({ type: Date })
+        @Field()
         date(@Arg({ type: GraphQLDateTime }) d: Date) {
           return d
         }
@@ -204,8 +204,8 @@ describe('Field', () => {
     it('should interpret args correctly', async () => {
       @SchemaRoot()
       class FooSchema {
-        @Query({ type: Date })
-        date(@Arg({ type: GraphQLDateTime }) d: Date) {
+        @Query()
+        date(@Arg() d: Date) {
           return d.toISOString()
         }
       }
@@ -222,17 +222,17 @@ describe('Field', () => {
       expect(result.errors).toBeUndefined()
       expect(result.data).toMatchInlineSnapshot(`
         Object {
-          "date": 2020-06-30T08:29:20.879Z,
+          "date": "2020-06-30T08:29:20.879Z",
         }
       `)
     })
   })
 
-  it('throws an error when explicit type is "undefined"', (done) => {
+  it('throws an error when explicit castTo is "undefined"', () => {
     try {
       @ObjectType()
       class Foo {
-        @Field({ type: undefined, isNullable: false })
+        @Field({ castTo: undefined, isNullable: false })
         bar: string
       }
 
@@ -242,50 +242,49 @@ describe('Field', () => {
         [TypeError: Field "bar" on class Foo {
                     } got an "undefined" as explicit type]
       `)
-      done()
     }
   })
 
-  it('Shows proper error message when trying to use list type without being explicit about item type', () => {
+  it('infers type without being explicit about item type', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar: string[]
-    }
-
-    expect(() =>
-      compileObjectType(Foo).getFields()
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType Foo.bar: Field type was infered as \\"function Array() { [native code] }\\" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })"`
-    )
-  })
-
-  it('Shows proper error message when trying to use promise type without being explicit about item type', () => {
-    @ObjectType()
-    class Foo {
-      @Field()
-      async bar() {
+      async noTypeMethod() {
+        if (process.env.A) {
+          return null
+        }
         return 'baz'
       }
     }
 
-    expect(() =>
-      compileObjectType(Foo).getFields()
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType Foo.bar: Field type was infered as \\"function Promise() { [native code] }\\" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })"`
-    )
+    const { noTypeMethod } = compileObjectType(Foo).getFields()
+    expect(noTypeMethod.type.toJSON()).toBe('String!')
+  })
+
+  it('infers from a Promise', () => {
+    @ObjectType()
+    class Foo {
+      @Field()
+      async bar(): Promise<string> {
+        return 'baz'
+      }
+    }
+
+    compileObjectType(Foo).getFields()
   })
 
   it('Properly supports list type of field', () => {
     @ObjectType()
     class Foo {
-      @Field({ type: [String] })
-      bar: string[]
+      @Field()
+      fooMethod: string[]
     }
 
-    const { bar } = compileObjectType(Foo).getFields()
-    expect(isNamedType(bar.type)).toBe(false)
-    expect(getNamedType(bar.type)).toBe(GraphQLString)
+    const { fooMethod } = compileObjectType(Foo).getFields()
+
+    expect(isNamedType(fooMethod.type)).toBe(false)
+    expect(getNamedType(fooMethod.type)).toBe(GraphQLString)
+    expect(fooMethod.type.toJSON()).toBe('[String!]')
   })
 
   it('Is properly passing `this` default values', async () => {
@@ -300,20 +299,22 @@ describe('Field', () => {
     expect(resolvedValue).toEqual('instance')
   })
 
-  it('Will not allow promise field without type addnotation', async () => {
+  it('allows promise field without type annotation', async () => {
     @ObjectType()
     class Foo {
       @Field()
-      async bar(): Promise<number> {
+      async float(): Promise<number> {
+        return 10
+      }
+      @Field()
+      async floatNullable(): Promise<number | null> {
         return 10
       }
     }
 
-    expect(() =>
-      compileObjectType(Foo).getFields()
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType Foo.bar: Field type was infered as \\"function Promise() { [native code] }\\" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })"`
-    )
+    const { float, floatNullable } = compileObjectType(Foo).getFields()
+    expect(floatNullable.type.toJSON()).toBe('Float')
+    expect(float.type.toJSON()).toBe('Float!')
   })
 
   it('Properly resolves edge cases default values of fields', async () => {
@@ -355,17 +356,17 @@ describe('Field', () => {
     }
 
     const decorate = Field({
-      type: Number
+      castTo: Number
     })
     decorate(Foo.prototype, 'bar')
     const decorate2 = Field({
-      type: String
+      castTo: String
     })
 
     expect(() =>
       decorate2(Foo.prototype, 'bar')
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Field \\"bar\\" on class Foo cannot be registered-it's already registered as type Number"`
+      `"Field \\"bar\\" on class Foo cannot be registered-it's already registered"`
     )
   })
 

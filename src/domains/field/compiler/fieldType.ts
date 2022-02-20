@@ -2,7 +2,7 @@ import { GraphQLType } from 'graphql'
 
 import { FieldError } from '../Field'
 import { resolveType } from '../../../services/utils/gql/types/typeResolvers'
-import { inferTypeByTarget } from '../../../services/utils/gql/types/parseNative'
+import { inferTypeByTarget } from '../../../services/utils/gql/types/inferTypeByTarget'
 
 export function resolveTypeOrThrow(
   type: any,
@@ -29,6 +29,7 @@ function throwIfNotInferableType(
 ) {
   if (typeof inferedType === 'function') {
     const stringSignature = inferedType.toString()
+    // console.log('~ stringSignature', stringSignature)
     if (
       stringSignature.match(
         // previously we've been comparing tho these functions directly, but this would fail in environments where for example Promise was monkeypatched
@@ -62,6 +63,7 @@ export function inferTypeOrThrow(
 
 export function validateNotInferableField(target: Function, fieldName: string) {
   const inferedType = inferTypeByTarget(target.prototype, fieldName)
+  console.log('~ inferedType2', inferedType)
   throwIfNotInferableType(inferedType, target, fieldName)
   return true
 }

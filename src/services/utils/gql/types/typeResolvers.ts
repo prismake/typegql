@@ -1,6 +1,6 @@
 import { isType, GraphQLType, GraphQLList, GraphQLNonNull } from 'graphql'
 
-import { parseNativeTypeToGraphQL, isParsableScalar } from './parseNative'
+import { parseNativeTypeToGraphQL, isParsableScalar } from './inferTypeByTarget'
 import {
   enumsRegistry,
   unionRegistry,

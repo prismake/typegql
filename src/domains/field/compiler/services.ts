@@ -30,6 +30,7 @@ export function validateResolvedType(
   type: GraphQLType
 ): type is GraphQLOutputType {
   if (!isOutputType(type)) {
+    console.log('~ isOutputType', type)
     throw new FieldError(
       target,
       fieldName,

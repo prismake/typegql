@@ -18,7 +18,7 @@ import { plainToClass } from 'class-transformer'
 import {
   isParsableScalar,
   ParsableScalar
-} from '../../../services/utils/gql/types/parseNative'
+} from '../../../services/utils/gql/types/inferTypeByTarget'
 import { IInjectorResolverData } from '../../../domains/inject/registry'
 import { AfterHookExecutor } from '../../../domains/hooks/registry'
 import isPromiseLike from '../../../isPromiseLike'
