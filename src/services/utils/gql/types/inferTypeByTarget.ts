@@ -49,8 +49,14 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
 
   if (rtti.isClass()) {
     inferred = rtti.as('class').class
-  } else if (rtti.isGeneric()) {
+  } else if (rtti.isPromise()) {
     // promise
+    console.log(
+      '~ rtti.as().typeParameters[0].isUnion()',
+      key,
+      rtti.as('generic').typeParameters[0]
+    )
+
     if (rtti.as('generic').typeParameters[0].isUnion()) {
       const unionTypes = rtti.as('generic').typeParameters[0].as('union').types
       if (unionTypes.length === 2) {

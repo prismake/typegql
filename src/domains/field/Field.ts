@@ -78,7 +78,7 @@ export function Field(
  * in real world scenarios you always want the array to be non nullable
  */
 export function ArrayField(options?: IArrayFieldOptions): PropertyDecorator {
-  const typeOrCastTo = options ? options.itemType || options.itemCast : null
+  const typeOrCastTo = options?.itemCast ?? null
 
   if (!typeOrCastTo) {
     throw new TypeError(
