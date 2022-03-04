@@ -1,6 +1,6 @@
 import { isType, GraphQLType, GraphQLList, GraphQLNonNull } from 'graphql'
 
-import { parseNativeTypeToGraphQL, isParsableScalar } from './inferTypeByTarget'
+import { mapNativeTypeToGraphQL, isParsableScalar } from './inferTypeByTarget'
 import {
   enumsRegistry,
   unionRegistry,
@@ -33,7 +33,7 @@ export function resolveType(
   }
 
   if (isParsableScalar(input)) {
-    return parseNativeTypeToGraphQL(input)
+    return mapNativeTypeToGraphQL(input)
   }
 
   if (Array.isArray(input)) {

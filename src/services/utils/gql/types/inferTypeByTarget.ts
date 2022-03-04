@@ -18,7 +18,9 @@ export function isParsableScalar(input: any): input is ParsableScalar {
   return [String, Number, Boolean, Date].includes(input)
 }
 
-export function parseNativeTypeToGraphQL(input: any): GraphQLScalarType {
+export function mapNativeTypeToGraphQL(
+  input: any //typeof Number | typeof String | typeof Date | typeof Boolean
+): GraphQLScalarType {
   switch (input) {
     case String:
       return GraphQLString
@@ -28,6 +30,8 @@ export function parseNativeTypeToGraphQL(input: any): GraphQLScalarType {
       return GraphQLBoolean
     case Date:
       return GraphQLDateTime
+    default:
+      throw new Error(`Unsupported native type: ${input}`)
   }
 }
 
@@ -46,6 +50,9 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
     rtti = method.returnType
   }
   let inferred
+  if (!rtti) {
+    throw new Error('could not infer type')
+  }
 
   if (rtti.isClass()) {
     inferred = rtti.as('class').class
@@ -63,24 +70,24 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
         const withoutNull = unionTypes.filter((x) => !x.isNull())
 
         return getNullableType(
-          parseNativeTypeToGraphQL(withoutNull[0].as('class').class)
+          mapNativeTypeToGraphQL(withoutNull[0].as('class').class)
         )
       } else {
         throw new Error('Unsupported union type') // decapi doesn't support unions with more than 2 types
       }
     } else {
       inferred = rtti.as('generic').typeParameters[0].as('class').class
-      return new GraphQLNonNull(parseNativeTypeToGraphQL(inferred)) // TODO we would like to return nullable when we can detect that this type is implicit, depends on: https://github.com/rezonant/typescript-rtti/issues/16
+      return new GraphQLNonNull(mapNativeTypeToGraphQL(inferred)) // TODO we would like to return nullable when we can detect that this type is implicit, depends on: https://github.com/rezonant/typescript-rtti/issues/16
     }
   } else if (rtti.isArray()) {
     // array
     inferred = rtti.as('array').elementType.as('class').class
-    return [parseNativeTypeToGraphQL(inferred)]
+    return [mapNativeTypeToGraphQL(inferred)]
   }
   // console.log('~ inferred', inferred)
 
   if (isParsableScalar(inferred)) {
-    return parseNativeTypeToGraphQL(inferred)
+    return mapNativeTypeToGraphQL(inferred)
   }
   return inferred
 }
