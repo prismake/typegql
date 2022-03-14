@@ -258,7 +258,7 @@ describe('Field', () => {
     }
 
     const { noTypeMethod } = compileObjectType(Foo).getFields()
-    expect(noTypeMethod.type.toJSON()).toBe('String!')
+    expect(noTypeMethod.type.toJSON()).toBe('String')
   })
 
   it('infers from a Promise', () => {
