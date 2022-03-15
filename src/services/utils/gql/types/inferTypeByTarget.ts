@@ -85,7 +85,6 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
         throw new Error('Unsupported union type') // decapi doesn't support unions with more than 2 types
       }
     } else {
-      console.log('aa', rtti.as('generic').typeParameters[0])
       inferred = rtti.as('generic').typeParameters[0].as('class').class
       return new GraphQLNonNull(parseNativeTypeToGraphQL(inferred)) // TODO we would like to return nullable when we can detect that this type is implicit, depends on: https://github.com/rezonant/typescript-rtti/issues/16
     }
