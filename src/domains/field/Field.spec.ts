@@ -299,7 +299,7 @@ describe('Field', () => {
     expect(resolvedValue).toEqual('instance')
   })
 
-  it.only('allows promise field without type annotation', async () => {
+  it('allows promise field without type annotation', async () => {
     @ObjectType()
     class Foo {
       @Field()
