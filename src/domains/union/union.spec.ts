@@ -37,10 +37,10 @@ class CustomUnionType {}
 
 @ObjectType()
 class Foo {
-  @Field({ type: UnionType })
+  @Field({ castTo: UnionType })
   bar: Sub1 | Sub2
 
-  @Field({ type: CustomUnionType })
+  @Field({ castTo: CustomUnionType })
   baz: Sub1 | Sub2
 }
 

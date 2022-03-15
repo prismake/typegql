@@ -21,7 +21,7 @@ export type UnionTypeResolver = (
 
 export interface IUnionOptions {
   types: Thunk<any[]>
-  name?: string
+  name: string
   resolveTypes?: UnionTypeResolver
 }
 
