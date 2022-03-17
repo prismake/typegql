@@ -39,17 +39,21 @@ export function resolveType(
   if (Array.isArray(input)) {
     return resolveListType(input, isArgument)
   }
+  const enumGetter = enumsRegistry.get(input)
 
-  if (enumsRegistry.has(input)) {
-    return enumsRegistry.get(input)
+  if (enumGetter) {
+    return enumGetter
+  }
+  const unionGetter = unionRegistry.get(input)
+
+  if (unionGetter) {
+    return unionGetter()
   }
 
-  if (unionRegistry.has(input)) {
-    return unionRegistry.get(input)()
-  }
+  const interfaceGetter = interfaceTypeRegistry.get(input)
 
-  if (interfaceTypeRegistry.has(input)) {
-    return interfaceTypeRegistry.get(input)()
+  if (interfaceGetter) {
+    return interfaceGetter()
   }
 
   if (isArgument && inputObjectTypeRegistry.has(input)) {
@@ -66,14 +70,12 @@ export function resolveType(
     !allowThunk ||
     typeof input !== 'function'
   ) {
-    return
+    throw new Error('Unable to resolve type')
   }
 
   if (isNativeClass(input)) {
     throw new Error(
-      `Class ${
-        input.name
-      } cannot be used as a resolve type because it is not an @ObjectType`
+      `Class ${input.name} cannot be used as a resolve type because it is not an @ObjectType`
     )
   }
   return resolveType(input(), false, isArgument)
@@ -81,16 +83,16 @@ export function resolveType(
 
 function resolveListType(input: any[], isArgument: boolean): GraphQLType {
   if (input.length !== 1) {
-    return
+    throw new Error('List type must have exactly one element')
   }
   const [itemType] = input
 
   const resolvedItemType = resolveType(itemType, true, isArgument)
 
   if (!resolvedItemType) {
-    return
+    throw new Error('List type must have a valid item type')
   }
-  return new GraphQLList(new GraphQLNonNull(resolvedItemType))
+  return new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(resolvedItemType)))
 }
 
 export function resolveTypesList(types: Thunk<any[]>): GraphQLType[] {

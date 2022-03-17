@@ -5,11 +5,11 @@ import { ArgNullable } from './arg/ArgDecorators'
 import { QueryAndMutation } from './schema/rootFields'
 
 import { InputFieldNullable } from './inputField/InputFieldDecorators'
-import { DuplexArrayField, DuplexField } from './duplexField/DuplexField'
-import { ArrayField } from './field/Field'
+import { DuplexField } from './duplexField/DuplexField'
+import { ArrayField, Field } from './field/Field'
 
 describe('decorator aliases', () => {
-  it.only('should compile', async () => {
+  it('should compile', async () => {
     @DuplexObjectType()
     class Bar {
       @InputFieldNullable()
@@ -18,7 +18,7 @@ describe('decorator aliases', () => {
       foo(@ArgNullable() a: string): string {
         return a
       }
-      @DuplexArrayField({ itemType: String})
+      @DuplexField()
       duplexArrayOfString: Array<string | null>
     }
 
@@ -41,15 +41,15 @@ describe('decorator aliases', () => {
     it('should define the field correctly', async () => {
       @DuplexObjectType()
       class Bar {
-        @ArrayField({ itemType: String })
-        foo2: string
-        @ArrayField({ itemType: String, itemNullable: true })
-        foo4: string
-        @ArrayField({ itemType: () => String })
+        @Field()
+        foo2: Array<string>
+        @Field()
+        foo4: Array<string | null>
+        @Field({ type: () => [String] })
         foo(@ArgNullable() a: string): string[] {
           return []
         }
-        @ArrayField({ itemType: Number })
+        @Field({ type: () => [Number] })
         foo3() {
           return [1, 2, 3]
         }

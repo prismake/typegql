@@ -17,10 +17,9 @@ export interface IFieldInnerConfig {
   property: string
   description?: string
 
-  castTo?: any
+  type?: any
   onlyDecoratedArgs?: boolean
   deprecationReason?: string
-  itemCast?: any
 }
 
 export interface IAllQueryFields {

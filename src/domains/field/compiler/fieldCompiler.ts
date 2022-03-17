@@ -1,8 +1,7 @@
 import {
   GraphQLFieldConfig,
   GraphQLFieldConfigMap,
-  GraphQLList,
-  GraphQLNonNull
+  GraphQLOutputType
 } from 'graphql'
 import { FieldError, fieldsRegistry } from '../Field'
 
@@ -24,41 +23,34 @@ export function compileFieldConfig(
 
   const {
     description,
-    castTo,
-    itemCast,
+    type,
+
     onlyDecoratedArgs,
     deprecationReason
   } = fieldRegistryConfig
-  const args = compileFieldArgs(target, fieldName, onlyDecoratedArgs)
-
-  const explicitType = itemCast ?? castTo ?? null
+  const args = compileFieldArgs(target, fieldName, !!onlyDecoratedArgs)
 
   const resolvedType = resolveRegisteredOrInferredType(
     target,
     fieldName,
-    explicitType
-  )
+    type
+  ) as GraphQLOutputType
 
   // if was not able to resolve type, try to show some helpful information about it
   if (!resolvedType && !validateNotInferableField(target, fieldName)) {
-    return
+    throw new Error('could not resolve type')
   }
 
   // show error about being not able to resolve field type
   if (!validateResolvedType(target, fieldName, resolvedType)) {
     validateNotInferableField(target, fieldName)
-    return
   }
-
-  const finalType = itemCast
-    ? new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(resolvedType)))
-    : resolvedType
 
   return {
     description,
-    type: finalType,
+    type: resolvedType,
     deprecationReason,
-    resolve: compileFieldResolver(target, fieldName, castTo || itemCast),
+    resolve: compileFieldResolver(target, fieldName, type || resolvedType),
     args
   }
 }

@@ -21,7 +21,7 @@ export type UnionTypeResolver = (
 
 export interface IUnionOptions {
   types: Thunk<any[]>
-  name: string
+  name?: string
   resolveTypes?: UnionTypeResolver
 }
 
@@ -82,7 +82,7 @@ export function compileUnionType(target: Function, config: IUnionOptions) {
     : getDefaultResolver(resolvedTypes)
 
   const compiled = new GraphQLUnionType({
-    name,
+    name: name ?? target.name,
     resolveType: typeResolver,
     types: resolvedTypes
   })

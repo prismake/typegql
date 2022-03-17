@@ -32,7 +32,7 @@ type Bar {
 input BarInput {
   foo2: String
   foo: String
-  duplexArrayOfString: [String!]
+  duplexArrayOfString: [String!]!
 }
 
 type Mutation {

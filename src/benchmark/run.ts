@@ -15,7 +15,7 @@ export async function runBenchmark(schema: GraphQLSchema) {
     const result = await graphql({ schema, source: singleObjectQuery })
     console.assert(result.data !== undefined, 'result data is undefined')
     console.assert(
-      result.data.singleObject !== undefined,
+      result.data?.singleObject !== undefined,
       'data singleObject is undefined'
     )
   }

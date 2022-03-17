@@ -105,7 +105,7 @@ describe('Field', () => {
   it('Properly sets explicit field type', () => {
     @ObjectType()
     class Foo {
-      @Field({ castTo: () => GraphQLFloat })
+      @Field({ type: () => GraphQLFloat })
       bar: string
     }
 
@@ -145,13 +145,13 @@ describe('Field', () => {
   it('Supports circular references', () => {
     @ObjectType()
     class Car {
-      @Field({ castTo: () => Owner })
+      @Field({ type: () => Owner })
       owner: any
     }
 
     @ObjectType()
     class Owner {
-      @Field({ castTo: () => Car })
+      @Field({ type: () => Car })
       car: any
     }
 
@@ -167,7 +167,7 @@ describe('Field', () => {
 
     @ObjectType()
     class Bar {
-      @Field({ castTo: () => Foo })
+      @Field({ type: () => Foo })
       foo: Foo
     }
 
@@ -182,9 +182,9 @@ describe('Field', () => {
     it('should resolve field types', () => {
       @ObjectType()
       class Foo {
-        @Field({ castTo: () => String })
+        @Field({ type: () => String })
         bar: any
-        @Field({ castTo: () => Number })
+        @Field({ type: () => Number })
         baz: any
         @Field()
         date(@Arg({ type: GraphQLDateTime }) d: Date) {
@@ -232,7 +232,7 @@ describe('Field', () => {
     try {
       @ObjectType()
       class Foo {
-        @Field({ castTo: undefined, isNullable: false })
+        @Field({ type: undefined, isNullable: false })
         bar: string
       }
 
@@ -356,11 +356,11 @@ describe('Field', () => {
     }
 
     const decorate = Field({
-      castTo: Number
+      type: Number
     })
     decorate(Foo.prototype, 'bar')
     const decorate2 = Field({
-      castTo: String
+      type: String
     })
 
     expect(() =>
@@ -384,29 +384,29 @@ describe('Field', () => {
         return this.baz
       }
 
-      @Field({ castTo: Foo })
+      @Field({ type: Foo })
       castedField() {
         return { baz: 'castedFromAField' }
       }
-      @Field({ castTo: () => Foo })
+      @Field({ type: () => Foo })
       castedFieldDefinedAsThunk() {
         return { baz: 'castedFromAField' }
       }
-      @Field({ castTo: Foo })
+      @Field({ type: Foo })
       castedFieldNullReturning(): Foo {
         return null
       }
-      @Field({ castTo: Foo })
+      @Field({ type: Foo })
       castedFieldUndefinedReturning(): Foo {
         return
       }
 
-      @Field({ castTo: [Foo] })
+      @Field({ type: [Foo] })
       castedFieldAsArray() {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
 
-      @Field({ castTo: () => [Foo] })
+      @Field({ type: () => [Foo] })
       castedFieldAsArrayDefinedAsThunk() {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
@@ -420,7 +420,7 @@ describe('Field', () => {
       castedArrayField() {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
-      @Field({ castTo: [Foo] })
+      @Field({ type: [Foo] })
       castedFieldAsArrayWithBadReturnValue() {
         return [[{ baz: 'castedFromAField1' }]]
       }
@@ -428,7 +428,7 @@ describe('Field', () => {
 
     @SchemaRoot()
     class FooSchema {
-      @Query({ castTo: Foo })
+      @Query({ type: Foo })
       castedQuery() {
         return { baz: 'castedFromAQuery' }
       }

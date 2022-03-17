@@ -20,7 +20,7 @@ export interface IFieldOptionsBase {
 export interface IFieldOptions extends IFieldOptionsBase {
   isNullable?: boolean
   itemNullable?: boolean
-  castTo?: any
+  type?: any
   deprecationReason?: string
 }
 
@@ -36,7 +36,7 @@ export function Field(
     if (
       options &&
       options.hasOwnProperty('castTo') &&
-      (options as IFieldOptions).castTo === undefined
+      (options as IFieldOptions).type === undefined
     ) {
       console.log(
         'This usually happens when a circular dependency is present. Wrap your explicit castTo in an arrow function to avoid this problem.'

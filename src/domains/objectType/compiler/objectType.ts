@@ -57,8 +57,10 @@ export function compileObjectTypeWithConfig(
   target: Function,
   config: IObjectTypeOptions
 ): GraphQLObjectType {
-  if (compileOutputTypeCache.has(target)) {
-    return compileOutputTypeCache.get(target)
+  const cachedType = compileOutputTypeCache.get(target)
+
+  if (cachedType) {
+    return cachedType
   }
   let interfaces: Array<Getter<GraphQLInterfaceType>> = null
   if (config.implements) {
@@ -91,6 +93,8 @@ export function compileObjectType(target: Function) {
     )
   }
 
-  const compiler = objectTypeRegistry.get(target)
+  const compiler = objectTypeRegistry.get(target) as Getter<
+    GraphQLObjectType<any, any>
+  >
   return compiler()
 }

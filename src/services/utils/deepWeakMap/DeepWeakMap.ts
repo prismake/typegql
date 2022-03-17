@@ -31,16 +31,16 @@ export class DeepWeakMap<
       const empty = {}
       map.set(target, empty as Structure)
     }
-    return map.get(target)
+    return map.get(target) as Structure
   }
 
   set(target: Key, path: DeepWeakMapPath, value: Value) {
-    set((this.getAll(target) as any) as object, path, value)
+    set(this.getAll(target) as any as object, path, value)
   }
 
   get(target: Key, ...paths: DeepWeakMapPath[]): Value {
     const path = flattenPaths(paths)
-    return get((this.getAll(target) as any) as object, path)
+    return get(this.getAll(target) as any as object, path)
   }
 
   has(target: Key, ...paths: DeepWeakMapPath[]): boolean {

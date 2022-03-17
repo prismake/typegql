@@ -90,7 +90,7 @@ describe('Arguments', () => {
 
     @SchemaRoot()
     class FooSchema {
-      @Query({ castTo: Foo })
+      @Query({ type: Foo })
       foo() {
         return {}
       }

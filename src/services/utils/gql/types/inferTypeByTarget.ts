@@ -10,6 +10,7 @@ import {
 } from 'graphql'
 import { GraphQLDateTime } from 'graphql-scalars'
 import { Constructor, reflect, ReflectedLiteralRef } from 'typescript-rtti'
+import { Literal } from 'typescript-rtti/dist/common'
 
 // tslint:disable-next-line: use-primitive-type
 export type ParsableScalar = String | Number | Boolean | Date
@@ -31,6 +32,21 @@ export function mapNativeTypeToGraphQL(input: any): GraphQLScalarType {
     default:
       throw new Error(`Could not parse native type to graphql: ${input}`)
   }
+}
+
+function rttiLiteralToGql(rttLiteral: ReflectedLiteralRef<Literal>) {
+  let literalType
+
+  if (rttLiteral.isBooleanLiteral()) {
+    literalType = GraphQLBoolean
+  } else if (rttLiteral.isStringLiteral()) {
+    literalType = GraphQLString
+  } else if (rttLiteral.isNumberLiteral()) {
+    literalType = GraphQLFloat
+  }
+  console.log('~ rttLiteral', rttLiteral)
+
+  return literalType
 }
 
 export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
@@ -60,27 +76,22 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
       const unionTypes = rtti.as('generic').typeParameters[0].as('union').types
 
       if (unionTypes.length === 2) {
-        const withoutNull = unionTypes.filter((x) => !x.isNull())
+        const withoutEmpties = unionTypes.filter(
+          (x) => !x.isNull() || !x.isUndefined()
+        )
 
-        if (withoutNull.length === 2) {
+        if (withoutEmpties.length === 2) {
           // TODO: handle union of two types
           throw new Error('Cannot infer the type')
         }
-        if (withoutNull[0] instanceof ReflectedLiteralRef) {
-          let literalType
-          const rttLiteral = withoutNull[0].as('literal')
-          if (rttLiteral.isBooleanLiteral()) {
-            literalType = GraphQLBoolean
-          } else if (rttLiteral.isStringLiteral()) {
-            literalType = GraphQLString
-          } else if (rttLiteral.isNumberLiteral()) {
-            literalType = GraphQLFloat
-          }
+        if (withoutEmpties[0] instanceof ReflectedLiteralRef) {
+          const rttLiteral = withoutEmpties[0].as('literal')
+          const literalType = rttiLiteralToGql(rttLiteral, literalType)
           return getNullableType(literalType)
         }
 
         return getNullableType(
-          mapNativeTypeToGraphQL(withoutNull[0].as('class').class)
+          mapNativeTypeToGraphQL(withoutEmpties[0].as('class').class)
         )
       } else {
         throw new Error('Unsupported union type') // decapi doesn't support unions with more than 2 types
@@ -90,8 +101,18 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
       return new GraphQLNonNull(mapNativeTypeToGraphQL(inferred)) // TODO we would like to return nullable when we can detect that this type is implicit, depends on: https://github.com/rezonant/typescript-rtti/issues/16
     }
   } else if (rtti.isArray()) {
-    // array
-    inferred = rtti.as('array').elementType.as('class').class
+    const elementType = rtti.as('array').elementType
+    if (elementType.isClass()) {
+      inferred = elementType.as('class').class
+    } else if (elementType.isUnion()) {
+      const withoutEmpties = elementType
+        .as('union')
+        .types.filter((x) => !x.isNull() && !x.isUndefined())
+      console.log('~ withoutEmpties', withoutEmpties[0].as('class').class)
+
+      inferred = withoutEmpties[0].as('class').class
+    }
+
     return [mapNativeTypeToGraphQL(inferred)]
   }
   // console.log('~ inferred', inferred)
