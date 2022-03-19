@@ -76,7 +76,13 @@ export function compileSchema(schemaOrSchemas: Function | Function[]) {
     const implementorClasses = interfaceTypeImplementors.get(interfaceClass)
     if (Array.isArray(implementorClasses)) {
       implementorClasses.forEach((implementorClass) => {
-        const implementor = objectTypeRegistry.get(implementorClass)()
+        const getter = objectTypeRegistry.get(implementorClass)
+        if (!getter) {
+          throw new Error(
+            `Could not get object type for interface class: ${interfaceClass.name}`
+          )
+        }
+        const implementor = getter()
         extraTypes.push(implementor)
       })
     } else {

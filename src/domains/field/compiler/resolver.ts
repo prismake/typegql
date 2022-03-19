@@ -131,7 +131,7 @@ export function computeFinalArgs(
       }
     }
 
-    if (argConfig) {
+    if (argConfig.name) {
       return args[argConfig.name]
     }
 

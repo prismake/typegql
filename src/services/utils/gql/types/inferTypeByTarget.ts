@@ -85,7 +85,7 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
         }
         if (withoutEmpties[0] instanceof ReflectedLiteralRef) {
           const rttLiteral = withoutEmpties[0].as('literal')
-          const literalType = rttiLiteralToGql(rttLiteral, literalType)
+          const literalType = rttiLiteralToGql(rttLiteral)
           return getNullableType(literalType)
         }
 

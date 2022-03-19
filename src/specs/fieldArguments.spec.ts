@@ -96,7 +96,7 @@ describe('Field args', () => {
     })
 
     expect(result.errors).toBeUndefined()
-    expect(result.data.hello).toMatchInlineSnapshot(`
+    expect(result.data?.hello).toMatchInlineSnapshot(`
                               Object {
                                 "boolTest": false,
                                 "boolTest2": null,
@@ -167,7 +167,7 @@ describe('Field args', () => {
     })
 
     expect(result.errors).toBeUndefined()
-    expect(result.data.hello).toMatchInlineSnapshot(`
+    expect(result.data?.hello).toMatchInlineSnapshot(`
       Object {
         "defaultVal": 3,
       }

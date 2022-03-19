@@ -31,9 +31,11 @@ function getInterfaceResolveType(target: Function) {
     const implementors = interfaceTypeImplementors.get(target)
     if (Array.isArray(implementors)) {
       for (const implementor of implementors) {
-        if (Object.getPrototypeOf(value) === implementor.prototype) {
-          const typeGetterFromRegistry = objectTypeRegistry.get(implementor)
-
+        const typeGetterFromRegistry = objectTypeRegistry.get(implementor)
+        if (
+          Object.getPrototypeOf(value) === implementor.prototype &&
+          typeGetterFromRegistry
+        ) {
           const type = typeGetterFromRegistry()
 
           return type.name
@@ -43,7 +45,7 @@ function getInterfaceResolveType(target: Function) {
   }
 }
 
-function getFieldsGetter(target: Function, config: ITypeOptions) {
+function getFieldsGetter(target: Function, config?: ITypeOptions) {
   return createCachedThunk(() => {
     let targetWithParents = getClassWithAllParentClasses(target)
     if (config) {
@@ -63,8 +65,10 @@ export function InterfaceType(config?: ITypeOptions): ClassDecorator {
     interfaceClassesSet.add(target)
 
     const typeGetter = () => {
-      if (compileInterfaceCache.has(target)) {
-        return compileInterfaceCache.get(target)
+      const intfcCache = compileInterfaceCache.get(target)
+
+      if (intfcCache) {
+        return intfcCache
       }
 
       const name = config && config.name ? config.name : target.name

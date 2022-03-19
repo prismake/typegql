@@ -62,20 +62,25 @@ export function compileObjectTypeWithConfig(
   if (cachedType) {
     return cachedType
   }
-  let interfaces: Array<Getter<GraphQLInterfaceType>> = null
-  if (config.implements) {
-    interfaces = config.implements.map((interfaceClass) => {
-      return interfaceTypeRegistry.get(interfaceClass)
-    })
-  }
+  const interfaces = config.implements?.map((interfaceClass) => {
+    const intfClass = interfaceTypeRegistry.get(interfaceClass)
+    if (!intfClass) {
+      throw new ObjectTypeError(
+        target,
+        `Interface ${interfaceClass.name} not found in interfaceTypeRegistry`
+      )
+    }
+    return intfClass
+  })
 
   const compiled = new GraphQLObjectType({
+    // @ts-expect-error
     interfaces: interfaces
       ? createCachedThunk(() => {
           return interfaces.map((intf) => intf())
         })
       : null,
-    name: config.name,
+    name: config.name ?? target.name,
     description: config.description,
     isTypeOf: (value: any) => value instanceof target,
     fields: createTypeFieldsGetter(target, config)

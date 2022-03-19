@@ -410,12 +410,12 @@ describe('Field', () => {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
 
-      @Field({ itemCast: () => Foo })
+      @Field({ type: () => [Foo] })
       castedArrayFieldDefinedAsThunk() {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
 
-      @Field({ itemCast: Foo })
+      @Field({ type: [Foo] })
       castedArrayField() {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
@@ -472,7 +472,7 @@ describe('Field', () => {
       })
 
       expect(result.errors).toBeUndefined()
-      expect(result.data.castedQuery).toMatchInlineSnapshot(`
+      expect(result.data?.castedQuery).toMatchInlineSnapshot(`
         Object {
           "bar": "castedFromAQuery",
           "castedArrayField": Array [
@@ -527,7 +527,7 @@ describe('Field', () => {
       })
 
       expect(result.errors).toBeUndefined()
-      expect(result.data.castedQuery).toMatchInlineSnapshot(`
+      expect(result.data?.castedQuery).toMatchInlineSnapshot(`
         Object {
           "bar": "castedFromAQuery",
           "castedFieldAsArray": Array [

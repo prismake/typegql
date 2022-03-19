@@ -42,8 +42,10 @@ export function compileInputObjectTypeWithConfig(
   target: Function,
   config: ITypeOptions
 ): GraphQLInputObjectType {
-  if (compileOutputTypeCache.has(target)) {
-    return compileOutputTypeCache.get(target)
+  const outputTypeCache = compileOutputTypeCache.get(target)
+
+  if (outputTypeCache) {
+    return outputTypeCache
   }
   const compiled = new GraphQLInputObjectType({
     ...config,
@@ -55,14 +57,14 @@ export function compileInputObjectTypeWithConfig(
 }
 
 export function compileInputObjectType(target: Function) {
-  if (!inputObjectTypeRegistry.has(target)) {
+  const compiler = inputObjectTypeRegistry.get(target)
+
+  if (!compiler) {
     throw new InputObjectTypeError(
       target,
       `Class is not registered. Make sure it's decorated with @InputObjectType decorator`
     )
   }
-
-  const compiler = inputObjectTypeRegistry.get(target)
 
   return compiler()
 }

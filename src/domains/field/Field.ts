@@ -50,12 +50,12 @@ export function Field(options?: IFieldOptions): PropertyDecorator {
     )
 
     if (existingField) {
-      if (!options.rootFieldType) {
+      if (!options?.rootFieldType) {
         throw new TypeError(
           `Field "${fieldName}" on class ${targetInstance.constructor.name} cannot be registered-it's already registered`
         )
       }
-      if (options.rootFieldType === existingField.rootFieldType) {
+      if (options?.rootFieldType === existingField.rootFieldType) {
         throw new TypeError(
           `Root field "${fieldName}" on schema class ${targetInstance.constructor.name} cannot be registered as a ${existingField.rootFieldType}-it's already registered`
         )
