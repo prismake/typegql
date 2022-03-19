@@ -32,28 +32,6 @@ class MyType {
 }
 ```
 
-## Array fields
-
-`ArrayField` is an alias for a `Field` Defined like this:
-
-```ts
-  @ArrayField({itemType: MyType})
-  foo: MyType[]
-
-  // equivalent to
-
-  @Field({type: [MyType], isNullable: false})
-  foo: MyType[]
-
-  // or in Graphql
-
-  foo: [String!]!
-```
-
-In real world APIs it's not very likely that you would need to return sparser arrays-99% of APIs return dense arrays.
-If you need to return a sparse array you need to use an `@ArrayField` decorator.
-Normal `@Field` decorator config does not allow to affect item nullability. Just nullability of the whole array.
-
 ## Nested Sub-types
 
 To build nested structure of objects - every field can use another `ObjectType` as it's type

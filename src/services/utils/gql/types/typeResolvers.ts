@@ -92,7 +92,13 @@ function resolveListType(input: any[], isArgument: boolean): GraphQLType {
   if (!resolvedItemType) {
     throw new Error('List type must have a valid item type')
   }
-  return new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(resolvedItemType)))
+
+  if (isParsableScalar(itemType)) {
+    return new GraphQLNonNull(
+      new GraphQLList(new GraphQLNonNull(resolvedItemType))
+    )
+  }
+  return new GraphQLNonNull(new GraphQLList(resolvedItemType))
 }
 
 export function resolveTypesList(types: Thunk<any[]>): GraphQLType[] {

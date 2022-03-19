@@ -18,7 +18,7 @@ export {
 export { compileInputObjectType } from './domains/inputObjectType/objectTypeCompiler'
 
 export { DuplexObjectType } from './domains/duplexObjectType/DuplexObjectType'
-export { Field, ArrayField } from './domains/field/Field'
+export { Field } from './domains/field/Field'
 export {
   InputField,
   InputFieldNullable

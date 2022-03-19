@@ -24,14 +24,7 @@ export interface IFieldOptions extends IFieldOptionsBase {
   deprecationReason?: string
 }
 
-export interface IArrayFieldOptions extends IFieldOptions {
-  itemCast?: any
-  itemNullable?: boolean
-}
-
-export function Field(
-  options?: IFieldOptions | IArrayFieldOptions
-): PropertyDecorator {
+export function Field(options?: IFieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
     if (
       options &&
@@ -71,19 +64,4 @@ export function Field(
 
     fieldsRegistry.set(targetInstance.constructor, fieldName, finalConfig)
   }
-}
-
-/**
- * alias to help define array returning resolvers less verbosely and to enforce convention of arrays being not nullable
- * in real world scenarios you always want the array to be non nullable
- */
-export function ArrayField(options?: IArrayFieldOptions): PropertyDecorator {
-  const typeOrCastTo = options?.itemCast ?? null
-
-  if (!typeOrCastTo) {
-    throw new TypeError(
-      'ArrayField must have an explicit itemType or itemCast config'
-    )
-  }
-  return Field(options)
 }

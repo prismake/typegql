@@ -19,7 +19,7 @@ class User {
   @Field()
   password_hash: string
 
-  @DuplexArrayField({ itemType: String})
+  @DuplexField({ itemType: String })
   duplexArrayOfString: Array<string | null>
 
   @InputFieldNullable()

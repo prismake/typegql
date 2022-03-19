@@ -1,6 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`decorator aliases ArrayField should define the field correctly 1`] = `
+exports[`decorator aliases should compile 1`] = `
+"type Query {
+  output: Bar
+  echo(input: BarInput!): Bar
+}
+
+type Bar {
+  foo(a: String): String
+  duplexArrayOfString: [String]!
+}
+
+input BarInput {
+  foo2: String
+  foo: String
+  duplexArrayOfString: [String]!
+}
+
+type Mutation {
+  output: Bar
+  echo(input: BarInput!): Bar
+}"
+`;
+
+exports[`decorator aliases should define the fields with array types correctly 1`] = `
 "type Query {
   output: Bar
 }
@@ -14,29 +37,5 @@ type Bar {
 
 type Mutation {
   output: Bar
-}
-"
-`;
-
-exports[`decorator aliases should compile 1`] = `
-"type Query {
-  output: Bar
-  echo(input: BarInput!): Bar
-}
-
-type Bar {
-  foo(a: String): String
-  duplexArrayOfString: [String!]!
-}
-
-input BarInput {
-  foo2: String
-  foo: String
-  duplexArrayOfString: [String!]!
-}
-
-type Mutation {
-  output: Bar
-  echo(input: BarInput!): Bar
 }"
 `;

@@ -6,7 +6,7 @@ import { QueryAndMutation } from './schema/rootFields'
 
 import { InputFieldNullable } from './inputField/InputFieldDecorators'
 import { DuplexField } from './duplexField/DuplexField'
-import { ArrayField, Field } from './field/Field'
+import { Field } from './field/Field'
 
 describe('decorator aliases', () => {
   it('should compile', async () => {
@@ -37,33 +37,31 @@ describe('decorator aliases', () => {
     expect(printSchema(schema)).toMatchSnapshot()
   })
 
-  describe('ArrayField', () => {
-    it('should define the field correctly', async () => {
-      @DuplexObjectType()
-      class Bar {
-        @Field()
-        foo2: Array<string>
-        @Field()
-        foo4: Array<string | null>
-        @Field({ type: () => [String] })
-        foo(@ArgNullable() a: string): string[] {
-          return []
-        }
-        @Field({ type: () => [Number] })
-        foo3() {
-          return [1, 2, 3]
-        }
+  it('should define the fields with array types correctly', async () => {
+    @DuplexObjectType()
+    class Bar {
+      @Field()
+      foo2: Array<string>
+      @Field()
+      foo4: Array<string | null>
+      @Field({ type: () => [String] })
+      foo(@ArgNullable() a: string): string[] {
+        return []
       }
+      @Field({ type: () => [Number] })
+      foo3() {
+        return [1, 2, 3]
+      }
+    }
 
-      @SchemaRoot()
-      class FooSchema {
-        @QueryAndMutation()
-        output(): Bar {
-          return new Bar()
-        }
+    @SchemaRoot()
+    class FooSchema {
+      @QueryAndMutation()
+      output(): Bar {
+        return new Bar()
       }
-      const schema = compileSchema(FooSchema)
-      expect(printSchema(schema)).toMatchSnapshot()
-    })
+    }
+    const schema = compileSchema(FooSchema)
+    expect(printSchema(schema)).toMatchSnapshot()
   })
 })

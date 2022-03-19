@@ -44,7 +44,6 @@ function rttiLiteralToGql(rttLiteral: ReflectedLiteralRef<Literal>) {
   } else if (rttLiteral.isNumberLiteral()) {
     literalType = GraphQLFloat
   }
-  console.log('~ rttLiteral', rttLiteral)
 
   return literalType
 }
@@ -108,12 +107,12 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
       const withoutEmpties = elementType
         .as('union')
         .types.filter((x) => !x.isNull() && !x.isUndefined())
-      console.log('~ withoutEmpties', withoutEmpties[0].as('class').class)
 
       inferred = withoutEmpties[0].as('class').class
+      return [getNullableType(mapNativeTypeToGraphQL(inferred))]
     }
 
-    return [mapNativeTypeToGraphQL(inferred)]
+    return [new GraphQLNonNull(mapNativeTypeToGraphQL(inferred))]
   }
   // console.log('~ inferred', inferred)
 

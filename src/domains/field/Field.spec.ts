@@ -19,7 +19,6 @@ import {
   Arg
 } from '../..'
 import { GraphQLDateTime } from 'graphql-scalars'
-import { ArrayField } from './Field'
 
 describe('Field', () => {
   it('Resolves fields with default value', async () => {
@@ -411,12 +410,12 @@ describe('Field', () => {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
 
-      @ArrayField({ itemCast: () => Foo })
+      @Field({ itemCast: () => Foo })
       castedArrayFieldDefinedAsThunk() {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }
 
-      @ArrayField({ itemCast: Foo })
+      @Field({ itemCast: Foo })
       castedArrayField() {
         return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
       }

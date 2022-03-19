@@ -64,7 +64,6 @@ export function inferTypeOrThrow(
 
 export function validateNotInferableField(target: Function, fieldName: string) {
   const inferedType = inferTypeByTarget(target.prototype, fieldName)
-  console.log('~ inferedType2', inferedType)
   throwIfNotInferableType(inferedType, target, fieldName)
   return true
 }
