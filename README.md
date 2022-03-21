@@ -176,6 +176,7 @@ class Product {
 
 There is a much more popular [library](https://github.com/19majkel94/type-graphql) with the same goals-so what makes decapi different? Decapi has smaller API surface-it only has hooks on top of the basic decorators for constructing schemas.
 Whereas type-graphql has authorization, middleware, guards.
+Also decapi supports graphql v16. Typegraphql is still only supporting Graphql v15
 
 ## Why forking?
 
