@@ -29,7 +29,7 @@ export function Field(options?: IFieldOptions): PropertyDecorator {
     if (
       options &&
       options.hasOwnProperty('castTo') &&
-      (options as IFieldOptions).type === undefined
+      options.type === undefined
     ) {
       console.log(
         'This usually happens when a circular dependency is present. Wrap your explicit castTo in an arrow function to avoid this problem.'
