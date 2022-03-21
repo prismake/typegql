@@ -3,7 +3,7 @@ import { DeepWeakMap } from '../../services/utils/deepWeakMap/DeepWeakMap'
 
 export interface IInjectorResolverData {
   source: any
-  args: { [key: string]: any }
+  args: { [key: string]: any } | null
   context: any
   info: GraphQLResolveInfo
 }

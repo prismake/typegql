@@ -27,6 +27,7 @@ describe('Field args', () => {
       // console.log('[v2, v2a]: ', [v2, v2a]);
       expect(v2).toBe(false)
       expect(v2a).toBe(false)
+  // @ts-expect-error 3/21/2022
       return null
     }
     @Field()
@@ -38,6 +39,7 @@ describe('Field args', () => {
     boolTest4(@Arg({ isNullable: true }) a1: boolean, a2: boolean): boolean {
       expect(a1).toBeUndefined()
       expect(a2).toBe(true)
+  // @ts-expect-error 3/21/2022
       return null
     }
 
@@ -49,6 +51,7 @@ describe('Field args', () => {
       expect(ctx).toBe(null)
       expect(a).toBe('fancy')
 
+  // @ts-expect-error 3/21/2022
       return null
     }
 
@@ -62,6 +65,7 @@ describe('Field args', () => {
       expect(a).toBe('fancya')
       expect(b).toBe('fancyb')
 
+  // @ts-expect-error 3/21/2022
       return null
     }
 

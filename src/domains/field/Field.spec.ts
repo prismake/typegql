@@ -30,6 +30,7 @@ describe('Field', () => {
     const compiled = compileObjectType(Foo)
     const barField = compiled.getFields().bar
 
+  // @ts-expect-error 3/21/2022
     expect(await barField.resolve(new Foo(), {}, null, null)).toEqual('baz')
   })
 
@@ -45,6 +46,7 @@ describe('Field', () => {
     const compiled = compileObjectType(Foo)
     const barField = compiled.getFields().bar
 
+  // @ts-expect-error 3/21/2022
     expect(await barField.resolve(new Foo(), {}, null, null as any)).toEqual(
       'baz'
     )
@@ -70,6 +72,7 @@ describe('Field', () => {
     expect(compiled.getFields().bar).toBeFalsy()
     expect(bazField).toBeTruthy()
     expect(bazField.description).toEqual('test')
+  // @ts-expect-error 3/21/2022
     expect(await bazField.resolve(new Foo(), {}, null, null as any)).toBe(
       'test'
     )
@@ -294,6 +297,7 @@ describe('Field', () => {
       bar: string = this.instanceVar
     }
     const { bar } = compileObjectType(Foo).getFields()
+  // @ts-expect-error 3/21/2022
     const resolvedValue = await bar.resolve(new Foo(), null, null, null)
     expect(resolvedValue).toEqual('instance')
   })
@@ -320,12 +324,14 @@ describe('Field', () => {
     @ObjectType()
     class Foo {
       @Field()
+  // @ts-expect-error 3/21/2022
       undef: boolean = undefined
       @Field()
       falsy: boolean = false
       @Field()
       truthy: boolean = true
       @Field()
+  // @ts-expect-error 3/21/2022
       nully: boolean = null
       @Field()
       zero: number = 0
@@ -338,11 +344,17 @@ describe('Field', () => {
 
     const foo = new Foo()
 
+  // @ts-expect-error 3/21/2022
     expect(await undef.resolve(foo, {}, null, null)).toEqual(undefined)
+  // @ts-expect-error 3/21/2022
     expect(await falsy.resolve(foo, {}, null, null)).toEqual(false)
+  // @ts-expect-error 3/21/2022
     expect(await truthy.resolve(foo, {}, null, null)).toEqual(true)
+  // @ts-expect-error 3/21/2022
     expect(await nully.resolve(foo, {}, null, null)).toEqual(null)
+  // @ts-expect-error 3/21/2022
     expect(await zero.resolve(foo, {}, null, null)).toEqual(0)
+  // @ts-expect-error 3/21/2022
     expect(await maxInt.resolve(foo, {}, null, null)).toEqual(9007199254740991)
   })
 
@@ -393,10 +405,12 @@ describe('Field', () => {
       }
       @Field({ type: Foo })
       castedFieldNullReturning(): Foo {
+  // @ts-expect-error 3/21/2022
         return null
       }
       @Field({ type: Foo })
       castedFieldUndefinedReturning(): Foo {
+  // @ts-expect-error 3/21/2022
         return
       }
 

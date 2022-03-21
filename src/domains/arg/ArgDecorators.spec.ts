@@ -39,10 +39,12 @@ describe('Arguments with @Arg', () => {
       }
     }
     const { bar } = compileObjectType(Foo).getFields()
+  // @ts-expect-error 3/21/2022
     const resolvedValue = await bar.resolve(
       new Foo(),
       { zzz: 'zzz', aaa: 'aaa' },
       null,
+  // @ts-expect-error 3/21/2022
       null
     )
     expect(resolvedValue).toEqual('aaa.zzz')
@@ -58,10 +60,12 @@ describe('Arguments with @Arg', () => {
       }
     }
     const { bar } = compileObjectType(Foo).getFields()
+  // @ts-expect-error 3/21/2022
     const resolvedValue = await bar.resolve(
       new Foo(),
       { param: 'param' },
       null,
+  // @ts-expect-error 3/21/2022
       null
     )
     expect(resolvedValue).toEqual('instance.param')

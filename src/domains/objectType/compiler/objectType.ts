@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLInterfaceType } from 'graphql'
+import { GraphQLObjectType } from 'graphql'
 import {
   ObjectTypeError,
   objectTypeRegistry,

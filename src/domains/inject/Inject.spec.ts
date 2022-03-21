@@ -21,6 +21,7 @@ describe('@Inject', () => {
     }
 
     const { bar } = compileObjectType(Foo).getFields()
+  // @ts-expect-error 3/21/2022
     const result = await bar.resolve(new Foo(), null, null, null)
 
     expect(result).toEqual('baz')
@@ -68,9 +69,11 @@ describe('@Inject', () => {
         if (context === 'context' && source === this && info === null) {
           return 42
         }
+        return 13
       }
     }
     const { bar } = compileObjectType(Foo).getFields()
+  // @ts-expect-error 3/21/2022
     expect(await bar.resolve(new Foo(), null, 'context', null)).toEqual(42)
   })
 
@@ -89,6 +92,7 @@ describe('@Inject', () => {
     const { bar } = compileObjectType(Foo).getFields()
     expect(bar.args.length).toEqual(1)
     expect(
+  // @ts-expect-error 3/21/2022
       await bar.resolve(new Foo(), { zzz: 'zzz' }, 'context', null)
     ).toEqual('zzz.context.42')
   })
@@ -99,7 +103,7 @@ describe('@Inject', () => {
       test = 'test'
       @Field()
       bar(
-        @Inject(function() {
+        @Inject(function () {
           return this.test
         })
         baz: string
@@ -108,6 +112,7 @@ describe('@Inject', () => {
       }
     }
     const { bar } = compileObjectType(Foo).getFields()
+  // @ts-expect-error 3/21/2022
     expect(await bar.resolve(new Foo(), null, null, null)).toEqual('test')
   })
 
@@ -127,6 +132,7 @@ describe('@Inject', () => {
       }
     }
     const { bar } = compileObjectType(Foo).getFields()
+  // @ts-expect-error 3/21/2022
     expect(await bar.resolve(new Foo(), null, null, null)).toEqual('async')
   })
 })

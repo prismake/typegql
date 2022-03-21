@@ -12,6 +12,7 @@ describe('Fields based on getters', () => {
     }
 
     const { bar } = compileObjectType(Foo).getFields()
+  // @ts-expect-error 3/21/2022
     const resolvedValue = await bar.resolve(new Foo(), null, null, null)
     expect(resolvedValue).toEqual(42)
     expect(bar.type).toEqual(GraphQLFloat)
@@ -47,6 +48,7 @@ describe('Fields based on getters', () => {
     }
 
     const { bar } = compileObjectType(Foo).getFields()
+  // @ts-expect-error 3/21/2022
     const result = await bar.resolve(new Foo(100), null, null, null)
 
     expect(result).toEqual(142)

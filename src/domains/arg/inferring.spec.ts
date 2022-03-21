@@ -74,7 +74,7 @@ describe('Arguments', () => {
     @ObjectType()
     class Foo {
       @Field()
-      dateField(@ArgNullable({ type: Date }) date?: Date): Date {
+      dateField(@ArgNullable({ type: Date }) date?: Date): Date | undefined {
         expect(date instanceof Date).toBeTruthy()
 
         return date

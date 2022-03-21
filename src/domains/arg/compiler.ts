@@ -133,7 +133,7 @@ function convertArgsArrayToArgsMap({
       return
     }
 
-    const finalType = enhanceType(argType, argConfig.isNullable)
+    const finalType = enhanceType(argType, !!argConfig.isNullable)
 
     argsMap[argName] = {
       type: finalType,
@@ -173,11 +173,11 @@ export function compileFieldArgs(
   }
   let argumentTypes: GraphQLInputType[]
   try {
-    argumentTypes = (compileInferredAndRegisteredArgs(
+    argumentTypes = compileInferredAndRegisteredArgs(
       inferedRawArgs,
       registeredArgs,
       onlyDecoratedArgs
-    ) as any) as GraphQLInputType[]
+    ) as any as GraphQLInputType[]
   } catch (err) {
     err.message = `Field ${fieldName} on ${target} failed to compile arguments: ${err.message}`
     throw err

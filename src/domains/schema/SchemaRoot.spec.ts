@@ -212,7 +212,7 @@ describe('@SchemaRoot', () => {
       `
     })
 
-    expect(result.data.foo).toEqual(42)
+    expect(result.data?.foo).toEqual(42)
   })
 
   it('should call schema root constructor', async () => {
