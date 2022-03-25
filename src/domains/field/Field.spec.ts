@@ -286,7 +286,7 @@ describe('Field', () => {
 
     expect(isNamedType(fooMethod.type)).toBe(false)
     expect(getNamedType(fooMethod.type)).toBe(GraphQLString)
-    expect(fooMethod.type.toJSON()).toBe('[String!]')
+    expect(fooMethod.type.toJSON()).toBe('[String!]!')
   })
 
   it('Is properly passing `this` default values', async () => {
