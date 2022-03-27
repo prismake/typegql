@@ -76,11 +76,12 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
 
       if (unionTypes.length === 2) {
         const withoutEmpties = unionTypes.filter(
-          (x) => !x.isNull() || !x.isUndefined()
+          (x) => !x.isNull() && !x.isUndefined()
         )
+        console.log('~ withoutEmpties', withoutEmpties)
 
         if (withoutEmpties.length === 2) {
-          // TODO: handle union of two types
+          // TODO: handle union of two object types
           throw new Error('Cannot infer the type')
         }
         if (withoutEmpties[0] instanceof ReflectedLiteralRef) {

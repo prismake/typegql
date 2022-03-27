@@ -12,10 +12,10 @@ type Foo {
   castedFieldDefinedAsThunk: Foo
   castedFieldNullReturning: Foo
   castedFieldUndefinedReturning: Foo
-  castedFieldAsArray: [Foo!]
-  castedFieldAsArrayDefinedAsThunk: [Foo!]
+  castedFieldAsArray: [Foo!]!
+  castedFieldAsArrayDefinedAsThunk: [Foo!]!
   castedArrayFieldDefinedAsThunk: [Foo!]!
   castedArrayField: [Foo!]!
-  castedFieldAsArrayWithBadReturnValue: [Foo!]
+  castedFieldAsArrayWithBadReturnValue: [Foo!]!
 }"
 `;

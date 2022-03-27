@@ -166,7 +166,7 @@ export function compileFieldResolver(
 ): GraphQLFieldResolver<any, any> {
   function castIfNeeded(result: any) {
     if (castTo && result !== null && typeof result === 'object') {
-      if (castTo.name === 'castTo' || castTo.name === 'itemCast') {
+      if (castTo.name === 'type') {
         // this function is a thunk, so we get the type now
         castTo = castTo()
       }
@@ -178,6 +178,8 @@ export function compileFieldResolver(
         }
         return result.map((item: any) => {
           if (Array.isArray(item)) {
+            console.log('~ item', fieldName, result)
+
             console.error('array cannot be casted as object type: ', item)
             throw new TypeError(
               `field "${fieldName}" cannot be casted to object type ${castTo[0].name} - returned value is an array`

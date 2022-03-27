@@ -12,6 +12,7 @@ import {
 
 import { Thunk } from '../../../types'
 import { interfaceTypeRegistry } from '../../../../domains/interfaceType/interfaceTypeRegistry'
+import { ObjectTypeError } from '../../../../../src/domains/objectType/error'
 
 function isNativeClass(thing: any) {
   return (
@@ -70,7 +71,9 @@ export function resolveType(
     !allowThunk ||
     typeof input !== 'function'
   ) {
-    throw new Error('Unable to resolve type')
+    throw new Error(
+      `Class ${input.name} cannot be used as a resolve type because it is not an @ObjectType`
+    )
   }
 
   if (isNativeClass(input)) {
@@ -98,7 +101,9 @@ function resolveListType(input: any[], isArgument: boolean): GraphQLType {
       new GraphQLList(new GraphQLNonNull(resolvedItemType))
     )
   }
-  return new GraphQLNonNull(new GraphQLList(resolvedItemType))
+  return new GraphQLNonNull(
+    new GraphQLList(new GraphQLNonNull(resolvedItemType))
+  )
 }
 
 export function resolveTypesList(types: Thunk<any[]>): GraphQLType[] {
