@@ -24,16 +24,18 @@ export function isParsableScalar(input: any): input is ParsableScalar {
   return [String, Number, Boolean, Date].includes(input)
 }
 
-export function mapNativeTypeToGraphQL(input: any): GraphQLScalarType {
+export function mapNativeTypeToGraphQL(
+  input: any
+): GraphQLNonNull<GraphQLScalarType> {
   switch (input) {
     case String:
-      return GraphQLString
+      return new GraphQLNonNull(GraphQLString)
     case Number:
-      return GraphQLFloat
+      return new GraphQLNonNull(GraphQLFloat)
     case Boolean:
-      return GraphQLBoolean
+      return new GraphQLNonNull(GraphQLBoolean)
     case Date:
-      return GraphQLDateTime
+      return new GraphQLNonNull(GraphQLDateTime)
     default:
       throw new Error(`Could not parse native type to graphql: ${input}`)
   }
@@ -87,9 +89,9 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
     return Reflect.getMetadata('design:type', target)
   }
   const reflected = reflect(target)
-  const property = reflected.getProperty(key)
-  const method = reflected.getMethod(key)
-  console.log('~ key', key)
+  const property = reflected.getOwnProperty(key)
+  const method = reflected.getOwnMethod(key)
+  // console.log('~ key', key)
 
   let rtti
   if (property) {
@@ -138,5 +140,6 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
   if (isParsableScalar(inferred)) {
     return mapNativeTypeToGraphQL(inferred)
   }
+
   return inferred
 }

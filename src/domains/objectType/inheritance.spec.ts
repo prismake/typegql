@@ -6,7 +6,7 @@ describe('Type inheritance', () => {
   it('Will pass fields from parent class', () => {
     class Base {
       @Field()
-      baseField: string
+      baseField: string | null
     }
 
     @ObjectType()
@@ -17,13 +17,13 @@ describe('Type inheritance', () => {
     expect(baseField.type).toEqual(GraphQLString)
   })
 
-  it.only('Will overwrite fields in child class', () => {
+  it('Will overwrite fields in child class', () => {
     @ObjectType()
     class Base {
       @Field()
       foo: string | null
       @Field()
-      bar: string
+      bar: string | null | undefined
     }
 
     @ObjectType()
