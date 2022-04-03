@@ -9,8 +9,13 @@ import {
   GraphQLNonNull
 } from 'graphql'
 import { GraphQLDateTime } from 'graphql-scalars'
-import { Constructor, reflect, ReflectedLiteralRef } from 'typescript-rtti'
-import { Literal } from 'typescript-rtti/dist/common'
+import {
+  Constructor,
+  reflect,
+  ReflectedLiteralRef,
+  ReflectedTypeRef
+} from 'typescript-rtti'
+import { Literal, RtType } from 'typescript-rtti/dist/common'
 
 // tslint:disable-next-line: use-primitive-type
 export type ParsableScalar = String | Number | Boolean | Date
@@ -48,6 +53,35 @@ function rttiLiteralToGql(rttLiteral: ReflectedLiteralRef<Literal>) {
   return literalType
 }
 
+const inferUnion = (unionTypes: ReflectedTypeRef<RtType>[]) => {
+  console.log('~ unionTypes', unionTypes)
+  const withoutEmpties = unionTypes.filter(
+    (x) => !x.isNull() && !x.isUndefined()
+  )
+
+  if (withoutEmpties.length > 1) {
+    // TODO: handle union of two object types
+    throw new Error('Cannot infer the type, unions of types are not supported')
+  }
+  if (withoutEmpties[0] instanceof ReflectedLiteralRef) {
+    const rttLiteral = withoutEmpties[0].as('literal')
+    const literalType = rttiLiteralToGql(rttLiteral)
+    if (unionTypes.length === 1) {
+      return literalType
+    }
+    return getNullableType(literalType)
+  }
+
+  const mappedGraphqlType = mapNativeTypeToGraphQL(
+    withoutEmpties[0].as('class').class
+  )
+
+  if (unionTypes.length === 1) {
+    return mappedGraphqlType
+  }
+  return getNullableType(mappedGraphqlType)
+}
+
 export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
   if (!key) {
     return Reflect.getMetadata('design:type', target)
@@ -55,6 +89,7 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
   const reflected = reflect(target)
   const property = reflected.getProperty(key)
   const method = reflected.getMethod(key)
+  console.log('~ key', key)
 
   let rtti
   if (property) {
@@ -68,33 +103,16 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
 
   if (rtti.isClass()) {
     inferred = rtti.as('class').class
+  } else if (rtti.isUnion()) {
+    return inferUnion(rtti.as('union').types)
   } else if (rtti.isGeneric()) {
     // isPromise doesn't work properly here
     // promise
     if (rtti.as('generic').typeParameters[0].isUnion()) {
       const unionTypes = rtti.as('generic').typeParameters[0].as('union').types
 
-      if (unionTypes.length === 2) {
-        const withoutEmpties = unionTypes.filter(
-          (x) => !x.isNull() && !x.isUndefined()
-        )
-        console.log('~ withoutEmpties', withoutEmpties)
-
-        if (withoutEmpties.length === 2) {
-          // TODO: handle union of two object types
-          throw new Error('Cannot infer the type')
-        }
-        if (withoutEmpties[0] instanceof ReflectedLiteralRef) {
-          const rttLiteral = withoutEmpties[0].as('literal')
-          const literalType = rttiLiteralToGql(rttLiteral)
-          return getNullableType(literalType)
-        }
-
-        return getNullableType(
-          mapNativeTypeToGraphQL(withoutEmpties[0].as('class').class)
-        )
-      } else {
-        throw new Error('Unsupported union type') // decapi doesn't support unions with more than 2 types
+      if (unionTypes.length >= 2) {
+        return inferUnion(unionTypes)
       }
     } else {
       inferred = rtti.as('generic').typeParameters[0].as('class').class

@@ -12,7 +12,6 @@ import {
 
 import { Thunk } from '../../../types'
 import { interfaceTypeRegistry } from '../../../../domains/interfaceType/interfaceTypeRegistry'
-import { ObjectTypeError } from '../../../../../src/domains/objectType/error'
 
 function isNativeClass(thing: any) {
   return (

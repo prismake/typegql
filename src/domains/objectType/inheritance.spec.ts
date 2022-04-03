@@ -17,17 +17,18 @@ describe('Type inheritance', () => {
     expect(baseField.type).toEqual(GraphQLString)
   })
 
-  it('Will overwrite fields in child class', () => {
+  it.only('Will overwrite fields in child class', () => {
+    @ObjectType()
     class Base {
       @Field()
-      foo: string
+      foo: string | null
       @Field()
       bar: string
     }
 
     @ObjectType()
     class Foo extends Base {
-      @Field({ isNullable: false })
+      @Field()
       foo: string
     }
 

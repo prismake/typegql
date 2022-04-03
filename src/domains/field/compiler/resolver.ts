@@ -187,8 +187,6 @@ export function compileFieldResolver(
           }
           return plainToClass(castTo[0], item)
         })
-      } else {
-        return plainToClass(castTo, result)
       }
     }
     return result

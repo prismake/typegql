@@ -58,12 +58,12 @@ describe('Unions', () => {
 
     expect(
       unionType.resolveType &&
-  // @ts-expect-error 3/21/2022
+        // @ts-expect-error 3/21/2022
         unionType.resolveType(new Sub1(), null, null, null)
     ).toBe(resolveType(Sub1))
     expect(
       unionType.resolveType &&
-  // @ts-expect-error 3/21/2022
+        // @ts-expect-error 3/21/2022
         unionType.resolveType(new Sub2(), null, null, null)
     ).toBe(resolveType(Sub2))
   })
@@ -75,7 +75,7 @@ describe('Unions', () => {
 
     expect(
       unionType.resolveType &&
-  // @ts-expect-error 3/21/2022
+        // @ts-expect-error 3/21/2022
         unionType.resolveType(new Sub2(), null, null, null)
     ).toBe(resolveType(Sub1))
     expect(customTypeResolver).toBeCalled()
@@ -91,7 +91,7 @@ describe('Unions', () => {
 
     expect(printSchema(schema)).toMatchInlineSnapshot(`
       "type Query {
-        aUnion: [UnionType!]
+        aUnion: [UnionType!]!
       }
 
       union UnionType = Sub1 | Sub2
