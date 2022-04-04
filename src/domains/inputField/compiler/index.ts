@@ -22,20 +22,14 @@ function getFinalInputFieldType(
   return inferTypeOrThrow(target, fieldName)
 }
 
-function enhanceType(originalType: GraphQLInputType, isNullable: boolean) {
-  let finalType = originalType
-  if (!isNullable) {
-    finalType = new GraphQLNonNull(finalType)
-  }
-  return finalType
-}
-
 export function compileInputFieldConfig(
   target: Function,
   fieldName: string
 ): GraphQLInputFieldConfig {
-  const { type, description, defaultValue, isNullable } =
-    inputFieldsRegistry.get(target, fieldName)
+  const { type, description, defaultValue } = inputFieldsRegistry.get(
+    target,
+    fieldName
+  )
 
   const resolvedType = getFinalInputFieldType(target, fieldName, type)
 
@@ -46,12 +40,11 @@ export function compileInputFieldConfig(
       `Validation of type failed. Resolved type must be a GraphQLInputType.`
     )
   }
-  const finalType = enhanceType(resolvedType, !!isNullable)
 
   return {
     description,
     defaultValue,
-    type: finalType
+    type: resolvedType
   }
 }
 

@@ -24,18 +24,16 @@ export function isParsableScalar(input: any): input is ParsableScalar {
   return [String, Number, Boolean, Date].includes(input)
 }
 
-export function mapNativeTypeToGraphQL(
-  input: any
-): GraphQLNonNull<GraphQLScalarType> {
+export function mapNativeTypeToGraphQL(input: any): GraphQLScalarType {
   switch (input) {
     case String:
-      return new GraphQLNonNull(GraphQLString)
+      return GraphQLString
     case Number:
-      return new GraphQLNonNull(GraphQLFloat)
+      return GraphQLFloat
     case Boolean:
-      return new GraphQLNonNull(GraphQLBoolean)
+      return GraphQLBoolean
     case Date:
-      return new GraphQLNonNull(GraphQLDateTime)
+      return GraphQLDateTime
     default:
       throw new Error(`Could not parse native type to graphql: ${input}`)
   }
@@ -56,14 +54,21 @@ function rttiLiteralToGql(rttLiteral: ReflectedLiteralRef<Literal>) {
 }
 
 const inferUnion = (unionTypes: ReflectedTypeRef<RtType>[]) => {
-  console.log('~ unionTypes', unionTypes)
   const withoutEmpties = unionTypes.filter(
     (x) => !x.isNull() && !x.isUndefined()
   )
 
-  if (withoutEmpties.length > 1) {
-    // TODO: handle union of two object types
-    throw new Error('Cannot infer the type, unions of types are not supported')
+  const withoutBooleans = withoutEmpties.filter(
+    (x) => !x.isFalse() && !x.isTrue()
+  )
+
+  if (withoutBooleans.length === 0 && withoutEmpties.length === 2) {
+    if (withoutEmpties.length === unionTypes.length) {
+      return GraphQLBoolean
+    } else {
+      // there are empties
+      return getNullableType(GraphQLBoolean)
+    }
   }
   if (withoutEmpties[0] instanceof ReflectedLiteralRef) {
     const rttLiteral = withoutEmpties[0].as('literal')
@@ -74,33 +79,22 @@ const inferUnion = (unionTypes: ReflectedTypeRef<RtType>[]) => {
     return getNullableType(literalType)
   }
 
+  if (withoutEmpties.length > 1) {
+    // TODO: handle union of two object types
+    throw new Error('Cannot infer the type, unions of types are not supported')
+  }
+
   const mappedGraphqlType = mapNativeTypeToGraphQL(
     withoutEmpties[0].as('class').class
   )
 
   if (unionTypes.length === 1) {
-    return mappedGraphqlType
+    return new GraphQLNonNull(mappedGraphqlType)
   }
   return getNullableType(mappedGraphqlType)
 }
 
-export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
-  if (!key) {
-    return Reflect.getMetadata('design:type', target)
-  }
-  const reflected = reflect(target)
-  const property = reflected.getOwnProperty(key)
-  const method = reflected.getOwnMethod(key)
-  // console.log('~ key', key)
-
-  let rtti
-  if (property) {
-    rtti = property.type
-  } else if (method) {
-    rtti = method.returnType
-  } else {
-    throw new Error('Could not find property or method')
-  }
+export const inferTypeFromRtti = (rtti: ReflectedTypeRef) => {
   let inferred
 
   if (rtti.isClass()) {
@@ -122,24 +116,44 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
     }
   } else if (rtti.isArray()) {
     const elementType = rtti.as('array').elementType
+
     if (elementType.isClass()) {
       inferred = elementType.as('class').class
     } else if (elementType.isUnion()) {
-      const withoutEmpties = elementType
-        .as('union')
-        .types.filter((x) => !x.isNull() && !x.isUndefined())
+      const unionTypes = elementType.as('union').types
 
-      inferred = withoutEmpties[0].as('class').class
-      return [getNullableType(mapNativeTypeToGraphQL(inferred))]
+      return inferUnion(unionTypes)
     }
 
     return [new GraphQLNonNull(mapNativeTypeToGraphQL(inferred))]
   }
-  // console.log('~ inferred', inferred)
 
   if (isParsableScalar(inferred)) {
-    return mapNativeTypeToGraphQL(inferred)
+    return new GraphQLNonNull(mapNativeTypeToGraphQL(inferred))
   }
 
   return inferred
+}
+
+export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
+  if (!key) {
+    return Reflect.getMetadata('design:type', target)
+  }
+
+  const reflected = reflect(target)
+  const property = reflected.getOwnProperty(key)
+  const method = reflected.getOwnMethod(key)
+  // console.log('~ key', key)
+
+  let rtti: ReflectedTypeRef
+  if (property) {
+    rtti = property.type
+  } else if (method) {
+    rtti = method.returnType
+  } else {
+    throw new Error('Could not find property or method')
+  }
+  const type = inferTypeFromRtti(rtti)
+
+  return type
 }

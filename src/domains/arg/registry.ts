@@ -4,6 +4,7 @@ export interface IArgInnerConfig {
   description?: string
   isNullable?: boolean
   type?: any
+  inferredType?: any
   name?: string
   argIndex: number
 }

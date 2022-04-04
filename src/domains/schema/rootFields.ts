@@ -14,7 +14,7 @@ function validateRootSchemaField(targetInstance: Object, fieldName: string) {
     throw new SchemaFieldError(
       targetInstance.constructor,
       fieldName,
-      `Every root schema field must regular class function`
+      `Every root schema field must be a regular class function`
     )
   }
 }
@@ -33,6 +33,7 @@ function requireSchemaRoot(target: Function, fieldName: string) {
 function getFieldCompiler(target: Function, fieldName: string) {
   return () => {
     requireSchemaRoot(target, fieldName)
+    // @ts-expect-error
     return compileFieldConfig(target, fieldName)
   }
 }

@@ -24,7 +24,7 @@ export {
   InputFieldNullable
 } from './domains/inputField/InputFieldDecorators'
 export { DuplexField } from './domains/duplexField/DuplexField'
-export { Arg, ArgNullable } from './domains/arg/ArgDecorators'
+export { Arg } from './domains/arg/ArgDecorators'
 export { Inject, Context, Source, Info } from './domains/inject/Inject'
 export { registerEnum, enumsRegistry } from './domains/enum/registerEnum'
 export { Union } from './domains/union/Union'

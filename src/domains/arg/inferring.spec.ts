@@ -7,7 +7,7 @@ import {
   SchemaRoot,
   Query,
   compileSchema,
-  ArgNullable
+  Arg
 } from '../..'
 
 describe('Arguments', () => {
@@ -74,10 +74,10 @@ describe('Arguments', () => {
     @ObjectType()
     class Foo {
       @Field()
-      dateField(@ArgNullable({ type: Date }) date?: Date): Date | undefined {
+      dateField(@Arg({ type: Date }) date?: Date | null): Date | undefined {
         expect(date instanceof Date).toBeTruthy()
 
-        return date
+        return date!
       }
     }
     const { dateField } = compileObjectType(Foo).getFields()

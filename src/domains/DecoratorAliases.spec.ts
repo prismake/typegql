@@ -1,7 +1,6 @@
 import { printSchema } from 'graphql'
-import { DuplexObjectType, SchemaRoot, compileSchema } from '../index'
+import { DuplexObjectType, SchemaRoot, compileSchema, Arg } from '../index'
 
-import { ArgNullable } from './arg/ArgDecorators'
 import { QueryAndMutation } from './schema/rootFields'
 
 import { InputFieldNullable } from './inputField/InputFieldDecorators'
@@ -15,8 +14,8 @@ describe('decorator aliases', () => {
       @InputFieldNullable()
       foo2: string
       @DuplexField()
-      foo(@ArgNullable() a: string): string {
-        return a
+      foo(@Arg() a: string | null): string {
+        return a!
       }
       @DuplexField()
       duplexArrayOfString: Array<string | null>
@@ -45,7 +44,7 @@ describe('decorator aliases', () => {
       @Field()
       foo4: Array<string | null>
       @Field({ type: () => [String] })
-      foo(@ArgNullable() a: string): string[] {
+      foo(@Arg() a: string): string[] {
         return []
       }
       @Field({ type: () => [Number] })

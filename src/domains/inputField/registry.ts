@@ -16,5 +16,4 @@ export interface IFieldInputInnerConfig {
   property: string
   description?: string
   type?: any
-  isNullable?: boolean
 }

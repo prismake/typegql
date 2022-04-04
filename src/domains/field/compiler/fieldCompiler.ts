@@ -14,9 +14,10 @@ import {
 
 import { validateNotInferableField } from './fieldType'
 import { compileFieldArgs } from '../../arg/ArgDecorators'
+import { Constructor } from 'typescript-rtti'
 
 export function compileFieldConfig(
-  target: Function,
+  target: Constructor<Function>,
   fieldName: string
 ): GraphQLFieldConfig<any, any, any> {
   const fieldRegistryConfig = fieldsRegistry.get(target, fieldName)
@@ -28,7 +29,7 @@ export function compileFieldConfig(
     onlyDecoratedArgs,
     deprecationReason
   } = fieldRegistryConfig
-  const args = compileFieldArgs(target, fieldName, !!onlyDecoratedArgs)
+  const args = compileFieldArgs(target as any, fieldName, !!onlyDecoratedArgs)
 
   const resolvedType = resolveRegisteredOrInferredType(
     target,
@@ -55,7 +56,7 @@ export function compileFieldConfig(
   }
 }
 
-function getAllFields(target: Function) {
+function getAllFields(target: Constructor<Function>) {
   const fields = fieldsRegistry.getAll(target)
 
   const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {}
@@ -75,7 +76,9 @@ function getAllFields(target: Function) {
   return finalFieldsMap
 }
 
-export function compileAllFields(targetWithParents: Function[]) {
+export function compileAllFields(
+  targetWithParents: Array<Constructor<Function>>
+) {
   const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {}
 
   targetWithParents.forEach((targetLevel) => {

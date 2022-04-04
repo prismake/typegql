@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`arguments should compile args correctly 1`] = `
+"type Query {
+  hello: Hello
+}
+
+type Hello {
+  argRename(myFancyArgument: String!): Boolean!
+  argRename2(myFirstFancyArgument: String!, mySecondFancyArgument: String): Boolean!
+}"
+`;
+
+exports[`onlyDecoratedArgs should omit args when onlyDecoratedArgs is used 1`] = `
+"type Query {
+  test: Test
+}
+
+type Test {
+  shouldHaveNone: Boolean!
+  shouldHaveOnlyOne(v2: Boolean!): Boolean!
+}"
+`;

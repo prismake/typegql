@@ -15,13 +15,13 @@ import { resolveType } from '../../services/utils/gql/types/typeResolvers'
 @ObjectType()
 class Sub1 {
   @Field()
-  bar: string
+  bar: string | null
 }
 
 @ObjectType()
 class Sub2 {
   @Field()
-  bar: number
+  bar: number | null
 }
 
 @Union({ types: [Sub1, Sub2] })

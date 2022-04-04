@@ -26,9 +26,17 @@ export interface IFieldOptions extends IFieldOptionsBase {
 
 export function Field(options?: IFieldOptions): PropertyDecorator {
   return (targetInstance: Object, fieldName: string) => {
+    const getter = Object.getOwnPropertyDescriptor(
+      targetInstance,
+      fieldName
+    )?.get
+
+    if (getter) {
+      throw new Error('Field cannot be on a getter')
+    }
     if (
       options &&
-      options.hasOwnProperty('castTo') &&
+      options.hasOwnProperty('type') &&
       options.type === undefined
     ) {
       console.log(

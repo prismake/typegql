@@ -10,7 +10,6 @@ import {
   InputField
 } from '../index'
 import { InputObjectType } from '../../src/domains/inputObjectType/InputObjectType'
-import { ArgNullable } from '../../src/domains/arg/ArgDecorators'
 
 describe('Field args', () => {
   @ObjectType()
@@ -19,15 +18,12 @@ describe('Field args', () => {
     boolTest(v1: boolean): boolean {
       return v1
     }
-    @Field({ type: [Boolean], isNullable: true })
-    boolTest2(
-      @Arg() v2: boolean,
-      @Arg({ isNullable: true }) v2a: boolean
-    ): boolean[] {
+    @Field()
+    boolTest2(@Arg() v2: boolean, @Arg() v2a: boolean): Array<boolean | null> {
       // console.log('[v2, v2a]: ', [v2, v2a]);
       expect(v2).toBe(false)
       expect(v2a).toBe(false)
-  // @ts-expect-error 3/21/2022
+      // @ts-expect-error 3/21/2022
       return null
     }
     @Field()
@@ -36,42 +32,39 @@ describe('Field args', () => {
     }
 
     @Field()
-    boolTest4(@Arg({ isNullable: true }) a1: boolean, a2: boolean): boolean {
+    boolTest4(a1: boolean | null, a2: boolean | null): boolean {
       expect(a1).toBeUndefined()
       expect(a2).toBe(true)
-  // @ts-expect-error 3/21/2022
-      return null
+      return true
     }
 
     @Field()
     argRename(
-      @Context ctx: any,
-      @Arg({ isNullable: true, name: 'myFancyArgument' }) a: string
+      @Arg({ name: 'myFancyArgument' }) a: string,
+      @Context ctx: any
     ): boolean {
       expect(ctx).toBe(null)
       expect(a).toBe('fancy')
 
-  // @ts-expect-error 3/21/2022
-      return null
+      return true
     }
 
     @Field()
     argRename2(
-      @Arg({ isNullable: true, name: 'myFirstFancyArgument' }) a: string,
-      @Arg({ isNullable: true, name: 'mySecondFancyArgument' }) b: string,
+      @Arg({ name: 'myFirstFancyArgument' }) a: string,
+      @Arg({ name: 'mySecondFancyArgument' }) b: string,
       @Context ctx: any
     ): boolean {
       expect(ctx).toBe(null)
       expect(a).toBe('fancya')
       expect(b).toBe('fancyb')
 
-  // @ts-expect-error 3/21/2022
-      return null
+      return false
     }
 
     @Field()
-    defaultVal(@ArgNullable() v3: number = 3): number {
-      return v3
+    defaultVal(@Arg() v3: number | null = 3): number {
+      return v3!
     }
   }
 
@@ -82,6 +75,22 @@ describe('Field args', () => {
       return new Hello()
     }
   }
+
+  it('should compile args correctly', () => {
+    @SchemaRoot()
+    class BarSchema {
+      @Query()
+      boolTest4(a1: boolean | null, a2: boolean | null): boolean {
+        return false
+      }
+    }
+
+    const schema = compileSchema(BarSchema)
+    console.log(printSchema(schema))
+    expect(printSchema(schema)).toEqual(`type Query {
+  boolTest4(a1: Boolean, a2: Boolean): Boolean!
+}`)
+  })
 
   const schema = compileSchema(FooSchema)
 
@@ -120,11 +129,12 @@ describe('Field args', () => {
         }
       `
     })
+
     expect(result).toMatchInlineSnapshot(`
                               Object {
                                 "data": Object {
                                   "hello": Object {
-                                    "boolTest4": null,
+                                    "boolTest4": true,
                                   },
                                 },
                               }
@@ -150,8 +160,8 @@ describe('Field args', () => {
                               Object {
                                 "data": Object {
                                   "hello": Object {
-                                    "argRename": null,
-                                    "argRename2": null,
+                                    "argRename": true,
+                                    "argRename2": false,
                                   },
                                 },
                               }
@@ -194,7 +204,7 @@ describe('Field args', () => {
             return MyInputObject
           }
         })
-        a1: string
+        a1: any
       ): String {
         return 'a'
       }
@@ -203,50 +213,11 @@ describe('Field args', () => {
     const schema = compileSchema(FooSchema)
     expect(printSchema(schema)).toMatchInlineSnapshot(`
       "type Query {
-        hello(a1: MyInputObject!): String
+        hello(a1: MyInputObject): String!
       }
 
       input MyInputObject {
         a: String!
-      }"
-    `)
-  })
-})
-
-describe('onlyDecoratedArgs', function () {
-  it('should omit args when onlyDecoratedArgs is used', async () => {
-    class CustomClass {}
-
-    @ObjectType()
-    class Test {
-      @Field({ onlyDecoratedArgs: true })
-      shouldHaveNone(a1?: Function, a2?: CustomClass): boolean {
-        return false
-      }
-
-      @Field({ onlyDecoratedArgs: true })
-      shouldHaveOnlyOne(v1: boolean, @Arg() v2: boolean): boolean {
-        return v2
-      }
-    }
-
-    @SchemaRoot()
-    class FooSchema {
-      @Query()
-      test(): Test {
-        return new Test()
-      }
-    }
-
-    const schema = compileSchema(FooSchema)
-    expect(printSchema(schema)).toMatchInlineSnapshot(`
-      "type Query {
-        test: Test
-      }
-
-      type Test {
-        shouldHaveNone: Boolean
-        shouldHaveOnlyOne(v2: Boolean!): Boolean
       }"
     `)
   })
