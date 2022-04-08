@@ -9,7 +9,7 @@ export function resolveTypeOrThrow(
   target: Function,
   fieldName: string
 ): GraphQLType {
-  const resolvedType = resolveType(type)
+  const resolvedType = resolveType({ runtimeType: type })
 
   if (!resolvedType) {
     throw new FieldError(
@@ -49,17 +49,17 @@ export function inferTypeOrThrow(
   target: Function,
   fieldName: string
 ): GraphQLType {
-  const inferedType = inferTypeByTarget(target.prototype, fieldName)
+  const inferredType = inferTypeByTarget(target.prototype, fieldName)
 
-  if (!inferedType) {
+  if (!inferredType) {
     throw new FieldError(
       target,
       fieldName,
       `Could not infer return type and no type is explicitly configured. In case of circular dependencies make sure to explicitly set a type.`
     )
   }
-  throwIfNotInferableType(inferedType, target, fieldName)
-  return resolveType(inferedType)
+  throwIfNotInferableType(inferredType, target, fieldName)
+  return resolveType(inferredType)
 }
 
 export function validateNotInferableField(target: Function, fieldName: string) {

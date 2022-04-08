@@ -45,7 +45,7 @@ function enhanceTypeResolver(
 ): UnionTypeResolver {
   return (value, context, info) => {
     const rawResolvedType = originalResolver(value, context, info)
-    return resolveType(rawResolvedType)
+    return resolveType({ runtimeType: rawResolvedType })
   }
 }
 

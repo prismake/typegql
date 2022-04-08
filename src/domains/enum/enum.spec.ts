@@ -79,7 +79,7 @@ describe('Enums', () => {
     }
 
     const enumType = registerEnum(Foo, { name: 'Foo' })
-    expect(resolveType(Foo)).toEqual(enumType)
+    expect(resolveType({ runtimeType: Foo })).toEqual(enumType)
   })
 
   it('renders schema with an enum used in a query', async () => {

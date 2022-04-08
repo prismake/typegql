@@ -47,7 +47,7 @@ class Foo {
 describe('Unions', () => {
   it('Registers returns proper enum type', () => {
     const { bar } = compileObjectType(Foo).getFields()
-    expect(bar.type).toEqual(resolveType(UnionType))
+    expect(bar.type).toEqual(resolveType({ runtimeType: UnionType }))
     expect(bar.type).not.toEqual(UnionType)
   })
 
@@ -60,12 +60,12 @@ describe('Unions', () => {
       unionType.resolveType &&
         // @ts-expect-error 3/21/2022
         unionType.resolveType(new Sub1(), null, null, null)
-    ).toBe(resolveType(Sub1))
+    ).toBe(resolveType({ runtimeType: Sub1 }))
     expect(
       unionType.resolveType &&
         // @ts-expect-error 3/21/2022
         unionType.resolveType(new Sub2(), null, null, null)
-    ).toBe(resolveType(Sub2))
+    ).toBe(resolveType({ runtimeType: Sub2 }))
   })
 
   it('Properly resolves with custom type resolver', () => {
@@ -77,7 +77,7 @@ describe('Unions', () => {
       unionType.resolveType &&
         // @ts-expect-error 3/21/2022
         unionType.resolveType(new Sub2(), null, null, null)
-    ).toBe(resolveType(Sub1))
+    ).toBe(resolveType({ runtimeType: Sub1 }))
     expect(customTypeResolver).toBeCalled()
   })
 

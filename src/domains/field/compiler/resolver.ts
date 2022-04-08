@@ -62,6 +62,7 @@ async function performAfterHooksExecution(
 }
 
 function resolveExplicitArgument(argConfig: IArgInnerConfig, argValue: any) {
+  console.log('~ argConfig', argConfig)
   if (Array.isArray(argConfig.type)) {
     const type = argConfig.type[0]
     if (!type) {

@@ -47,6 +47,7 @@ class FooSchema {
 
   @Mutation()
   barMutation(@Arg({ type: MyInput }) input: MyInput): string {
+    console.log('~ input', input)
     return input.someMethodOnInputObjectType()
   }
 
@@ -72,7 +73,7 @@ describe('input object type arguments are passed as instances', () => {
         }
       `
     })
-
+    console.error(result1.errors)
     expect(result1).toMatchInlineSnapshot(`
 Object {
   "data": Object {

@@ -5,9 +5,7 @@ import {
   GraphQLFloat,
   GraphQLBoolean,
   GraphQLScalarType,
-  getNullableType,
-  GraphQLNonNull,
-  GraphQLObjectType
+  GraphQLNonNull
 } from 'graphql'
 import { GraphQLDateTime } from 'graphql-scalars'
 import {
@@ -36,25 +34,47 @@ export function mapNativeTypeToGraphQL(input: any): GraphQLScalarType {
     case Date:
       return GraphQLDateTime
     default:
-      throw new Error(`Could not parse native type to graphql: ${input}`)
+      return input
   }
 }
 
-function rttiLiteralToGql(rttLiteral: ReflectedLiteralRef<Literal>) {
+export function mapNativeScalarToGraphQL(input: any): GraphQLScalarType {
+  switch (input) {
+    case String:
+      return GraphQLString
+    case Number:
+      return GraphQLFloat
+    case Boolean:
+      return GraphQLBoolean
+    case Date:
+      return GraphQLDateTime
+    default:
+      throw new Error(`Could not parse native scalar to graphql: ${input}`)
+  }
+}
+
+function rttiLiteralToRuntimeType(rttLiteral: ReflectedLiteralRef<Literal>) {
   let literalType
 
   if (rttLiteral.isBooleanLiteral()) {
-    literalType = GraphQLBoolean
+    literalType = Boolean
   } else if (rttLiteral.isStringLiteral()) {
-    literalType = GraphQLString
+    literalType = String
   } else if (rttLiteral.isNumberLiteral()) {
-    literalType = GraphQLFloat
+    literalType = Number
   }
 
   return literalType
 }
 
-const inferUnion = (unionTypes: ReflectedTypeRef<RtType>[]) => {
+export interface IInferResult {
+  runtimeType: any
+  isNullable: boolean
+}
+
+const inferUnion = (
+  unionTypes: Array<ReflectedTypeRef<RtType>>
+): IInferResult => {
   const withoutEmpties = unionTypes.filter(
     (x) => !x.isNull() && !x.isUndefined()
   )
@@ -65,19 +85,19 @@ const inferUnion = (unionTypes: ReflectedTypeRef<RtType>[]) => {
 
   if (withoutBooleans.length === 0 && withoutEmpties.length === 2) {
     if (withoutEmpties.length === unionTypes.length) {
-      return GraphQLBoolean
+      return { isNullable: false, runtimeType: Boolean }
     } else {
       // there are empties
-      return getNullableType(GraphQLBoolean)
+      return { isNullable: true, runtimeType: Boolean }
     }
   }
   if (withoutEmpties[0] instanceof ReflectedLiteralRef) {
     const rttLiteral = withoutEmpties[0].as('literal')
-    const literalType = rttiLiteralToGql(rttLiteral)
+    const literalType = rttiLiteralToRuntimeType(rttLiteral)
     if (unionTypes.length === 1) {
-      return literalType
+      return { runtimeType: literalType, isNullable: false }
     }
-    return getNullableType(literalType)
+    return { runtimeType: literalType, isNullable: true }
   }
 
   if (withoutEmpties.length > 1) {
@@ -87,20 +107,17 @@ const inferUnion = (unionTypes: ReflectedTypeRef<RtType>[]) => {
 
   const cls = withoutEmpties[0].as('class').class
 
-  let gqlType: GraphQLScalarType | GraphQLObjectType
-  if (isParsableScalar(cls)) {
-    gqlType = mapNativeTypeToGraphQL(cls)
-  } else {
-    gqlType = cls as any
+  if (unionTypes.length === 1) {
+    return { runtimeType: cls, isNullable: false }
   }
 
-  if (unionTypes.length === 1) {
-    return new GraphQLNonNull(gqlType)
-  }
-  return getNullableType(gqlType)
+  return { runtimeType: cls, isNullable: true }
 }
 
-export const inferTypeFromRtti = (rtti: ReflectedTypeRef) => {
+/**
+ * infer always returns runtime types.
+ */
+export const inferTypeFromRtti = (rtti: ReflectedTypeRef): IInferResult => {
   let inferred
 
   if (rtti.isClass()) {
@@ -118,7 +135,7 @@ export const inferTypeFromRtti = (rtti: ReflectedTypeRef) => {
       }
     } else {
       inferred = rtti.as('generic').typeParameters[0].as('class').class
-      return new GraphQLNonNull(mapNativeTypeToGraphQL(inferred)) // TODO we would like to return nullable when we can detect that this type is implicit, depends on: https://github.com/rezonant/typescript-rtti/issues/16
+      return { runtimeType: inferred, isNullable: false } // TODO we would like to return nullable when we can detect that this type is implicit, depends on: https://github.com/rezonant/typescript-rtti/issues/16
     }
   } else if (rtti.isArray()) {
     const elementType = rtti.as('array').elementType
@@ -130,18 +147,11 @@ export const inferTypeFromRtti = (rtti: ReflectedTypeRef) => {
 
       return inferUnion(unionTypes)
     }
-    // TODO interfaces
-    if (isParsableScalar(inferred)) {
-      return [mapNativeTypeToGraphQL(inferred)]
-    }
-    return [inferred]
+
+    return { runtimeType: [inferred], isNullable: false }
   }
 
-  if (isParsableScalar(inferred)) {
-    return new GraphQLNonNull(mapNativeTypeToGraphQL(inferred))
-  }
-
-  return inferred
+  return { runtimeType: inferred, isNullable: false }
 }
 
 export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
@@ -162,7 +172,5 @@ export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
   } else {
     throw new Error('Could not find property or method')
   }
-  const type = inferTypeFromRtti(rtti)
-
-  return type
+  return inferTypeFromRtti(rtti)
 }

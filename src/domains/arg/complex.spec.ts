@@ -11,7 +11,7 @@ import {
 
 describe('Complex arguments', () => {
   it('should not allow complex argument type not decorated with @InputObjectType', async () => {
-    class Input {
+    class InputOne {
       @InputField()
       bar: string
     }
@@ -19,7 +19,7 @@ describe('Complex arguments', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar(input: Input): string {
+      bar(input: InputOne): string {
         return 'ok'
       }
     }
@@ -30,7 +30,7 @@ describe('Complex arguments', () => {
 
   it('should not allow complex argument type decorated with @ObjectType', async () => {
     @ObjectType()
-    class Input {
+    class InputTwo {
       @Field()
       bar: string
     }
@@ -38,7 +38,7 @@ describe('Complex arguments', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar(input: Input): string {
+      bar(input: InputTwo): string {
         return 'ok'
       }
     }
@@ -57,14 +57,19 @@ describe('Complex arguments', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar(input: Input): string {
+      nonNullable(input: Input): string {
+        return 'ok'
+      }
+      @Field()
+      nullable(input: Input | null): string {
         return 'ok'
       }
     }
-    const { bar } = compileObjectType(Foo).getFields()
-    expect(bar.args[0].type).toEqual(
+    const { nonNullable, nullable } = compileObjectType(Foo).getFields()
+    expect(nonNullable.args[0].type).toEqual(
       new GraphQLNonNull(compileInputObjectType(Input))
     )
+    expect(nullable.args[0].type).toEqual(compileInputObjectType(Input))
   })
 
   it('Supports scalar list argument type', () => {

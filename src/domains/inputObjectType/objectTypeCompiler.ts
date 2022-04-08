@@ -43,7 +43,6 @@ export function compileInputObjectTypeWithConfig(
   target: Constructor<Function>,
   config: ITypeOptions
 ): GraphQLInputObjectType {
-  console.log('~ targetC', target)
   const outputTypeCache = compileOutputTypeCache.get(target)
 
   if (outputTypeCache) {
@@ -58,8 +57,8 @@ export function compileInputObjectTypeWithConfig(
   return compiled
 }
 
-export function compileInputObjectType(target: Constructor<Function>) {
-  const compiler = inputObjectTypeRegistry.get(target)
+export function compileInputObjectType(target: Function) {
+  const compiler = inputObjectTypeRegistry.get(target as Constructor<Function>)
 
   if (!compiler) {
     throw new InputObjectTypeError(

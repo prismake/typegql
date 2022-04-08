@@ -1,6 +1,8 @@
 import {
   GraphQLFieldConfigArgumentMap,
   GraphQLInputType,
+  GraphQLNonNull,
+  GraphQLScalarType,
   isInputType
 } from 'graphql'
 
@@ -11,7 +13,12 @@ import 'reflect-metadata'
 import { injectorRegistry } from '../inject/Inject'
 
 import { Constructor, reflect } from 'typescript-rtti'
-import { inferTypeFromRtti } from '../../services/utils/gql/types/inferTypeByTarget'
+import {
+  inferTypeFromRtti,
+  isParsableScalar,
+  mapNativeScalarToGraphQL,
+  mapNativeTypeToGraphQL
+} from '../../services/utils/gql/types/inferTypeByTarget'
 import { resolveType } from '../../services/utils/gql/types/typeResolvers'
 import { inputObjectTypeRegistry } from '../inputObjectType/registry'
 
@@ -109,32 +116,44 @@ export function compileFieldArgs(
       argumentTypes[index] = null
     } else if (registeredArgConfig?.type) {
       // @ts-expect-error
-      argumentTypes[index] = resolveType(registeredArgConfig.type, true, true)
+      argumentTypes[index] = resolveType({ runtimeType: registeredArgConfig.type, allowThunk: true, isArgument: true })
     } else if (onlyDecoratedArgs && !registeredArgConfig) {
       argumentTypes[index] = null
     } else {
       const rtti = args[index]
-      const inferredType = inferTypeFromRtti(rtti)
-      if (!inferredType) {
+      const { runtimeType, isNullable } = inferTypeFromRtti(rtti)
+
+      argumentTypes[index] = mapNativeTypeToGraphQL(runtimeType)
+
+      const IOTCompile = inputObjectTypeRegistry.get(runtimeType)
+
+      let gqlType: any
+
+      if (isParsableScalar(runtimeType)) {
+        gqlType = mapNativeScalarToGraphQL(runtimeType)
+      } else if (IOTCompile) {
+        gqlType = IOTCompile()
+      }
+
+      if (!gqlType) {
         throw new Error(
-          `could not resolve type or arg for ${target}.${fieldName}`
+          `${runtimeType} cannot be used as a resolve type because it is not an @ObjectType`
         )
       }
-      // @ts-expect-error
-      argumentTypes[index] = inferredType
 
-      const IOTCompile = inputObjectTypeRegistry.get(inferredType)
-
-      if (IOTCompile) {
-        const gqlType = IOTCompile()
-
-        argumentTypes[index] = gqlType
-      }
+      gqlType = isNullable ? gqlType : new GraphQLNonNull(gqlType)
+      argumentTypes[index] = gqlType
       argRegistry.set(target, [fieldName, index], {
         ...registeredArgConfig,
-        type: inferredType,
+        type: runtimeType,
         argIndex: index
       })
+
+      // argRegistry.set(target, [fieldName, index], {
+      //   ...registeredArgConfig,
+      //   type: inferredType,
+      //   argIndex: index
+      // })
     }
   }
 
@@ -148,3 +167,7 @@ export function compileFieldArgs(
 
   return convertArgsArrayToArgsMap(compileFieldArgContext)
 }
+
+// const isArgNullable = (rtti) => {
+//   if()
+// }

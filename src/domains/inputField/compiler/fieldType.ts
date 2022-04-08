@@ -9,7 +9,12 @@ export function resolveTypeOrThrow(
   target: Function,
   fieldName: string
 ): GraphQLType {
-  const resolvedType = resolveType(type, true, true)
+  const resolvedType = resolveType({
+    runtimeType: type,
+    isNullable: true, // TODO: make this configurable
+    allowThunk: true,
+    isArgument: true
+  })
 
   if (!resolvedType) {
     throw new InputFieldError(
@@ -36,5 +41,5 @@ export function inferTypeOrThrow(
     )
   }
 
-  return resolveType(inferredType, true, true)
+  return resolveType({ ...inferredType, allowThunk: true, isArgument: true })
 }

@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Complex arguments should not allow complex argument type decorated with @ObjectType 1`] = `"@Type Foo.bar(input <-------): Argument has incorrect type. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType"`;
+exports[`Complex arguments should not allow complex argument type decorated with @ObjectType 1`] = `
+"class InputTwo {
+        } cannot be used as a resolve type because it is not an @ObjectType"
+`;
 
 exports[`Complex arguments should not allow complex argument type not decorated with @InputObjectType 1`] = `
-"Field bar on class Foo {
-            bar(input) {
-                return 'ok';
-            }
-        } failed to compile arguments: Class Input cannot be used as a resolve type because it is not an @ObjectType"
+"class InputOne {
+        } cannot be used as a resolve type because it is not an @ObjectType"
 `;

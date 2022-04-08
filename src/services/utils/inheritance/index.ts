@@ -1,6 +1,4 @@
-import { Constructor } from 'typescript-rtti'
-
-export function getClassWithAllParentClasses(target: Constructor<Function>) {
+export function getClassWithAllParentClasses(target: Function) {
   const result = [target]
   let currentNode = target
   while (Object.getPrototypeOf(currentNode)) {
