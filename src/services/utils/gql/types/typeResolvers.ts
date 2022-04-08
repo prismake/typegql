@@ -84,6 +84,7 @@ export function resolveType(
 }
 
 function resolveListType(input: any[], isArgument: boolean): GraphQLType {
+  console.log('~ input232', input)
   if (input.length !== 1) {
     throw new Error('List type must have exactly one element')
   }
@@ -95,13 +96,9 @@ function resolveListType(input: any[], isArgument: boolean): GraphQLType {
     throw new Error('List type must have a valid item type')
   }
 
-  if (isParsableScalar(itemType)) {
-    return new GraphQLNonNull(
-      new GraphQLList(new GraphQLNonNull(resolvedItemType))
-    )
-  }
+
   return new GraphQLNonNull(
-    new GraphQLList(new GraphQLNonNull(resolvedItemType))
+    new GraphQLList(new GraphQLNonNull(resolvedItemType)) // TODO in some cases we might want nullable? Verify
   )
 }
 

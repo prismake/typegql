@@ -1,6 +1,7 @@
 import {
   GraphQLFieldConfig,
   GraphQLFieldConfigMap,
+  GraphQLNonNull,
   GraphQLOutputType
 } from 'graphql'
 import { FieldError, fieldsRegistry } from '../Field'
@@ -15,6 +16,7 @@ import {
 import { validateNotInferableField } from './fieldType'
 import { compileFieldArgs } from '../../arg/ArgDecorators'
 import { Constructor } from 'typescript-rtti'
+import { interfaceTypeRegistry } from '../../../../src/domains/interfaceType/interfaceTypeRegistry'
 
 export function compileFieldConfig(
   target: Constructor<Function>,
@@ -47,11 +49,20 @@ export function compileFieldConfig(
     validateNotInferableField(target, fieldName)
   }
 
+  let castTo = type || resolvedType
+
+  if (
+    interfaceTypeRegistry.has(castTo) ||
+    (Array.isArray(castTo) && interfaceTypeRegistry.has(castTo[0]))
+  ) {
+    castTo = null
+  }
   return {
     description,
     type: resolvedType,
     deprecationReason,
-    resolve: compileFieldResolver(target, fieldName, type || resolvedType),
+    resolve: compileFieldResolver(target, fieldName, castTo),
+    // @ts-expect-error
     args
   }
 }
@@ -82,7 +93,7 @@ export function compileAllFields(
   const finalFieldsMap: GraphQLFieldConfigMap<any, any> = {}
 
   targetWithParents.forEach((targetLevel) => {
-    Object.assign(finalFieldsMap, getAllFields(targetLevel))
+    targetLevel && Object.assign(finalFieldsMap, getAllFields(targetLevel))
   })
 
   return finalFieldsMap

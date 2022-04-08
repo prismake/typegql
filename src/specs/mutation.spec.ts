@@ -11,7 +11,7 @@ import {
 } from '../index'
 
 @InputObjectType()
-class Input {
+class BarType {
   @InputField()
   value: string
 }
@@ -33,7 +33,7 @@ class FooSchema {
   }
 
   @Query()
-  deepInput(input: Input): Hello {
+  deepInput(input: BarType): Hello {
     return new Hello(input.value)
   }
 }
@@ -67,7 +67,7 @@ describe('Mutation', () => {
         }
       `
     })
-
+    console.error(result.errors)
     expect(result).toEqual({ data: { deepInput: { world: 'Hola, Bob' } } })
   })
 })

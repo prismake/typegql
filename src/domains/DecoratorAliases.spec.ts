@@ -28,7 +28,7 @@ describe('decorator aliases', () => {
         return new Bar()
       }
       @QueryAndMutation()
-      echo(input: Bar): Bar {
+      echo(input: Bar | null): Bar {
         return new Bar()
       }
     }

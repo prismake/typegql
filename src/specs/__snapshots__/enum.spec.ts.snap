@@ -6,7 +6,7 @@ exports[`Query with enums picks up description and deprecation 1`] = `
 }
 
 type Hello {
-  world(name: TestEnum!): String
+  world(name: TestEnum): String!
   getAdvancedEnumValue: AdvancedEnum
 }
 

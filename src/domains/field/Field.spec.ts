@@ -5,7 +5,8 @@ import {
   isNamedType,
   getNamedType,
   graphql,
-  printSchema
+  printSchema,
+  GraphQLNonNull
 } from 'graphql'
 
 import 'reflect-metadata'
@@ -97,11 +98,11 @@ describe('Field', () => {
 
     const { bar, baz, foo, boo, coo } = compileObjectType(Foo).getFields()
 
-    expect(bar.type).toEqual(GraphQLString)
-    expect(baz.type).toEqual(GraphQLFloat)
-    expect(foo.type).toEqual(GraphQLBoolean)
-    expect(boo.type).toEqual(GraphQLBoolean)
-    expect(coo.type).toEqual(GraphQLBoolean)
+    expect(bar.type).toEqual(new GraphQLNonNull(GraphQLString))
+    expect(baz.type).toEqual(new GraphQLNonNull(GraphQLFloat))
+    expect(foo.type).toEqual(new GraphQLNonNull(GraphQLBoolean))
+    expect(boo.type).toEqual(new GraphQLNonNull(GraphQLBoolean))
+    expect(coo.type).toEqual(new GraphQLNonNull(GraphQLBoolean))
   })
 
   it('Properly sets explicit field type', () => {
@@ -176,7 +177,7 @@ describe('Field', () => {
     expect(() =>
       compileObjectType(Bar).getFields()
     ).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType Bar.foo: Explicit type is incorrect. Make sure to use either native graphql type or class that is registered with @Type decorator"`
+      `"Class Foo cannot be used as a resolve type because it is not an @ObjectType"`
     )
   })
 
@@ -189,11 +190,11 @@ describe('Field', () => {
         @Field({ type: () => Number })
         baz: any
         @Field()
-        date(@Arg({ type: GraphQLDateTime }) d: Date) {
+        date(@Arg({ type: GraphQLDateTime }) d: Date | null) {
           return d
         }
         @Field()
-        bool: boolean
+        bool: boolean | null
       }
 
       const { bar, baz, date, bool } = compileObjectType(Foo).getFields()
@@ -263,8 +264,7 @@ describe('Field', () => {
       }
     }
     try {
-      const { noTypeMethodReturningNumberOrString } =
-        compileObjectType(Foo2).getFields()
+      compileObjectType(Foo2).getFields()
     } catch (err) {
       expect(err).toMatchInlineSnapshot()
     }
@@ -507,7 +507,6 @@ describe('Field', () => {
           }
         `
       })
-      console.log('~ result', result)
 
       expect(result.errors).toBeUndefined()
       expect(result.data?.castedQuery).toMatchInlineSnapshot(`
@@ -600,7 +599,7 @@ describe('Field', () => {
             "castedQuery": null,
           },
           "errors": Array [
-            [GraphQLError: field "castedFieldAsArrayWithBadReturnValue" cannot be casted to object type Foo - returned value is an array],
+            [GraphQLError: Expected value of type "Foo" but got: { baz: "castedFromAQuery" }.],
           ],
         }
       `)

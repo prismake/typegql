@@ -35,7 +35,7 @@ describe('InputObjectType', () => {
     try {
       @InputObjectType()
       class Foo {
-        @InputField({ type: undefined, isNullable: false })
+        @InputField({ type: undefined })
         asEnum: string
       }
 

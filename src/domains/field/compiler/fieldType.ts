@@ -23,12 +23,12 @@ export function resolveTypeOrThrow(
 }
 
 function throwIfNotInferableType(
-  inferedType: any,
+  inferredType: any,
   target: Function,
   fieldName: string
 ) {
-  if (typeof inferedType === 'function') {
-    const stringSignature = inferedType.toString()
+  if (typeof inferredType === 'function') {
+    const stringSignature = inferredType.toString()
     // console.log('~ stringSignature', stringSignature)
     if (
       stringSignature.match(
@@ -39,7 +39,7 @@ function throwIfNotInferableType(
       throw new FieldError(
         target,
         fieldName,
-        `Field type was infered as "${inferedType}" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })`
+        `Field type was inferred as "${inferredType}" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })`
       )
     }
   }
@@ -63,7 +63,7 @@ export function inferTypeOrThrow(
 }
 
 export function validateNotInferableField(target: Function, fieldName: string) {
-  const inferedType = inferTypeByTarget(target.prototype, fieldName)
-  throwIfNotInferableType(inferedType, target, fieldName)
+  const inferredType = inferTypeByTarget(target.prototype, fieldName)
+  throwIfNotInferableType(inferredType, target, fieldName)
   return true
 }

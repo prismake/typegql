@@ -14,7 +14,7 @@ interface IEntity {
 
 type Car implements IVehicle & IEntity {
   id: Int
-  wheels: Float
+  wheels: Float!
   windows: Int
   seats: Int
 }
@@ -29,13 +29,13 @@ type Boat implements IVehicle & IEntity {
 type Katamaran implements IVehicle & IEntity {
   id: Int
   propellers: Float
-  hulls: Float
+  hulls: Float!
   windows: Int
   seats: Int
 }
 
 type Query {
-  vehicles: [IVehicle!]
+  vehicles: [IVehicle!]!
   boat: Boat
   car: Car
 }"

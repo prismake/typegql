@@ -19,20 +19,20 @@ describe('Type inheritance', () => {
   it('Will overwrite input fields in child class', () => {
     class Base {
       @InputField()
-      foo: string
+      foo: string | null
       @InputField()
       bar: string
     }
 
     @InputObjectType()
     class Foo extends Base {
-      @InputField({ isNullable: true })
+      @InputField()
       foo: string
     }
 
     const { foo, bar } = compileInputObjectType(Foo).getFields()
 
     expect(bar.type).toEqual(new GraphQLNonNull(GraphQLString))
-    expect(foo.type).toEqual(GraphQLString)
+    expect(foo.type).toEqual(new GraphQLNonNull(GraphQLString))
   })
 })

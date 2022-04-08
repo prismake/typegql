@@ -23,6 +23,7 @@ import { IInjectorResolverData } from '../../../domains/inject/registry'
 import { AfterHookExecutor } from '../../../domains/hooks/registry'
 import isPromiseLike from '../../../isPromiseLike'
 import { Constructor, reflect } from 'typescript-rtti'
+import { interfaceTypeRegistry } from '../../../../src/domains/interfaceType/interfaceTypeRegistry'
 
 interface IArgsMap {
   [argName: string]: any
@@ -164,6 +165,9 @@ export function compileFieldResolver(
       if (castTo.name === 'type') {
         // this function is a thunk, so we get the type now
         castTo = castTo()
+        if (interfaceTypeRegistry.has(castTo)) {
+          castTo = null
+        }
       }
       if (Array.isArray(castTo)) {
         if (!Array.isArray(result)) {
@@ -234,6 +238,7 @@ export function compileFieldResolver(
         return argRegistry.get(target, [fieldName, index])
       }
     })
+    console.log('~ params', params)
 
     const promiseOrValue = instanceFieldFunc.apply(source, params)
     resolvedValue = isPromiseLike(promiseOrValue)

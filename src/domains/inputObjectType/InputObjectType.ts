@@ -1,5 +1,6 @@
 import { inputObjectTypeRegistry } from './registry'
 import { compileInputObjectTypeWithConfig } from './objectTypeCompiler'
+import { Constructor } from 'typescript-rtti'
 
 export { InputObjectTypeError } from './error'
 export { inputObjectTypeRegistry } from './registry'
@@ -15,7 +16,11 @@ export function InputObjectType(
   return (target: Function) => {
     const config = { name: target.name, ...options }
     const inputTypeCompiler = () =>
-      compileInputObjectTypeWithConfig(target, config)
-    inputObjectTypeRegistry.set(target, inputTypeCompiler)
+      compileInputObjectTypeWithConfig(target as Constructor<Function>, config)
+
+    inputObjectTypeRegistry.set(
+      target as Constructor<Function>,
+      inputTypeCompiler
+    )
   }
 }

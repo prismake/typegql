@@ -15,7 +15,6 @@ export interface IInputFieldOptions {
   defaultValue?: any
   type?: any
   name?: string
-  isNullable?: boolean
 }
 
 export function InputField(options?: IInputFieldOptions): PropertyDecorator {
@@ -49,5 +48,5 @@ export function InputField(options?: IInputFieldOptions): PropertyDecorator {
 export function InputFieldNullable(
   options?: IInputFieldOptions
 ): PropertyDecorator {
-  return InputField({ ...options, isNullable: true })
+  return InputField(options)
 }

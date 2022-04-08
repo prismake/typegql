@@ -44,7 +44,7 @@ describe('InterfaceType', () => {
     seats: number
 
     @Field()
-    propellers: number
+    propellers: number | null
   }
 
   @ObjectType({ implements: [IVehicle, IEntity] })
@@ -143,7 +143,7 @@ describe('InterfaceType', () => {
 
       type Car implements IVehicle & IEntity {
         id: Int
-        wheels: Float
+        wheels: Float!
         windows: Int
         seats: Int
       }
@@ -158,14 +158,14 @@ describe('InterfaceType', () => {
       type Katamaran implements IVehicle & IEntity {
         id: Int
         propellers: Float
-        hulls: Float
+        hulls: Float!
         windows: Int
         seats: Int
       }
 
       type Query {
-        vehicles: [IVehicle!]
-        entities: [IVehicle!]
+        vehicles: [IVehicle!]!
+        entities: [IVehicle!]!
       }"
     `)
     expect(printSchema(schemaMoreComplex)).toMatchSnapshot()

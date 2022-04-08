@@ -13,6 +13,7 @@ import { injectorRegistry } from '../inject/Inject'
 import { Constructor, reflect } from 'typescript-rtti'
 import { inferTypeFromRtti } from '../../services/utils/gql/types/inferTypeByTarget'
 import { resolveType } from '../../services/utils/gql/types/typeResolvers'
+import { inputObjectTypeRegistry } from '../inputObjectType/registry'
 
 export interface ICompileArgContextType {
   target: Constructor<Function>
@@ -81,7 +82,6 @@ export function compileFieldArgs(
   fieldName: string,
   onlyDecoratedArgs: boolean
 ): GraphQLFieldConfigArgumentMap | null {
-
   const getter = Object.getOwnPropertyDescriptor(
     target.prototype,
     fieldName
@@ -115,11 +115,24 @@ export function compileFieldArgs(
     } else {
       const rtti = args[index]
       const inferredType = inferTypeFromRtti(rtti)
+      if (!inferredType) {
+        throw new Error(
+          `could not resolve type or arg for ${target}.${fieldName}`
+        )
+      }
       // @ts-expect-error
       argumentTypes[index] = inferredType
+
+      const IOTCompile = inputObjectTypeRegistry.get(inferredType)
+
+      if (IOTCompile) {
+        const gqlType = IOTCompile()
+
+        argumentTypes[index] = gqlType
+      }
       argRegistry.set(target, [fieldName, index], {
         ...registeredArgConfig,
-        inferredType,
+        type: inferredType,
         argIndex: index
       })
     }

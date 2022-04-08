@@ -62,7 +62,7 @@ describe('@SchemaRoot', () => {
     @SchemaRoot()
     class FooSchema {
       @Query()
-      foo(): string {
+      foo(): string | null {
         return 'foo'
       }
     }
@@ -70,7 +70,7 @@ describe('@SchemaRoot', () => {
     @SchemaRoot()
     class BarSchema {
       @Query()
-      bar(): number {
+      bar(): number | null {
         return 42
       }
     }
@@ -92,7 +92,7 @@ describe('@SchemaRoot', () => {
     @SchemaRoot()
     class FooSchema {
       @Query()
-      foo(): string {
+      foo(): string | null {
         return 'foo'
       }
     }
@@ -100,7 +100,7 @@ describe('@SchemaRoot', () => {
     @SchemaRoot()
     class BarSchema {
       @Mutation()
-      bar(): number {
+      bar(): number | null {
         return 42
       }
     }
@@ -172,7 +172,7 @@ describe('@SchemaRoot', () => {
     @ObjectType()
     class Hello {
       @Field()
-      async world(name: string): Promise<string> {
+      async world(name: string): Promise<any> {
         return `Hello, ${name}`
       }
     }
@@ -186,7 +186,7 @@ describe('@SchemaRoot', () => {
     }
 
     expect(() => compileSchema([FooSchema])).toThrowErrorMatchingInlineSnapshot(
-      `"@ObjectType Hello.world: Field type was infered as \\"function Promise() { [native code] }\\" so it's required to explicitly set the type as it's not possible to guess it. Pass it in a config for the field like: @Field({ type: ItemType })"`
+      `"Type has kind any, expected class"`
     )
   })
 

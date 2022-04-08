@@ -11,11 +11,12 @@ import { interfaceTypeRegistry } from '../../interfaceType/interfaceTypeRegistry
 import { createCachedThunk } from '../../../services/utils/cachedThunk'
 import { getClassWithAllParentClasses } from '../../../services/utils/inheritance'
 import { Getter } from '../../../domains/schema/registry'
+import { Constructor } from 'typescript-rtti'
 
 export const compileOutputTypeCache = new WeakMap<Function, GraphQLObjectType>()
 
 export function createTypeFieldsGetter(
-  target: Function,
+  target: Constructor<Function>,
   config: IObjectTypeOptions
 ) {
   let targetWithParents = getClassWithAllParentClasses(target)
@@ -54,7 +55,7 @@ export function createTypeFieldsGetter(
 }
 
 export function compileObjectTypeWithConfig(
-  target: Function,
+  target: Constructor<Function>,
   config: IObjectTypeOptions
 ): GraphQLObjectType {
   const cachedType = compileOutputTypeCache.get(target)

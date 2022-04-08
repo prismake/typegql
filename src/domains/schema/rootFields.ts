@@ -5,6 +5,7 @@ import {
 } from './registry'
 import { SchemaFieldError } from './error'
 import { compileFieldConfig, IFieldOptions, Field } from '../field/Field'
+import { Constructor } from 'typescript-rtti'
 
 function validateRootSchemaField(targetInstance: Object, fieldName: string) {
   if (
@@ -19,7 +20,7 @@ function validateRootSchemaField(targetInstance: Object, fieldName: string) {
   }
 }
 
-function requireSchemaRoot(target: Function, fieldName: string) {
+function requireSchemaRoot(target: Constructor<Function>, fieldName: string) {
   if (schemaRootsRegistry.has(target)) {
     return
   }
@@ -30,10 +31,10 @@ function requireSchemaRoot(target: Function, fieldName: string) {
   )
 }
 
-function getFieldCompiler(target: Function, fieldName: string) {
+function getFieldCompiler(target: Constructor<Function>, fieldName: string) {
   return () => {
     requireSchemaRoot(target, fieldName)
-    // @ts-expect-error
+
     return compileFieldConfig(target, fieldName)
   }
 }
@@ -52,6 +53,7 @@ export function Query(options?: IFieldOptions): PropertyDecorator {
       fieldName
     )
     const fieldCompiler = getFieldCompiler(
+      // @ts-expect-error
       targetInstance.constructor,
       fieldName
     )
@@ -71,6 +73,7 @@ export function Mutation(options?: IFieldOptions): PropertyDecorator {
       fieldName
     )
     const fieldCompiler = getFieldCompiler(
+      // @ts-expect-error
       targetInstance.constructor,
       fieldName
     )
@@ -90,6 +93,7 @@ export function QueryAndMutation(options?: IFieldOptions): PropertyDecorator {
       fieldName
     )
     const fieldCompiler = getFieldCompiler(
+      // @ts-expect-error
       targetInstance.constructor,
       fieldName
     )

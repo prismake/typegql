@@ -3,23 +3,23 @@
 exports[`decorator aliases should compile 1`] = `
 "type Query {
   output: Bar
-  echo(input: BarInput!): Bar
+  echo(input: BarInput): Bar
 }
 
 type Bar {
-  foo(a: String): String
-  duplexArrayOfString: [String]!
+  foo(a: String): String!
+  duplexArrayOfString: String
 }
 
 input BarInput {
-  foo2: String
-  foo: String
-  duplexArrayOfString: [String]!
+  foo2: String!
+  foo: String!
+  duplexArrayOfString: String
 }
 
 type Mutation {
   output: Bar
-  echo(input: BarInput!): Bar
+  echo(input: BarInput): Bar
 }"
 `;
 
@@ -30,8 +30,8 @@ exports[`decorator aliases should define the fields with array types correctly 1
 
 type Bar {
   foo2: [String!]!
-  foo4: [String]!
-  foo(a: String): [String!]!
+  foo4: String
+  foo(a: String!): [String!]!
   foo3: [Float!]!
 }
 

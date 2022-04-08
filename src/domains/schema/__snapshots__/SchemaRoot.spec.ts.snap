@@ -156,9 +156,13 @@ Object {
               "isDeprecated": false,
               "name": "world",
               "type": Object {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null,
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": Object {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null,
+                },
               },
             },
           ],

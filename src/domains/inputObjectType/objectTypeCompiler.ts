@@ -10,6 +10,7 @@ import {
 } from '../inputField/InputFieldDecorators'
 import { createCachedThunk } from '../../services/utils/cachedThunk'
 import { getClassWithAllParentClasses } from '../../services/utils/inheritance'
+import { Constructor } from 'typescript-rtti'
 
 const compileOutputTypeCache = new WeakMap<Function, GraphQLInputObjectType>()
 
@@ -19,7 +20,7 @@ export interface ITypeOptions {
 }
 
 function createTypeInputFieldsGetter(
-  target: Function
+  target: Constructor<Function>
 ): () => GraphQLInputFieldConfigMap {
   const targetWithParents = getClassWithAllParentClasses(target)
   const hasFields = targetWithParents.some((ancestor) => {
@@ -39,9 +40,10 @@ function createTypeInputFieldsGetter(
 }
 
 export function compileInputObjectTypeWithConfig(
-  target: Function,
+  target: Constructor<Function>,
   config: ITypeOptions
 ): GraphQLInputObjectType {
+  console.log('~ targetC', target)
   const outputTypeCache = compileOutputTypeCache.get(target)
 
   if (outputTypeCache) {
@@ -56,7 +58,7 @@ export function compileInputObjectTypeWithConfig(
   return compiled
 }
 
-export function compileInputObjectType(target: Function) {
+export function compileInputObjectType(target: Constructor<Function>) {
   const compiler = inputObjectTypeRegistry.get(target)
 
   if (!compiler) {

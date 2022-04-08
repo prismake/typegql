@@ -6,21 +6,20 @@ exports[`Query a mixin method accepts a thunk to avoid circular refs 1`] = `
 }
 
 type Hello {
-  world(name: String!): String
-  mixinMethod(a: String!): String
+  world(name: String!): String!
 }"
 `;
 
 exports[`Query a mixin method executes and field method has correct context 1`] = `
 "type ImplementorType implements InterfaceSampleType {
-  interfaceMethod(name: String!): String
-  world(name: String!): String
-  mixinMethod(a: String!): String
+  interfaceMethod(name: String!): String!
+  world(name: String!): String!
+  mixinMethod(a: String!): String!
 }
 
 interface InterfaceSampleType {
-  interfaceMethod(name: String!): String
-  mixinMethod(a: String!): String
+  interfaceMethod(name: String!): String!
+  mixinMethod(a: String!): String!
 }
 
 type Query {
@@ -29,8 +28,8 @@ type Query {
 }
 
 type Hello {
-  world(name: String!): String
-  mixinMethod(a: String!): String
+  world(name: String!): String!
+  mixinMethod(a: String!): String!
 }"
 `;
 

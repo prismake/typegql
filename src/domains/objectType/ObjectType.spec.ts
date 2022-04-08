@@ -80,14 +80,14 @@ describe('ObjectType', () => {
     @ObjectType()
     class Mixin {
       @Field()
-      mixinMethod(): string {
+      mixinMethod(): string | null {
         return 'hello'
       }
     }
     @ObjectType({ mixins: [Mixin] })
     class Foo {
       @Field()
-      bar: string
+      bar: string | null
     }
 
     const compiled = compileObjectType(Foo)

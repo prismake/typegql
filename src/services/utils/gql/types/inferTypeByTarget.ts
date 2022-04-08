@@ -6,7 +6,8 @@ import {
   GraphQLBoolean,
   GraphQLScalarType,
   getNullableType,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLObjectType
 } from 'graphql'
 import { GraphQLDateTime } from 'graphql-scalars'
 import {
@@ -84,14 +85,19 @@ const inferUnion = (unionTypes: ReflectedTypeRef<RtType>[]) => {
     throw new Error('Cannot infer the type, unions of types are not supported')
   }
 
-  const mappedGraphqlType = mapNativeTypeToGraphQL(
-    withoutEmpties[0].as('class').class
-  )
+  const cls = withoutEmpties[0].as('class').class
+
+  let gqlType: GraphQLScalarType | GraphQLObjectType
+  if (isParsableScalar(cls)) {
+    gqlType = mapNativeTypeToGraphQL(cls)
+  } else {
+    gqlType = cls as any
+  }
 
   if (unionTypes.length === 1) {
-    return new GraphQLNonNull(mappedGraphqlType)
+    return new GraphQLNonNull(gqlType)
   }
-  return getNullableType(mappedGraphqlType)
+  return getNullableType(gqlType)
 }
 
 export const inferTypeFromRtti = (rtti: ReflectedTypeRef) => {
@@ -124,8 +130,11 @@ export const inferTypeFromRtti = (rtti: ReflectedTypeRef) => {
 
       return inferUnion(unionTypes)
     }
-
-    return [new GraphQLNonNull(mapNativeTypeToGraphQL(inferred))]
+    // TODO interfaces
+    if (isParsableScalar(inferred)) {
+      return [mapNativeTypeToGraphQL(inferred)]
+    }
+    return [inferred]
   }
 
   if (isParsableScalar(inferred)) {
