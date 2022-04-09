@@ -115,20 +115,23 @@ export function compileFieldArgs(
 
   for (let index = 0; index < args.length; index++) {
     const registeredArgConfig = registeredArgs && registeredArgs[index]
+    const rtti = args[index]
+
     if (injectedArgs && injectedArgs[index]) {
       argumentTypes[index] = null
     } else if (registeredArgConfig?.type) {
+      const { isNullable } = inferTypeFromRtti(rtti)
+
       // @ts-expect-error
       argumentTypes[index] = resolveType({
         runtimeType: registeredArgConfig.type,
         allowThunk: true,
         isArgument: true,
-        isNullable: registeredArgConfig.isNullable
+        isNullable: registeredArgConfig.isNullable || isNullable
       })
     } else if (onlyDecoratedArgs && !registeredArgConfig) {
       argumentTypes[index] = null
     } else {
-      const rtti = args[index]
       const { runtimeType, isNullable } = inferTypeFromRtti(rtti)
       if (runtimeType === undefined) {
         throw new ArgError(

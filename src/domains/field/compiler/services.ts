@@ -6,23 +6,37 @@ import {
 } from 'graphql'
 import { FieldError } from '../Field'
 
-import { resolveTypeOrThrow, inferTypeOrThrow } from './fieldType'
+import { resolveTypeOrThrow, throwIfNotInferableType } from './fieldType'
 import {
   mutationFieldsRegistry,
   isSchemaRoot,
   queryFieldsRegistry
 } from '../../schema/SchemaRoot'
-import { IResolveTypeParams } from '../../../services/utils/gql/types/typeResolvers'
+import {
+  IResolveTypeParams,
+  resolveType
+} from '../../../services/utils/gql/types/typeResolvers'
+import { inferTypeByTarget } from '../../../services/utils/gql/types/inferTypeByTarget'
 
 export function resolveRegisteredOrInferredType(
   target: Function,
   fieldName: string,
-  fieldConfig: IResolveTypeParams
+  fieldResolveConfig: IResolveTypeParams
 ) {
-  if (fieldConfig && fieldConfig.runtimeType) {
-    return resolveTypeOrThrow(fieldConfig, target, fieldName)
+  const inferredType = inferTypeByTarget(target.prototype, fieldName)
+
+  throwIfNotInferableType(inferredType, target, fieldName)
+
+  if (fieldResolveConfig && fieldResolveConfig.runtimeType) {
+    return resolveTypeOrThrow(fieldResolveConfig, target, fieldName)
+  } else if (!inferredType) {
+    throw new FieldError(
+      target,
+      fieldName,
+      `Could not infer return type and no type is explicitly configured. In case of circular dependencies make sure to explicitly set a type.`
+    )
   }
-  return inferTypeOrThrow(target, fieldName)
+  return resolveType(inferredType)
 }
 
 export function validateResolvedType(

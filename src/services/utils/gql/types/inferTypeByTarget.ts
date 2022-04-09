@@ -101,8 +101,10 @@ const inferUnion = (
   }
 
   if (withoutEmpties.length > 1) {
-    // TODO: handle union of two object types
-    throw new Error('Cannot infer the type, unions of types are not supported')
+    return {
+      runtimeType: undefined,
+      isNullable: withoutEmpties.length < unionTypes.length
+    }
   }
 
   const cls = withoutEmpties[0].as('class').class

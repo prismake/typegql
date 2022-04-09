@@ -548,7 +548,7 @@ describe('Field', () => {
           }
         `
       })
-      console.error(result.errors)
+
       expect(result.errors).toBeUndefined()
       expect(result.data?.castedQuery).toMatchSnapshot()
     })

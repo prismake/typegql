@@ -86,7 +86,7 @@ describe('Field args', () => {
     }
 
     const schema = compileSchema(BarSchema)
-    console.log(printSchema(schema))
+
     expect(printSchema(schema)).toEqual(`type Query {
   boolTest4(a1: Boolean, a2: Boolean): Boolean!
 }`)
