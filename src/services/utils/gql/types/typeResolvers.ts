@@ -1,11 +1,6 @@
 import { isType, GraphQLType, GraphQLList, GraphQLNonNull } from 'graphql'
 
-import {
-  mapNativeScalarToGraphQL,
-  isParsableScalar,
-  IInferResult,
-  mapNativeTypeToGraphQL
-} from './inferTypeByTarget'
+import { isParsableScalar, mapNativeTypeToGraphQL } from './inferTypeByTarget'
 import {
   enumsRegistry,
   unionRegistry,
@@ -44,6 +39,7 @@ export function resolveType({
   if (isType(type)) {
     return type
   }
+  console.log('~ type', type)
 
   if (isParsableScalar(type)) {
     return isNullable
@@ -109,7 +105,7 @@ function resolveListType(input: any[], isArgument: boolean): GraphQLType {
   }
   const [itemType] = input
 
-  const resolvedItemType = resolveType({
+  let resolvedItemType = resolveType({
     runtimeType: itemType,
     isNullable: false,
     allowThunk: true,
@@ -120,8 +116,12 @@ function resolveListType(input: any[], isArgument: boolean): GraphQLType {
     throw new Error('List type must have a valid item type')
   }
 
+  if (resolvedItemType.toString().endsWith('!') === false) {
+    // hacky but it does work
+    resolvedItemType = new GraphQLNonNull(resolvedItemType)
+  }
   return new GraphQLNonNull(
-    new GraphQLList(new GraphQLNonNull(resolvedItemType)) // TODO in some cases we might want nullable? Verify
+    new GraphQLList(resolvedItemType) // TODO in some cases we might want nullable? Verify
   )
 }
 

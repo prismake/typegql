@@ -88,7 +88,8 @@ describe('Complex arguments', () => {
 
   it('Supports nested list argument type', () => {
     @InputObjectType()
-    class Input {
+    class MySecondInput {
+      c = 1
       @InputField()
       bar: string
     }
@@ -96,13 +97,25 @@ describe('Complex arguments', () => {
     @ObjectType()
     class Foo {
       @Field()
-      bar(@Arg({ type: [Input] }) input: Input[]): string {
+      bar(@Arg({ type: [MySecondInput] }) input: MySecondInput[]): string {
         return 'ok'
       }
+
+      @Field()
+      foo(input: MySecondInput[]): string {
+        return input.length.toString()
+      }
     }
-    const { bar } = compileObjectType(Foo).getFields()
+    const { bar, foo } = compileObjectType(Foo).getFields()
+    const fooArgType = foo.args[0].type
     const argType = bar.args[0].type
-    expect(argType.toString()).toEqual('[Input!]!')
-    expect(getNamedType(argType)).toEqual(compileInputObjectType(Input))
+
+    expect(argType.toString()).toEqual('[MySecondInput!]!')
+    expect(getNamedType(argType)).toEqual(compileInputObjectType(MySecondInput))
+
+    expect(fooArgType.toString()).toEqual('[MySecondInput!]!')
+    expect(getNamedType(fooArgType)).toEqual(
+      compileInputObjectType(MySecondInput)
+    )
   })
 })

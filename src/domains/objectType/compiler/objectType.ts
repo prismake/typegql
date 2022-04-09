@@ -50,7 +50,7 @@ export function createTypeFieldsGetter(
       targetWithParents = targetWithParents.concat(mixins())
     }
 
-    return compileAllFields(targetWithParents)
+    return compileAllFields(targetWithParents as Array<Constructor<Function>>)
   })
 }
 

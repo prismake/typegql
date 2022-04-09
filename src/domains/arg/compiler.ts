@@ -1,6 +1,7 @@
 import {
   GraphQLFieldConfigArgumentMap,
   GraphQLInputType,
+  GraphQLList,
   GraphQLNonNull,
   GraphQLScalarType,
   isInputType
@@ -116,7 +117,11 @@ export function compileFieldArgs(
       argumentTypes[index] = null
     } else if (registeredArgConfig?.type) {
       // @ts-expect-error
-      argumentTypes[index] = resolveType({ runtimeType: registeredArgConfig.type, allowThunk: true, isArgument: true })
+      argumentTypes[index] = resolveType({
+        runtimeType: registeredArgConfig.type,
+        allowThunk: true,
+        isArgument: true
+      })
     } else if (onlyDecoratedArgs && !registeredArgConfig) {
       argumentTypes[index] = null
     } else {
@@ -125,19 +130,26 @@ export function compileFieldArgs(
 
       argumentTypes[index] = mapNativeTypeToGraphQL(runtimeType)
 
-      const IOTCompile = inputObjectTypeRegistry.get(runtimeType)
+      const isArrayType = Array.isArray(runtimeType)
+      const IOTCompile = inputObjectTypeRegistry.get(
+        isArrayType ? runtimeType[0] : runtimeType
+      )
 
       let gqlType: any
 
       if (isParsableScalar(runtimeType)) {
         gqlType = mapNativeScalarToGraphQL(runtimeType)
       } else if (IOTCompile) {
-        gqlType = IOTCompile()
+        gqlType = isArrayType
+          ? new GraphQLList(
+              isNullable ? IOTCompile() : new GraphQLNonNull(IOTCompile())
+            )
+          : IOTCompile()
       }
 
       if (!gqlType) {
         throw new Error(
-          `${runtimeType} cannot be used as a resolve type because it is not an @ObjectType`
+          `${runtimeType} cannot be used as a resolve type because it is not an @InputObjectType`
         )
       }
 
@@ -148,12 +160,6 @@ export function compileFieldArgs(
         type: runtimeType,
         argIndex: index
       })
-
-      // argRegistry.set(target, [fieldName, index], {
-      //   ...registeredArgConfig,
-      //   type: inferredType,
-      //   argIndex: index
-      // })
     }
   }
 

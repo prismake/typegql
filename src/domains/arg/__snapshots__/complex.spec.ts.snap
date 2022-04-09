@@ -2,10 +2,10 @@
 
 exports[`Complex arguments should not allow complex argument type decorated with @ObjectType 1`] = `
 "class InputTwo {
-        } cannot be used as a resolve type because it is not an @ObjectType"
+        } cannot be used as a resolve type because it is not an @InputObjectType"
 `;
 
 exports[`Complex arguments should not allow complex argument type not decorated with @InputObjectType 1`] = `
 "class InputOne {
-        } cannot be used as a resolve type because it is not an @ObjectType"
+        } cannot be used as a resolve type because it is not an @InputObjectType"
 `;
