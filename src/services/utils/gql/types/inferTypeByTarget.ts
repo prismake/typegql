@@ -154,7 +154,10 @@ export const inferTypeFromRtti = (rtti: ReflectedTypeRef): IInferResult => {
   return { runtimeType: inferred, isNullable: false }
 }
 
-export function inferTypeByTarget(target: Constructor<Function>, key?: string) {
+export function inferTypeByTarget(
+  target: Constructor<Function>,
+  key?: string
+): IInferResult {
   if (!key) {
     return Reflect.getMetadata('design:type', target)
   }

@@ -12,14 +12,15 @@ import {
   isSchemaRoot,
   queryFieldsRegistry
 } from '../../schema/SchemaRoot'
+import { IResolveTypeParams } from '../../../services/utils/gql/types/typeResolvers'
 
 export function resolveRegisteredOrInferredType(
   target: Function,
   fieldName: string,
-  explicitType?: any
+  fieldConfig: IResolveTypeParams
 ) {
-  if (explicitType) {
-    return resolveTypeOrThrow(explicitType, target, fieldName)
+  if (fieldConfig && fieldConfig.runtimeType) {
+    return resolveTypeOrThrow(fieldConfig, target, fieldName)
   }
   return inferTypeOrThrow(target, fieldName)
 }

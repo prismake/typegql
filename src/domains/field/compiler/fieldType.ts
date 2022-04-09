@@ -1,15 +1,18 @@
 import { GraphQLType } from 'graphql'
 
 import { FieldError } from '../Field'
-import { resolveType } from '../../../services/utils/gql/types/typeResolvers'
+import {
+  IResolveTypeParams,
+  resolveType
+} from '../../../services/utils/gql/types/typeResolvers'
 import { inferTypeByTarget } from '../../../services/utils/gql/types/inferTypeByTarget'
 
 export function resolveTypeOrThrow(
-  type: any,
+  fieldConfig: IResolveTypeParams,
   target: Function,
   fieldName: string
 ): GraphQLType {
-  const resolvedType = resolveType({ runtimeType: type })
+  const resolvedType = resolveType(fieldConfig)
 
   if (!resolvedType) {
     throw new FieldError(
@@ -50,8 +53,9 @@ export function inferTypeOrThrow(
   fieldName: string
 ): GraphQLType {
   const inferredType = inferTypeByTarget(target.prototype, fieldName)
+  console.log('~ inferredType', inferredType)
 
-  if (!inferredType) {
+  if (!inferredType.runtimeType) {
     throw new FieldError(
       target,
       fieldName,

@@ -20,7 +20,7 @@ function isNativeClass(thing: any) {
     !thing.hasOwnProperty('arguments')
   )
 }
-interface IResolveTypeParams {
+export interface IResolveTypeParams {
   runtimeType: any
   isNullable?: boolean
   allowThunk?: boolean
@@ -39,7 +39,7 @@ export function resolveType({
   if (isType(type)) {
     return type
   }
-  console.log('~ type', type)
+  console.log('~ type', type, isNullable)
 
   if (isParsableScalar(type)) {
     return isNullable

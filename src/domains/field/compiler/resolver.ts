@@ -162,6 +162,7 @@ export function compileFieldResolver(
   castTo?: any
 ): GraphQLFieldResolver<any, any> {
   function castIfNeeded(result: any) {
+    console.log('as1', castTo, result)
     if (castTo && result !== null && typeof result === 'object') {
       if (castTo.name === 'type') {
         // this function is a thunk, so we get the type now
@@ -169,6 +170,8 @@ export function compileFieldResolver(
         if (interfaceTypeRegistry.has(castTo)) {
           castTo = null
         }
+      } else {
+        return plainToClass(castTo, result)
       }
       if (Array.isArray(castTo)) {
         if (!Array.isArray(result)) {

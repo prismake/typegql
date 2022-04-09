@@ -49,7 +49,7 @@ export function Field(options?: IFieldOptions): PropertyDecorator {
     const finalConfig: IFieldInnerConfig = {
       property: fieldName,
       name: fieldName,
-      isNullable: true,
+      isNullable: false,
       ...options
     }
     const existingField = fieldsRegistry.get(

@@ -186,6 +186,8 @@ describe('Field', () => {
       @ObjectType()
       class Foo {
         @Field({ type: () => String })
+        barNonNull: any
+        @Field({ type: () => String, isNullable: true })
         bar: any
         @Field({ type: () => Number })
         baz: any
@@ -197,9 +199,16 @@ describe('Field', () => {
         bool: boolean | null
       }
 
-      const { bar, baz, date, bool } = compileObjectType(Foo).getFields()
+      const { bar, baz, date, bool, barNonNull } =
+        compileObjectType(Foo).getFields()
+      expect(barNonNull.type.toString()).toBe(
+        new GraphQLNonNull(GraphQLString).toString()
+      )
+
       expect(bar.type).toBe(GraphQLString)
-      expect(baz.type).toBe(GraphQLFloat)
+      expect(baz.type.toString()).toBe(
+        new GraphQLNonNull(GraphQLFloat).toString()
+      )
       expect(date.type).toBe(GraphQLDateTime)
       expect(bool.type).toBe(GraphQLBoolean)
     })
@@ -439,22 +448,22 @@ describe('Field', () => {
 
       @Field({ type: [Foo] })
       castedFieldAsArray() {
-        return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
+        return [{ baz: 'castedFromAField11' }, { baz: 'castedFromAField21' }]
       }
 
       @Field({ type: () => [Foo] })
       castedFieldAsArrayDefinedAsThunk() {
-        return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
+        return [{ baz: 'castedFromAField12' }, { baz: 'castedFromAField22' }]
       }
 
-      @Field({ type: () => [Foo] })
-      castedArrayFieldDefinedAsThunk() {
-        return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
-      }
+      // @Field({ type: () => [Foo] })
+      // castedArrayFieldDefinedAsThunk() {
+      //   return [{ baz: 'castedFromAField13' }, { baz: 'castedFromAField23' }]
+      // }
 
       @Field({ type: [Foo] })
       castedArrayField() {
-        return [{ baz: 'castedFromAField1' }, { baz: 'castedFromAField2' }]
+        return [{ baz: 'castedFromAField14' }, { baz: 'castedFromAField24' }]
       }
       @Field({ type: [Foo] })
       castedFieldAsArrayWithBadReturnValue() {
@@ -475,7 +484,42 @@ describe('Field', () => {
       expect(printSchema(schema)).toMatchSnapshot()
     })
 
-    it('should register a field with castTo', async () => {
+    it('should cast', async () => {
+      @ObjectType()
+      class Foo {
+        baz = 'baz'
+
+        @Field()
+        bar(): string {
+          return this.baz
+        }
+      }
+
+      @SchemaRoot()
+      class FooSchema {
+        @Query({ type: Foo })
+        castedQuery() {
+          return { baz: 'castedFromAQuery' }
+        }
+      }
+      const schema = compileSchema(FooSchema)
+
+      const result = await graphql({
+        schema,
+        source: `
+          {
+            castedQuery {
+              bar
+            
+            }
+          }
+        `
+      })
+
+      expect(result.errors).toBeUndefined()
+    })
+
+    it.only('should register a field with castTo', async () => {
       const result = await graphql({
         schema,
         source: `
@@ -497,9 +541,7 @@ describe('Field', () => {
               castedFieldAsArrayDefinedAsThunk {
                 bar
               }
-              castedArrayFieldDefinedAsThunk {
-                bar
-              }
+ 
               castedArrayField {
                 bar
               }
@@ -507,7 +549,7 @@ describe('Field', () => {
           }
         `
       })
-
+      console.error(result.errors)
       expect(result.errors).toBeUndefined()
       expect(result.data?.castedQuery).toMatchInlineSnapshot(`
         Object {

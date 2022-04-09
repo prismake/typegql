@@ -27,17 +27,17 @@ export function compileFieldConfig(
   const {
     description,
     type,
-
+    isNullable,
     onlyDecoratedArgs,
     deprecationReason
   } = fieldRegistryConfig
+  console.log('~ isNullable', isNullable, type && type.toString())
   const args = compileFieldArgs(target as any, fieldName, !!onlyDecoratedArgs)
 
-  const resolvedType = resolveRegisteredOrInferredType(
-    target,
-    fieldName,
-    type
-  ) as GraphQLOutputType
+  const resolvedType = resolveRegisteredOrInferredType(target, fieldName, {
+    runtimeType: type,
+    isNullable
+  }) as GraphQLOutputType
 
   // if was not able to resolve type, try to show some helpful information about it
   if (!resolvedType && !validateNotInferableField(target, fieldName)) {
@@ -57,11 +57,12 @@ export function compileFieldConfig(
   ) {
     castTo = null
   }
+
   return {
     description,
     type: resolvedType,
     deprecationReason,
-    resolve: compileFieldResolver(target, fieldName, castTo),
+    resolve: compileFieldResolver(target, fieldName, type),
     // @ts-expect-error
     args
   }

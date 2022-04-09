@@ -120,7 +120,8 @@ export function compileFieldArgs(
       argumentTypes[index] = resolveType({
         runtimeType: registeredArgConfig.type,
         allowThunk: true,
-        isArgument: true
+        isArgument: true,
+        isNullable: registeredArgConfig.isNullable
       })
     } else if (onlyDecoratedArgs && !registeredArgConfig) {
       argumentTypes[index] = null
