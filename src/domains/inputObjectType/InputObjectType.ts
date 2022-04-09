@@ -17,7 +17,7 @@ export function InputObjectType(
     const config = { name: target.name, ...options }
     const inputTypeCompiler = () =>
       compileInputObjectTypeWithConfig(target as Constructor<Function>, config)
-    console.log('asd', target.toString())
+
     inputObjectTypeRegistry.set(
       target as Constructor<Function>,
       inputTypeCompiler

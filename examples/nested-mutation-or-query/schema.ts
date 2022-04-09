@@ -6,7 +6,6 @@ import {
   ObjectType,
   compileSchema
 } from 'decapi'
-import { plainToClass } from 'class-transformer'
 
 @ObjectType()
 class Book {
@@ -46,7 +45,7 @@ class MySchema {
 
   @Query({ type: [Book] })
   books(): Book[] {
-    // just a utlitity to cast our POJOs into a class of Book
+    // just a utility to cast our POJOs into a class of Book
     return booksDb
   }
 }

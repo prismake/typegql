@@ -32,7 +32,7 @@ function throwIfNotInferableType(
 ) {
   if (typeof inferredType === 'function') {
     const stringSignature = inferredType.toString()
-    // console.log('~ stringSignature', stringSignature)
+
     if (
       stringSignature.match(
         // previously we've been comparing tho these functions directly, but this would fail in environments where for example Promise was monkeypatched
@@ -53,7 +53,6 @@ export function inferTypeOrThrow(
   fieldName: string
 ): GraphQLType {
   const inferredType = inferTypeByTarget(target.prototype, fieldName)
-  console.log('~ inferredType', inferredType)
 
   if (!inferredType.runtimeType) {
     throw new FieldError(

@@ -2,9 +2,7 @@ import {
   GraphQLFieldConfigArgumentMap,
   GraphQLInputType,
   GraphQLList,
-  GraphQLNonNull,
-  GraphQLScalarType,
-  isInputType
+  GraphQLNonNull
 } from 'graphql'
 
 import { IArgsIndex, argRegistry } from './registry'
@@ -22,10 +20,14 @@ import {
 } from '../../services/utils/gql/types/inferTypeByTarget'
 import { resolveType } from '../../services/utils/gql/types/typeResolvers'
 import { inputObjectTypeRegistry } from '../inputObjectType/registry'
+import { ArgError } from './error'
 
-export interface ICompileArgContextType {
+export interface ITargetAndField {
   target: Constructor<Function>
   fieldName: string
+}
+
+export interface ICompileArgContextType extends ITargetAndField {
   argumentTypes: Array<GraphQLInputType | null>
   registeredArgs: IArgsIndex
   onlyDecoratedArgs: boolean
@@ -128,6 +130,16 @@ export function compileFieldArgs(
     } else {
       const rtti = args[index]
       const { runtimeType, isNullable } = inferTypeFromRtti(rtti)
+      if (runtimeType === undefined) {
+        throw new ArgError(
+          'Could not infer type of argument. Make sure to use native GraphQLInputType, native scalar or a class decorated with @InputObjectType',
+          {
+            target,
+            fieldName
+          },
+          index
+        )
+      }
 
       argumentTypes[index] = mapNativeTypeToGraphQL(runtimeType)
 

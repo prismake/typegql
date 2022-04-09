@@ -442,8 +442,7 @@ describe('Field', () => {
       }
       @Field({ type: Foo })
       castedFieldUndefinedReturning(): Foo {
-        // @ts-expect-error 3/21/2022
-        return
+        return new Foo()
       }
 
       @Field({ type: [Foo] })
@@ -456,10 +455,10 @@ describe('Field', () => {
         return [{ baz: 'castedFromAField12' }, { baz: 'castedFromAField22' }]
       }
 
-      // @Field({ type: () => [Foo] })
-      // castedArrayFieldDefinedAsThunk() {
-      //   return [{ baz: 'castedFromAField13' }, { baz: 'castedFromAField23' }]
-      // }
+      @Field({ type: () => [Foo] })
+      castedArrayFieldDefinedAsThunk() {
+        return [{ baz: 'castedFromAField13' }, { baz: 'castedFromAField23' }]
+      }
 
       @Field({ type: [Foo] })
       castedArrayField() {
@@ -519,7 +518,7 @@ describe('Field', () => {
       expect(result.errors).toBeUndefined()
     })
 
-    it.only('should register a field with castTo', async () => {
+    it('should register a field with castTo', async () => {
       const result = await graphql({
         schema,
         source: `
@@ -551,45 +550,8 @@ describe('Field', () => {
       })
       console.error(result.errors)
       expect(result.errors).toBeUndefined()
-      expect(result.data?.castedQuery).toMatchInlineSnapshot(`
-        Object {
-          "bar": "castedFromAQuery",
-          "castedArrayField": Array [
-            Object {
-              "bar": "castedFromAField1",
-            },
-            Object {
-              "bar": "castedFromAField2",
-            },
-          ],
-          "castedArrayFieldDefinedAsThunk": Array [
-            Object {
-              "bar": "castedFromAField1",
-            },
-            Object {
-              "bar": "castedFromAField2",
-            },
-          ],
-          "castedField": Object {
-            "bar": "castedFromAField",
-          },
-          "castedFieldAsArrayDefinedAsThunk": Array [
-            Object {
-              "bar": "castedFromAField1",
-            },
-            Object {
-              "bar": "castedFromAField2",
-            },
-          ],
-          "castedFieldDefinedAsThunk": Object {
-            "bar": "castedFromAField",
-          },
-          "castedFieldNullReturning": null,
-          "castedFieldUndefinedReturning": null,
-        }
-      `)
+      expect(result.data?.castedQuery).toMatchSnapshot()
     })
-
     it('should be able to castTo an array of classes', async () => {
       const result = await graphql({
         schema,
@@ -606,21 +568,8 @@ describe('Field', () => {
       })
 
       expect(result.errors).toBeUndefined()
-      expect(result.data?.castedQuery).toMatchInlineSnapshot(`
-        Object {
-          "bar": "castedFromAQuery",
-          "castedFieldAsArray": Array [
-            Object {
-              "bar": "castedFromAField1",
-            },
-            Object {
-              "bar": "castedFromAField2",
-            },
-          ],
-        }
-      `)
+      expect(result.data?.castedQuery).toMatchSnapshot()
     })
-
     it('throws when returning array of arrays with an array castTo', async () => {
       const result = await graphql({
         schema,
@@ -641,7 +590,7 @@ describe('Field', () => {
             "castedQuery": null,
           },
           "errors": Array [
-            [GraphQLError: Expected value of type "Foo" but got: { baz: "castedFromAQuery" }.],
+            [GraphQLError: field "castedFieldAsArrayWithBadReturnValue" cannot be casted to object type Foo - returned value is an array],
           ],
         }
       `)

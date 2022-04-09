@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Field IFieldOptions should be able to castTo an array of classes 1`] = `
+Object {
+  "bar": "castedFromAQuery",
+  "castedFieldAsArray": Array [
+    Object {
+      "bar": "castedFromAField11",
+    },
+    Object {
+      "bar": "castedFromAField21",
+    },
+  ],
+}
+`;
+
 exports[`Field IFieldOptions should print as expected 1`] = `
 "type Query {
   castedQuery: Foo
@@ -18,4 +32,36 @@ type Foo {
   castedArrayField: [Foo!]!
   castedFieldAsArrayWithBadReturnValue: [Foo!]!
 }"
+`;
+
+exports[`Field IFieldOptions should register a field with castTo 1`] = `
+Object {
+  "bar": "castedFromAQuery",
+  "castedArrayField": Array [
+    Object {
+      "bar": "castedFromAField14",
+    },
+    Object {
+      "bar": "castedFromAField24",
+    },
+  ],
+  "castedField": Object {
+    "bar": "castedFromAField",
+  },
+  "castedFieldAsArrayDefinedAsThunk": Array [
+    Object {
+      "bar": "castedFromAField12",
+    },
+    Object {
+      "bar": "castedFromAField22",
+    },
+  ],
+  "castedFieldDefinedAsThunk": Object {
+    "bar": "castedFromAField",
+  },
+  "castedFieldNullReturning": null,
+  "castedFieldUndefinedReturning": Object {
+    "bar": "baz",
+  },
+}
 `;

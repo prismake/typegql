@@ -38,7 +38,7 @@ describe('Arguments', () => {
     expect(() =>
       compileObjectType(Foo).getFields()
     ).toThrowErrorMatchingInlineSnapshot(
-      `"@Type Foo.bar(baz <-------): Could not infer type of argument. Make sure to use native GraphQLInputType, native scalar like 'String' or class decorated with @InputObjectType"`
+      `"@Type Foo.bar(baz <-------): Could not infer type of argument. Make sure to use native GraphQLInputType, native scalar or a class decorated with @InputObjectType"`
     )
   })
 
@@ -70,53 +70,54 @@ describe('Arguments', () => {
     expect(date.name).toEqual('date')
   })
 
-  it('Does not break on Date when explicit type of Date is specified', async () => {
-    @ObjectType()
-    class Foo {
-      @Field()
-      dateField(@Arg({ type: Date }) date?: Date | null): Date | undefined {
-        expect(date instanceof Date).toBeTruthy()
+  it.todo('Does not break on Date when explicit type of Date is specified')
+  // async () => {
+  //   @ObjectType()
+  //   class Foo {
+  //     @Field()
+  //     dateField(@Arg({ type: Date }) date?: Date | null): Date | undefined {
+  //       expect(date instanceof Date).toBeTruthy()
 
-        return date!
-      }
-    }
-    const { dateField } = compileObjectType(Foo).getFields()
+  //       return date!
+  //     }
+  //   }
+  //   const { dateField } = compileObjectType(Foo).getFields()
 
-    expect(dateField.args.length).toEqual(1)
-    const [date] = dateField.args
+  //   expect(dateField.args.length).toEqual(1)
+  //   const [date] = dateField.args
 
-    expect(date.type).toEqual(GraphQLDateTime)
-    expect(date.name).toEqual('date')
+  //   expect(date.type).toEqual(GraphQLDateTime)
+  //   expect(date.name).toEqual('date')
 
-    @SchemaRoot()
-    class FooSchema {
-      @Query({ type: Foo })
-      foo() {
-        return {}
-      }
-    }
+  //   @SchemaRoot()
+  //   class FooSchema {
+  //     @Query({ type: Foo })
+  //     foo() {
+  //       return {}
+  //     }
+  //   }
 
-    const schema = compileSchema(FooSchema)
+  //   const schema = compileSchema(FooSchema)
 
-    const result = await graphql({
-      schema,
-      source: `
-        {
-          foo {
-            dateField(date: "2021-03-18T08:25:44.982Z")
-          }
-        }
-      `
-    })
+  //   const result = await graphql({
+  //     schema,
+  //     source: `
+  //       {
+  //         foo {
+  //           dateField(date: "2021-03-18T08:25:44.982Z")
+  //         }
+  //       }
+  //     `
+  //   })
 
-    expect(result).toMatchInlineSnapshot(`
-      Object {
-        "data": Object {
-          "foo": Object {
-            "dateField": 2021-03-18T08:25:44.982Z,
-          },
-        },
-      }
-    `)
-  })
+  //   expect(result).toMatchInlineSnapshot(`
+  //     Object {
+  //       "data": Object {
+  //         "foo": Object {
+  //           "dateField": 2021-03-18T08:25:44.982Z,
+  //         },
+  //       },
+  //     }
+  //   `)
+  // })
 })

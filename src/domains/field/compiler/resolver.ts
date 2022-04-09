@@ -14,7 +14,7 @@ import {
 } from '../../inject/Inject'
 import { argRegistry, IArgInnerConfig } from '../../arg/registry'
 
-import { plainToClass } from 'class-transformer'
+import { plainToInstance } from 'class-transformer'
 import {
   isParsableScalar,
   ParsableScalar
@@ -62,7 +62,6 @@ async function performAfterHooksExecution(
 }
 
 function resolveExplicitArgument(argConfig: IArgInnerConfig, argValue: any) {
-  console.log('~ argConfig', argConfig)
   if (Array.isArray(argConfig.type)) {
     const type = argConfig.type[0]
     if (!type) {
@@ -162,18 +161,16 @@ export function compileFieldResolver(
   castTo?: any
 ): GraphQLFieldResolver<any, any> {
   function castIfNeeded(result: any) {
-    console.log('as1', castTo, result)
     if (castTo && result !== null && typeof result === 'object') {
       if (castTo.name === 'type') {
         // this function is a thunk, so we get the type now
         castTo = castTo()
-        if (interfaceTypeRegistry.has(castTo)) {
-          castTo = null
-        }
-      } else {
-        return plainToClass(castTo, result)
       }
+
       if (Array.isArray(castTo)) {
+        if (interfaceTypeRegistry.has(castTo[0])) {
+          return result
+        }
         if (!Array.isArray(result)) {
           throw new TypeError(
             `field ${fieldName} castTo is an array, yet it resolves with ${result} which is ${typeof result}`
@@ -186,8 +183,13 @@ export function compileFieldResolver(
               `field "${fieldName}" cannot be casted to object type ${castTo[0].name} - returned value is an array`
             )
           }
-          return plainToClass(castTo[0], item)
+          return plainToInstance(castTo[0], item)
         })
+      } else {
+        if (interfaceTypeRegistry.has(castTo)) {
+          return result
+        }
+        return plainToInstance(castTo, result)
       }
     }
     return result
@@ -242,7 +244,6 @@ export function compileFieldResolver(
         return argRegistry.get(target, [fieldName, index])
       }
     })
-    console.log('~ params', params)
 
     const promiseOrValue = instanceFieldFunc.apply(source, params)
     resolvedValue = isPromiseLike(promiseOrValue)

@@ -47,7 +47,6 @@ class FooSchema {
 
   @Mutation()
   barMutation(@Arg({ type: MyInput }) input: MyInput): string {
-    console.log('~ input', input)
     return input.someMethodOnInputObjectType()
   }
 

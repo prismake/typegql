@@ -39,7 +39,6 @@ export function resolveType({
   if (isType(type)) {
     return type
   }
-  console.log('~ type', type, isNullable)
 
   if (isParsableScalar(type)) {
     return isNullable

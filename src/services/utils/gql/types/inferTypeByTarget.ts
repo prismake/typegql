@@ -147,7 +147,7 @@ export const inferTypeFromRtti = (rtti: ReflectedTypeRef): IInferResult => {
 
       return inferUnion(unionTypes)
     }
-    console.log({ inferred })
+
     return { runtimeType: [inferred], isNullable: false }
   }
 
@@ -165,7 +165,6 @@ export function inferTypeByTarget(
   const reflected = reflect(target)
   const property = reflected.getOwnProperty(key)
   const method = reflected.getOwnMethod(key)
-  // console.log('~ key', key)
 
   let rtti: ReflectedTypeRef
   if (property) {
